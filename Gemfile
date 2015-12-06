@@ -1,3 +1,4 @@
+ruby "2.2.3"
 source 'https://rubygems.org'
 
 
@@ -28,6 +29,7 @@ gem 'sidekiq'
 gem 'sidetiq'
 gem 'sidekiq-unique-jobs'
 gem 'sidekiq-failures'
+gem 'sinatra'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -41,6 +43,7 @@ gem 'sidekiq-failures'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'thin'
   gem 'pry'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
@@ -50,7 +53,6 @@ end
 
 group :development do
   gem 'web-console', '~> 2.0'
-  gem 'thin'
 end
 
 group :test do

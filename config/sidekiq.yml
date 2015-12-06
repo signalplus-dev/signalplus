@@ -1,0 +1,11 @@
+:verbose: true
+:logfile: log/sidekiq.log
+:concurrency: <%= ENV['AR_POOL_CONCURRENCY'] || '15' %>
+:pidfile: tmp/pids/sidekiq.pid
+staging:
+  :concurrency: <%= ENV['AR_POOL_CONCURRENCY'] || '15' %>
+production:
+  :concurrency: <%= ENV['AR_POOL_CONCURRENCY'] || '15' %>
+:queues:
+  - critical
+  - default
