@@ -12,3 +12,4 @@
 !/log/.keep
 /tmp
 __init__.py
+application.yml

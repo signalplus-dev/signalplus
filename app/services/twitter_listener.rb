@@ -3,7 +3,7 @@ class TwitterListener
   HASHTAGS_TO_LISTEN_TO       = {
     'somehashtag' => {
       'text_response' => 'Hey, :screen_name check out this puppy!',
-      'image'         => '/Users/ricardoquinones/Downloads/puppy_cuteness.gif',
+      'image'         => 'puppy_cuteness.gif',
     },
     'somehashtagwithoutimage' => {
       'text_response' => 'Hey, :screen_name check out this text response!',
@@ -77,10 +77,9 @@ class TwitterListener
             )
 
             if tweet_response['image'].nil?
-              client.update(text_response)
+              respond_with_text(text_response)
             else
-              image = File.open(tweet_response['image'])
-              client.update_with_media(text_response, image)
+              respond_with_text_and_image(text_response, tweet_response['image'])
             end
           end
         end
@@ -89,6 +88,23 @@ class TwitterListener
 
     def create_text_response(text_response, screen_name)
       text_response.gsub(':screen_name', "@#{screen_name}")
+    end
+
+    def respond_with_text(text_response)
+      client.update(text_response)
+    end
+
+    def respond_with_text_and_image(text_response, image_file_name)
+      temp_image = nil
+      temp_image = TempImage.new(image_file_name)
+      file = File.open(temp_image.file.path)
+      client.update_with_media(text_response, file)
+    ensure
+      unless temp_image.nil?
+        file.close
+        temp_image.file.close
+        temp_image.file.unlink
+      end
     end
   end
 end

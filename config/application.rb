@@ -15,6 +15,10 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Load application ENV vars and merge with existing ENV vars.
+# Loaded here so can use values in initializers.
+ENV.update YAML.load_file('config/application.yml') rescue {}
+
 module ProjectSignal
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
