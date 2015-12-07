@@ -76,10 +76,16 @@ class TwitterListener
               tweet.user.screen_name
             )
 
-            if tweet_response['image'].nil?
-              respond_with_text(text_response)
+            if tweet_response['image'].is_a?(String)
+              begin
+                temp_image = TempImage.new(tweet_response['image'])
+                file = File.open(temp_image.file.path)
+                respond_with_text_and_image(text_response, file, temp_image)
+              rescue Aws::S3::Errors::NoSuchKey
+                respond_with_text(text_response)
+              end
             else
-              respond_with_text_and_image(text_response, tweet_response['image'])
+              respond_with_text(text_response)
             end
           end
         end
@@ -94,21 +100,12 @@ class TwitterListener
       client.update(text_response)
     end
 
-    def respond_with_text_and_image(text_response, image_file_name)
-      temp_image = nil
-      temp_image = TempImage.new(image_file_name)
-      file = File.open(temp_image.file.path)
+    def respond_with_text_and_image(text_response, file, temp_image)
       client.update_with_media(text_response, file)
-    rescue => e
-      puts ENV['AWS_S3_BUCKET']
-      puts ENV['AWS_ACCESS_KEY_ID']
-      puts ENV['AWS_SECRET_ACCESS_KEY']
     ensure
-      unless temp_image.nil?
-        file.close
-        temp_image.file.close
-        temp_image.file.unlink
-      end
+      file.close
+      temp_image.file.close
+      temp_image.file.unlink
     end
   end
 end
