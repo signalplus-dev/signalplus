@@ -99,6 +99,13 @@ class TwitterListener
       temp_image = TempImage.new(image_file_name)
       file = File.open(temp_image.file.path)
       client.update_with_media(text_response, file)
+    rescue => e
+      puts e.class
+      puts e.message
+      puts "The file"
+      puts file.nil?
+      puts "The temp file"
+      puts temp_image.file.nil?
     ensure
       unless temp_image.nil?
         file.close
