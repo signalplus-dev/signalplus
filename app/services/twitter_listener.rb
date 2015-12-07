@@ -100,12 +100,9 @@ class TwitterListener
       file = File.open(temp_image.file.path)
       client.update_with_media(text_response, file)
     rescue => e
-      puts e.class
-      puts e.message
-      puts "The file"
-      puts file.nil?
-      puts "The temp file"
-      puts temp_image.file.nil?
+      puts ENV['AWS_S3_BUCKET']
+      puts ENV['AWS_ACCESS_KEY_ID']
+      puts ENV['AWS_SECRET_ACCESS_KEY']
     ensure
       unless temp_image.nil?
         file.close
