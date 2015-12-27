@@ -72,7 +72,7 @@ describe TwitterListener do
     let(:temp_file)       { Tempfile.new('test.txt') }
 
     before do
-      allow(described_class).to           receive(:client).and_return(mock_client)
+      allow(described_class).to           receive(:user_context_client).and_return(mock_client)
       allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
       allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
     end

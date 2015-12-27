@@ -23,7 +23,7 @@ class TwitterListener
         mentions_timeline_options.merge!(max_id: twitter_tracker.max_id)
       end
 
-      tweets = client.mentions_timeline(mentions_timeline_options)
+      tweets = user_context_client.mentions_timeline(mentions_timeline_options)
 
       tweets_to_respond_to = get_tweets_to_respond_to(tweets)
       respond_to_tweets(tweets_to_respond_to)
@@ -44,8 +44,15 @@ class TwitterListener
 
     private
 
-    def client
-      @client ||= Twitter::REST::Client.new do |config|
+    def app_only_client
+      @app_only_client ||= Twitter::REST::Client.new do |config|
+        config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
+        config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
+      end
+    end
+
+    def user_context_client
+      @user_context_client ||= Twitter::REST::Client.new do |config|
         config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
         config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
         config.access_token        = '4188300501-EAM4fOgPouPeyAWHweRVJaE5Zf28DbtMGAGHXte'
@@ -97,11 +104,11 @@ class TwitterListener
     end
 
     def respond_with_text(text_response)
-      client.update(text_response)
+      user_context_client.update(text_response)
     end
 
     def respond_with_text_and_image(text_response, file, temp_image)
-      client.update_with_media(text_response, file)
+      user_context_client.update_with_media(text_response, file)
     ensure
       file.close
       temp_image.file.close
