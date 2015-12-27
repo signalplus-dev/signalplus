@@ -1,13 +1,14 @@
 class TwitterResponse < ActiveRecord::Base
   class << self
-    def mass_insert_twitter_responses(date, from, hashtag, user_names)
+    def mass_insert_twitter_responses(date, from, hashtag, tweets_to_respond_to)
       base_sql           = base_insert_statement(date, from, hashtag)
       base_insert_values = base_insert_values(date, from, hashtag)
 
       # Loop through the user_names and create valid value statements for each record that should be persisted
-      insert_values = user_names.map do |user_name|
+      insert_values = tweets_to_respond_to.map do |tweet_info|
         new_insert_values     = base_insert_values.dup
-        new_insert_values[-1] = "'#{user_name}'" # worry about sql injection later
+        new_insert_values[-2] = "'#{tweet_info[:screen_name]}'" # worry about sql injection later
+        new_insert_values[-1] = tweet_info[:tweet_id].to_i # worry about sql injection later
         "(#{new_insert_values.join(', ')})"
       end
 
@@ -23,6 +24,7 @@ class TwitterResponse < ActiveRecord::Base
         :created_at,
         :updated_at,
         :to,
+        :tweet_id,
       ]
     end
 

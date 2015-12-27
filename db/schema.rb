@@ -21,11 +21,14 @@ ActiveRecord::Schema.define(version: 20151227163950) do
     t.string   "to",         null: false
     t.string   "hashtag",    null: false
     t.date     "date",       null: false
+    t.integer  "tweet_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "twitter_responses", ["from", "hashtag", "date", "to"], name: "index_twitter_responses_on_from_and_hashtag_and_date_and_to", unique: true, using: :btree
   add_index "twitter_responses", ["from", "hashtag", "date"], name: "index_twitter_responses_on_from_and_hashtag_and_date", using: :btree
+  add_index "twitter_responses", ["from", "tweet_id"], name: "index_twitter_responses_on_from_and_tweet_id", unique: true, using: :btree
 
   create_table "twitter_trackers", force: :cascade do |t|
     t.datetime "created_at",                                   null: false

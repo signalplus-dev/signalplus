@@ -7,7 +7,7 @@ describe TwitterResponse do
         Date.current,
         'signal',
         'deals',
-        (1..4).map { |n| "user#{n}"}
+        (1..4).map { |n| { screen_name: "user#{n}", tweet_id: n } }
       ]
     end
 
