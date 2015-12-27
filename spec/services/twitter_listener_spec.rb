@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 describe TwitterListener do
+  let(:user) { double(:user, screen_name: 'Bobby')}
   # @param hashtags [Array] an array of hashtags
   def create_mock_tweet(hashtags)
     double(
       :tweet,
+      user: user,
       hashtags: hashtags.map do |hashtag|
         create_mock_hashtag(hashtag)
       end
@@ -64,12 +66,15 @@ describe TwitterListener do
   end
 
   describe '.respond_to_tweets' do
-    let(:mock_client) { double(:client) }
-    let(:image)       { double(:image_file) }
+    let(:mock_client)     { double(:client) }
+    let(:image)           { double(:image_file) }
+    let(:image_string_io) { StringIO.new('some_image.png') }
+    let(:temp_file)       { Tempfile.new('test.txt') }
 
     before do
-      described_class.stub(:client).and_return(mock_client)
-      File.stub(:open).and_return(image)
+      allow(described_class).to           receive(:client).and_return(mock_client)
+      allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
+      allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
     end
 
     context 'responding with an image' do
