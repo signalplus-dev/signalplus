@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: twitter_trackers
+#
+#  id                     :integer          not null, primary key
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  last_recorded_tweet_id :integer          default(1)
+#  since_id               :integer          default(1)
+#  max_id                 :integer
+#
+
 class TwitterTracker < ActiveRecord::Base
   class << self
     # Processes the tweet list and keeps track of the max_id, the since_id
