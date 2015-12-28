@@ -26,6 +26,19 @@ require 'rspec/rails'
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+# Stubs out current Time class to return specific `now` values
+# include_utc flag provided since certain rails methods use utc (namely ActiveRecord#touch)
+#
+# @params time [Time] time object to replace the stock time
+# @params include_utc [Boolean] flag to include Time.now.utc stub
+#
+def stub_current_time(time, include_utc = false)
+  allow(Date).to receive(:today).and_return(time.to_date)
+  allow(Time).to receive(:current).and_return(time)
+  allow(Time).to receive(:now).and_return(time)
+  allow(Time).to receive_message_chain(:now, :utc).and_return(time) if include_utc
+end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

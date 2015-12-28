@@ -1,11 +1,17 @@
 require 'rails_helper'
 
+def incrementor
+  @incrementor ||= 1
+  @incrementor += 1
+end
+
 describe TwitterListener do
-  let(:user) { double(:user, screen_name: 'Bobby')}
+  let(:user) { double(:user, screen_name: 'Bobby') }
   # @param hashtags [Array] an array of hashtags
   def create_mock_tweet(hashtags)
     double(
       :tweet,
+      id:   incrementor,
       user: user,
       hashtags: hashtags.map do |hashtag|
         create_mock_hashtag(hashtag)
@@ -66,7 +72,8 @@ describe TwitterListener do
   end
 
   describe '.respond_to_tweets' do
-    let(:mock_client)     { double(:client) }
+    let(:client_user)     { double(:user, screen_name: 'SomeBrand') }
+    let(:mock_client)     { double(:client, user: client_user) }
     let(:image)           { double(:image_file) }
     let(:image_string_io) { StringIO.new('some_image.png') }
     let(:temp_file)       { Tempfile.new('test.txt') }
@@ -88,6 +95,49 @@ describe TwitterListener do
       it 'responds with an image' do
         expect(mock_client).to receive(:update_with_media)
         described_class.send(:respond_to_tweets, tweets_to_respond_to)
+      end
+
+      context 'not responding to tweets already responded to in the same day' do
+        let(:more_tweets_to_respond_to) do
+          described_class.send(
+            :get_tweets_to_respond_to,
+            [create_mock_tweet(['somehashtag'])]
+          )
+        end
+
+        before { stub_current_time(Time.current) }
+
+        context 'trying to request a deal on the same day' do
+          before do
+            expect(mock_client).to receive(:update_with_media).once
+            expect {
+              described_class.send(:respond_to_tweets, tweets_to_respond_to)
+            }.to change { TwitterResponse.count }.from(0).to(1)
+          end
+
+          it 'does not respond twice to the same hashtag on the same day' do
+            expect {
+              described_class.send(:respond_to_tweets, more_tweets_to_respond_to)
+            }.not_to change { TwitterResponse.count }
+          end
+        end
+
+        context 'requesting a deal on a different day' do
+          before do
+            expect(mock_client).to receive(:update_with_media).twice
+            expect {
+              described_class.send(:respond_to_tweets, tweets_to_respond_to)
+            }.to change { TwitterResponse.count }.from(0).to(1)
+          end
+
+          it 'does respond to a hashtag on a different day' do
+            stub_current_time(1.day.from_now)
+            allow_any_instance_of(TempImage).to receive(:file).and_return(Tempfile.new('test.txt'))
+            expect {
+              described_class.send(:respond_to_tweets, more_tweets_to_respond_to)
+            }.to change { TwitterResponse.count }.from(1).to(2)
+          end
+        end
       end
     end
 
