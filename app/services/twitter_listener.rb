@@ -55,8 +55,8 @@ class TwitterListener
       @user_context_client ||= Twitter::REST::Client.new do |config|
         config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
         config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
-        config.access_token        = '4188300501-EAM4fOgPouPeyAWHweRVJaE5Zf28DbtMGAGHXte'
-        config.access_token_secret = 'ET7IdNID7UsV1YtkorS6qDMmAE7I3NyAisELKzwLJNuOR'
+        config.access_token        = '4188300501-qkN5y8OYiiQJV93EXkQhDOuBsjx98PtwYj8WuGi'
+        config.access_token_secret = 'FQLaKTW8ITdfQWbRW8eAcci1OZX1bfSG9sCFce1rSJppx'
       end
     end
 
