@@ -1,3 +1,5 @@
+require 'pry'
+
 class TwitterCronJob
   include Sidekiq::Worker
   include Sidetiq::Schedulable
@@ -5,7 +7,7 @@ class TwitterCronJob
   sidekiq_options :retry => false
 
   recurrence backfill: false do
-    hourly.minute_of_hour(*(0...60).to_a)
+    secondly(61)
   end
 
   def perform(last_occurrence, current_occurrence)
