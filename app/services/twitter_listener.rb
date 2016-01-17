@@ -11,7 +11,7 @@ class TwitterListener
   }
 
   class << self
-    def process_user_tweets(user_id)
+    def process_user_messages(user_id)
       twitter_tracker        = TwitterTracker.first_or_create
       # direct_message_tracker = TwitterDirectMessageTracker.first_or_create
 
@@ -62,12 +62,12 @@ class TwitterListener
     end
 
     # @return [Array<Twitter::Tweet>]
-    def get_messages_to_respond_to(tweets)
-      tweets.select do |tweet|
-        if tweet.hashtags.empty?
+    def get_messages_to_respond_to(messages)
+      messages.select do |message|
+        if message.hashtags.empty?
           false
         else
-          tweet.hashtags.any? do |hashtag_obj|
+          message.hashtags.any? do |hashtag_obj|
             HASHTAGS_TO_LISTEN_TO.keys.include?(hashtag_obj.attrs[:text].downcase)
           end
         end

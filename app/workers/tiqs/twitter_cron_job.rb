@@ -11,6 +11,6 @@ class TwitterCronJob
   def perform(last_occurrence, current_occurrence)
     return
     sleep Time.at(current_occurrence).min
-    TwitterListener.process_user_tweets(1)
+    TwitterListener.process_user_messages(1)
   end
 end
