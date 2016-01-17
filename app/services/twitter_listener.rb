@@ -24,23 +24,23 @@ class TwitterListener
         mentions_timeline_options.merge!(max_id: twitter_tracker.max_id)
       end
 
-      # direct_message_timeline_options = {
-      #   count:    API_TIMELINE_LIMIT,
-      #   since_id: direct_message_tracker.since_id
-      # }
+      direct_message_timeline_options = {
+        count:    API_TIMELINE_LIMIT,
+        since_id: direct_message_tracker.since_id
+      }
 
-      # unless direct_message_tracker.max_id.nil?
-      #   direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
-      # end
+      unless direct_message_tracker.max_id.nil?
+        direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
+      end
 
-      # direct_messages = user_context_client
-      tweets = user_context_client.mentions_timeline(mentions_timeline_options)
+      direct_messages = user_context_client.direct_messages_received(direct_message_timeline_options)
+      tweets          = user_context_client.mentions_timeline(mentions_timeline_options)
 
-      tweets_to_respond_to = get_messages_to_respond_to(tweets)
-      respond_to_messages(tweets_to_respond_to)
+      messages_to_respond_to = get_messages_to_respond_to(tweets)
+      respond_to_messages(messages_to_respond_to)
 
       update_message_tracker(tweets, twitter_tracker)
-      # update_message_tracker(direct_messages, direct_message_tracker)
+      update_message_tracker(direct_messages, direct_message_tracker)
     end
 
     private
@@ -78,19 +78,37 @@ class TwitterListener
       # A key-value store of hashtags mapped to an array of user names to respond to.
       # Should be filtered out for any users that have already been responded to for that particular
       # hashtag for that day.
-      grouped_by_hashtag = {}
+      grouped_by_hashtag            = {}
+      # Keep track of what users are already going to be responded to with regards to a given hashtag
+      users_responded_to_by_hashtag = {}
       messages.each do |message|
         message.hashtags.each do |hashtag_obj|
           case_insensitive_hashtag = hashtag_obj.attrs[:text].downcase
           message_response = HASHTAGS_TO_LISTEN_TO[case_insensitive_hashtag]
 
           unless message_response.nil?
-            grouped_by_hashtag[case_insensitive_hashtag] ||= []
-            grouped_by_hashtag[case_insensitive_hashtag] << {
-              screen_name:   message.user.screen_name,
-              response_id:   message.id,
-              response_type: message.is_a?(Twitter::Tweet) ? 'Tweet' : 'DirectMessage',
-            }
+            grouped_by_hashtag[case_insensitive_hashtag]            ||= []
+            users_responded_to_by_hashtag[case_insensitive_hashtag] ||= Set.new
+
+            original_size = users_responded_to_by_hashtag[case_insensitive_hashtag].size
+
+            if message.is_a?(Twitter::Tweet)
+              user = message.user
+              response_type = 'Tweet'
+            else
+              user = message.sender
+              response_type = 'DirectMessage'
+            end
+
+            users_responded_to_by_hashtag[case_insensitive_hashtag] << user.screen_name
+
+            if users_responded_to_by_hashtag[case_insensitive_hashtag].size > original_size
+              grouped_by_hashtag[case_insensitive_hashtag] << {
+                screen_name:   user.screen_name,
+                response_id:   message.id,
+                response_type: response_type,
+              }
+            end
           end
         end
       end

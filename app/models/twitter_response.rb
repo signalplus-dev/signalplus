@@ -15,7 +15,20 @@
 #
 
 class TwitterResponse < ActiveRecord::Base
+  module ResponseType
+    TWEET          = 'Tweet'
+    DIRECT_MESSAGE = 'DirectMessage'
+  end
+
   class << self
+    def tweets
+      where(response_type: ResponseType::TWEET)
+    end
+
+    def direct_messages
+      where(response_type: ResponseType::DIRECT_MESSAGE)
+    end
+
     def mass_insert_twitter_responses(date, from, hashtag, messages_to_respond_to)
       base_sql           = base_insert_statement(date, from, hashtag)
       base_insert_values = base_insert_values(date, from, hashtag)
@@ -23,9 +36,9 @@ class TwitterResponse < ActiveRecord::Base
       # Loop through the user_names and create valid value statements for each record that should be persisted
       insert_values = messages_to_respond_to.map do |message_info|
         new_insert_values     = base_insert_values.dup
-        new_insert_values[-3] = "'#{message_info[:screen_name]}'" # worry about sql injection later
-        new_insert_values[-2] = message_info[:response_id].to_i   # worry about sql injection later
-        new_insert_values[-1] = message_info[:response_type].to_i # worry about sql injection later
+        new_insert_values[-3] = "'#{message_info[:screen_name]}'"   # worry about sql injection later
+        new_insert_values[-2] = message_info[:response_id].to_i     # worry about sql injection later
+        new_insert_values[-1] = "'#{message_info[:response_type]}'" # worry about sql injection later
         "(#{new_insert_values.join(', ')})"
       end
 

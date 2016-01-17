@@ -9,14 +9,37 @@ describe TwitterListener do
   let(:user) { double(:user, screen_name: 'Bobby') }
   # @param hashtags [Array] an array of hashtags
   def create_mock_tweet(hashtags)
-    double(
+    tweet = double(
       :tweet,
       id:   incrementor,
       user: user,
+      is_a?: true,
       hashtags: hashtags.map do |hashtag|
         create_mock_hashtag(hashtag)
       end
     )
+
+    allow(tweet).to receive(:is_a?).and_return(false)
+    allow(tweet).to receive(:is_a?).with(Twitter::Tweet).and_return(true)
+
+    tweet
+  end
+
+  def create_mock_direct_messages(hashtags)
+    dm = double(
+      :direct_message,
+      id:   incrementor,
+      sender: user,
+      is_a?: false,
+      hashtags: hashtags.map do |hashtag|
+        create_mock_hashtag(hashtag)
+      end
+    )
+
+    allow(dm).to receive(:is_a?).and_return(false)
+    allow(dm).to receive(:is_a?).with(Twitter::DirectMessage).and_return(true)
+
+    dm
   end
 
   def create_mock_hashtag(hashtag_text)
@@ -152,6 +175,33 @@ describe TwitterListener do
       it 'responds without an image' do
         expect(mock_client).to receive(:update)
         described_class.send(:respond_to_messages, tweets_to_respond_to)
+      end
+
+    end
+
+    context 'responding only to the dm and not the tweet' do
+      let(:messages_to_respond_to) do
+        described_class.send(
+          :get_messages_to_respond_to,
+          [
+            create_mock_direct_messages(['somehashtagwithoutimage']),
+            create_mock_tweet(['somehashtagwithoutimage']),
+          ]
+        )
+      end
+
+      it 'only responds once' do
+        expect(mock_client).to receive(:update).once
+        described_class.send(:respond_to_messages, messages_to_respond_to)
+      end
+
+      it 'creates a twitter response record for just the direct message' do
+        allow(mock_client).to receive(:update)
+        expect {
+          described_class.send(:respond_to_messages, messages_to_respond_to)
+        }.to change {
+          TwitterResponse.direct_messages.count
+        }.from(0).to(1)
       end
     end
   end

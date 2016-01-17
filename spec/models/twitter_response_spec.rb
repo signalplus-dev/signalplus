@@ -30,7 +30,7 @@ describe TwitterResponse do
     it 'can mass insert twitter responses' do
       expect {
         described_class.mass_insert_twitter_responses(*args)
-      }.to change { TwitterResponse.count }.from(0).to(4)
+      }.to change { TwitterResponse.tweets.count }.from(0).to(4)
     end
   end
 end
