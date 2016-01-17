@@ -155,7 +155,7 @@ class TwitterListener
 
     def update_message_tracker(messages, message_tracker)
       tracker_updated_attributes = TimelineHelper.get_new_timeline_options(
-        tweets,
+        messages,
         message_tracker.since_id,
         message_tracker.last_recorded_tweet_id,
         API_TIMELINE_LIMIT
