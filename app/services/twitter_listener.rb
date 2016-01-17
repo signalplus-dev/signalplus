@@ -13,7 +13,7 @@ class TwitterListener
   class << self
     def process_user_messages(user_id)
       twitter_tracker        = TwitterTracker.first_or_create
-      # direct_message_tracker = TwitterDirectMessageTracker.first_or_create
+      direct_message_tracker = TwitterDirectMessageTracker.first_or_create
 
       mentions_timeline_options = {
         count:    API_TIMELINE_LIMIT,
