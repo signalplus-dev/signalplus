@@ -23,8 +23,8 @@ describe TwitterListener do
     double(:hashtag, attrs: { text: hashtag_text })
   end
 
-  describe '.get_tweets_to_respond_to' do
-    subject { described_class.send(:get_tweets_to_respond_to, tweets) }
+  describe '.get_messages_to_respond_to' do
+    subject { described_class.send(:get_messages_to_respond_to, tweets) }
 
     context 'no hash tags' do
       let(:tweets) do
@@ -71,7 +71,7 @@ describe TwitterListener do
     end
   end
 
-  describe '.respond_to_tweets' do
+  describe '.respond_to_messages' do
     let(:client_user)     { double(:user, screen_name: 'SomeBrand') }
     let(:mock_client)     { double(:client, user: client_user) }
     let(:image)           { double(:image_file) }
@@ -87,20 +87,20 @@ describe TwitterListener do
     context 'responding with an image' do
       let(:tweets_to_respond_to) do
         described_class.send(
-          :get_tweets_to_respond_to,
+          :get_messages_to_respond_to,
           [create_mock_tweet(['somehashtag'])]
         )
       end
 
       it 'responds with an image' do
         expect(mock_client).to receive(:update_with_media)
-        described_class.send(:respond_to_tweets, tweets_to_respond_to)
+        described_class.send(:respond_to_messages, tweets_to_respond_to)
       end
 
       context 'not responding to tweets already responded to in the same day' do
         let(:more_tweets_to_respond_to) do
           described_class.send(
-            :get_tweets_to_respond_to,
+            :get_messages_to_respond_to,
             [create_mock_tweet(['somehashtag'])]
           )
         end
@@ -111,13 +111,13 @@ describe TwitterListener do
           before do
             expect(mock_client).to receive(:update_with_media).once
             expect {
-              described_class.send(:respond_to_tweets, tweets_to_respond_to)
+              described_class.send(:respond_to_messages, tweets_to_respond_to)
             }.to change { TwitterResponse.count }.from(0).to(1)
           end
 
           it 'does not respond twice to the same hashtag on the same day' do
             expect {
-              described_class.send(:respond_to_tweets, more_tweets_to_respond_to)
+              described_class.send(:respond_to_messages, more_tweets_to_respond_to)
             }.not_to change { TwitterResponse.count }
           end
         end
@@ -126,7 +126,7 @@ describe TwitterListener do
           before do
             expect(mock_client).to receive(:update_with_media).twice
             expect {
-              described_class.send(:respond_to_tweets, tweets_to_respond_to)
+              described_class.send(:respond_to_messages, tweets_to_respond_to)
             }.to change { TwitterResponse.count }.from(0).to(1)
           end
 
@@ -134,7 +134,7 @@ describe TwitterListener do
             stub_current_time(1.day.from_now)
             allow_any_instance_of(TempImage).to receive(:file).and_return(Tempfile.new('test.txt'))
             expect {
-              described_class.send(:respond_to_tweets, more_tweets_to_respond_to)
+              described_class.send(:respond_to_messages, more_tweets_to_respond_to)
             }.to change { TwitterResponse.count }.from(1).to(2)
           end
         end
@@ -144,14 +144,14 @@ describe TwitterListener do
     context 'responding without an image' do
       let(:tweets_to_respond_to) do
         described_class.send(
-          :get_tweets_to_respond_to,
+          :get_messages_to_respond_to,
           [create_mock_tweet(['somehashtagwithoutimage'])]
         )
       end
 
       it 'responds without an image' do
         expect(mock_client).to receive(:update)
-        described_class.send(:respond_to_tweets, tweets_to_respond_to)
+        described_class.send(:respond_to_messages, tweets_to_respond_to)
       end
     end
   end

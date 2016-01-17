@@ -2,34 +2,37 @@
 #
 # Table name: twitter_responses
 #
-#  id         :integer          not null, primary key
-#  from       :string           not null
-#  to         :string           not null
-#  hashtag    :string           not null
-#  date       :date             not null
-#  tweet_id   :integer          not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :integer          not null, primary key
+#  from          :string           not null
+#  to            :string           not null
+#  hashtag       :string           not null
+#  date          :date             not null
+#  tweet_id      :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  response_id   :integer          not null
+#  response_type :string           not null
 #
 
 class TwitterResponse < ActiveRecord::Base
   class << self
-    def mass_insert_twitter_responses(date, from, hashtag, tweets_to_respond_to)
+    def mass_insert_twitter_responses(date, from, hashtag, messages_to_respond_to)
       base_sql           = base_insert_statement(date, from, hashtag)
       base_insert_values = base_insert_values(date, from, hashtag)
 
       # Loop through the user_names and create valid value statements for each record that should be persisted
-      insert_values = tweets_to_respond_to.map do |tweet_info|
+      insert_values = messages_to_respond_to.map do |message_info|
         new_insert_values     = base_insert_values.dup
-        new_insert_values[-2] = "'#{tweet_info[:screen_name]}'" # worry about sql injection later
-        new_insert_values[-1] = tweet_info[:tweet_id].to_i # worry about sql injection later
+        new_insert_values[-3] = "'#{message_info[:screen_name]}'" # worry about sql injection later
+        new_insert_values[-2] = message_info[:response_id].to_i   # worry about sql injection later
+        new_insert_values[-1] = message_info[:response_type].to_i # worry about sql injection later
         "(#{new_insert_values.join(', ')})"
       end
 
       ActiveRecord::Base.connection.insert(base_sql + insert_values.join(', '))
     end
 
-    # @return [Array<Symbol>] An array attributes that should be assigned in the mass insert statement
+    # @return [Array<Symbol>] An array of attributes that should be assigned in the mass insert statement
     def twitter_response_mass_insert_attributes
       [
         :date,
@@ -38,7 +41,8 @@ class TwitterResponse < ActiveRecord::Base
         :created_at,
         :updated_at,
         :to,
-        :tweet_id,
+        :response_id,
+        :response_type,
       ]
     end
 

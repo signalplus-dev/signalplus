@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: twitter_trackers
+# Table name: twitter_direct_message_trackers
 #
 #  id                     :integer          not null, primary key
 #  created_at             :datetime         not null
@@ -10,5 +10,5 @@
 #  max_id                 :integer
 #
 
-class TwitterTracker < ActiveRecord::Base
+class TwitterDirectMessageTracker < ActiveRecord::Base
 end

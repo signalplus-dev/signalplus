@@ -11,24 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151227163950) do
+ActiveRecord::Schema.define(version: 20160117183728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "twitter_direct_message_trackers", force: :cascade do |t|
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.integer  "last_recorded_tweet_id", limit: 8, default: 1
+    t.integer  "since_id",               limit: 8, default: 1
+    t.integer  "max_id",                 limit: 8
+  end
+
   create_table "twitter_responses", force: :cascade do |t|
-    t.string   "from",       null: false
-    t.string   "to",         null: false
-    t.string   "hashtag",    null: false
-    t.date     "date",       null: false
-    t.integer  "tweet_id",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "from",                                      null: false
+    t.string   "to",                                        null: false
+    t.string   "hashtag",                                   null: false
+    t.date     "date",                                      null: false
+    t.integer  "tweet_id"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.integer  "response_id",   limit: 8, default: 0,       null: false
+    t.string   "response_type",           default: "Tweet", null: false
   end
 
   add_index "twitter_responses", ["from", "hashtag", "date", "to"], name: "index_twitter_responses_on_from_and_hashtag_and_date_and_to", unique: true, using: :btree
   add_index "twitter_responses", ["from", "hashtag", "date"], name: "index_twitter_responses_on_from_and_hashtag_and_date", using: :btree
-  add_index "twitter_responses", ["from", "tweet_id"], name: "index_twitter_responses_on_from_and_tweet_id", unique: true, using: :btree
+  add_index "twitter_responses", ["from", "response_id", "response_type"], name: "index_twitter_responses_on_from_and_response", unique: true, using: :btree
 
   create_table "twitter_trackers", force: :cascade do |t|
     t.datetime "created_at",                                   null: false

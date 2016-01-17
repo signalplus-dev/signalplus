@@ -1,5 +1,5 @@
 class TwitterListener
-  API_MENTIONS_TIMELINE_LIMIT = 200
+  API_TIMELINE_LIMIT = 200
   HASHTAGS_TO_LISTEN_TO       = {
     'somehashtag' => {
       'text_response' => 'Hey, :screen_name check out this puppy!',
@@ -12,10 +12,11 @@ class TwitterListener
 
   class << self
     def process_user_tweets(user_id)
-      twitter_tracker = TwitterTracker.first
+      twitter_tracker        = TwitterTracker.first_or_create
+      # direct_message_tracker = TwitterDirectMessageTracker.first_or_create
 
       mentions_timeline_options = {
-        count:    API_MENTIONS_TIMELINE_LIMIT,
+        count:    API_TIMELINE_LIMIT,
         since_id: twitter_tracker.since_id
       }
 
@@ -23,23 +24,23 @@ class TwitterListener
         mentions_timeline_options.merge!(max_id: twitter_tracker.max_id)
       end
 
+      # direct_message_timeline_options = {
+      #   count:    API_TIMELINE_LIMIT,
+      #   since_id: direct_message_tracker.since_id
+      # }
+
+      # unless direct_message_tracker.max_id.nil?
+      #   direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
+      # end
+
+      # direct_messages = user_context_client
       tweets = user_context_client.mentions_timeline(mentions_timeline_options)
 
-      tweets_to_respond_to = get_tweets_to_respond_to(tweets)
-      respond_to_tweets(tweets_to_respond_to)
+      tweets_to_respond_to = get_messages_to_respond_to(tweets)
+      respond_to_messages(tweets_to_respond_to)
 
-      since_id,
-      max_id,
-      last_recorded_tweet_id = TwitterTracker.get_new_mentions_timeline_options(
-        tweets,
-        twitter_tracker.since_id,
-        twitter_tracker.last_recorded_tweet_id
-      )
-
-      twitter_tracker.since_id               = since_id
-      twitter_tracker.max_id                 = max_id
-      twitter_tracker.last_recorded_tweet_id = last_recorded_tweet_id
-      twitter_tracker.save!
+      update_message_tracker(tweets, twitter_tracker)
+      # update_message_tracker(direct_messages, direct_message_tracker)
     end
 
     private
@@ -61,7 +62,7 @@ class TwitterListener
     end
 
     # @return [Array<Twitter::Tweet>]
-    def get_tweets_to_respond_to(tweets)
+    def get_messages_to_respond_to(tweets)
       tweets.select do |tweet|
         if tweet.hashtags.empty?
           false
@@ -73,21 +74,22 @@ class TwitterListener
       end
     end
 
-    def respond_to_tweets(tweets)
+    def respond_to_messages(messages)
       # A key-value store of hashtags mapped to an array of user names to respond to.
       # Should be filtered out for any users that have already been responded to for that particular
       # hashtag for that day.
       grouped_by_hashtag = {}
-      tweets.each do |tweet|
-        tweet.hashtags.each do |hashtag_obj|
+      messages.each do |message|
+        message.hashtags.each do |hashtag_obj|
           case_insensitive_hashtag = hashtag_obj.attrs[:text].downcase
-          twitter_response = HASHTAGS_TO_LISTEN_TO[case_insensitive_hashtag]
+          message_response = HASHTAGS_TO_LISTEN_TO[case_insensitive_hashtag]
 
-          unless twitter_response.nil?
+          unless message_response.nil?
             grouped_by_hashtag[case_insensitive_hashtag] ||= []
             grouped_by_hashtag[case_insensitive_hashtag] << {
-              screen_name: tweet.user.screen_name,
-              tweet_id:    tweet.id
+              screen_name:   message.user.screen_name,
+              response_id:   message.id,
+              response_type: message.is_a?(Twitter::Tweet) ? 'Tweet' : 'DirectMessage',
             }
           end
         end
@@ -95,8 +97,8 @@ class TwitterListener
 
       current_date = Date.current
       from         = user_context_client.user.screen_name
-      grouped_by_hashtag.each do |hashtag, tweet_info|
-        screen_names = tweet_info.map { |t| t[:screen_name] }
+      grouped_by_hashtag.each do |hashtag, message_info|
+        screen_names = message_info.map { |t| t[:screen_name] }
         users_already_responded_to =  TwitterResponse
                                         .where(date: current_date)
                                         .where(from: from)
@@ -104,26 +106,26 @@ class TwitterListener
                                         .where(to: screen_names)
                                         .pluck(:to)
 
-        tweets_to_respond_to = tweet_info.reject { |t| users_already_responded_to.include?(t[:screen_name]) }
+        messages_to_respond_to = message_info.reject { |t| users_already_responded_to.include?(t[:screen_name]) }
 
-        if tweets_to_respond_to.any?
-          TwitterResponse.mass_insert_twitter_responses(current_date, from, hashtag, tweets_to_respond_to)
+        if messages_to_respond_to.any?
+          TwitterResponse.mass_insert_twitter_responses(current_date, from, hashtag, messages_to_respond_to)
 
-          # Respond to the individual tweets
-          tweets_to_respond_to.each do |tweet_info|
-            tweet_response = HASHTAGS_TO_LISTEN_TO[hashtag]
-            respond_to_tweet(tweet_response, tweet_info[:screen_name])
+          # Respond to the individual messages
+          messages_to_respond_to.each do |message_info|
+            message_response = HASHTAGS_TO_LISTEN_TO[hashtag]
+            respond_to_message(message_response, message_info[:screen_name])
           end
         end
       end
     end
 
-    def respond_to_tweet(tweet_response, screen_name)
-      text_response = create_text_response(tweet_response['text_response'], screen_name)
+    def respond_to_message(message_response, screen_name)
+      text_response = create_text_response(message_response['text_response'], screen_name)
 
-      if tweet_response['image'].is_a?(String)
+      if message_response['image'].is_a?(String)
         begin
-          temp_image = TempImage.new(tweet_response['image'])
+          temp_image = TempImage.new(message_response['image'])
           file = File.open(temp_image.file.path)
           respond_with_text_and_image(text_response, file, temp_image)
         rescue Aws::S3::Errors::NoSuchKey
@@ -149,6 +151,18 @@ class TwitterListener
       file.close
       temp_image.file.close
       temp_image.file.unlink
+    end
+
+    def update_message_tracker(messages, message_tracker)
+      tracker_updated_attributes = TimelineHelper.get_new_timeline_options(
+        tweets,
+        message_tracker.since_id,
+        message_tracker.last_recorded_tweet_id,
+        API_TIMELINE_LIMIT
+      )
+
+      message_tracker.assign_attributes(tracker_updated_attributes)
+      message_tracker.save!
     end
   end
 end

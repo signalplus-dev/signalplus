@@ -5,7 +5,7 @@ class CreateTwitterResponses < ActiveRecord::Migration
       t.string  :to,       null: false
       t.string  :hashtag,  null: false
       t.date    :date,     null: false
-      t.integer :tweet_id, null: false, unsigned: true
+      t.integer :tweet_id, null: false
 
       t.timestamps         null: false
     end

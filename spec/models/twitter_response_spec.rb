@@ -2,14 +2,16 @@
 #
 # Table name: twitter_responses
 #
-#  id         :integer          not null, primary key
-#  from       :string           not null
-#  to         :string           not null
-#  hashtag    :string           not null
-#  date       :date             not null
-#  tweet_id   :integer          not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :integer          not null, primary key
+#  from          :string           not null
+#  to            :string           not null
+#  hashtag       :string           not null
+#  date          :date             not null
+#  tweet_id      :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  response_id   :integer          not null
+#  response_type :string           not null
 #
 
 require 'rails_helper'
@@ -21,7 +23,7 @@ describe TwitterResponse do
         Date.current,
         'signal',
         'deals',
-        (1..4).map { |n| { screen_name: "user#{n}", tweet_id: n } }
+        (1..4).map { |n| { screen_name: "user#{n}", response_id: n, response_type: 'Tweet' } }
       ]
     end
 

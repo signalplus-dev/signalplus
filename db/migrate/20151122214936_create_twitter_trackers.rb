@@ -4,9 +4,9 @@ class CreateTwitterTrackers < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_column :twitter_trackers, :last_recorded_tweet_id, :bigint, unsigned: true, default: 1
-    add_column :twitter_trackers, :since_id,               :bigint, unsigned: true, default: 1
-    add_column :twitter_trackers, :max_id,                 :bigint, unsigned: true
+    add_column :twitter_trackers, :last_recorded_tweet_id, :bigint, default: 1
+    add_column :twitter_trackers, :since_id,               :bigint, default: 1
+    add_column :twitter_trackers, :max_id,                 :bigint
   end
 
   def down
