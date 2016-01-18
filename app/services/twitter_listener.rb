@@ -36,7 +36,7 @@ class TwitterListener
       direct_messages = user_context_client.direct_messages_received(direct_message_timeline_options)
       tweets          = user_context_client.mentions_timeline(mentions_timeline_options)
 
-      messages_to_respond_to = get_messages_to_respond_to(tweets)
+      messages_to_respond_to = get_messages_to_respond_to(direct_messages.concat(tweets))
       respond_to_messages(messages_to_respond_to)
 
       update_message_tracker(tweets, twitter_tracker)
