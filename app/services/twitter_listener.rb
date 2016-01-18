@@ -2,11 +2,11 @@ class TwitterListener
   API_TIMELINE_LIMIT = 200
   HASHTAGS_TO_LISTEN_TO       = {
     'somehashtag' => {
-      'text_response' => 'Hey, :screen_name check out this puppy!',
+      'text_response' => 'Check out this puppy!',
       'image'         => 'puppy_cuteness.gif',
     },
     'somehashtagwithoutimage' => {
-      'text_response' => 'Hey, :screen_name check out this text response!',
+      'text_response' => 'Check out this text response!',
     },
   }
 
@@ -156,7 +156,8 @@ class TwitterListener
 
     # @return [String]
     def create_text_response(text_response, screen_name)
-      text_response.gsub(':screen_name', "@#{screen_name}")
+      # a "d" at the beginning of the message indicates the desire to direct message the user
+      "d @#{screen_name} #{text_response}"
     end
 
     def respond_with_text(text_response)
