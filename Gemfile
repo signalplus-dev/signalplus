@@ -32,6 +32,11 @@ gem 'sinatra'
 gem 'aws-sdk', '~> 2'
 gem 'annotate'
 gem 'rails_12factor', group: :production
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
