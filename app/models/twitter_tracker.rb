@@ -11,4 +11,5 @@
 #
 
 class TwitterTracker < ActiveRecord::Base
+
 end
