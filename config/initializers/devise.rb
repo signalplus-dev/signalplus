@@ -3,7 +3,7 @@
 Devise.setup do |config|
 
   # Oauth Social Media Keys
-  config.omniauth :twitter, "pgPblG8uT6IG6jTwVOxxTF0jZ", "zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7"
+  config.omniauth :twitter, "FWnJDWdCDv8ZXLfpxhZKQdZCL", "POkxmOK6XvWazckgC6kTxS5gnXiIet6rBmGgLTuPWI1n5UtNww"
   # config.omniauth :twitter, ENV["TW_KEY"], ENV["TW_SECRET"]
   # config.omniauth :facebook, ENV["FB_KEY"], ENV["FB_SECRET"]
 
