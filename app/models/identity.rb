@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: identities
+#
+#  id                 :integer          not null, primary key
+#  user_id            :integer
+#  brand_id           :integer
+#  uid                :string
+#  encrypted_token    :string           #ENCRYPTED JSON
+#  encrypted_secret   :string           #ENCRYPTED JSON
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 class Identity < ActiveRecord::Base
 
   belongs_to :user
@@ -6,7 +20,6 @@ class Identity < ActiveRecord::Base
   validates_uniqueness_of :uid, :scope => :provider
 
   ENCRYPTION_KEY = "some password obviously make it env variable"
-
 
   def self.find_for_oauth(auth)
     find_or_create_by!(uid: auth.uid, provider: auth.provider) do |a|
