@@ -19,9 +19,10 @@ class Brand < ActiveRecord::Base
     encrypted_token  = identities.where(provider: provider).first.encrypted_token
     encrypted_secret = identities.where(provider: provider).first.encrypted_secret
 
-    token      = Identity.decrypt(encrypted_token)
-    secret_key = Identity.decrypt(encrypted_secret)
-
-    return token, secret_key
+    keys = {
+      provider:   provider,
+      token:      Identity.decrypt(encrypted_token),
+      secret: Identity.decrypt(encrypted_secret)
+    }
   end
 end
