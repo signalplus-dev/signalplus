@@ -54,6 +54,12 @@ class TwitterListener
 
     def user_context_client
       @user_context_client ||= Twitter::REST::Client.new do |config|
+
+        # Should be something like
+        # keys = @user.brand.get_token_info
+        # config.consumer_key = keys[:token]
+        # config.consumer_secret = keys[:secret]
+
         config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
         config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
         config.access_token        = '4188300501-qkN5y8OYiiQJV93EXkQhDOuBsjx98PtwYj8WuGi'
