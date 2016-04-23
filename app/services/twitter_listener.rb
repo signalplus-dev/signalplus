@@ -35,13 +35,13 @@ class TwitterListener
         direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
       end
 
-      twitter_client = twitter_client(brand.twitter_identity)
+      client = twitter_client(brand.twitter_identity)
 
-      direct_messages = user_context_client.direct_messages_received(direct_message_timeline_options)
-      tweets          = user_context_client.mentions_timeline(mentions_timeline_options)
+      direct_messages = client.direct_messages_received(direct_message_timeline_options)
+      tweets          = client.mentions_timeline(mentions_timeline_options)
 
       messages_to_respond_to = get_messages_to_respond_to(direct_messages.concat(tweets))
-      respond_to_messages(messages_to_respond_to)
+      respond_to_messages(messages_to_respond_to, client)
 
       update_message_tracker(tweets, twitter_tracker)
       update_message_tracker(direct_messages, direct_message_tracker)
@@ -71,7 +71,7 @@ class TwitterListener
       end
     end
 
-    def respond_to_messages(messages)
+    def respond_to_messages(messages, client)
       # A key-value store of hashtags mapped to an array of user names to respond to.
       # Should be filtered out for any users that have already been responded to for that particular
       # hashtag for that day.
@@ -111,7 +111,7 @@ class TwitterListener
       end
 
       current_date = Date.current
-      from         = user_context_client.user.screen_name
+      from         = client.user.screen_name
       grouped_by_hashtag.each do |hashtag, message_info|
         screen_names = message_info.map { |t| t[:screen_name] }
         users_already_responded_to =  TwitterResponse
@@ -129,25 +129,25 @@ class TwitterListener
           # Respond to the individual messages
           messages_to_respond_to.each do |message_info|
             message_response = HASHTAGS_TO_LISTEN_TO[hashtag]
-            respond_to_message(message_response, message_info[:screen_name])
+            respond_to_message(message_response, message_info[:screen_name], client)
           end
         end
       end
     end
 
-    def respond_to_message(message_response, screen_name)
+    def respond_to_message(message_response, screen_name, client)
       text_response = create_text_response(message_response['text_response'], screen_name)
 
       if message_response['image'].is_a?(String)
         begin
           temp_image = TempImage.new(message_response['image'])
           file = File.open(temp_image.file.path)
-          respond_with_text_and_image(text_response, file, temp_image)
+          respond_with_text_and_image(text_response, file, temp_image, client)
         rescue Aws::S3::Errors::NoSuchKey
-          respond_with_text(text_response)
+          respond_with_text(text_response, client)
         end
       else
-        respond_with_text(text_response)
+        respond_with_text(text_response, client)
       end
     end
 
@@ -157,12 +157,12 @@ class TwitterListener
       "d @#{screen_name} #{text_response}"
     end
 
-    def respond_with_text(text_response)
-      user_context_client.update(text_response)
+    def respond_with_text(text_response, client)
+      client.update(text_response)
     end
 
-    def respond_with_text_and_image(text_response, file, temp_image)
-      user_context_client.update_with_media(text_response, file)
+    def respond_with_text_and_image(text_response, file, temp_image, client)
+      client.update_with_media(text_response, file)
     ensure
       file.close
       temp_image.file.close

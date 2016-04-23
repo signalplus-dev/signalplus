@@ -102,7 +102,7 @@ describe TwitterListener do
     let(:temp_file)       { Tempfile.new('test.txt') }
 
     before do
-      allow(described_class).to           receive(:user_context_client).and_return(mock_client)
+      allow(described_class).to           receive(:twitter_client).and_return(mock_client)
       allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
       allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
     end
@@ -117,7 +117,7 @@ describe TwitterListener do
 
       it 'responds with an image' do
         expect(mock_client).to receive(:update_with_media)
-        described_class.send(:respond_to_messages, tweets_to_respond_to)
+        described_class.send(:respond_to_messages, tweets_to_respond_to, mock_client)
       end
 
       context 'not responding to tweets already responded to in the same day' do
@@ -134,13 +134,13 @@ describe TwitterListener do
           before do
             expect(mock_client).to receive(:update_with_media).once
             expect {
-              described_class.send(:respond_to_messages, tweets_to_respond_to)
+              described_class.send(:respond_to_messages, tweets_to_respond_to, mock_client)
             }.to change { TwitterResponse.count }.from(0).to(1)
           end
 
           it 'does not respond twice to the same hashtag on the same day' do
             expect {
-              described_class.send(:respond_to_messages, more_tweets_to_respond_to)
+              described_class.send(:respond_to_messages, more_tweets_to_respond_to, mock_client)
             }.not_to change { TwitterResponse.count }
           end
         end
@@ -149,7 +149,7 @@ describe TwitterListener do
           before do
             expect(mock_client).to receive(:update_with_media).twice
             expect {
-              described_class.send(:respond_to_messages, tweets_to_respond_to)
+              described_class.send(:respond_to_messages, tweets_to_respond_to, mock_client)
             }.to change { TwitterResponse.count }.from(0).to(1)
           end
 
@@ -157,7 +157,7 @@ describe TwitterListener do
             stub_current_time(1.day.from_now)
             allow_any_instance_of(TempImage).to receive(:file).and_return(Tempfile.new('test.txt'))
             expect {
-              described_class.send(:respond_to_messages, more_tweets_to_respond_to)
+              described_class.send(:respond_to_messages, more_tweets_to_respond_to, mock_client)
             }.to change { TwitterResponse.count }.from(1).to(2)
           end
         end
@@ -174,7 +174,7 @@ describe TwitterListener do
 
       it 'responds without an image' do
         expect(mock_client).to receive(:update)
-        described_class.send(:respond_to_messages, tweets_to_respond_to)
+        described_class.send(:respond_to_messages, tweets_to_respond_to, mock_client)
       end
 
     end
@@ -192,13 +192,13 @@ describe TwitterListener do
 
       it 'only responds once' do
         expect(mock_client).to receive(:update).once
-        described_class.send(:respond_to_messages, messages_to_respond_to)
+        described_class.send(:respond_to_messages, messages_to_respond_to, mock_client)
       end
 
       it 'creates a twitter response record for just the direct message' do
         allow(mock_client).to receive(:update)
         expect {
-          described_class.send(:respond_to_messages, messages_to_respond_to)
+          described_class.send(:respond_to_messages, messages_to_respond_to, mock_client)
         }.to change {
           TwitterResponse.direct_messages.count
         }.from(0).to(1)
