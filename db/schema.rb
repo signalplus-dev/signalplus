@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417181838) do
+ActiveRecord::Schema.define(version: 20160423015007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,10 @@ ActiveRecord::Schema.define(version: 20160417181838) do
     t.integer  "last_recorded_tweet_id", limit: 8, default: 1
     t.integer  "since_id",               limit: 8, default: 1
     t.integer  "max_id",                 limit: 8
+    t.integer  "brand_id"
   end
+
+  add_index "twitter_direct_message_trackers", ["brand_id"], name: "index_twitter_direct_message_trackers_on_brand_id", unique: true, using: :btree
 
   create_table "twitter_responses", force: :cascade do |t|
     t.string   "from",                                      null: false
@@ -66,7 +69,10 @@ ActiveRecord::Schema.define(version: 20160417181838) do
     t.integer  "last_recorded_tweet_id", limit: 8, default: 1
     t.integer  "since_id",               limit: 8, default: 1
     t.integer  "max_id",                 limit: 8
+    t.integer  "brand_id"
   end
+
+  add_index "twitter_trackers", ["brand_id"], name: "index_twitter_trackers_on_brand_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -91,5 +97,7 @@ ActiveRecord::Schema.define(version: 20160417181838) do
 
   add_foreign_key "identities", "brands"
   add_foreign_key "identities", "users"
+  add_foreign_key "twitter_direct_message_trackers", "brands"
+  add_foreign_key "twitter_trackers", "brands"
   add_foreign_key "users", "brands"
 end
