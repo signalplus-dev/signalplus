@@ -11,9 +11,11 @@ class TwitterListener
   }
 
   class << self
-    def process_user_messages(user_id)
-      twitter_tracker        = TwitterTracker.first_or_create
-      direct_message_tracker = TwitterDirectMessageTracker.first_or_create
+    def process_brand_messages(brand_id)
+      brand = get_brand(brand_id)
+
+      twitter_tracker        = brand.twitter_tracker                || TwitterTracker.create(brand_id: brand.id)
+      direct_message_tracker = brand.twitter_direct_message_tracker || TwitterDirectMessageTracker.create(brand_id: brand.id)
 
       mentions_timeline_options = {
         count:    API_TIMELINE_LIMIT,
@@ -33,6 +35,8 @@ class TwitterListener
         direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
       end
 
+      twitter_client = twitter_client(brand.twitter_identity)
+
       direct_messages = user_context_client.direct_messages_received(direct_message_timeline_options)
       tweets          = user_context_client.mentions_timeline(mentions_timeline_options)
 
@@ -45,25 +49,12 @@ class TwitterListener
 
     private
 
-    def app_only_client
-      @app_only_client ||= Twitter::REST::Client.new do |config|
-        config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
-        config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
-      end
-    end
-
-    def user_context_client
-      @user_context_client ||= Twitter::REST::Client.new do |config|
-
-        # Should be something like
-        # keys = @user.brand.get_token_info
-        # config.consumer_key = keys[:token]
-        # config.consumer_secret = keys[:secret]
-
-        config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
-        config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
-        config.access_token        = '4188300501-qkN5y8OYiiQJV93EXkQhDOuBsjx98PtwYj8WuGi'
-        config.access_token_secret = 'FQLaKTW8ITdfQWbRW8eAcci1OZX1bfSG9sCFce1rSJppx'
+    def twitter_client(twitter_identity)
+      Twitter::REST::Client.new do |config|
+        config.consumer_key        = ENV['TW_KEY']
+        config.consumer_secret     = ENV['TW_SECRET']
+        config.access_token        = twitter_identity.decrypted_token
+        config.access_token_secret = twitter_identity.decrypted_secret
       end
     end
 
@@ -189,5 +180,13 @@ class TwitterListener
       message_tracker.assign_attributes(tracker_updated_attributes)
       message_tracker.save!
     end
+  end
+
+  # @return [Brand]
+  def get_brand(brand_id)
+    Brand
+      .includes(:twitter_tracker, :twitter_direct_message_tracker)
+      .where(id: brand_id)
+      .first
   end
 end

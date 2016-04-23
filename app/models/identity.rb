@@ -18,9 +18,14 @@ class Identity < ActiveRecord::Base
   belongs_to :user
   belongs_to :brand
   validates_presence_of :uid, :provider
-  validates_uniqueness_of :uid, :scope => :provider
+  validates_uniqueness_of :uid,      scope: :provider
+  validates_uniqueness_of :brand_id, scope: :provider
 
-  ENCRYPTION_KEY = "some password obviously make it env variable"
+  module Provider
+    ALL = [
+      TWITTER = 'twitter'
+    ]
+  end
 
   def self.find_for_oauth(auth)
     find_or_create_by!(uid: auth.uid, provider: auth.provider) do |a|
@@ -32,12 +37,20 @@ class Identity < ActiveRecord::Base
   end
 
   def self.encrypt(key)
-    cipher = Gibberish::AES.new(ENCRYPTION_KEY)
-    cipher.encrypt(key)
+    cipher = Gibberish::AES.new(ENV['IDENTITY_SALT'])
+    cipher.encrypt(key).to_s
   end
 
   def self.decrypt(encrypted_key)
-    cipher = Gibberish::AES.new(ENCRYPTION_KEY)
-    cipher.decrypt(encrypted_key)
+    cipher = Gibberish::AES.new(ENV['IDENTITY_SALT'])
+    cipher.decrypt(encrypted_key).to_s
+  end
+
+  def decrypted_token
+    self.class.decrypt(encrypted_token)
+  end
+
+  def decrypted_secret
+    self.class.decrypt(encrypted_secret)
   end
 end
