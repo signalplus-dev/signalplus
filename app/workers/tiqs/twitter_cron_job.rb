@@ -10,6 +10,9 @@ class TwitterCronJob
 
   def perform(last_occurrence, current_occurrence)
     sleep Time.at(current_occurrence).min
-    TwitterListener.process_user_messages(1)
+
+    Brand.select(:id).find_each do |b|
+      TwitterListener.process_brand_messages(b.id)
+    end
   end
 end
