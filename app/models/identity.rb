@@ -2,14 +2,15 @@
 #
 # Table name: identities
 #
-#  id                 :integer          not null, primary key
-#  user_id            :integer
-#  brand_id           :integer
-#  uid                :string
-#  encrypted_token    :string           #ENCRYPTED JSON
-#  encrypted_secret   :string           #ENCRYPTED JSON
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id               :integer          not null, primary key
+#  user_id          :integer
+#  brand_id         :integer
+#  provider         :string
+#  uid              :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  encrypted_token  :string
+#  encrypted_secret :string
 #
 
 class Identity < ActiveRecord::Base
