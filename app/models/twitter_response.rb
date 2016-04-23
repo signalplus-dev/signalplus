@@ -10,8 +10,8 @@
 #  tweet_id      :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  response_id   :integer          not null
-#  response_type :string           not null
+#  response_id   :integer          default(0), not null
+#  response_type :string           default("Tweet"), not null
 #
 
 class TwitterResponse < ActiveRecord::Base

@@ -11,9 +11,11 @@ class TwitterListener
   }
 
   class << self
-    def process_user_messages(user_id)
-      twitter_tracker        = TwitterTracker.first_or_create
-      direct_message_tracker = TwitterDirectMessageTracker.first_or_create
+    def process_brand_messages(brand_id)
+      brand = get_brand(brand_id)
+
+      twitter_tracker        = brand.twitter_tracker                || TwitterTracker.create(brand_id: brand.id)
+      direct_message_tracker = brand.twitter_direct_message_tracker || TwitterDirectMessageTracker.create(brand_id: brand.id)
 
       mentions_timeline_options = {
         count:    API_TIMELINE_LIMIT,
@@ -33,11 +35,13 @@ class TwitterListener
         direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
       end
 
-      direct_messages = user_context_client.direct_messages_received(direct_message_timeline_options)
-      tweets          = user_context_client.mentions_timeline(mentions_timeline_options)
+      client = twitter_client(brand.twitter_identity)
+
+      direct_messages = client.direct_messages_received(direct_message_timeline_options)
+      tweets          = client.mentions_timeline(mentions_timeline_options)
 
       messages_to_respond_to = get_messages_to_respond_to(direct_messages.concat(tweets))
-      respond_to_messages(messages_to_respond_to)
+      respond_to_messages(messages_to_respond_to, client)
 
       update_message_tracker(tweets, twitter_tracker)
       update_message_tracker(direct_messages, direct_message_tracker)
@@ -45,19 +49,12 @@ class TwitterListener
 
     private
 
-    def app_only_client
-      @app_only_client ||= Twitter::REST::Client.new do |config|
-        config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
-        config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
-      end
-    end
-
-    def user_context_client
-      @user_context_client ||= Twitter::REST::Client.new do |config|
-        config.consumer_key        = 'pgPblG8uT6IG6jTwVOxxTF0jZ'
-        config.consumer_secret     = 'zsfQgM7oXBSQ8hAemSTpocsXw36fX22ewUeRamOMb5yd8FysE7'
-        config.access_token        = '4188300501-qkN5y8OYiiQJV93EXkQhDOuBsjx98PtwYj8WuGi'
-        config.access_token_secret = 'FQLaKTW8ITdfQWbRW8eAcci1OZX1bfSG9sCFce1rSJppx'
+    def twitter_client(twitter_identity)
+      Twitter::REST::Client.new do |config|
+        config.consumer_key        = ENV['TW_KEY']
+        config.consumer_secret     = ENV['TW_SECRET']
+        config.access_token        = twitter_identity.decrypted_token
+        config.access_token_secret = twitter_identity.decrypted_secret
       end
     end
 
@@ -74,7 +71,7 @@ class TwitterListener
       end
     end
 
-    def respond_to_messages(messages)
+    def respond_to_messages(messages, client)
       # A key-value store of hashtags mapped to an array of user names to respond to.
       # Should be filtered out for any users that have already been responded to for that particular
       # hashtag for that day.
@@ -114,7 +111,7 @@ class TwitterListener
       end
 
       current_date = Date.current
-      from         = user_context_client.user.screen_name
+      from         = client.user.screen_name
       grouped_by_hashtag.each do |hashtag, message_info|
         screen_names = message_info.map { |t| t[:screen_name] }
         users_already_responded_to =  TwitterResponse
@@ -132,25 +129,25 @@ class TwitterListener
           # Respond to the individual messages
           messages_to_respond_to.each do |message_info|
             message_response = HASHTAGS_TO_LISTEN_TO[hashtag]
-            respond_to_message(message_response, message_info[:screen_name])
+            respond_to_message(message_response, message_info[:screen_name], client)
           end
         end
       end
     end
 
-    def respond_to_message(message_response, screen_name)
+    def respond_to_message(message_response, screen_name, client)
       text_response = create_text_response(message_response['text_response'], screen_name)
 
       if message_response['image'].is_a?(String)
         begin
           temp_image = TempImage.new(message_response['image'])
           file = File.open(temp_image.file.path)
-          respond_with_text_and_image(text_response, file, temp_image)
+          respond_with_text_and_image(text_response, file, temp_image, client)
         rescue Aws::S3::Errors::NoSuchKey
-          respond_with_text(text_response)
+          respond_with_text(text_response, client)
         end
       else
-        respond_with_text(text_response)
+        respond_with_text(text_response, client)
       end
     end
 
@@ -160,12 +157,12 @@ class TwitterListener
       "d @#{screen_name} #{text_response}"
     end
 
-    def respond_with_text(text_response)
-      user_context_client.update(text_response)
+    def respond_with_text(text_response, client)
+      client.update(text_response)
     end
 
-    def respond_with_text_and_image(text_response, file, temp_image)
-      user_context_client.update_with_media(text_response, file)
+    def respond_with_text_and_image(text_response, file, temp_image, client)
+      client.update_with_media(text_response, file)
     ensure
       file.close
       temp_image.file.close
@@ -183,5 +180,13 @@ class TwitterListener
       message_tracker.assign_attributes(tracker_updated_attributes)
       message_tracker.save!
     end
+  end
+
+  # @return [Brand]
+  def get_brand(brand_id)
+    Brand
+      .includes(:twitter_tracker, :twitter_direct_message_tracker)
+      .where(id: brand_id)
+      .first
   end
 end
