@@ -35,7 +35,7 @@ class TwitterListener
         direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
       end
 
-      client = twitter_client(brand.twitter_identity)
+      client = brand.twitter_client
 
       direct_messages = client.direct_messages_received(direct_message_timeline_options)
       tweets          = client.mentions_timeline(mentions_timeline_options)
@@ -48,15 +48,6 @@ class TwitterListener
     end
 
     private
-
-    def twitter_client(twitter_identity)
-      Twitter::REST::Client.new do |config|
-        config.consumer_key        = ENV['TW_KEY']
-        config.consumer_secret     = ENV['TW_SECRET']
-        config.access_token        = twitter_identity.decrypted_token
-        config.access_token_secret = twitter_identity.decrypted_secret
-      end
-    end
 
     # @return [Array<Twitter::Tweet>]
     def get_messages_to_respond_to(messages)

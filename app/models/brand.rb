@@ -14,6 +14,7 @@ class Brand < ActiveRecord::Base
   has_many :users
   has_many :identities
 
+  has_one :twitter_identity, -> { where(provider: Identity::Provider::TWITTER) }, class_name: 'Identity'
   has_one :twitter_tracker
   has_one :twitter_direct_message_tracker
 
@@ -28,7 +29,12 @@ class Brand < ActiveRecord::Base
     }
   end
 
-  def twitter_identity
-    identities.where(provider: Identity::Provider::TWITTER).first
+  def twitter_client
+    @twitter_client ||= Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['TW_KEY']
+      config.consumer_secret     = ENV['TW_SECRET']
+      config.access_token        = twitter_identity.decrypted_token
+      config.access_token_secret = twitter_identity.decrypted_secret
+    end
   end
 end
