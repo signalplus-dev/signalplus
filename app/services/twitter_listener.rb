@@ -180,13 +180,13 @@ class TwitterListener
       message_tracker.assign_attributes(tracker_updated_attributes)
       message_tracker.save!
     end
-  end
 
-  # @return [Brand]
-  def get_brand(brand_id)
-    Brand
-      .includes(:twitter_tracker, :twitter_direct_message_tracker)
-      .where(id: brand_id)
-      .first
+    # @return [Brand]
+    def get_brand(brand_id)
+      Brand
+        .includes(:twitter_tracker, :twitter_direct_message_tracker)
+        .where(id: brand_id)
+        .first
+    end
   end
 end
