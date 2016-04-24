@@ -35,7 +35,7 @@ class TwitterListener
         direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
       end
 
-      client = brand.twitter_client
+      client = brand.twitter_rest_client
 
       direct_messages = client.direct_messages_received(direct_message_timeline_options)
       tweets          = client.mentions_timeline(mentions_timeline_options)
