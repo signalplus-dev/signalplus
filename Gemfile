@@ -69,4 +69,5 @@ group :test do
   gem 'rspec-rails', '~> 3.3.3'
   gem 'rspec-its'
   gem 'spring-commands-rspec', require: false
+  gem "factory_girl_rails", "~> 4.0"
 end

@@ -12,7 +12,7 @@ class TwitterCronJob
     sleep 1
 
     Brand.select(:id).find_each do |b|
-      TwitterListener.process_brand_messages(b.id)
+      Responders::Twitter::Listener.process_messages(b.id)
     end
   end
 end

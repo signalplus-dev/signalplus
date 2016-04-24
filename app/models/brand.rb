@@ -30,7 +30,16 @@ class Brand < ActiveRecord::Base
   end
 
   def twitter_rest_client
-    @twitter_client ||= Twitter::REST::Client.new do |config|
+    @twitter_rest_client ||= Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['TW_KEY']
+      config.consumer_secret     = ENV['TW_SECRET']
+      config.access_token        = twitter_identity.decrypted_token
+      config.access_token_secret = twitter_identity.decrypted_secret
+    end
+  end
+
+  def twitter_streaming_client
+    @twitter_streaming_client ||= Twitter::Streaming::Client.new do |config|
       config.consumer_key        = ENV['TW_KEY']
       config.consumer_secret     = ENV['TW_SECRET']
       config.access_token        = twitter_identity.decrypted_token

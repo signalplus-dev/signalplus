@@ -5,7 +5,7 @@ def incrementor
   @incrementor += 1
 end
 
-describe TwitterListener do
+describe Responders::Twitter::Listener do
   let(:user) { double(:user, screen_name: 'Bobby') }
   # @param hashtags [Array] an array of hashtags
   def create_mock_tweet(hashtags)
