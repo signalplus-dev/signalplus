@@ -40,6 +40,14 @@ def stub_current_time(time, include_utc = false)
   allow(Time).to receive_message_chain(:now, :utc).and_return(time) if include_utc
 end
 
+def example_twitter_tweet
+  YAML::load(File.read("#{Rails.root}/spec/factories/twitter_tweet.yml"))
+end
+
+def example_twitter_direct_message
+  YAML::load(File.read("#{Rails.root}/spec/factories/twitter_direct_message.yml"))
+end
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

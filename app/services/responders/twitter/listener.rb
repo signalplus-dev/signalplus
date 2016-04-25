@@ -14,36 +14,23 @@ module Responders
 
       class << self
         def process_messages(brand_id)
-          brand = get_brand(brand_id)
+          brand  = get_brand(brand_id)
+          client = brand.twitter_rest_client
 
           twitter_tracker        = brand.twitter_tracker                || TwitterTracker.create(brand_id: brand.id)
           direct_message_tracker = brand.twitter_direct_message_tracker || TwitterDirectMessageTracker.create(brand_id: brand.id)
 
-          mentions_timeline_options = {
-            count:    API_TIMELINE_LIMIT,
-            since_id: twitter_tracker.since_id
-          }
-
-          unless twitter_tracker.max_id.nil?
-            mentions_timeline_options.merge!(max_id: twitter_tracker.max_id)
-          end
-
-          direct_message_timeline_options = {
-            count:    API_TIMELINE_LIMIT,
-            since_id: direct_message_tracker.since_id
-          }
-
-          unless direct_message_tracker.max_id.nil?
-            direct_message_timeline_options.merge!(max_id: direct_message_tracker.max_id)
-          end
-
-          client = brand.twitter_rest_client
+          mentions_timeline_options       = build_timeline_options(twitter_tracker)
+          direct_message_timeline_options = build_timeline_options(direct_message_tracker)
 
           direct_messages = client.direct_messages_received(direct_message_timeline_options)
           tweets          = client.mentions_timeline(mentions_timeline_options)
 
-          messages_to_respond_to = get_messages_to_respond_to(direct_messages.concat(tweets))
-          respond_to_messages(messages_to_respond_to, client)
+          filter = Filter.new(brand, direct_messages.concat(tweets))
+          filter.out_multiple_requests!
+          filter.out_users_already_responded_to!
+
+          respond_to_messages(filter.grouped_responses, client)
 
           update_message_tracker(tweets, twitter_tracker)
           update_message_tracker(direct_messages, direct_message_tracker)
@@ -51,78 +38,19 @@ module Responders
 
         private
 
-        # @return [Array<Twitter::Tweet>]
-        def get_messages_to_respond_to(messages)
-          messages.select do |message|
-            if message.hashtags.empty?
-              false
-            else
-              message.hashtags.any? do |hashtag_obj|
-                HASHTAGS_TO_LISTEN_TO.keys.include?(hashtag_obj.attrs[:text].downcase)
-              end
-            end
-          end
-        end
+        # @param grouped_responses [Hash]
+        # @param client            [Twitter::REST::Client]
+        def respond_to_messages(grouped_responses, client)
+          grouped_responses.each do |hashtag, twitter_responses|
+            next if twitter_responses.empty?
 
-        def respond_to_messages(messages, client)
-          # A key-value store of hashtags mapped to an array of user names to respond to.
-          # Should be filtered out for any users that have already been responded to for that particular
-          # hashtag for that day.
-          grouped_by_hashtag            = {}
-          # Keep track of what users are already going to be responded to with regards to a given hashtag
-          users_responded_to_by_hashtag = {}
-          messages.each do |message|
-            message.hashtags.each do |hashtag_obj|
-              case_insensitive_hashtag = hashtag_obj.attrs[:text].downcase
-              message_response = HASHTAGS_TO_LISTEN_TO[case_insensitive_hashtag]
-
-              unless message_response.nil?
-                grouped_by_hashtag[case_insensitive_hashtag]            ||= []
-                users_responded_to_by_hashtag[case_insensitive_hashtag] ||= Set.new
-
-                original_size = users_responded_to_by_hashtag[case_insensitive_hashtag].size
-
-                if message.is_a?(::Twitter::Tweet)
-                  user = message.user
-                  response_type = 'Tweet'
-                else
-                  user = message.sender
-                  response_type = 'DirectMessage'
-                end
-
-                users_responded_to_by_hashtag[case_insensitive_hashtag] << user.screen_name
-
-                if users_responded_to_by_hashtag[case_insensitive_hashtag].size > original_size
-                  grouped_by_hashtag[case_insensitive_hashtag] << {
-                    screen_name:   user.screen_name,
-                    response_id:   message.id,
-                    response_type: response_type,
-                  }
-                end
-              end
-            end
-          end
-
-          current_date = Date.current
-          from         = client.user.screen_name
-          grouped_by_hashtag.each do |hashtag, message_info|
-            screen_names = message_info.map { |t| t[:screen_name] }
-            users_already_responded_to =  TwitterResponse
-                                            .where(date: current_date)
-                                            .where(from: from)
-                                            .where(hashtag: hashtag)
-                                            .where(to: screen_names)
-                                            .pluck(:to)
-
-            messages_to_respond_to = message_info.reject { |t| users_already_responded_to.include?(t[:screen_name]) }
-
-            if messages_to_respond_to.any?
-              TwitterResponse.mass_insert_twitter_responses(current_date, from, hashtag, messages_to_respond_to)
-
-              # Respond to the individual messages
-              messages_to_respond_to.each do |message_info|
-                message_response = HASHTAGS_TO_LISTEN_TO[hashtag]
-                respond_to_message(message_response, message_info[:screen_name], client)
+            twitter_responses.each do |twitter_response|
+              begin
+                signal_response = get_signal_response(hashtag)
+                tweet = respond_to_message(signal_response, twitter_response[:to], client)
+                TwitterResponse.create!(twitter_response.merge(tweet_id: tweet.id))
+              rescue StandardError => e
+                # do some logging
               end
             end
           end
@@ -174,12 +102,30 @@ module Responders
           message_tracker.save!
         end
 
+        # @return [String]
+        def get_signal_response(hashtag)
+          HASHTAGS_TO_LISTEN_TO[hashtag]
+        end
+
         # @return [Brand]
         def get_brand(brand_id)
           Brand
             .includes(:twitter_tracker, :twitter_direct_message_tracker)
             .where(id: brand_id)
             .first
+        end
+
+        # @param  [TwitterTracker|TwitterDirectMessageTracker]
+        # @return [Hash]
+        def build_timeline_options(timeline_tracker)
+          options = {
+            count:    API_TIMELINE_LIMIT,
+            since_id: timeline_tracker.since_id
+          }
+
+          options.merge!(max_id: timeline_tracker.max_id) unless timeline_tracker.max_id.nil?
+
+          options
         end
       end
     end

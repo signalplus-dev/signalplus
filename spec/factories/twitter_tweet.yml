@@ -1,0 +1,95 @@
+--- !ruby/object:Twitter::Tweet
+attrs:
+  :created_at: Sat Apr 23 04:43:10 +0000 2016
+  :id: 723733932756353024
+  :id_str: '723733932756353024'
+  :text: "@signalize1 #somehashtag"
+  :entities:
+    :hashtags:
+    - &1
+      :text: somehashtag
+      :indices:
+      - 12
+      - 24
+    :symbols: []
+    :user_mentions:
+    - :screen_name: signalize1
+      :name: Signalize
+      :id: 4188300501
+      :id_str: '4188300501'
+      :indices:
+      - 0
+      - 11
+    :urls: []
+  :truncated: false
+  :source: <a href="http://twitter.com" rel="nofollow">Twitter Web Client</a>
+  :in_reply_to_status_id:
+  :in_reply_to_status_id_str:
+  :in_reply_to_user_id: 4188300501
+  :in_reply_to_user_id_str: '4188300501'
+  :in_reply_to_screen_name: signalize1
+  :user:
+    :id: 4252832116
+    :id_str: '4252832116'
+    :name: Jason
+    :screen_name: fishbowl1551
+    :location: ''
+    :description: ''
+    :url:
+    :entities:
+      :description:
+        :urls: []
+    :protected: false
+    :followers_count: 0
+    :friends_count: 0
+    :listed_count: 0
+    :created_at: Sun Nov 22 22:23:49 +0000 2015
+    :favourites_count: 0
+    :utc_offset:
+    :time_zone:
+    :geo_enabled: false
+    :verified: false
+    :statuses_count: 316
+    :lang: en
+    :contributors_enabled: false
+    :is_translator: false
+    :is_translation_enabled: false
+    :profile_background_color: C0DEED
+    :profile_background_image_url: http://abs.twimg.com/images/themes/theme1/bg.png
+    :profile_background_image_url_https: https://abs.twimg.com/images/themes/theme1/bg.png
+    :profile_background_tile: false
+    :profile_image_url: http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png
+    :profile_image_url_https: https://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png
+    :profile_link_color: 0084B4
+    :profile_sidebar_border_color: C0DEED
+    :profile_sidebar_fill_color: DDEEF6
+    :profile_text_color: '333333'
+    :profile_use_background_image: true
+    :has_extended_profile: false
+    :default_profile: true
+    :default_profile_image: true
+    :following: false
+    :follow_request_sent: false
+    :notifications: false
+  :geo:
+  :coordinates:
+  :place:
+  :contributors:
+  :is_quote_status: false
+  :retweet_count: 0
+  :favorite_count: 0
+  :favorited: false
+  :retweeted: false
+  :lang: und
+_memoized_method_cache: !ruby/object:Memoizable::Memory
+  memory: !ruby/object:ThreadSafe::Cache
+    backend:
+      :id: 723733932756353024
+      :hashtags:
+      - !ruby/object:Twitter::Entity::Hashtag
+        attrs: *1
+    default_proc:
+  monitor: !ruby/object:Monitor
+    mon_owner:
+    mon_count: 0
+    mon_mutex: !ruby/object:Mutex {}

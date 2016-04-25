@@ -9,8 +9,6 @@
 #
 
 class Brand < ActiveRecord::Base
-
-
   has_many :users
   has_many :identities
 
@@ -29,6 +27,7 @@ class Brand < ActiveRecord::Base
     }
   end
 
+  # @return [Twitter::REST::Client]
   def twitter_rest_client
     @twitter_rest_client ||= Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['TW_KEY']
@@ -38,6 +37,7 @@ class Brand < ActiveRecord::Base
     end
   end
 
+  # @return [Twitter::Streaming::Client]
   def twitter_streaming_client
     @twitter_streaming_client ||= Twitter::Streaming::Client.new do |config|
       config.consumer_key        = ENV['TW_KEY']

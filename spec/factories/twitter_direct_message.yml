@@ -1,0 +1,120 @@
+--- !ruby/object:Twitter::DirectMessage
+attrs:
+  :id: 723732623017824259
+  :id_str: '723732623017824259'
+  :text: "#somehashtag"
+  :sender:
+    :id: 4252832116
+    :id_str: '4252832116'
+    :name: Jason
+    :screen_name: fishbowl1551
+    :location: ''
+    :description: ''
+    :url:
+    :entities:
+      :description:
+        :urls: []
+    :protected: false
+    :followers_count: 0
+    :friends_count: 0
+    :listed_count: 0
+    :created_at: Sun Nov 22 22:23:49 +0000 2015
+    :favourites_count: 0
+    :utc_offset:
+    :time_zone:
+    :geo_enabled: false
+    :verified: false
+    :statuses_count: 316
+    :lang: en
+    :contributors_enabled: false
+    :is_translator: false
+    :is_translation_enabled: false
+    :profile_background_color: C0DEED
+    :profile_background_image_url: http://abs.twimg.com/images/themes/theme1/bg.png
+    :profile_background_image_url_https: https://abs.twimg.com/images/themes/theme1/bg.png
+    :profile_background_tile: false
+    :profile_image_url: http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png
+    :profile_image_url_https: https://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png
+    :profile_link_color: 0084B4
+    :profile_sidebar_border_color: C0DEED
+    :profile_sidebar_fill_color: DDEEF6
+    :profile_text_color: '333333'
+    :profile_use_background_image: true
+    :has_extended_profile: false
+    :default_profile: true
+    :default_profile_image: true
+    :following: false
+    :follow_request_sent: false
+    :notifications: false
+  :sender_id: 4252832116
+  :sender_id_str: '4252832116'
+  :sender_screen_name: fishbowl1551
+  :recipient:
+    :id: 4188300501
+    :id_str: '4188300501'
+    :name: Signalize
+    :screen_name: signalize1
+    :location: ''
+    :description: ''
+    :url:
+    :entities:
+      :description:
+        :urls: []
+    :protected: false
+    :followers_count: 1
+    :friends_count: 0
+    :listed_count: 0
+    :created_at: Sat Nov 14 18:53:55 +0000 2015
+    :favourites_count: 0
+    :utc_offset:
+    :time_zone:
+    :geo_enabled: false
+    :verified: false
+    :statuses_count: 5
+    :lang: en
+    :contributors_enabled: false
+    :is_translator: false
+    :is_translation_enabled: false
+    :profile_background_color: C0DEED
+    :profile_background_image_url: http://abs.twimg.com/images/themes/theme1/bg.png
+    :profile_background_image_url_https: https://abs.twimg.com/images/themes/theme1/bg.png
+    :profile_background_tile: false
+    :profile_image_url: http://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png
+    :profile_image_url_https: https://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png
+    :profile_link_color: 0084B4
+    :profile_sidebar_border_color: C0DEED
+    :profile_sidebar_fill_color: DDEEF6
+    :profile_text_color: '333333'
+    :profile_use_background_image: true
+    :has_extended_profile: false
+    :default_profile: true
+    :default_profile_image: true
+    :following: false
+    :follow_request_sent: false
+    :notifications: false
+  :recipient_id: 4188300501
+  :recipient_id_str: '4188300501'
+  :recipient_screen_name: signalize1
+  :created_at: Sat Apr 23 04:37:58 +0000 2016
+  :entities:
+    :hashtags:
+    - &1
+      :text: somehashtag
+      :indices:
+      - 0
+      - 12
+    :symbols: []
+    :user_mentions: []
+    :urls: []
+_memoized_method_cache: !ruby/object:Memoizable::Memory
+  memory: !ruby/object:ThreadSafe::Cache
+    backend:
+      :id: 723732623017824259
+      :hashtags:
+      - !ruby/object:Twitter::Entity::Hashtag
+        attrs: *1
+    default_proc:
+  monitor: !ruby/object:Monitor
+    mon_owner:
+    mon_count: 0
+    mon_mutex: !ruby/object:Mutex {}
