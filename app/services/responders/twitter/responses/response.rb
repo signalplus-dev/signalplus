@@ -2,18 +2,32 @@ module Responders
   module Twitter
     class Response
       attr_reader :brand, :message, :hashtag, :response_type
-      # @param brand   [Brand]
-      # @param message [Twitter::Tweet|Twitter::DirectMessage]
-      # @return        [Responders::Twitter::TweetResponse|Responders::Twitter::DirectMessageResponse]
-      def self.build(brand, message, hashtag)
-        case message
-        when ::Twitter::Tweet
-          Responders::Twitter::TweetResponse.new(brand, message, hashtag)
-        when ::Twitter::DirectMessage
-          Responders::Twitter::DirectMessageResponse.new(brand, message, hashtag)
-        else
-          raise ArgumentError.new("#{message.class} is a message type that is not supported")
+
+      class << self
+        # @param brand   [Brand]
+        # @param message [Twitter::Tweet|Twitter::DirectMessage]
+        # @param hashtag [String]
+        # @return        [Responders::Twitter::TweetResponse|Responders::Twitter::DirectMessageResponse]
+        def build(brand, message, hashtag)
+          case message
+          when ::Twitter::Tweet
+            Responders::Twitter::TweetResponse.new(brand, message, hashtag)
+          when ::Twitter::DirectMessage
+            Responders::Twitter::DirectMessageResponse.new(brand, message, hashtag)
+          else
+            raise ArgumentError.new("#{message.class} is a message type that is not supported")
+          end
         end
+
+        def respond_to_messages()
+
+        end
+      end
+
+      def initialize(brand, message, hashtag)
+        @brand   = brand
+        @message = message
+        @hashtag = hashtag.downcase
       end
 
       # @return [Hash]
@@ -22,7 +36,7 @@ module Responders
           date:          date,
           from:          from,
           to:            to,
-          hashtag:       hashtag.downcase,
+          hashtag:       hashtag,
           response_id:   response_id,
           response_type: response_type,
         }
