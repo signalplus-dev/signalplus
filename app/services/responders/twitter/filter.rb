@@ -15,7 +15,7 @@ module Responders
       def out_multiple_requests!
         grouped_responses.each do |hashtag, _|
           grouped_responses[hashtag].uniq! do |twitter_response|
-            twitter_response[:to]
+            twitter_response.to
           end
         end
 
@@ -26,11 +26,11 @@ module Responders
       def out_users_already_responded_to!
         grouped_responses.each do |hashtag, twitter_responses|
           next if twitter_responses.empty?
-          query_params               = twitter_responses.first.slice(:date, :from, :hashtag, :to)
+          query_params               = twitter_responses.first.as_json.slice(:date, :from, :hashtag, :to)
           users_already_responded_to = TwitterResponse.where(query_params).pluck(:to)
 
           grouped_responses[hashtag].reject! do |twitter_response|
-            users_already_responded_to.include?(twitter_response[:to])
+            users_already_responded_to.include?(twitter_response.to)
           end
         end
 
@@ -56,11 +56,11 @@ module Responders
         @hashtags_being_listened_to ||= Listener::HASHTAGS_TO_LISTEN_TO.keys.map(&:downcase)
       end
 
-      # @return [Hash<String, Array<Hash>>]
+      # @return [Hash<String, Array<Responders::Twitter::Response>>]
       def build_grouped_responses
         twitter_responses = tweet_messages.map do |message|
           messages = message.hashtags.map do |hashtag|
-            Response.build(brand, message, hashtag.text).as_json if listening_to_hashtags?(hashtag)
+            Response.build(brand, message, hashtag.text) if listening_to_hashtags?(hashtag)
           end
 
           messages.compact
@@ -69,7 +69,7 @@ module Responders
         twitter_responses.flatten!
 
         twitter_responses.group_by do |twitter_response|
-          twitter_response[:hashtag]
+          twitter_response.hashtag
         end
       end
     end

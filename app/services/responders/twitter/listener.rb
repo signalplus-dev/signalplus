@@ -42,52 +42,10 @@ module Responders
         # @param client            [Twitter::REST::Client]
         def respond_to_messages(grouped_responses, client)
           grouped_responses.each do |hashtag, twitter_responses|
-            next if twitter_responses.empty?
-
             twitter_responses.each do |twitter_response|
-              begin
-                signal_response = get_signal_response(hashtag)
-                tweet = respond_to_message(signal_response, twitter_response[:to], client)
-                TwitterResponse.create!(twitter_response.merge(tweet_id: tweet.id))
-              rescue StandardError => e
-                # do some logging
-              end
+              twitter_response.respond!(client)
             end
           end
-        end
-
-        def respond_to_message(message_response, screen_name, client)
-          text_response = create_text_response(message_response['text_response'], screen_name)
-
-          if message_response['image'].is_a?(String)
-            begin
-              temp_image = TempImage.new(message_response['image'])
-              file = File.open(temp_image.file.path)
-              respond_with_text_and_image(text_response, file, temp_image, client)
-            rescue Aws::S3::Errors::NoSuchKey
-              respond_with_text(text_response, client)
-            end
-          else
-            respond_with_text(text_response, client)
-          end
-        end
-
-        # @return [String]
-        def create_text_response(text_response, screen_name)
-          # a "d" at the beginning of the message indicates the desire to direct message the user
-          "d @#{screen_name} #{text_response}"
-        end
-
-        def respond_with_text(text_response, client)
-          client.update(text_response)
-        end
-
-        def respond_with_text_and_image(text_response, file, temp_image, client)
-          client.update_with_media(text_response, file)
-        ensure
-          file.close
-          temp_image.file.close
-          temp_image.file.unlink
         end
 
         def update_message_tracker(messages, message_tracker)
@@ -100,11 +58,6 @@ module Responders
 
           message_tracker.assign_attributes(tracker_updated_attributes)
           message_tracker.save!
-        end
-
-        # @return [String]
-        def get_signal_response(hashtag)
-          HASHTAGS_TO_LISTEN_TO[hashtag]
         end
 
         # @return [Brand]
