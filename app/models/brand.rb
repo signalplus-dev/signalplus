@@ -16,6 +16,8 @@ class Brand < ActiveRecord::Base
   has_one :twitter_tracker
   has_one :twitter_direct_message_tracker
 
+  after_create :create_trackers
+
   class << self
     # @param brand_id [Fixnum]
     # @return         [ActiveRecord::Relation]
@@ -55,5 +57,12 @@ class Brand < ActiveRecord::Base
       config.access_token        = twitter_identity.decrypted_token
       config.access_token_secret = twitter_identity.decrypted_secret
     end
+  end
+
+  private
+
+  def create_trackers
+    TwitterTracker.create(id: id)
+    TwitterDirectMessageTracker.create(id: id)
   end
 end

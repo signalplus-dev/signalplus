@@ -16,8 +16,8 @@ module Responders
           brand  = Brand.find_with_trackers(brand_id)
           client = brand.twitter_rest_client
 
-          twitter_tracker        = brand.twitter_tracker                || TwitterTracker.create(brand_id: brand.id)
-          direct_message_tracker = brand.twitter_direct_message_tracker || TwitterDirectMessageTracker.create(brand_id: brand.id)
+          twitter_tracker        = brand.twitter_tracker
+          direct_message_tracker = brand.twitter_direct_message_tracker
 
           mentions_timeline_options       = build_timeline_options(twitter_tracker)
           direct_message_timeline_options = build_timeline_options(direct_message_tracker)

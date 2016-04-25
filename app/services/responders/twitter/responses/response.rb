@@ -69,6 +69,7 @@ module Responders
         TwitterResponse.create!(as_json.merge(tweet_id: tweet.id))
       rescue StandardError => e
         # do some logging
+        Rollbar.error(e)
       end
 
       # @return [Boolean]
