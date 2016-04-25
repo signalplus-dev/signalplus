@@ -12,7 +12,7 @@ describe Responders::Twitter::DirectMessageResponse do
       stub_current_time(time)
     end
 
-    subject { described_class.new(brand, direct_message, hashtag).as_json }
+    subject { described_class.new(brand: brand, message: direct_message, hashtag: hashtag).as_json }
 
     its('keys.size') { is_expected.to eq(6) }
 

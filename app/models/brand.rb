@@ -16,6 +16,16 @@ class Brand < ActiveRecord::Base
   has_one :twitter_tracker
   has_one :twitter_direct_message_tracker
 
+  class << self
+    # @param brand_id [Fixnum]
+    # @return         [ActiveRecord::Relation]
+    def find_with_trackers(brand_id)
+      includes(:twitter_tracker, :twitter_direct_message_tracker)
+        .where(id: brand_id)
+        .first
+    end
+  end
+
   def get_token_info(provider)
     encrypted_token  = identities.where(provider: provider).first.encrypted_token
     encrypted_secret = identities.where(provider: provider).first.encrypted_secret

@@ -60,7 +60,7 @@ module Responders
       def build_grouped_responses
         twitter_responses = tweet_messages.map do |message|
           messages = message.hashtags.map do |hashtag|
-            Response.build(brand, message, hashtag.text) if listening_to_hashtags?(hashtag)
+            Response.build(brand: brand, message: message, hashtag: hashtag.text) if listening_to_hashtags?(hashtag)
           end
 
           messages.compact

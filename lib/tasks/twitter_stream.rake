@@ -21,14 +21,17 @@ end
 
 desc "Listens to a user's stream of mentions and direct messages"
 task twitter_stream: :environment do
-  brand = Brand.find(ENV['BRAND_ID'])
+  brand       = Brand.find(ENV['BRAND_ID'])
+
   while true
     brand.twitter_streaming_client.user do |object|
       case object
-      when Twitter::Tweet
-        puts "It's a tweet!"
-      when Twitter::DirectMessage
-        puts "It's a direct message!"
+      when Twitter::Tweet, Twitter::DirectMessage
+        filter = Responders::Twitter::Filter.new(brand, object)
+        filter.out_multiple_requests!
+        filter.out_users_already_responded_to!
+        response = filter.grouped_responses.first.last.first
+        TwitterResponseWorker.perform_async(brand.id, response.as_json, true)
       when Twitter::Streaming::StallWarning
         warn "Falling behind!"
       end

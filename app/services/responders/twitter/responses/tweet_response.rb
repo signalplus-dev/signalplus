@@ -7,6 +7,11 @@ module Responders
       def sender
         message.user
       end
+
+      # @return [Boolean]
+      def tweet?
+        true
+      end
     end
   end
 end

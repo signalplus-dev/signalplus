@@ -1,7 +1,6 @@
 module Responders
   module Twitter
     class Listener
-      API_TIMELINE_LIMIT = 200
       HASHTAGS_TO_LISTEN_TO       = {
         'somehashtag' => {
           'text_response' => 'Check out this puppy!',
@@ -14,7 +13,7 @@ module Responders
 
       class << self
         def process_messages(brand_id)
-          brand  = get_brand(brand_id)
+          brand  = Brand.find_with_trackers(brand_id)
           client = brand.twitter_rest_client
 
           twitter_tracker        = brand.twitter_tracker                || TwitterTracker.create(brand_id: brand.id)
@@ -32,8 +31,8 @@ module Responders
 
           respond_to_messages(filter.grouped_responses, client)
 
-          update_message_tracker(tweets, twitter_tracker)
-          update_message_tracker(direct_messages, direct_message_tracker)
+          TimelineHelper.update_tracker!(twitter_tracker, tweets)
+          TimelineHelper.update_tracker!(direct_message_tracker, direct_messages)
         end
 
         private
@@ -48,31 +47,11 @@ module Responders
           end
         end
 
-        def update_message_tracker(messages, message_tracker)
-          tracker_updated_attributes = TimelineHelper.get_new_timeline_options(
-            messages,
-            message_tracker.since_id,
-            message_tracker.last_recorded_tweet_id,
-            API_TIMELINE_LIMIT
-          )
-
-          message_tracker.assign_attributes(tracker_updated_attributes)
-          message_tracker.save!
-        end
-
-        # @return [Brand]
-        def get_brand(brand_id)
-          Brand
-            .includes(:twitter_tracker, :twitter_direct_message_tracker)
-            .where(id: brand_id)
-            .first
-        end
-
         # @param  [TwitterTracker|TwitterDirectMessageTracker]
         # @return [Hash]
         def build_timeline_options(timeline_tracker)
           options = {
-            count:    API_TIMELINE_LIMIT,
+            count:    TimelineHelper::API_TIMELINE_LIMIT,
             since_id: timeline_tracker.since_id
           }
 

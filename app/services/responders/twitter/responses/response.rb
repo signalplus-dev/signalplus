@@ -1,29 +1,66 @@
 module Responders
   module Twitter
     class Response
-      attr_reader :brand, :message, :hashtag, :response_type, :client
+      attr_reader :brand, :message, :hashtag, :response_type, :client, :id
 
       class << self
         # @param brand   [Brand]
         # @param message [Twitter::Tweet|Twitter::DirectMessage]
         # @param hashtag [String]
+        # @param as_json [Hash] A way to build a Response object without the Tweet/Direct Message objects
         # @return        [Responders::Twitter::TweetResponse|Responders::Twitter::DirectMessageResponse]
-        def build(brand, message, hashtag)
+        def build(brand: nil, message: nil, hashtag: nil, as_json: nil)
+          if as_json.is_a?(Hash)
+            build_from_hash(brand, as_json.with_indifferent_access)
+          else
+            build_from_twitter_message(brand, message, hashtag)
+          end
+        end
+
+        private
+
+        # @param brand   [Brand]
+        # @param message [Twitter::Tweet|Twitter::DirectMessage]
+        # @param hashtag [String]
+        # @return        [Responders::Twitter::TweetResponse|Responders::Twitter::DirectMessageResponse]
+        def build_from_twitter_message(brand, message, hashtag)
           case message
           when ::Twitter::Tweet
-            Responders::Twitter::TweetResponse.new(brand, message, hashtag)
+            Responders::Twitter::TweetResponse.new(brand: brand, message: message, hashtag: hashtag)
           when ::Twitter::DirectMessage
-            Responders::Twitter::DirectMessageResponse.new(brand, message, hashtag)
+            Responders::Twitter::DirectMessageResponse.new(brand: brand, message: message, hashtag: hashtag)
+          else
+            raise ArgumentError.new("#{message.class} is a message type that is not supported")
+          end
+        end
+
+        # @param brand   [Brand]
+        # @param as_json [Hash] A way to build a Response object without the Tweet/Direct Message objects
+        # @return        [Responders::Twitter::TweetResponse|Responders::Twitter::DirectMessageResponse]
+        def build_from_hash(brand, as_json)
+          case as_json[:response_type]
+          when 'Tweet'
+            Responders::Twitter::TweetResponse.new(brand: brand, as_json: as_json)
+          when 'DirectMessage'
+            Responders::Twitter::DirectMessageResponse.new(brand: brand, as_json: as_json)
           else
             raise ArgumentError.new("#{message.class} is a message type that is not supported")
           end
         end
       end
 
-      def initialize(brand, message, hashtag)
+      def initialize(brand: nil, message: nil, hashtag: nil, as_json: nil)
         @brand   = brand
-        @message = message
-        @hashtag = hashtag.downcase
+        if as_json
+          @as_json = as_json.with_indifferent_access
+          @hashtag = @as_json[:hashtag]
+          @id      = @as_json[:response_id]
+          @to      = @as_json[:to]
+        else
+          @message = message
+          @hashtag = hashtag.downcase
+          @id      = message.id
+        end
       end
 
       def respond!(client = nil)
@@ -32,6 +69,16 @@ module Responders
         TwitterResponse.create!(as_json.merge(tweet_id: tweet.id))
       rescue StandardError => e
         # do some logging
+      end
+
+      # @return [Boolean]
+      def tweet?
+        false
+      end
+
+      # @return [Boolean]
+      def direct_message?
+        false
       end
 
       # @return [Hash]
@@ -48,7 +95,7 @@ module Responders
 
       # @return [String]
       def to
-        sender.screen_name
+        @to || sender.try(:screen_name)
       end
 
       private

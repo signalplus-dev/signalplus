@@ -7,6 +7,11 @@ module Responders
       def sender
         message.sender
       end
+
+      # @return [Boolean]
+      def direct_message?
+        true
+      end
     end
   end
 end

@@ -12,7 +12,7 @@ describe Responders::Twitter::TweetResponse do
       stub_current_time(time)
     end
 
-    subject { described_class.new(brand, tweet, hashtag).as_json }
+    subject { described_class.new(brand: brand, message: tweet, hashtag: hashtag).as_json }
 
     its('keys.size') { is_expected.to eq(6) }
 
