@@ -106,7 +106,12 @@ module Responders
       # @return [String]
       def text_response
         # a "d" at the beginning of the message indicates the desire to direct message the user
-        @text_response ||= "d @#{to} #{signal_response['text_response']}"
+        @text_response ||= "d @#{to} #{base_text_response}"
+      end
+
+      # @return [String]
+      def base_text_response
+        signal_response['text_response']
       end
 
       def respond_with_text!
