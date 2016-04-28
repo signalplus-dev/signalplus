@@ -27,9 +27,6 @@ class Identity < ActiveRecord::Base
     ]
   end
 
-  ENCRYPTION_KEY = "some password obviously make it env variable"
-
-
   def self.find_for_oauth(auth)
     find_or_create_by!(uid: auth.uid, provider: auth.provider) do |a|
       a.uid = auth.uid,

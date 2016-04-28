@@ -111,10 +111,6 @@ ActiveRecord::Schema.define(version: 20160414035822) do
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "name"
-<<<<<<< d89b46b5cf2cddb538366e135d9a5b9cd3893c62
-=======
-    t.string   "string"
->>>>>>> create brand and identity models
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -125,10 +121,7 @@ ActiveRecord::Schema.define(version: 20160414035822) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-<<<<<<< d89b46b5cf2cddb538366e135d9a5b9cd3893c62
     t.integer  "brand_id"
-=======
->>>>>>> create brand and identity models
   end
 
   add_index "users", ["brand_id"], name: "index_users_on_brand_id", using: :btree
@@ -137,14 +130,11 @@ ActiveRecord::Schema.define(version: 20160414035822) do
 
   add_foreign_key "identities", "brands"
   add_foreign_key "identities", "users"
-<<<<<<< 11096cb820a75a4b468457445f9721c06e14d964
   add_foreign_key "twitter_direct_message_trackers", "brands"
   add_foreign_key "twitter_trackers", "brands"
-=======
   add_foreign_key "listen_signals", "brands"
   add_foreign_key "response_groups", "brands"
   add_foreign_key "response_groups", "listen_signals"
   add_foreign_key "responses", "response_groups"
->>>>>>> add encrypted key, secret to brand model
   add_foreign_key "users", "brands"
 end
