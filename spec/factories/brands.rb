@@ -3,10 +3,10 @@ FactoryGirl.define do
   factory :brand do
     name 'Nike'
 
-    # after_create do |brand|
-    #   brand.identities << FactoryGirl.create(:identity)
-    #   brand.users << FactoryGirl.create(:user)
-    # end
+    after_create do |brand|
+      brand.identities << FactoryGirl.create(:identity)
+      brand.users << FactoryGirl.create(:user)
+    end
   end
 
   factory :user do
@@ -23,5 +23,4 @@ FactoryGirl.define do
     encrypted_token Identity.encrypt('token_key')
     encrypted_secret Identity.encrypt('shared_key')
   end
-
 end

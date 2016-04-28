@@ -16,8 +16,6 @@ describe Brand do
     let(:brand) {FactoryGirl.create(:brand)}
 
     it 'associates brand' do
-      binding.pry
-      puts user
     end
   end
 end

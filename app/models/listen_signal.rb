@@ -9,7 +9,4 @@ class ListenSignal < ActiveRecord::Base
   has_one :response_group
   has_many :responses, through: :response_group
 
-
-
-
 end
