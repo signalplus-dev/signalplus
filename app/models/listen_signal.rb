@@ -3,7 +3,6 @@
 # Table name: listen_signals
 #
 
-
 class ListenSignal < ActiveRecord::Base
   belongs_to :brand
   has_one :response_group
