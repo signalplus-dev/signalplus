@@ -11,6 +11,8 @@
 class Brand < ActiveRecord::Base
   has_many :users
   has_many :identities
+  has_many :listen_signals
+  has_many :response_groups, through: :listen_signals
 
   has_one :twitter_identity, -> { where(provider: Identity::Provider::TWITTER) }, class_name: 'Identity'
   has_one :twitter_tracker

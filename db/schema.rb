@@ -36,6 +36,38 @@ ActiveRecord::Schema.define(version: 20160425090846) do
   add_index "identities", ["brand_id"], name: "index_identities_on_brand_id", using: :btree
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
+  create_table "listen_signals", force: :cascade do |t|
+    t.integer  "brand_id"
+    t.integer  "identity_id"
+    t.text     "listen_to"
+    t.datetime "expiration_date"
+    t.boolean  "active"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
+  add_index "listen_signals", ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
+
+  create_table "response_groups", force: :cascade do |t|
+    t.integer  "listen_signal_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "response_groups", ["listen_signal_id"], name: "index_response_groups_on_listen_signal_id", using: :btree
+
+  create_table "responses", force: :cascade do |t|
+    t.text     "message"
+    t.string   "type"
+    t.integer  "response_group_id"
+    t.datetime "expiration_date"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "responses", ["response_group_id"], name: "index_responses_on_response_group_id", using: :btree
+
   create_table "twitter_direct_message_trackers", force: :cascade do |t|
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
@@ -97,6 +129,10 @@ ActiveRecord::Schema.define(version: 20160425090846) do
 
   add_foreign_key "identities", "brands"
   add_foreign_key "identities", "users"
+  add_foreign_key "listen_signals", "brands"
+  add_foreign_key "listen_signals", "identities"
+  add_foreign_key "response_groups", "listen_signals"
+  add_foreign_key "responses", "response_groups"
   add_foreign_key "twitter_direct_message_trackers", "brands"
   add_foreign_key "twitter_trackers", "brands"
   add_foreign_key "users", "brands"
