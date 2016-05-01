@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20160428213507) do
 
   create_table "listen_signals", force: :cascade do |t|
     t.integer  "brand_id"
-<<<<<<< 197122bed856a10ece0cedcfbb2f23570119c16a
     t.integer  "identity_id"
     t.text     "listen_to"
     t.datetime "expiration_date"
@@ -52,19 +51,6 @@ ActiveRecord::Schema.define(version: 20160428213507) do
   add_index "listen_signals", ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
 
   create_table "response_groups", force: :cascade do |t|
-=======
-    t.string   "provider"
-    t.text     "listen_to"
-    t.datetime "experiation_date"
-    t.boolean  "active"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
-
-  create_table "response_groups", force: :cascade do |t|
-    t.integer  "brand_id"
     t.integer  "listen_signal_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
