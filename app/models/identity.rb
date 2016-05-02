@@ -28,11 +28,9 @@ class Identity < ActiveRecord::Base
   end
 
   def self.find_for_oauth(auth)
-    find_or_create_by!(uid: auth.uid, provider: auth.provider) do |a|
-      a.uid = auth.uid,
-      a.provider = auth.provider,
-      a.encrypted_token = encrypt(auth.extra.access_token.token),
-      a.encrypted_secret = encrypt(auth.extra.access_token.secret)
+    find_or_create_by!(uid: auth.uid, provider: auth.provider) do |i|
+      i.encrypted_token  = encrypt(auth.extra.access_token.token)
+      i.encrypted_secret = encrypt(auth.extra.access_token.secret)
     end
   end
 
