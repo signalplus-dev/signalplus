@@ -15,8 +15,8 @@ class Brand < ActiveRecord::Base
   has_many :response_groups, through: :listen_signals
 
   has_one :twitter_identity, -> { where(provider: Identity::Provider::TWITTER) }, class_name: 'Identity'
-  has_one :twitter_tracker
-  has_one :twitter_direct_message_tracker
+  has_one :tweet_tracker,      class_name: 'TwitterTracker'
+  has_one :twitter_dm_tracker, class_name: 'TwitterDirectMessageTracker'
 
   after_create :create_trackers
 
@@ -24,7 +24,7 @@ class Brand < ActiveRecord::Base
     # @param brand_id [Fixnum]
     # @return         [ActiveRecord::Relation]
     def find_with_trackers(brand_id)
-      includes(:twitter_tracker, :twitter_direct_message_tracker)
+      includes(:tweet_tracker, :dm_tracker)
         .where(id: brand_id)
         .first
     end
@@ -40,6 +40,8 @@ class Brand < ActiveRecord::Base
       secret:   Identity.decrypt(encrypted_secret)
     }
   end
+
+  # Twitter provider specific methods
 
   # @return [Twitter::REST::Client]
   def twitter_rest_client
@@ -61,10 +63,15 @@ class Brand < ActiveRecord::Base
     end
   end
 
+  # @return [Fixnum|Bignum]
+  def twitter_id
+    twitter_identity.uid.to_i
+  end
+
   private
 
   def create_trackers
-    TwitterTracker.create(id: id)
-    TwitterDirectMessageTracker.create(id: id)
+    TwitterTracker.create(brand_id: id)
+    TwitterDirectMessageTracker.create(brand_id: id)
   end
 end

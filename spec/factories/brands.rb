@@ -1,12 +1,11 @@
 FactoryGirl.define do
-
   factory :brand do
     name 'Nike'
 
-    after_create do |brand|
-      brand.identities << FactoryGirl.create(:identity)
-      brand.users << FactoryGirl.create(:user)
-    end
+    # after_create do |brand|
+    #   brand.identities << FactoryGirl.create(:identity)
+    #   brand.users << FactoryGirl.create(:user)
+    # end
   end
 
   factory :user do

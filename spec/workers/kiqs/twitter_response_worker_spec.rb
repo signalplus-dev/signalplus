@@ -33,11 +33,10 @@ describe TwitterResponseWorker do
 
   context 'updating tracker' do
     it 'updates the timeline tracker' do
-      timeline_tracker = TwitterTracker.create(brand_id: brand.id)
       expect {
         worker.perform(brand.id, response_hash, true)
       }.to change {
-        timeline_tracker.reload.since_id
+        brand.tweet_tracker.reload.since_id
       }.from(1).to(tweet.id)
     end
   end

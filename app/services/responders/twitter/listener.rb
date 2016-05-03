@@ -16,13 +16,13 @@ module Responders
           brand  = Brand.find_with_trackers(brand_id)
           client = brand.twitter_rest_client
 
-          twitter_tracker        = brand.twitter_tracker
-          direct_message_tracker = brand.twitter_direct_message_tracker
+          tweet_tracker = brand.tweet_tracker
+          dm_tracker    = brand.twitter_dm_tracker
 
-          mentions_timeline_options       = build_timeline_options(twitter_tracker)
-          direct_message_timeline_options = build_timeline_options(direct_message_tracker)
+          mentions_timeline_options = build_timeline_options(tweet_tracker)
+          dm_timeline_options       = build_timeline_options(dm_tracker)
 
-          direct_messages = client.direct_messages_received(direct_message_timeline_options)
+          direct_messages = client.direct_messages_received(dm_timeline_options)
           tweets          = client.mentions_timeline(mentions_timeline_options)
 
           filter = Filter.new(brand, direct_messages.concat(tweets))
@@ -31,8 +31,8 @@ module Responders
 
           respond_to_messages(filter.grouped_responses, client)
 
-          TimelineHelper.update_tracker!(twitter_tracker, tweets)
-          TimelineHelper.update_tracker!(direct_message_tracker, direct_messages)
+          TimelineHelper.update_tracker!(tweet_tracker, tweets)
+          TimelineHelper.update_tracker!(dm_tracker, direct_messages)
         end
 
         private

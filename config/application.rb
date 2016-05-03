@@ -32,6 +32,7 @@ module ProjectSignal
       #{config.root}/app/workers/tiqs
       #{config.root}/app/services
       #{config.root}/app/services/responders
+      #{config.root}/app/services/streamers
     )
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
