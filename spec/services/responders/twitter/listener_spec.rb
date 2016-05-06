@@ -105,9 +105,12 @@ describe Responders::Twitter::Listener do
       context 'with messages to respond to' do
         context 'responding to tweets' do
           before do
+            Sidekiq::Testing.inline!
             allow(mock_client).to receive(:direct_messages_received).and_return([])
             allow(mock_client).to receive(:mentions_timeline).and_return([tweet])
           end
+
+          after { Sidekiq::Testing.disable! }
 
           it 'updates the since_id of the tweet tracker' do
             expect(mock_client).to receive(:update_with_media).and_return(tweet)

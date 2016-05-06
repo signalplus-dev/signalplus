@@ -25,14 +25,14 @@ module Responders
           direct_messages = client.direct_messages_received(dm_timeline_options)
           tweets          = client.mentions_timeline(mentions_timeline_options)
 
+          UpdateTrackerWorker.perform_async(tweet_tracker.id, tweet_tracker.class.to_s, tweets.map(&:id))
+          UpdateTrackerWorker.perform_async(dm_tracker.id, dm_tracker.class.to_s, direct_messages.map(&:id))
+
           filter = Filter.new(brand, direct_messages.concat(tweets))
           filter.out_multiple_requests!
           filter.out_users_already_responded_to!
 
           respond_to_messages(filter.grouped_responses, client)
-
-          TimelineHelper.update_tracker!(tweet_tracker, tweets.map(&:id))
-          TimelineHelper.update_tracker!(dm_tracker, direct_messages.map(&:id))
         end
 
         private
