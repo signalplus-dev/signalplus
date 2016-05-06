@@ -32,17 +32,17 @@ module Responders
           filter.out_multiple_requests!
           filter.out_users_already_responded_to!
 
-          respond_to_messages(filter.grouped_responses, client)
+          respond_to_messages(filter.grouped_responses, brand)
         end
 
         private
 
         # @param grouped_responses [Hash]
-        # @param client            [Twitter::REST::Client]
-        def respond_to_messages(grouped_responses, client)
-          grouped_responses.each do |hashtag, twitter_responses|
+        # @param brand             [Brand]
+        def respond_to_messages(grouped_responses, brand)
+          grouped_responses.each do |_, twitter_responses|
             twitter_responses.each do |twitter_response|
-              twitter_response.respond!(client)
+              TwitterResponseWorker.perform_async(brand.id, twitter_response.as_json)
             end
           end
         end

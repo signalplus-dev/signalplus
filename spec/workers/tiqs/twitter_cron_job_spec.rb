@@ -4,11 +4,11 @@ describe TwitterCronJob do
   let(:last_occurrence)    { 2.minutes.ago.to_i }
   let(:current_occurrence) { Time.now.to_i }
   let(:worker)             { described_class.new() }
-  let(:brand)              { create(:brand) }
+  let(:brand)              { create(:brand, polling_tweets: true) }
 
   it 'calls on Twitter listener' do
     brand
-    expect(Responders::Twitter::Listener).to receive(:process_messages)
+    expect(Responders::Twitter::Listener).to receive(:delay).and_call_original
     worker.perform(last_occurrence, current_occurrence)
   end
 end

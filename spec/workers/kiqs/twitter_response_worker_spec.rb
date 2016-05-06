@@ -24,7 +24,7 @@ describe TwitterResponseWorker do
     it 'records the tweet response' do
       expect(TimelineHelper).to_not receive(:update_tracker!)
       expect {
-        worker.perform(brand.id, response_hash, false)
+        worker.perform(brand.id, response_hash)
       }.to change {
         TwitterResponse.count
       }.from(0).to(1)

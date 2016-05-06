@@ -28,6 +28,10 @@ class Brand < ActiveRecord::Base
         .where(id: brand_id)
         .first
     end
+
+    def twitter_cron_job_query
+      where(polling_tweets: true).select(:id)
+    end
   end
 
   def get_token_info(provider)

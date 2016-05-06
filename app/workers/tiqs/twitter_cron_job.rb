@@ -9,10 +9,9 @@ class TwitterCronJob
   end
 
   def perform(last_occurrence, current_occurrence)
-    sleep 1
-
-    Brand.select(:id).find_each do |b|
-      Responders::Twitter::Listener.process_messages(b.id)
+    Brand.twitter_cron_job_query.find_each do |b|
+      # Kiq off listener async with delay
+      Responders::Twitter::Listener.delay.process_messages(b.id)
     end
   end
 end
