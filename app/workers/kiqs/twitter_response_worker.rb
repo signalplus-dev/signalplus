@@ -10,7 +10,7 @@ class TwitterResponseWorker
 
     if update_tracker
       timeline_tracker = response.tweet? ? brand.tweet_tracker : brand.twitter_dm_tracker
-      TimelineHelper.update_tracker!(timeline_tracker, response)
+      TimelineHelper.update_tracker!(timeline_tracker, response.id)
     end
   end
 end

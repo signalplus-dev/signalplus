@@ -24,7 +24,7 @@ class Brand < ActiveRecord::Base
     # @param brand_id [Fixnum]
     # @return         [ActiveRecord::Relation]
     def find_with_trackers(brand_id)
-      includes(:tweet_tracker, :dm_tracker)
+      includes(:tweet_tracker, :twitter_dm_tracker)
         .where(id: brand_id)
         .first
     end

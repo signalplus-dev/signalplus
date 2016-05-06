@@ -31,8 +31,8 @@ module Responders
 
           respond_to_messages(filter.grouped_responses, client)
 
-          TimelineHelper.update_tracker!(tweet_tracker, tweets)
-          TimelineHelper.update_tracker!(dm_tracker, direct_messages)
+          TimelineHelper.update_tracker!(tweet_tracker, tweets.map(&:id))
+          TimelineHelper.update_tracker!(dm_tracker, direct_messages.map(&:id))
         end
 
         private

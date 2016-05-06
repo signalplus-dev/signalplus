@@ -8,10 +8,8 @@ describe TimelineHelper do
   # Thus, we need to keep track of the last recorded tweet id and 2 boundary condtions,
   # the since_id and the max_id, to be able to back track to those tweets that were not
   # processed during the last time we polled Twitter
-  def set_tweet_list(first_id, last_id)
-    (first_id..last_id).to_a.reverse.map do |id|
-      double(:tweet, id: id)
-    end
+  def set_list_of_tweet_ids(first_id, last_id)
+    (first_id..last_id).to_a.reverse
   end
 
   let(:api_timeline_limit) { 20 }
@@ -20,7 +18,7 @@ describe TimelineHelper do
     context 'with the first pass of the tweet list' do
       context 'with less than the max amount that the API can reply back with' do
         it 'sets the since_id and the last_recorded_tweet_id' do
-          tweet_list = set_tweet_list(1, 14)
+          tweet_list = set_list_of_tweet_ids(1, 14)
 
           timeline_options = described_class.get_new_timeline_options(tweet_list, 1, 1, api_timeline_limit)
 
@@ -31,7 +29,7 @@ describe TimelineHelper do
 
         context 'with one tweet in the response' do
           it 'sets the since_id and the last_recorded_tweet_id' do
-            tweet_list = set_tweet_list(668611843552866305, 668611843552866305)
+            tweet_list = set_list_of_tweet_ids(668611843552866305, 668611843552866305)
 
             timeline_options = described_class.get_new_timeline_options(tweet_list, 1, 1, api_timeline_limit)
 
@@ -44,7 +42,7 @@ describe TimelineHelper do
 
       context 'with the max amount that the API can reply with' do
         it 'sets the since_id and the last_recorded_tweet_id' do
-          tweet_list = set_tweet_list(1, 20)
+          tweet_list = set_list_of_tweet_ids(1, 20)
 
           timeline_options = described_class.get_new_timeline_options(tweet_list, 1, 1, api_timeline_limit)
 
@@ -58,7 +56,7 @@ describe TimelineHelper do
     context 'after one pass' do
       context 'without more mentions than the max we get back from the API' do
         it 'sets a new since_id and last_recorded_tweet_id' do
-          tweet_list = set_tweet_list(14, 33)
+          tweet_list = set_list_of_tweet_ids(14, 33)
 
           timeline_options = described_class.get_new_timeline_options(tweet_list, 19, 19, api_timeline_limit)
 
@@ -70,7 +68,7 @@ describe TimelineHelper do
 
       context 'with more mentions than the max we get back from the API' do
         it 'sets the last_recorded_tweet_id and the max_id but does not change the since_id' do
-          tweet_list = set_tweet_list(30, 49)
+          tweet_list = set_list_of_tweet_ids(30, 49)
 
           timeline_options = described_class.get_new_timeline_options(tweet_list, 19, 19, api_timeline_limit)
 
@@ -89,7 +87,7 @@ describe TimelineHelper do
           end
 
           it 'nils out the max_id and sets the since_id to the last_recorded_tweet_id' do
-           tweet_list = set_tweet_list(20, 29)
+           tweet_list = set_list_of_tweet_ids(20, 29)
 
             timeline_options = described_class.get_new_timeline_options(tweet_list, 19, 49, api_timeline_limit)
 
