@@ -12,5 +12,13 @@
 #
 
 class TwitterTracker < ActiveRecord::Base
+  validate :last_recorded_tweet_id_increasing
 
+  private
+
+  def last_recorded_tweet_id_increasing
+    if last_recorded_tweet_id_was > last_recorded_tweet_id
+      errors.add(:last_recorded_tweet_id, 'cannot decrease')
+    end
+  end
 end
