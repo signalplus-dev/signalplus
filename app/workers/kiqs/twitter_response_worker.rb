@@ -7,10 +7,5 @@ class TwitterResponseWorker
     brand = Brand.find_with_trackers(brand_id)
     response = Responders::Twitter::Response.build(brand: brand, as_json: response_as_json)
     response.respond!
-
-    if update_tracker
-      timeline_tracker = response.tweet? ? brand.tweet_tracker : brand.twitter_dm_tracker
-      TimelineHelper.update_tracker!(timeline_tracker, response.id)
-    end
   end
 end

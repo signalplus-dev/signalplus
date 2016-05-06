@@ -14,6 +14,8 @@ module TimelineHelper
         API_TIMELINE_LIMIT
       )
 
+      # Don't create noise when it fails validation; could have knowing
+      # concurrency issues
       timeline_tracker.update(updated_attributes)
     end
 

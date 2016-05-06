@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe TwitterResponseWorker do
-  let(:worker)        { described_class.new }
-  let(:brand)         { create(:brand) }
-  let(:tweet)         { example_twitter_tweet }
-  let(:filter)        { Responders::Twitter::Filter.new(brand, tweet) }
-  let(:response_hash) { filter.grouped_responses.first.last.first.as_json }
+  let(:worker)          { described_class.new }
+  let(:brand)           { create(:brand) }
+  let(:tweet)           { example_twitter_tweet }
+  let(:filter)          { Responders::Twitter::Filter.new(brand, tweet) }
+  let(:response_hash)   { filter.grouped_responses.first.last.first.as_json }
   let(:client_user)     { double(:user, screen_name: 'SomeBrand') }
   let(:mock_client)     { double(:client, user: client_user) }
   let(:image)           { double(:image_file) }
@@ -28,16 +28,6 @@ describe TwitterResponseWorker do
       }.to change {
         TwitterResponse.count
       }.from(0).to(1)
-    end
-  end
-
-  context 'updating tracker' do
-    it 'updates the timeline tracker' do
-      expect {
-        worker.perform(brand.id, response_hash, true)
-      }.to change {
-        brand.tweet_tracker.reload.since_id
-      }.from(1).to(tweet.id)
     end
   end
 end

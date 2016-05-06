@@ -38,12 +38,12 @@ module Streamers
         filter.out_users_already_responded_to!
         grouped_responses = filter.grouped_responses
         response          = grouped_responses.first.try(:last).try(:first)
+        tracker           = message.is_a?(::Twitter::Tweet) ? tweet_tracker : dm_tracker
         if should_respond?(grouped_responses, response)
           TwitterResponseWorker.perform_async(brand.id, response.as_json, true)
-        else
-          tracker = message.is_a?(::Twitter::Tweet) ? tweet_tracker : dm_tracker
-          TimelineHelper.update_tracker!(tracker, message)
         end
+
+        UpdateTrackerWorker.perform_async(tracker.id, tracker.class.to_s, message.id)
       rescue StandardError => e
         Rollbar.error(e)
       end
