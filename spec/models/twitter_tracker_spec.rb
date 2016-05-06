@@ -56,4 +56,26 @@ describe TwitterTracker do
       end
     end
   end
+
+  context 'callbacks' do
+    context 'since_id and last_recorded_tweet_id are the same and max_id is nil' do
+      before do
+        Sidekiq::Testing.inline!
+        brand.update!(polling_tweets: true)
+        new_id = 183
+        tweet_tracker.since_id               = new_id
+        tweet_tracker.last_recorded_tweet_id = new_id
+      end
+
+      after { Sidekiq::Testing.disable! }
+
+      it 'turns off the polling' do
+        expect {
+          tweet_tracker.save!
+        }.to change {
+          brand.reload.polling_tweets?
+        }.from(true).to(false)
+      end
+    end
+  end
 end

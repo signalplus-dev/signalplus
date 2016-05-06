@@ -72,6 +72,10 @@ class Brand < ActiveRecord::Base
     twitter_identity.uid.to_i
   end
 
+  def turn_off_polling!
+    update!(polling_tweets: false)
+  end
+
   private
 
   def create_trackers
