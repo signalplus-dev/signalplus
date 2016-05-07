@@ -2,10 +2,12 @@
 #
 # Table name: brands
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                  :integer          not null, primary key
+#  name                :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  streaming_tweet_pid :integer
+#  polling_tweets      :boolean          default(FALSE)
 #
 
 class Brand < ActiveRecord::Base
@@ -15,8 +17,8 @@ class Brand < ActiveRecord::Base
   has_many :response_groups, through: :listen_signals
 
   has_one :twitter_identity, -> { where(provider: Identity::Provider::TWITTER) }, class_name: 'Identity'
-  has_one :twitter_tracker
-  has_one :twitter_direct_message_tracker
+  has_one :tweet_tracker,      class_name: 'TwitterTracker'
+  has_one :twitter_dm_tracker, class_name: 'TwitterDirectMessageTracker'
 
   after_create :create_trackers
 
@@ -24,9 +26,17 @@ class Brand < ActiveRecord::Base
     # @param brand_id [Fixnum]
     # @return         [ActiveRecord::Relation]
     def find_with_trackers(brand_id)
-      includes(:twitter_tracker, :twitter_direct_message_tracker)
+      includes(:tweet_tracker, :twitter_dm_tracker)
         .where(id: brand_id)
         .first
+    end
+
+    def twitter_cron_job_query
+      where(polling_tweets: true).select(:id)
+    end
+
+    def twitter_streaming_query
+      where.not(streaming_tweet_pid: nil).select(:id)
     end
   end
 
@@ -40,6 +50,8 @@ class Brand < ActiveRecord::Base
       secret:   Identity.decrypt(encrypted_secret)
     }
   end
+
+  # Twitter provider specific methods
 
   # @return [Twitter::REST::Client]
   def twitter_rest_client
@@ -61,10 +73,36 @@ class Brand < ActiveRecord::Base
     end
   end
 
+  # @return [Fixnum|Bignum]
+  def twitter_id
+    twitter_identity.uid.to_i
+  end
+
+  def turn_off_twitter_polling!
+    update!(polling_tweets: false)
+  end
+
+  def streaming_tweets!(pid)
+    update!(streaming_tweet_pid: pid)
+    Streamers::Twitter.new(self).stream!
+  end
+
+  def turn_off_twitter_streaming!
+    update!(streaming_tweet_pid: nil)
+  end
+
+  def currently_streaming_twitter?
+    !stop_twitter_streaming?
+  end
+
+  def stop_twitter_streaming?
+    streaming_tweet_pid.nil?
+  end
+
   private
 
   def create_trackers
-    TwitterTracker.create(id: id)
-    TwitterDirectMessageTracker.create(id: id)
+    TwitterTracker.create(brand_id: id)
+    TwitterDirectMessageTracker.create(brand_id: id)
   end
 end

@@ -56,18 +56,86 @@ describe Responders::Twitter::Listener do
     filter.out_users_already_responded_to!
   end
 
-  describe '.respond_to_messages' do
-    let(:client_user)     { double(:user, screen_name: 'SomeBrand') }
-    let(:mock_client)     { double(:client, user: client_user) }
-    let(:image)           { double(:image_file) }
-    let(:image_string_io) { StringIO.new('some_image.png') }
-    let(:temp_file)       { Tempfile.new('test.txt') }
+  let(:client_user)     { double(:user, screen_name: 'SomeBrand') }
+  let(:mock_client)     { double(:client, user: client_user) }
+  let(:image)           { double(:image_file) }
+  let(:image_string_io) { StringIO.new('some_image.png') }
+  let(:temp_file)       { Tempfile.new('test.txt') }
 
-    before do
-      allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
-      allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
+  before do
+    Sidekiq::Testing.inline!
+    allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
+    allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
+    allow_any_instance_of(Brand).to     receive(:twitter_rest_client).and_return(mock_client)
+  end
+
+  after { Sidekiq::Testing.disable! }
+
+  describe '.process_messages' do
+    before { allow_any_instance_of(Brand).to receive(:twitter_rest_client).and_return(mock_client) }
+
+    let(:tweet) { example_twitter_tweet }
+    let(:dm)    { example_twitter_direct_message }
+
+    context 'just tweets' do
+      context 'with no messages to respond to' do
+        before do
+          allow(mock_client).to receive(:direct_messages_received).and_return([])
+          allow(mock_client).to receive(:mentions_timeline).and_return([])
+        end
+
+        it 'responds to messages' do
+          expect(described_class).to receive(:respond_to_messages)
+          described_class.process_messages(brand.id)
+        end
+
+        it 'does not update the tweet tracker' do
+          expect {
+            described_class.process_messages(brand.id)
+          }.to_not change {
+            brand.tweet_tracker.reload
+          }
+        end
+
+        it 'does not update the dm tracker' do
+          expect {
+            described_class.process_messages(brand.id)
+          }.to_not change {
+            brand.twitter_dm_tracker.reload
+          }
+        end
+      end
+
+      context 'with messages to respond to' do
+        context 'responding to tweets' do
+          before do
+            allow(mock_client).to receive(:direct_messages_received).and_return([])
+            allow(mock_client).to receive(:mentions_timeline).and_return([tweet])
+          end
+
+          it 'updates the since_id of the tweet tracker' do
+            expect(mock_client).to receive(:update_with_media).and_return(tweet)
+            expect {
+              described_class.process_messages(brand.id)
+            }.to change {
+              brand.tweet_tracker.reload.since_id
+            }
+          end
+
+          it 'updates the last_recorded_tweet_id of the tweet tracker' do
+            expect(mock_client).to receive(:update_with_media).and_return(tweet)
+            expect {
+              described_class.process_messages(brand.id)
+            }.to change {
+              brand.tweet_tracker.reload.last_recorded_tweet_id
+            }
+          end
+        end
+      end
     end
+  end
 
+  describe '.respond_to_messages' do
     context 'responding with an image' do
       let(:grouped_responses) do
         create_filter(create_mock_tweet(['somehashtag'])).grouped_responses
@@ -75,7 +143,7 @@ describe Responders::Twitter::Listener do
 
       it 'responds with an image' do
         expect(mock_client).to receive(:update_with_media).and_return(create_mock_tweet)
-        described_class.send(:respond_to_messages, grouped_responses, mock_client)
+        described_class.send(:respond_to_messages, grouped_responses, brand)
       end
 
       context 'not responding to tweets already responded to in the same day' do
@@ -89,13 +157,13 @@ describe Responders::Twitter::Listener do
           before do
             expect(mock_client).to receive(:update_with_media).once.and_return(create_mock_tweet)
             expect {
-              described_class.send(:respond_to_messages, grouped_responses, mock_client)
+              described_class.send(:respond_to_messages, grouped_responses, brand)
             }.to change { TwitterResponse.count }.from(0).to(1)
           end
 
           it 'does not respond twice to the same hashtag on the same day' do
             expect {
-              described_class.send(:respond_to_messages, more_grouped_responses, mock_client)
+              described_class.send(:respond_to_messages, more_grouped_responses, brand)
             }.not_to change { TwitterResponse.count }
           end
         end
@@ -104,7 +172,7 @@ describe Responders::Twitter::Listener do
           before do
             expect(mock_client).to receive(:update_with_media).twice.and_return(create_mock_tweet)
             expect {
-              described_class.send(:respond_to_messages, grouped_responses, mock_client)
+              described_class.send(:respond_to_messages, grouped_responses, brand)
             }.to change { TwitterResponse.count }.from(0).to(1)
           end
 
@@ -112,7 +180,7 @@ describe Responders::Twitter::Listener do
             stub_current_time(1.day.from_now)
             allow_any_instance_of(TempImage).to receive(:file).and_return(Tempfile.new('test.txt'))
             expect {
-              described_class.send(:respond_to_messages, more_grouped_responses, mock_client)
+              described_class.send(:respond_to_messages, more_grouped_responses, brand)
             }.to change { TwitterResponse.count }.from(1).to(2)
           end
         end
@@ -126,9 +194,8 @@ describe Responders::Twitter::Listener do
 
       it 'responds without an image' do
         expect(mock_client).to receive(:update).and_return(create_mock_tweet)
-        described_class.send(:respond_to_messages, grouped_responses, mock_client)
+        described_class.send(:respond_to_messages, grouped_responses, brand)
       end
-
     end
 
     context 'responding only to the dm and not the tweet' do
@@ -143,13 +210,13 @@ describe Responders::Twitter::Listener do
 
       it 'only responds once' do
         expect(mock_client).to receive(:update).once.and_return(create_mock_tweet)
-        described_class.send(:respond_to_messages, mixed_grouped_responses, mock_client)
+        described_class.send(:respond_to_messages, mixed_grouped_responses, brand)
       end
 
       it 'creates a twitter response record for just the direct message' do
         allow(mock_client).to receive(:update).and_return(create_mock_tweet)
         expect {
-          described_class.send(:respond_to_messages, mixed_grouped_responses, mock_client)
+          described_class.send(:respond_to_messages, mixed_grouped_responses, brand)
         }.to change {
           TwitterResponse.direct_messages.count
         }.from(0).to(1)
@@ -157,7 +224,7 @@ describe Responders::Twitter::Listener do
 
       it 'updates the twitter response with the tweet id' do
         allow(mock_client).to receive(:update).and_return(create_mock_tweet)
-        described_class.send(:respond_to_messages, mixed_grouped_responses, mock_client)
+        described_class.send(:respond_to_messages, mixed_grouped_responses, brand)
         expect(TwitterResponse.first.tweet_id).to_not be_nil
       end
     end

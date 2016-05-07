@@ -32,6 +32,7 @@ module ProjectSignal
       #{config.root}/app/workers/tiqs
       #{config.root}/app/services
       #{config.root}/app/services/responders
+      #{config.root}/app/services/streamers
     )
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
@@ -44,5 +45,14 @@ module ProjectSignal
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.after_initialize do
+      if Sidekiq.server?
+        puts "Intitializing rake tasks!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        Brand.twitter_streaming_query.find_each do |brand|
+          BackgroundRake.call_rake(:twitter_stream, brand_id: brand.id)
+        end
+      end
+    end
   end
 end
