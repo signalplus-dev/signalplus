@@ -2,10 +2,12 @@
 #
 # Table name: brands
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                  :integer          not null, primary key
+#  name                :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  streaming_tweet_pid :integer
+#  polling_tweets      :boolean          default(FALSE)
 #
 
 class Brand < ActiveRecord::Base
@@ -31,6 +33,10 @@ class Brand < ActiveRecord::Base
 
     def twitter_cron_job_query
       where(polling_tweets: true).select(:id)
+    end
+
+    def twitter_streaming_query
+      where.not(streaming_tweet_pid: nil).select(:id)
     end
   end
 
@@ -72,8 +78,25 @@ class Brand < ActiveRecord::Base
     twitter_identity.uid.to_i
   end
 
-  def turn_off_polling!
+  def turn_off_twitter_polling!
     update!(polling_tweets: false)
+  end
+
+  def streaming_tweets!(pid)
+    update!(streaming_tweet_pid: pid)
+    Streamers::Twitter.new(self).stream!
+  end
+
+  def turn_off_twitter_streaming!
+    update!(streaming_tweet_pid: nil)
+  end
+
+  def currently_streaming_twitter?
+    !stop_twitter_streaming?
+  end
+
+  def stop_twitter_streaming?
+    streaming_tweet_pid.nil?
   end
 
   private

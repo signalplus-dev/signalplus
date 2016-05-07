@@ -18,13 +18,14 @@ ActiveRecord::Schema.define(version: 20160506041104) do
 
   create_table "brands", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.boolean  "streaming_tweets", default: false
-    t.boolean  "polling_tweets",   default: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "streaming_tweet_pid", limit: 8
+    t.boolean  "polling_tweets",                default: false
   end
 
   add_index "brands", ["polling_tweets"], name: "index_brands_on_polling_tweets", using: :btree
+  add_index "brands", ["streaming_tweet_pid"], name: "index_brands_on_streaming_tweet_pid", using: :btree
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"

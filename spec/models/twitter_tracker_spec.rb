@@ -8,6 +8,7 @@
 #  last_recorded_tweet_id :integer          default(1)
 #  since_id               :integer          default(1)
 #  max_id                 :integer
+#  brand_id               :integer
 #
 
 require 'rails_helper'

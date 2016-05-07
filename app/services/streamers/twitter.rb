@@ -12,14 +12,14 @@ module Streamers
     end
 
     def stream!
-      while true
-        brand.twitter_streaming_client.user do |object|
-          case object
-          when ::Twitter::Tweet, ::Twitter::DirectMessage
-            process_message(message)
-          when ::Twitter::Streaming::StallWarning
-            Rollbar.warning(e)
-          end
+      brand.twitter_streaming_client.user do |object|
+        return if brand.reload.stop_twitter_streaming?
+
+        case object
+        when ::Twitter::Tweet, ::Twitter::DirectMessage
+          process_message(object)
+        when ::Twitter::Streaming::StallWarning
+          Rollbar.warning(e)
         end
       end
     end

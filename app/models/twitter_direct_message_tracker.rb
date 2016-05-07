@@ -21,7 +21,7 @@ class TwitterDirectMessageTracker < ActiveRecord::Base
 
   class << self
     def turn_off_polling(brand_id)
-      Brand.find(brand_id).turn_off_polling!
+      Brand.find(brand_id).turn_off_twitter_polling!
     end
   end
 
@@ -38,12 +38,12 @@ class TwitterDirectMessageTracker < ActiveRecord::Base
   end
 
   def should_turn_off_polling?
-    caught_up? && related_tweet_tracker.caught_up?
+    caught_up? && related_tweet_tracker.caught_up? && brand.polling_tweets?
   end
 
   def check_if_can_turn_off_polling
     if should_turn_off_polling?
-      self.class.delay.turn_off_polling(brand.id)
+      self.class.delay.turn_off_polling(brand_id)
     end
   end
 end

@@ -21,8 +21,16 @@ end
 
 desc "Listens to a user's stream of mentions and direct messages"
 task twitter_stream: :environment do
+  brand        = Brand.find(ENV['BRAND_ID'])
+  process_name = "twitter_stream_#{brand.id}"
+
+  # Kill any old processes
+  `killall #{process_name}`
+  sleep 1
+  Process.setproctitle(process_name)
+
   begin
-    Streamers::Twitter.new(Brand.find(ENV['BRAND_ID'])).stream!
+    brand.streaming_tweets!(Process.pid)
   rescue StandardError => e
     # Also turn on rest polling implementation
     Rollbar.error(e)
