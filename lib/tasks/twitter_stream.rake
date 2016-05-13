@@ -32,7 +32,20 @@ task twitter_stream: :environment do
   begin
     brand.streaming_tweets!(Process.pid)
   rescue StandardError => e
-    # Also turn on rest polling implementation
     Rollbar.error(e)
+
+    # Turn on polling implementation
+    brand.update!(polling_tweets: true)
+
+    scheduled_jobs = Sidekiq::ScheduledSet.new
+    twitter_cron_job = scheduled_jobs.find do |j|
+      j.item['class'] == TwitterCronJob.to_s
+    end
+
+    # Start polling implementation immediately
+    twitter_cron_job.add_to_queue if twitter_cron_job
+
+    # Turn the twitter stream back on
+    BackgroundRake.call_rake(:twitter_stream, brand_id: brand.id)
   end
 end
