@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506041104) do
+ActiveRecord::Schema.define(version: 20160518133054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,7 +86,6 @@ ActiveRecord::Schema.define(version: 20160506041104) do
   add_index "twitter_direct_message_trackers", ["brand_id"], name: "index_twitter_direct_message_trackers_on_brand_id", unique: true, using: :btree
 
   create_table "twitter_responses", force: :cascade do |t|
-    t.string   "from",                                      null: false
     t.string   "to",                                        null: false
     t.string   "hashtag",                                   null: false
     t.date     "date",                                      null: false
@@ -95,11 +94,13 @@ ActiveRecord::Schema.define(version: 20160506041104) do
     t.datetime "updated_at",                                null: false
     t.integer  "response_id",   limit: 8, default: 0,       null: false
     t.string   "response_type",           default: "Tweet", null: false
+    t.integer  "brand_id"
   end
 
-  add_index "twitter_responses", ["from", "hashtag", "date", "to"], name: "index_twitter_responses_on_from_and_hashtag_and_date_and_to", unique: true, using: :btree
-  add_index "twitter_responses", ["from", "hashtag", "date"], name: "index_twitter_responses_on_from_and_hashtag_and_date", using: :btree
-  add_index "twitter_responses", ["from", "response_id", "response_type"], name: "index_twitter_responses_on_from_and_response", unique: true, using: :btree
+  add_index "twitter_responses", ["brand_id", "hashtag", "date", "to"], name: "index_twitter_responses_on_brand_and_hashtag_and_date_and_to", unique: true, using: :btree
+  add_index "twitter_responses", ["brand_id", "hashtag", "date"], name: "index_twitter_responses_on_brand_and_hashtag_and_date", unique: true, using: :btree
+  add_index "twitter_responses", ["brand_id", "response_id", "response_type"], name: "index_twitter_responses_on_brand_and_response", unique: true, using: :btree
+  add_index "twitter_responses", ["brand_id"], name: "index_twitter_responses_on_brand_id", using: :btree
 
   create_table "twitter_trackers", force: :cascade do |t|
     t.datetime "created_at",                                   null: false
@@ -140,6 +141,7 @@ ActiveRecord::Schema.define(version: 20160506041104) do
   add_foreign_key "response_groups", "listen_signals"
   add_foreign_key "responses", "response_groups"
   add_foreign_key "twitter_direct_message_trackers", "brands"
+  add_foreign_key "twitter_responses", "brands"
   add_foreign_key "twitter_trackers", "brands"
   add_foreign_key "users", "brands"
 end
