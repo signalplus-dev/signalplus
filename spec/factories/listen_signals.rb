@@ -16,7 +16,7 @@ FactoryGirl.define do
   factory :listen_signal do
     brand
     identity
-    name 'spotthis'
+    name 'somehashtag'
     expiration_date 2.days.from_now
     active true
   end

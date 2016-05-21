@@ -62,25 +62,24 @@ module Responders
       end
 
       # @return [String|NilClass]
-      def get_listen_signal_id(hashtag_text)
-        active_listen_signals.find { |ls| ls == hashtag_text.downcase }
+      def get_listen_signal(hashtag_text)
+        active_listen_signals.find { |ls| ls.name == hashtag_text.downcase }
       end
 
       # @return [Hash<String, Array<Responders::Twitter::Reply>>]
       def build_grouped_replies
         twitter_replies = tweet_messages.map do |message|
           messages = message.hashtags.map do |hashtag|
-            listen_signal_id = get_listen_signal_id(hashtag.text)
-            Reply.build(brand: brand, message: message, listen_signal_id: listen_signal_id) if listen_signal_id
+            listen_signal = get_listen_signal(hashtag.text)
+            Reply.build(brand: brand, message: message, listen_signal: listen_signal) if listen_signal
           end
-
           messages.compact
         end
 
         twitter_replies.flatten!
 
         twitter_replies.group_by do |twitter_reply|
-          twitter_reply.listen_signal_id
+          twitter_reply.listen_signal.id
         end
       end
     end

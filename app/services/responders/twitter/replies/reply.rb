@@ -1,34 +1,34 @@
 module Responders
   module Twitter
     class Reply
-      attr_reader :brand, :message, :client, :id, :listen_signal_id
+      attr_reader :brand, :message, :client, :id
 
       class << self
-        # @param brand   [Brand]
-        # @param message [Twitter::Tweet|Twitter::DirectMessage]
-        # @param listen_signal_id [Fixnum]
-        # @param as_json [Hash] A way to build a Reply object without the Tweet/Direct Message objects
-        # @return        [Responders::Twitter::TweetReply|Responders::Twitter::DirectMessageReply]
-        def build(brand: nil, message: nil, listen_signal_id: nil, as_json: nil)
+        # @param brand         [Brand]
+        # @param message       [Twitter::Tweet|Twitter::DirectMessage]
+        # @param listen_signal [ListenSignal]
+        # @param as_json       [Hash] A way to build a Reply object without the Tweet/Direct Message objects
+        # @return              [Responders::Twitter::TweetReply|Responders::Twitter::DirectMessageReply]
+        def build(brand: nil, message: nil, listen_signal: nil, as_json: nil)
           if as_json.is_a?(Hash)
             build_from_hash(brand, as_json.with_indifferent_access)
           else
-            build_from_twitter_message(brand, message, listen_signal_id)
+            build_from_twitter_message(brand, message, listen_signal)
           end
         end
 
         private
 
-        # @param brand   [Brand]
-        # @param message [Twitter::Tweet|Twitter::DirectMessage]
-        # @param listen_signal_id [String]
-        # @return        [Responders::Twitter::TweetReply|Responders::Twitter::DirectMessageReply]
-        def build_from_twitter_message(brand, message, listen_signal_id)
+        # @param brand         [Brand]
+        # @param message       [Twitter::Tweet|Twitter::DirectMessage]
+        # @param listen_signal [ListenSignal]
+        # @return              [Responders::Twitter::TweetReply|Responders::Twitter::DirectMessageReply]
+        def build_from_twitter_message(brand, message, listen_signal)
           case message
           when ::Twitter::Tweet
-            Responders::Twitter::TweetReply.new(brand: brand, message: message, listen_signal_id: listen_signal_id)
+            Responders::Twitter::TweetReply.new(brand: brand, message: message, listen_signal: listen_signal)
           when ::Twitter::DirectMessage
-            Responders::Twitter::DirectMessageReply.new(brand: brand, message: message, listen_signal_id: listen_signal_id)
+            Responders::Twitter::DirectMessageReply.new(brand: brand, message: message, listen_signal: listen_signal)
           else
             raise ArgumentError.new("#{message.class} is a message type that is not supported")
           end
@@ -49,16 +49,17 @@ module Responders
         end
       end
 
-      def initialize(brand: nil, message: nil, listen_signal_id: nil, as_json: nil)
+      def initialize(brand: nil, message: nil, listen_signal: nil, as_json: nil)
         @brand   = brand
         if as_json
-          @as_json = as_json.with_indifferent_access
-          @id      = @as_json[:request_tweet_id]
-          @to      = @as_json[:to]
+          @as_json          = as_json.with_indifferent_access
+          @listen_signal_id = @as_json[:listen_signal_id]
+          @id               = @as_json[:request_tweet_id]
+          @to               = @as_json[:to]
         else
-          @message = message
-          @listen_signal_id = listen_signal_id
-          @id      = message.id
+          @message       = message
+          @listen_signal = listen_signal
+          @id            = message.id
         end
       end
 
@@ -85,19 +86,24 @@ module Responders
       # @return [Hash]
       def as_json
         @as_json ||= {
-          date:          Date.current.to_s,
-          brand_id:      brand.id,
-          listen_signal_id: listen_signal.id,
-          response_id:      response.id,
-          to:            to,
+          date:               Date.current.to_s,
+          brand_id:           brand.id,
+          listen_signal_id:   listen_signal.id,
+          response_id:        response.id,
+          to:                 to,
           request_tweet_id:   request_tweet_id,
-          request_tweet_type:   request_tweet_type,
+          request_tweet_type: request_tweet_type,
         }
       end
 
       # @return [String]
       def to
         @to || request_user.try(:screen_name)
+      end
+
+      # @return [ListenSignal]
+      def listen_signal
+        @listen_signal ||= LisenSignal.find(@listen_signal_id)
       end
 
       private
@@ -120,11 +126,6 @@ module Responders
       # @return [Twitter::User]
       def request_user
         raise StandardError.new('Must override this method and must return a Twitter::User object')
-      end
-
-      # @return [ListenSignal]
-      def listen_signal
-        @listen_signal ||= LisenSignal.find(listen_signal_id)
       end
 
       def response
