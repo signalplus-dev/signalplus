@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Responders::Twitter::DirectMessageResponse do
+describe Responders::Twitter::DirectMessageReply do
   let(:brand)          { create(:brand) }
   let(:direct_message) { example_twitter_direct_message }
   let(:hashtag)        { direct_message.hashtags.first.text }
