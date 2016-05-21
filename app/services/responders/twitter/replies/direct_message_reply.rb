@@ -4,7 +4,7 @@ module Responders
   module Twitter
     class DirectMessageReply < Reply
       # @return [Twitter::User]
-      def sender
+      def request_user
         message.sender
       end
 

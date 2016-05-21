@@ -51,7 +51,7 @@ describe Responders::Twitter::Filter do
     let(:tweet_message) { example_twitter_direct_message }
     subject             { described_class.new(brand, tweet_message) }
 
-    before { TwitterReply.create(subject.grouped_replies['somehashtag'].first.as_json) }
+    before { TwitterResponse.create(subject.grouped_replies['somehashtag'].first.as_json) }
 
     it 'filters out replies for users that have already been replied to' do
       expect {

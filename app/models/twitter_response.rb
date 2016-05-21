@@ -17,6 +17,9 @@
 #
 
 class TwitterResponse < ActiveRecord::Base
+  belongs_to :response
+  belongs_to :listen_signal
+
   module ResponseType
     TWEET          = 'Tweet'
     DIRECT_MESSAGE = 'DirectMessage'

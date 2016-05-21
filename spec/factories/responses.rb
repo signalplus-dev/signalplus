@@ -12,15 +12,12 @@
 #  priority          :integer
 #
 
-class Response < ActiveRecord::Base
-  belongs_to :response_group
-  has_many :twitter_responses
-
-  def self.provider
-    response_group.listen_signal.provider
-  end
-
-  def has_image?
-    false
+FactoryGirl.define do
+  factory :response do
+    message 'check out this zebra!'
+    response_type 'Direct Message'
+    sequence(:priority) { |n| n - 1 }
+    expiration_date 2.days.from_now
+    response_group
   end
 end

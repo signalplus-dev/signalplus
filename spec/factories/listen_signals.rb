@@ -12,19 +12,12 @@
 #  updated_at      :datetime         not null
 #
 
-class ListenSignal < ActiveRecord::Base
-  belongs_to :brand
-  belongs_to :identity
-  has_one :response_group
-  has_many :responses, through: :response_group
-
-  def response(to)
-    response_group.next_response(to)
+FactoryGirl.define do
+  factory :listen_signal do
+    brand
+    identity
+    name 'spotthis'
+    expiration_date 2.days.from_now
+    active true
   end
-
-  def self.active
-    where(active: true)
-      .where('expiration_date > ?', Time.current)
-  end
-
 end

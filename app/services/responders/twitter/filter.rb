@@ -13,7 +13,7 @@ module Responders
 
       # @return [Responders::Twitter::Filter]
       def out_multiple_requests!
-        grouped_rreplies.each do |hashtag, _|
+        grouped_replies.each do |hashtag, _|
           grouped_replies[hashtag].uniq! do |twitter_reply|
             twitter_reply.to
           end
@@ -27,7 +27,7 @@ module Responders
         grouped_replies.each do |hashtag, twitter_replies|
           next if twitter_replies.empty?
           query_params               = twitter_replies.first.as_json.slice(:date, :from, :hashtag, :to)
-          users_already_responded_to = TwitterReply.where(query_params).pluck(:to)
+          users_already_responded_to = TwitterResponse.where(query_params).pluck(:to)
 
           grouped_replies[hashtag].reject! do |twitter_reply|
             users_already_responded_to.include?(twitter_reply.to)
@@ -50,17 +50,28 @@ module Responders
         end
       end
 
+      # @return [ActiveRecord::Relation<ListenSignal>]
+      def active_listen_signals
+        @listen_signals ||= brand.listen_signals.active
+      end
+
       # @return [Array<String>]
       def hashtags_being_listened_to
         # Should eventually be brand.signals.active.pluck(:name).map(&:downcase)
-        @hashtags_being_listened_to ||= Listener::HASHTAGS_TO_LISTEN_TO.keys.map(&:downcase)
+        @hashtags_being_listened_to ||= active_listen_signals.map { |ls| n.name.downcase }
+      end
+
+      # @return [String|NilClass]
+      def get_listen_signal_id(hashtag_text)
+        active_listen_signals.find { |ls| ls == hashtag_text.downcase }
       end
 
       # @return [Hash<String, Array<Responders::Twitter::Reply>>]
       def build_grouped_replies
         twitter_replies = tweet_messages.map do |message|
           messages = message.hashtags.map do |hashtag|
-            Reply.build(brand: brand, message: message, hashtag: hashtag.text) if listening_to_hashtags?(hashtag)
+            listen_signal_id = get_listen_signal_id(hashtag.text)
+            Reply.build(brand: brand, message: message, listen_signal_id: listen_signal_id) if listen_signal_id
           end
 
           messages.compact
@@ -69,7 +80,7 @@ module Responders
         twitter_replies.flatten!
 
         twitter_replies.group_by do |twitter_reply|
-          twitter_reply.hashtag
+          twitter_reply.listen_signal_id
         end
       end
     end
