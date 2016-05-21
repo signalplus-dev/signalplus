@@ -29,8 +29,7 @@ class ResponseGroup < ActiveRecord::Base
 
     response = responses.find { |r| r.priority == last_response_priority + 1 }
 
-    if response.blank?
-      default_response
+    response.blank? ? default_response : response
   end
 
   def default_response
