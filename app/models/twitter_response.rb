@@ -2,16 +2,18 @@
 #
 # Table name: twitter_responses
 #
-#  id            :integer          not null, primary key
-#  from          :string           not null
-#  to            :string           not null
-#  hashtag       :string           not null
-#  date          :date             not null
-#  tweet_id      :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  response_id   :integer          default(0), not null
-#  response_type :string           default("Tweet"), not null
+#  id                 :integer          not null, primary key
+#  to                 :string           not null
+#  date               :date             not null
+#  reply_tweet_id     :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  request_tweet_id   :integer          default(0), not null
+#  brand_id           :integer
+#  reply_tweet_type   :string
+#  request_tweet_type :string
+#  listen_signal_id   :integer
+#  response_id        :integer
 #
 
 class TwitterResponse < ActiveRecord::Base
