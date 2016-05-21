@@ -3,11 +3,11 @@ module Responders
     class Listener
       HASHTAGS_TO_LISTEN_TO       = {
         'somehashtag' => {
-          'text_response' => 'Check out this puppy!',
+          'text_reply' => 'Check out this puppy!',
           'image'         => 'puppy_cuteness.gif',
         },
         'somehashtagwithoutimage' => {
-          'text_response' => 'Check out this text response!',
+          'text_reply' => 'Check out this text reply baby!',
         },
       }
 
@@ -30,19 +30,19 @@ module Responders
 
           filter = Filter.new(brand, direct_messages.concat(tweets))
           filter.out_multiple_requests!
-          filter.out_users_already_responded_to!
+          filter.out_users_already_replied_to!
 
-          respond_to_messages(filter.grouped_responses, brand)
+          reply_to_messages(filter.grouped_replies, brand)
         end
 
         private
 
-        # @param grouped_responses [Hash]
+        # @param grouped_replies [Hash]
         # @param brand             [Brand]
-        def respond_to_messages(grouped_responses, brand)
-          grouped_responses.each do |_, twitter_responses|
-            twitter_responses.each do |twitter_response|
-              TwitterResponseWorker.perform_async(brand.id, twitter_response.as_json)
+        def reply_to_messages(grouped_replies, brand)
+          grouped_replies.each do |_, twitter_replies|
+            twitter_replies.each do |twitter_reply|
+              TwitterResponseWorker.perform_async(brand.id, twitter_reply.as_json)
             end
           end
         end

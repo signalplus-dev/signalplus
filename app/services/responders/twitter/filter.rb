@@ -1,21 +1,21 @@
 module Responders
   module Twitter
     class Filter
-      attr_reader :brand, :tweet_messages, :grouped_responses
+      attr_reader :brand, :tweet_messages, :grouped_replies
 
       # @param brand          [Brand]
       # @param tweet_messages [Array<Twitter::Tweet>|Twitter::Tweet]
       def initialize(brand, tweet_messages)
         @brand             = brand
         @tweet_messages    = tweet_messages.is_a?(Array) ? tweet_messages : [tweet_messages]
-        @grouped_responses = build_grouped_responses
+        @grouped_reply     = build_grouped_replies
       end
 
       # @return [Responders::Twitter::Filter]
       def out_multiple_requests!
-        grouped_responses.each do |hashtag, _|
-          grouped_responses[hashtag].uniq! do |twitter_response|
-            twitter_response.to
+        grouped_rreplies.each do |hashtag, _|
+          grouped_replies[hashtag].uniq! do |twitter_reply|
+            twitter_reply.to
           end
         end
 
@@ -24,13 +24,13 @@ module Responders
 
       # @return [Responders::Twitter::Filter]
       def out_users_already_responded_to!
-        grouped_responses.each do |hashtag, twitter_responses|
-          next if twitter_responses.empty?
-          query_params               = twitter_responses.first.as_json.slice(:date, :from, :hashtag, :to)
-          users_already_responded_to = TwitterResponse.where(query_params).pluck(:to)
+        grouped_replies.each do |hashtag, twitter_replies|
+          next if twitter_replies.empty?
+          query_params               = twitter_replies.first.as_json.slice(:date, :from, :hashtag, :to)
+          users_already_responded_to = TwitterReply.where(query_params).pluck(:to)
 
-          grouped_responses[hashtag].reject! do |twitter_response|
-            users_already_responded_to.include?(twitter_response.to)
+          grouped_replies[hashtag].reject! do |twitter_reply|
+            users_already_responded_to.include?(twitter_reply.to)
           end
         end
 
@@ -56,20 +56,20 @@ module Responders
         @hashtags_being_listened_to ||= Listener::HASHTAGS_TO_LISTEN_TO.keys.map(&:downcase)
       end
 
-      # @return [Hash<String, Array<Responders::Twitter::Response>>]
-      def build_grouped_responses
-        twitter_responses = tweet_messages.map do |message|
+      # @return [Hash<String, Array<Responders::Twitter::Reply>>]
+      def build_grouped_replies
+        twitter_replies = tweet_messages.map do |message|
           messages = message.hashtags.map do |hashtag|
-            Response.build(brand: brand, message: message, hashtag: hashtag.text) if listening_to_hashtags?(hashtag)
+            Reply.build(brand: brand, message: message, hashtag: hashtag.text) if listening_to_hashtags?(hashtag)
           end
 
           messages.compact
         end
 
-        twitter_responses.flatten!
+        twitter_replies.flatten!
 
-        twitter_responses.group_by do |twitter_response|
-          twitter_response.hashtag
+        twitter_replies.group_by do |twitter_reply|
+          twitter_reply.hashtag
         end
       end
     end
