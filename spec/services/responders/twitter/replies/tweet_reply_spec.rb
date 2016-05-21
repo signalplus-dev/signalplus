@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Responders::Twitter::TweetResponse do
+describe Responders::Twitter::TweetReply do
   let(:brand)   { create(:brand) }
   let(:tweet)   { example_twitter_tweet }
   let(:hashtag) { tweet.hashtags.first.text }
