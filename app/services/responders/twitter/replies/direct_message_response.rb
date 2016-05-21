@@ -1,4 +1,4 @@
-require_relative 'response'
+require_relative 'reply'
 
 module Responders
   module Twitter
