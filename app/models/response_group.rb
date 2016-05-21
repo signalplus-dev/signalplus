@@ -34,10 +34,10 @@ class ResponseGroup < ActiveRecord::Base
   end
 
   def default_response
-    responses.where(response_type: 'default')
+    responses.where(response_type: 'default').first
   end
 
   def expired_response
-    responses.where(response_type: 'expired')
+    responses.where(response_type: 'expired').first
   end
 end
