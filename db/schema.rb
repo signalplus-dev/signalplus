@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20160521174213) do
   create_table "listen_signals", force: :cascade do |t|
     t.integer  "brand_id"
     t.integer  "identity_id"
-    t.text     "listen_to"
+    t.text     "name"
     t.datetime "expiration_date"
     t.boolean  "active"
     t.datetime "created_at",      null: false
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20160521174213) do
 
   create_table "responses", force: :cascade do |t|
     t.text     "message"
-    t.string   "type"
+    t.string   "response_type"
     t.integer  "response_group_id"
     t.datetime "expiration_date"
     t.datetime "created_at",        null: false

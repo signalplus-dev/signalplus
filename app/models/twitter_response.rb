@@ -31,36 +31,6 @@ class TwitterResponse < ActiveRecord::Base
       where(response_type: ResponseType::DIRECT_MESSAGE)
     end
 
-    def mass_insert_twitter_responses(date, from, hashtag, messages_to_respond_to)
-      base_sql           = base_insert_statement(date, from, hashtag)
-      base_insert_values = base_insert_values(date, from, hashtag)
-
-      # Loop through the user_names and create valid value statements for each record that should be persisted
-      insert_values = messages_to_respond_to.map do |message_info|
-        new_insert_values     = base_insert_values.dup
-        new_insert_values[-3] = "'#{message_info[:screen_name]}'"   # worry about sql injection later
-        new_insert_values[-2] = message_info[:response_id].to_i     # worry about sql injection later
-        new_insert_values[-1] = "'#{message_info[:response_type]}'" # worry about sql injection later
-        "(#{new_insert_values.join(', ')})"
-      end
-
-      ActiveRecord::Base.connection.insert(base_sql + insert_values.join(', '))
-    end
-
-    # @return [Array<Symbol>] An array of attributes that should be assigned in the mass insert statement
-    def twitter_response_mass_insert_attributes
-      [
-        :date,
-        :from,
-        :hashtag,
-        :created_at,
-        :updated_at,
-        :to,
-        :response_id,
-        :response_type,
-      ]
-    end
-
     private
 
     # @return [String] A valid, sanitized sql statement for the
