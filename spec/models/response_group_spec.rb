@@ -32,4 +32,19 @@ describe ResponseGroup do
       end
     end
   end
+
+  # describe '#default_response' do
+  #   let(:identity) { create(:identity) }
+  #   let(:listen_signal) { create(:listen_signal, brand: identity.brand, identity: identity) }
+  #   let(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
+
+  #   it 'returns ' do
+  #   end
+  # end
+
+  describe '#expired_response' do
+    let(:identity) { create(:identity) }
+    let(:listen_signal) { create(:listen_signal, brand: identity.brand, identity: identity) }
+    let(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
+  end
 end

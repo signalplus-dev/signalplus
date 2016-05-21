@@ -18,6 +18,8 @@ FactoryGirl.define do
 
       after(:create) do |response_group, evaluator|
         create_list(:response, evaluator.response_count, response_group: response_group)
+        response_group.responses << create(:response, :default)
+        response_group.responses << create(:response, :expired)
       end
     end
   end

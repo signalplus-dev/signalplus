@@ -20,6 +20,7 @@ class ResponseGroup < ActiveRecord::Base
                               .where(twitter_responses: { to: to })
                               .where.not(twitter_responses: { reply_tweet_id: nil })
                               .where.not(response_type: 'default')
+                              .where.not(response_type: 'expired')
                               .order('"responses"."priority" ASC')
                               .limit(1)
                               .pluck(:priority)
@@ -33,6 +34,10 @@ class ResponseGroup < ActiveRecord::Base
   end
 
   def default_response
-    resopnses.where(response_type: 'default')
+    responses.where(response_type: 'default')
+  end
+
+  def expired_response
+    responses.where(response_type: 'expired')
   end
 end
