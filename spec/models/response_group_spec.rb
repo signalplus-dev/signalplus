@@ -44,7 +44,12 @@ describe ResponseGroup do
 
   describe '#expired_response' do
     let(:identity) { create(:identity) }
-    let(:listen_signal) { create(:listen_signal, brand: identity.brand, identity: identity) }
+    let(:listen_signal) { create(:listen_signal, :expired, brand: identity.brand, identity: identity) }
     let(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
+
+    it 'returns expired message' do
+      expired_msg = response_group.expired_response
+      expect(expired_msg.response_type).to eq('expired')
+    end
   end
 end

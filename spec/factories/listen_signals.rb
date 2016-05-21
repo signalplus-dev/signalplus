@@ -19,5 +19,9 @@ FactoryGirl.define do
     name 'somehashtag'
     expiration_date 2.days.from_now
     active true
+
+    trait :expired do
+      expiration_date 2.days.ago
+    end
   end
 end
