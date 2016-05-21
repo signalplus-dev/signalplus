@@ -19,6 +19,7 @@ class ResponseGroup < ActiveRecord::Base
                               .joins(:twitter_responses)
                               .where(twitter_responses: { to: to })
                               .where.not(twitter_responses: { reply_tweet_id: nil })
+                              .where.not(response_type: 'default')
                               .order('"responses"."priority" ASC')
                               .limit(1)
                               .pluck(:priority)
@@ -26,6 +27,13 @@ class ResponseGroup < ActiveRecord::Base
 
     last_response_priority ||= -1
 
-    responses.find { |r| r.priority == last_response_priority + 1 }
+    response = responses.find { |r| r.priority == last_response_priority + 1 }
+
+    if response.blank?
+      default_response
+  end
+
+  def default_response
+    resopnses.where(response_type: 'default')
   end
 end
