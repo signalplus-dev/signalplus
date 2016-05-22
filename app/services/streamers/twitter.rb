@@ -35,11 +35,11 @@ module Streamers
         puts "Message text: #{message.text}"
         filter = Responders::Twitter::Filter.new(brand, message)
         filter.out_multiple_requests!
-        filter.out_users_already_responded_to!
-        grouped_responses = filter.grouped_responses
-        response          = grouped_responses.first.try(:last).try(:first)
+        filter.out_users_already_replied_to!
+        grouped_replies = filter.grouped_replies
+        response          = grouped_replies.first.try(:last).try(:first)
         tracker           = message.is_a?(::Twitter::Tweet) ? tweet_tracker : dm_tracker
-        if should_respond?(grouped_responses, response)
+        if should_respond?(grouped_replies, response)
           TwitterResponseWorker.perform_async(brand.id, response.as_json)
         end
 
@@ -49,8 +49,8 @@ module Streamers
       end
     end
 
-    def should_respond?(grouped_responses, response)
-      grouped_responses.any? && response.present?
+    def should_respond?(grouped_replies, response)
+      grouped_replies.any? && response.present?
     end
   end
 end

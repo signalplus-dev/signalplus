@@ -1,7 +1,7 @@
 module Responders
   module Twitter
     class Reply
-      attr_reader :brand, :message, :client, :id
+      attr_reader :brand, :message, :client, :id, :listen_signal
 
       class << self
         # @param brand         [Brand]
@@ -52,10 +52,11 @@ module Responders
       def initialize(brand: nil, message: nil, listen_signal: nil, as_json: nil)
         @brand   = brand
         if as_json
-          @as_json          = as_json.with_indifferent_access
-          @listen_signal_id = @as_json[:listen_signal_id]
-          @id               = @as_json[:request_tweet_id]
-          @to               = @as_json[:to]
+          @as_json       = as_json.with_indifferent_access
+          @id            = @as_json[:request_tweet_id]
+          @to            = @as_json[:to]
+          @listen_signal = ListenSignal.find(@as_json[:listen_signal_id])
+          @response      = Response.find(@as_json[:response_id])
         else
           @message       = message
           @listen_signal = listen_signal
@@ -101,11 +102,6 @@ module Responders
         @to || request_user.try(:screen_name)
       end
 
-      # @return [ListenSignal]
-      def listen_signal
-        @listen_signal ||= LisenSignal.find(@listen_signal_id)
-      end
-
       private
 
       # @return [Fixnum]
@@ -128,6 +124,7 @@ module Responders
         raise StandardError.new('Must override this method and must return a Twitter::User object')
       end
 
+      # @return [Response]
       def response
         @response ||= listen_signal.response(to)
       end
@@ -135,7 +132,7 @@ module Responders
       def reply_to_message!
         if response.has_image?
           begin
-            temp_image = TempImage.new(signal_reply['image'])
+            temp_image = TempImage.new(response.image_name)
             file = File.open(temp_image.file.path)
             reply_with_text_and_image!(file, temp_image)
           rescue Aws::S3::Errors::NoSuchKey

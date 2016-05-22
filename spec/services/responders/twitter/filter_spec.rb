@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 describe Responders::Twitter::Filter do
-  let(:identity)      { create(:identity) }
-  let(:brand)         { identity.brand }
-  let!(:listen_signal) { create(:listen_signal, brand: brand, identity: identity) }
+  let(:identity)        { create(:identity) }
+  let(:brand)           { identity.brand }
+  let!(:listen_signal)  { create(:listen_signal, brand: brand, identity: identity) }
+  let!(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
 
   describe '#out_multiple_requests!' do
     context 'with a mix of direct messges and tweets' do

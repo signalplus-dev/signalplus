@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe Streamers::Twitter do
-  let(:brand) { create(:brand) }
+  let(:identity)        { create(:identity) }
+  let(:brand)           { identity.brand }
+  let!(:listen_signal)  { create(:listen_signal, brand: brand, identity: identity) }
+  let!(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
 
   describe '#initialize' do
     context 'with both trackers' do

@@ -6,9 +6,9 @@ module Responders
       # @param brand          [Brand]
       # @param tweet_messages [Array<Twitter::Tweet>|Twitter::Tweet]
       def initialize(brand, tweet_messages)
-        @brand             = brand
-        @tweet_messages    = tweet_messages.is_a?(Array) ? tweet_messages : [tweet_messages]
-        @grouped_reply     = build_grouped_replies
+        @brand           = brand
+        @tweet_messages  = tweet_messages.is_a?(Array) ? tweet_messages : [tweet_messages]
+        @grouped_replies = build_grouped_replies
       end
 
       # @return [Responders::Twitter::Filter]
@@ -23,10 +23,10 @@ module Responders
       end
 
       # @return [Responders::Twitter::Filter]
-      def out_users_already_responded_to!
+      def out_users_already_replied_to!
         grouped_replies.each do |hashtag, twitter_replies|
           next if twitter_replies.empty?
-          query_params               = twitter_replies.first.as_json.slice(:date, :from, :hashtag, :to)
+          query_params               = twitter_replies.first.as_json.slice(:date, :brand_id, :listen_signal_id, :to)
           users_already_responded_to = TwitterResponse.where(query_params).pluck(:to)
 
           grouped_replies[hashtag].reject! do |twitter_reply|

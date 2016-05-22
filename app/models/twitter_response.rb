@@ -27,11 +27,11 @@ class TwitterResponse < ActiveRecord::Base
 
   class << self
     def tweets
-      where(response_type: ResponseType::TWEET)
+      where(request_tweet_type: ResponseType::TWEET)
     end
 
     def direct_messages
-      where(response_type: ResponseType::DIRECT_MESSAGE)
+      where(request_tweet_type: ResponseType::DIRECT_MESSAGE)
     end
   end
 
