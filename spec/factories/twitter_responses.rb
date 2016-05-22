@@ -16,7 +16,8 @@
 #  response_id        :integer
 #
 
-require 'rails_helper'
-
-describe TwitterResponse do
+FactoryGirl.define do
+  factory :twitter_response do
+    to 'randomtwitterhandle'
+  end
 end

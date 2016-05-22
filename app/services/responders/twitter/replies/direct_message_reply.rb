@@ -1,15 +1,15 @@
-require_relative 'response'
+require_relative 'reply'
 
 module Responders
   module Twitter
-    class TweetResponse < Response
+    class DirectMessageReply < Reply
       # @return [Twitter::User]
-      def sender
-        message.user
+      def request_user
+        message.sender
       end
 
       # @return [Boolean]
-      def tweet?
+      def direct_message?
         true
       end
     end

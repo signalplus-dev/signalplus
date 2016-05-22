@@ -2,10 +2,13 @@ require 'rails_helper'
 
 describe TwitterResponseWorker do
   let(:worker)          { described_class.new }
-  let(:brand)           { create(:brand) }
+  let(:identity)        { create(:identity) }
+  let(:brand)           { identity.brand }
+  let!(:listen_signal)  { create(:listen_signal, brand: brand, identity: identity) }
+  let!(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
   let(:tweet)           { example_twitter_tweet }
   let(:filter)          { Responders::Twitter::Filter.new(brand, tweet) }
-  let(:response_hash)   { filter.grouped_responses.first.last.first.as_json }
+  let(:response_hash)   { filter.grouped_replies.first.last.first.as_json }
   let(:client_user)     { double(:user, screen_name: 'SomeBrand') }
   let(:mock_client)     { double(:client, user: client_user) }
   let(:image)           { double(:image_file) }
@@ -17,7 +20,7 @@ describe TwitterResponseWorker do
     allow(brand).to receive(:twitter_rest_client).and_return(mock_client)
     allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
     allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
-    expect(mock_client).to receive(:update_with_media).once.and_return(double(:tweet, id: 100))
+    expect(mock_client).to receive(:update).once.and_return(double(:tweet, id: 100))
   end
 
   context 'not update tracker' do

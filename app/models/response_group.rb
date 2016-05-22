@@ -10,4 +10,34 @@
 
 class ResponseGroup < ActiveRecord::Base
   belongs_to :listen_signal
+  has_many :responses
+  has_many :twitter_responses
+
+  # @param [String] Who the response should be sent to
+  def next_response(to)
+    last_response_priority = responses
+                              .joins(:twitter_responses)
+                              .where(twitter_responses: { to: to })
+                              .where.not(twitter_responses: { reply_tweet_id: nil })
+                              .where.not(response_type: 'default')
+                              .where.not(response_type: 'expired')
+                              .order('"responses"."priority" ASC')
+                              .limit(1)
+                              .pluck(:priority)
+                              .first
+
+    last_response_priority ||= -1
+
+    response = responses.find { |r| r.priority == last_response_priority + 1 }
+
+    response.blank? ? default_response : response
+  end
+
+  def default_response
+    responses.where(response_type: 'default').first
+  end
+
+  def expired_response
+    responses.where(response_type: 'expired').first
+  end
 end

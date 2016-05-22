@@ -13,11 +13,6 @@
 FactoryGirl.define do
   factory :brand do
     name 'Nike'
-
-    # after_create do |brand|
-    #   brand.identities << FactoryGirl.create(:identity)
-    #   brand.users << FactoryGirl.create(:user)
-    # end
   end
 
   factory :user do
@@ -29,6 +24,7 @@ FactoryGirl.define do
 
   factory :identity do
     brand
+    user
     provider 'twitter'
     uid 'random text'
     encrypted_token Identity.encrypt('token_key')
