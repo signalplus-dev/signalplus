@@ -18,12 +18,12 @@ class ListenSignal < ActiveRecord::Base
   has_one :response_group
   has_many :responses, through: :response_group
 
-  def response(to)
-    expired? ? response_group.expired_response(to) : response_group.next_response(to)
-  end
-
   def self.active
     where(active: true)
+  end
+
+  def response(to)
+    expired? ? response_group.expired_response(to) : response_group.next_response(to)
   end
 
   def expired?
