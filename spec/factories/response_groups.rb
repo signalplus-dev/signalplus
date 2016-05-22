@@ -9,9 +9,7 @@
 #
 FactoryGirl.define do
   factory :response_group do
-
     factory :response_group_with_responses do
-
       transient do
         response_count 3
       end

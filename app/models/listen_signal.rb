@@ -23,7 +23,7 @@ class ListenSignal < ActiveRecord::Base
   end
 
   def response(to)
-    expired? ? response_group.expired_response(to) : response_group.next_response(to)
+    expired? ? response_group.expired_response : response_group.next_response(to)
   end
 
   def expired?
