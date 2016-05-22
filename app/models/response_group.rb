@@ -20,9 +20,9 @@ class ResponseGroup < ActiveRecord::Base
                               .joins(:twitter_responses)
                               .where(twitter_responses: { to: to })
                               .where.not(twitter_responses: { reply_tweet_id: nil })
-                              .where.not(response_type: 'default')
-                              .where.not(response_type: 'expired')
-                              .order('"responses"."priority" ASC')
+                              .where.not(response_type: Response::Type::DEFAULT)
+                              .where.not(response_type: Response::Type::EXPIRED)
+                              .order(priority: :asc)
                               .limit(1)
                               .pluck(:priority)
                               .first
