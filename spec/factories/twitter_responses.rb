@@ -19,5 +19,13 @@
 FactoryGirl.define do
   factory :twitter_response do
     to 'randomtwitterhandle'
+    date Date.current
+    request_tweet_id 123456789
+    request_tweet_type 'Tweet'
+
+    trait :replied do
+      reply_tweet_id 123456790
+      reply_tweet_type 'DirectMessage'
+    end
   end
 end

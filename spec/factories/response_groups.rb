@@ -15,7 +15,9 @@ FactoryGirl.define do
       end
 
       after(:create) do |response_group, evaluator|
-        create_list(:response, evaluator.response_count, response_group: response_group)
+        evaluator.response_count.times do |n|
+          response_group.responses << create(:response, priority: n)
+        end
         response_group.responses << create(:response, :default)
         response_group.responses << create(:response, :expired)
       end

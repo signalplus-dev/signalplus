@@ -24,8 +24,10 @@ FactoryGirl.define do
       expiration_date 2.days.ago
     end
 
-    after(:build) do |listen_signal|
-      listen_signal.response_group ||= FactoryGirl.build(:response_group, listen_signal: listen_signal)
+    trait :with_response_group do
+      after(:build) do |listen_signal|
+        listen_signal.response_group ||= FactoryGirl.build(:response_group, listen_signal: listen_signal)
+      end
     end
   end
 end

@@ -15,9 +15,10 @@
 require 'rails_helper'
 
 describe ListenSignal do
+  let(:response_group) { create(:response_group_with_responses) }
+
   describe '#response' do
-    let(:response_group) { create(:response_group_with_responses) }
-    let(:listen_signal) { create(:listen_signal) }
+    let(:listen_signal)  { create(:listen_signal, response_group: response_group) }
 
     context 'when signal is active' do
       it 'returns next resonse' do
@@ -27,7 +28,7 @@ describe ListenSignal do
     end
 
     context 'when signal is expired' do
-      let(:listen_signal) { create(:listen_signal, :expired) }
+      let(:listen_signal) { create(:listen_signal, :expired, response_group: response_group) }
 
       it 'returns expired response' do
         expect(listen_signal.response_group).to receive(:expired_response)

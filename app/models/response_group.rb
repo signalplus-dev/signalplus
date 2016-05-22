@@ -14,6 +14,7 @@ class ResponseGroup < ActiveRecord::Base
   has_many :twitter_responses
 
   # @param [String] Who the response should be sent to
+  # @return [Response]
   def next_response(to)
     last_response_priority = responses
                               .joins(:twitter_responses)
@@ -33,11 +34,13 @@ class ResponseGroup < ActiveRecord::Base
     response.blank? ? default_response : response
   end
 
+  # @return [Response]
   def default_response
-    responses.where(response_type: 'default').first
+    responses.find(&:default?)
   end
 
+  # @return [Response]
   def expired_response
-    responses.where(response_type: 'expired').first
+    responses.find(&:expired?)
   end
 end
