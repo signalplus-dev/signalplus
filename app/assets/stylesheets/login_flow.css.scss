@@ -1,0 +1,74 @@
+
+/* Login Flow Forms*/
+
+/*00-Login*/
+.welcome {
+  margin-top: 117px;
+  margin-bottom: 10.6px;
+  text-align: center;
+  font-family: "QuattrocentoSans", sans-serif;
+  font-size: 38px;
+  font-weight: 300;
+  color: #465162;
+}
+
+.login-form {
+  margin-left: auto;
+  margin-right: auto;
+  width: 369.8px;
+  height: 372.2px;
+  border-radius: 6px;
+  background-color: #fafbfc;
+  box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+#login-header {
+  padding-top: 29.4px;
+  padding-left: 15px;
+  padding-bottom: 65.5px;
+  margin-bottom: 65.5px;
+}
+
+a#twitter-log-in-link {
+  display: block;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-decoration: none;
+  font-family: QuattrocentoSans-Bold, sans-serif;
+  font-size: 18px;
+  color: #ffffff !important;
+  background-color: #408bc9 !important;
+  border-radius: 10px;
+  background-color: var(--windows-blue);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px #4484b9;
+  border: solid 1px var(--cool-blue);
+}
+
+a#twitter-create-link {
+  display: block;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 22px;
+  text-decoration: none;
+  font-family: QuattrocentoSans-Bold, sans-serif;
+  font-size: 18px;
+  color: #408bc9 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px #4484b9;
+  border: solid 1px var(--cool-blue);
+}
+
+p#forgot-your-password {
+  display: inline-block !important;
+  margin-left: 20.4px !important;
+  margin-top: 62.5px !important;
+  text-align: left;
+  text-decoration: underline;
+  width: 179px;
+  height: 20px;
+  // font-family: QuattrocentoSans, sans-serif;
+  // font-size: 18px;
+  color: #465162;
+}

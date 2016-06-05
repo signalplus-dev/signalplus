@@ -1,0 +1,23 @@
+<div class='container'>
+
+  <div class='welcome'> Welcome </div>
+
+  <div class='login-form'>
+    <div class='form-header'>
+      <p id='login-header'>
+      Sign in with your brand's Twitter account
+      </p>
+    </div>
+    <div class='log-in-btns'>
+      <%= render 'devise/shared/links' %>
+
+      <%= link_to 'CREATE A TWITTER ACCOUNT', 'https://twitter.com/signup', :class => "btn btn-primary", :id => 'twitter-create-link' %>
+    </div>
+    <div id='form-footer'>
+      <p id='forgot-your-password'> Forgot your password? </p>
+    </div>
+  </div>
+
+</div>
+
+
