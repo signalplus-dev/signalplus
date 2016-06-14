@@ -1,0 +1,19 @@
+- if devise_mapping.omniauthable?
+  - resource_class.omniauth_providers.each do |provider|
+    = link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}".upcase, omniauth_authorize_path(resource_name, provider), :class => "btn btn-primary", :id => "#{provider}-log-in-link"
+/
+  <haml_silent> if controller_name != &#39;sessions&#39; </haml_silent><haml_block>
+  <haml_loud> link_to &quot;Log in&quot;, new_session_path(resource_name) </haml_loud><br />
+  </haml_block>
+  <haml_silent> if devise_mapping.registerable? &amp;&amp; controller_name != &#39;registrations&#39;
+  </haml_silent><haml_block>  <haml_loud> link_to &quot;Sign up&quot;, new_registration_path(resource_name) </haml_loud><br />
+  </haml_block>
+  <haml_silent> if devise_mapping.recoverable? &amp;&amp; controller_name != &#39;passwords&#39; &amp;&amp; controller_name != &#39;registrations&#39;
+  </haml_silent><haml_block>  <haml_loud> link_to &quot;Forgot your password?&quot;, new_password_path(resource_name) </haml_loud><br />
+  </haml_block>
+  <haml_silent> if devise_mapping.confirmable? &amp;&amp; controller_name != &#39;confirmations&#39;
+  </haml_silent><haml_block>  <haml_loud> link_to &quot;Didn&#39;t receive confirmation instructions?&quot;, new_confirmation_path(resource_name) </haml_loud><br />
+  </haml_block>
+  <haml_silent> if devise_mapping.lockable? &amp;&amp; resource_class.unlock_strategy_enabled?(:email) &amp;&amp; controller_name != &#39;unlocks&#39;
+  </haml_silent><haml_block>  <haml_loud> link_to &quot;Didn&#39;t receive unlock instructions?&quot;, new_unlock_path(resource_name) </haml_loud><br />
+  </haml_block>

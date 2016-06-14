@@ -1,0 +1,27 @@
+.row
+  - if @brand.listen_signals.present?
+    %h4
+      = @brand.listen_signals.count
+      signals - pluralize/singular
+      = @brand.listen_signals.active.count
+      active
+    - @brand.listen_signals.each do |signal|
+      .panel.signal-panel
+        .panel-header
+          = signal.name
+        .panel-body
+          = 'other info'
+  - else
+    .row
+      .col-md-8
+        .panel.signal-panel
+          .panel-header
+            %h3 Welcome
+          .panel-body
+            Start creating your own signals and responses or use our handy starter guide to learn more
+        .panel.signal-panel
+          .panel-header
+            %h3 Create New
+          .panel-body
+            Click here to create a new signal for your audience
+      .col-md-4

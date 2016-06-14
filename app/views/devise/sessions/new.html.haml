@@ -1,0 +1,11 @@
+.container
+  .welcome Welcome
+  .login-form
+    .form-header
+      %p#login-header
+        Sign in with your brand's Twitter account
+    .log-in-btns
+      = render 'devise/shared/links'
+      = link_to 'CREATE A TWITTER ACCOUNT', 'https://twitter.com/signup', :class => "btn btn-primary", :id => 'twitter-create-link'
+    #form-footer
+      %p#forgot-your-password Forgot your password?
