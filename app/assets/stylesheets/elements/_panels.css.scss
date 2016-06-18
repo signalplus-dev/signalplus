@@ -25,7 +25,7 @@
 .panel-new {
   float: left;
   border: solid 2px $signal-border;
-  outline: dotted $signal-border 1px;
+  outline: dotted $signal-border 2px;
   outline-offset: -7px;
 }
 
@@ -88,3 +88,4 @@
 .reminder {
   background-color: $signal-green;
 }
+

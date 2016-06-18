@@ -1,36 +1,18 @@
 
 // Header
-.navbar.navbar-default {
-  background-color: #450b6b;
+.navbar.navbar-static-top {
+  background-color: $main-purple;
   border-color: none;
-  height: 60px;
-  margin-top: auto;
 }
 
-.navbar-default .navbar-nav > li > a {
-  font-family: QuattrocentoSans-Bold, sans-serif;
+.navbar-static-top .navbar-nav > li > a {
+  font-family: $default-font-bold;
   font-weight: 300;
   font-size: 16px;
-  color: #f3f5f6 !important;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-right: 2em;
+  color: $light-gray !important;
+  margin-right: 15px;
 }
 
-.navbar-default .navbar-brand {
-  text-decoration: none;
-  font-size: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  color: #f2288f !important;
-}
-
-#login-header {
-  width: 278px;
-  height: 52px;
-  opacity: 0.7;
-  font-family: QuattrocentoSans-Bold, sans-serif;
-  font-size: 24px;
-  color: #465162;
-  margin-top: 29.4
+.navbar-brand {
+  margin-left: 110px;
 }

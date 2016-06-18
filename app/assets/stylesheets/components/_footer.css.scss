@@ -1,16 +1,20 @@
 // Footer
 .footer-items {
-  text-decoration: none;
-  font-family: QuattrocentoSans-Bold, sans-serif;
-  font-size: 14px;
+  margin-top: 15px;
 }
 
 .footer-link {
+  margin-right: 40px;
   width: 45px;
   height: 16px;
-  font-family: QuattrocentoSans-Bold, sans-serif;
+  font-family: $default-font-bold;
   font-size: 14px;
   color: $text-light;
+
+  &:hover {
+    text-decoration: none;
+    color: $dark-gray;
+  }
 }
 
 .footer-site-inc{
@@ -18,7 +22,6 @@
   display: inline-block;
   color: $footer-text;
   margin-right: 150px;
-  margin-top: 20px;
 }
 
 .footer {
@@ -26,5 +29,10 @@
   bottom: 0;
   width: 100%;
   height: 60px;
-  background-color: $light-gray;
+  background-color: $footer-gray;
+}
+
+.footer-brand {
+  margin-left: 110px;
+  margin-right: 56px;
 }

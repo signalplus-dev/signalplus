@@ -20,8 +20,11 @@
             %h3 Welcome
           .panel-body
             Start creating your own signals and responses or use our handy starter guide to learn more
-      .panel.signal-panel.panel-new
-        .panel-header.header-new
-          Create New
-        .panel-body.body-new
-          Click here to create a new signal for your audience
+
+      %a{:href => '#new-signals', :data => {:toggle => 'tab'}}
+        .panel.signal-panel.panel-new
+          .panel-header.header-new
+            Create New
+          .panel-body.body-new
+            Click here to create a new signal for your audience
+
