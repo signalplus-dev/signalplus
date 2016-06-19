@@ -12,6 +12,12 @@
   box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
+.panel-icon {
+  margin-top: 20px;
+  margin-left: 12px;
+  margin-bottom: 14px;
+}
+
 .panel-1 {
   float: left;
   color: $text-light;
@@ -31,9 +37,6 @@
 
 .panel-header {
   margin-left: 17px;
-  margin-top: 88px;
-  width: 200px;
-  height: 42px;
   font-size: 34px;
   color: $text-white;
 }
@@ -47,7 +50,7 @@
 
   width: 213px;
   height: 60px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .header-new, .body-new {
@@ -57,10 +60,11 @@
 .create-new {
   .panel-header {
     margin-left: 0px;
-    margin-top: 76.7px;
     padding-left: 17px;
     height: 60px;
-    width: 100%;
+    .header-text {
+      height: 42px;
+    }
   }
   .panel-body {
     color: $text-light;
