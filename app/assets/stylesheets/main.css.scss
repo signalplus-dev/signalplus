@@ -5,17 +5,11 @@
 
 html {
   position: relative;
-  min-height: 100%;
 }
 
-.wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -60px;
-}
-
-body {
+body .container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
   font-family: $default-font;
   color: $text-light;
 }
