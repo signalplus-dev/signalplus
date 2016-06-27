@@ -15,17 +15,19 @@
   }
 }
 
-.nav-pills > li.active > a,
-.nav-pills > li.active > a:hover,
-.nav-pills > li.active > a:focus {
+.nav-pills > li.active > a {
+  &,
+  &:active,
+  &:focus {
     color: $text-light;
     background-color: $light-gray;
     width: 150px;
     height: 49px;
+  }
 }
 
 // Login Button
-a.btn-login {
+.btn-login {
   display: block;
   margin-left: 20px;
   margin-right: 20px;
