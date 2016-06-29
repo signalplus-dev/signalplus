@@ -18,6 +18,13 @@ class ListenSignal < ActiveRecord::Base
   has_one :response_group
   has_many :responses, through: :response_group
 
+  module Types
+    OFFER    = :offer
+    TODAY    = :today
+    CONTEST  = :contest
+    REMINDER = :reminder
+  end
+
   def self.active
     where(active: true)
   end
@@ -29,4 +36,5 @@ class ListenSignal < ActiveRecord::Base
   def expired?
     expiration_date <= Time.current
   end
+
 end
