@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160521214836) do
+ActiveRecord::Schema.define(version: 20160524131221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,19 @@ ActiveRecord::Schema.define(version: 20160521214836) do
 
   add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
   add_index "listen_signals", ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
+
+  create_table "promotional_tweets", force: :cascade do |t|
+    t.text     "message"
+    t.integer  "listen_signal_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+  end
+
+  add_index "promotional_tweets", ["listen_signal_id"], name: "index_promotional_tweets_on_listen_signal_id", using: :btree
 
   create_table "response_groups", force: :cascade do |t|
     t.integer  "listen_signal_id"
@@ -140,6 +153,7 @@ ActiveRecord::Schema.define(version: 20160521214836) do
   add_foreign_key "identities", "users"
   add_foreign_key "listen_signals", "brands"
   add_foreign_key "listen_signals", "identities"
+  add_foreign_key "promotional_tweets", "listen_signals"
   add_foreign_key "response_groups", "listen_signals"
   add_foreign_key "responses", "response_groups"
   add_foreign_key "twitter_direct_message_trackers", "brands"
