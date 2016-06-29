@@ -1,11 +1,11 @@
 module SignalHandler
-  class Contest < Signal
+  class Reminder < SignalHandler::Signal
     def initialize(name, status, exp_date, user)
       super(name, status, exp_date, user)
-      @signal_type = ListenSignal::Types::CONTEST
+      @signal_type = ListenSignal::Types::REMINDER
     end
 
-    def create
+    def create!
       super(@signal_type)
     end
   end

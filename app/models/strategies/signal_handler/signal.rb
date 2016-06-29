@@ -5,17 +5,17 @@ module SignalHandler
       @status = status
       @exp_date = exp_date
       @brand = user.brand
-      @identity = @brand.identity
+      @identity = @brand.twitter_identity
     end
 
-    def create(signal_type)
+    def create!(signal_type)
       ListenSignal.create! do |s|
         s.brand = @brand
         s.identity = @identity
         s.name = @name
-        s.status = @status
-        s.exp_date = @exp_date
-        s.type = signal_type
+        s.active = @status
+        s.expiration_date = @exp_date
+        s.signal_type = signal_type
       end
     end
   end
