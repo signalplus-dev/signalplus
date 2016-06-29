@@ -13,6 +13,14 @@
               = "##{signal.name}"
             .panel-body
               Send your users a special offer every time they send a custom hashtag
+            .panel-status
+              .signal-status
+                - if signal.active?
+                  ACTIVE
+                - else
+                  INACTIVE
+              .signal-type
+                TYPE OFFERS
       - else
         %h4.signal-header All Signals
         .panel.signal-panel.panel-1

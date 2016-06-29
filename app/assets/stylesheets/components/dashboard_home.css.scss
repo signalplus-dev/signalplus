@@ -16,6 +16,12 @@
     font-size: 28px;
     display: inline;
   }
+
+  p {
+    margin-left: 17px;
+    width: 150px;
+    display: inline-block;
+  }
 }
 
 .brand-pricing-plan {
@@ -27,7 +33,7 @@
 }
 
 .dash-main {
-  min-height: 755px;
+  padding-bottom: 200px;
   background-color: $light-gray;
 }
 

@@ -1,6 +1,6 @@
 // Signal Panel styles
-
 .signal-panel {
+  position: relative;
   margin-top: 28px;
   color: $text-white;
   margin-right: 20px;
@@ -47,6 +47,10 @@
   width: 213px;
   height: 60px;
   font-size: 16px;
+}
+
+.panel-status {
+
 }
 
 .header-new, .body-new {
