@@ -1,6 +1,6 @@
 // Signal Panel styles
 .signal-panel {
-  position: relative;
+  float: left;
   margin-top: 28px;
   color: $text-white;
   margin-right: 20px;
@@ -19,13 +19,11 @@
 }
 
 .panel-1 {
-  float: left;
   color: $text-light;
   background-color: $signal-turquoise;
 }
 
 .panel-new {
-  float: left;
   border: solid 2px $signal-border;
   outline: dotted $signal-border 2px;
   outline-offset: -7px;
