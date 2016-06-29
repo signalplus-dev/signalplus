@@ -1,0 +1,52 @@
+/* Login Flow Panel*/
+
+.welcome {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 369.8px;
+  font-size: 38px;
+  color: $text-light;
+}
+
+.login-form {
+  margin-left: auto;
+  margin-right: auto;
+  width: 369.8px;
+  height: 372.2px;
+  border-radius: 6px;
+  background-color: $signal-white;
+  box-shadow: $box-shadow1;
+}
+
+#login-header {
+  padding-top: 29.4px;
+  padding-left: 15px;
+  margin-bottom: 65.5px;
+  width: 278px;
+  height: 52px;
+  opacity: 0.7;
+  font-size: 24px;
+  color: $text-light;
+  margin-top: 29.4
+}
+
+.icon {
+  margin-right: 12.5px;
+}
+
+.twitter-create-link {
+  color: $button-blue;
+  background-color: $text-white;
+}
+
+.forgot-login {
+  margin-top: 100px;
+  p {
+    margin-left: 20px;
+    display: inline;
+    text-decoration: underline;
+    font-size: 18px;
+    color: $text-light;
+  }
+}

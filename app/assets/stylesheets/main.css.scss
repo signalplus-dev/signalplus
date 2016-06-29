@@ -1,0 +1,14 @@
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+
+@import 'core';
+
+html {
+  position: relative;
+}
+
+body .container-fluid {
+  font-family: $default-font;
+  color: $text-light;
+}
+

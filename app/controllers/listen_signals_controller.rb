@@ -1,0 +1,3 @@
+class ListenSignalsController < ApplicationController
+
+end

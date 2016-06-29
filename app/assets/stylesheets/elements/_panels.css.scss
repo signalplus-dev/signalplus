@@ -1,0 +1,95 @@
+// Signal Panel styles
+.signal-panel {
+  position: relative;
+  margin-top: 28px;
+  color: $text-white;
+  margin-right: 20px;
+  display: inline-block;
+  width: 257px;
+  height: 280px;
+  border-radius: 6px;
+  background-color: #fafbfc;
+  box-shadow: $box-shadow1;
+}
+
+.panel-icon {
+  margin-top: 20px;
+  margin-left: 12px;
+  margin-bottom: 14px;
+}
+
+.panel-1 {
+  float: left;
+  color: $text-light;
+  background-color: $signal-turquoise;
+}
+
+.panel-new {
+  float: left;
+  border: solid 2px $signal-border;
+  outline: dotted $signal-border 2px;
+  outline-offset: -7px;
+}
+
+.panel-header {
+  margin-left: 17px;
+  font-size: 34px;
+  color: $text-white;
+}
+
+.panel-body {
+  margin-left: 17px;
+  margin-top: 5px;
+  padding: 0 !important;
+  color: $text-white;
+
+
+  width: 213px;
+  height: 60px;
+  font-size: 16px;
+}
+
+.panel-status {
+
+}
+
+.header-new, .body-new {
+  color: $text-light;
+}
+
+.create-new {
+  .panel-header {
+    margin-left: 0px;
+    padding-left: 17px;
+    height: 60px;
+    .header-text {
+      height: 42px;
+    }
+  }
+  .panel-body {
+    color: $text-light;
+  }
+}
+
+.subheader {
+  width: 43px;
+  height: 13px;
+  font-size: 12px;
+}
+
+.offer {
+  background-color: $signal-turquoise;
+}
+
+.today {
+  background-color: $signal-orange;
+}
+
+.contest {
+  background-color: $signal-pink;
+}
+
+.reminder {
+  background-color: $signal-green;
+}
+

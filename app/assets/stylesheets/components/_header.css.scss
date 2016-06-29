@@ -1,0 +1,18 @@
+
+// Header
+.navbar.navbar-static-top {
+  background-color: $main-purple;
+  border-color: none;
+}
+
+.navbar-static-top .navbar-nav > li > a {
+  font-family: $default-font-bold;
+  font-weight: 300;
+  font-size: 14px;
+  color: $light-gray !important;
+  margin-right: 15px;
+}
+
+.navbar-brand {
+  margin-left: 110px;
+}

@@ -1,0 +1,38 @@
+.row.dash-main
+  .dash
+    - if @brand.listen_signals.present?
+      %h4.signal-header
+        = pluralize(@brand.listen_signals.count, 'signal')
+        \-
+        = @brand.listen_signals.active.count
+        active
+      - @brand.listen_signals.each_with_index do |signal, i|
+        %div{ class: "panel signal-panel panel-#{i+1}" }
+          .panel-header
+            = "##{signal.name}"
+          .panel-body
+            Send your users a special offer every time they send a custom hashtag
+          .panel-status
+            .signal-status
+              - if signal.active?
+                ACTIVE
+              - else
+                INACTIVE
+            .signal-type
+              TYPE OFFERS
+    - else
+      %h4.signal-header All Signals
+      .panel.signal-panel.panel-1
+        .panel-header
+          %h3 Welcome
+        .panel-body
+          Start creating your own signals and responses or use our handy starter guide to learn more
+
+    %a{:href => '#new-signals', :data => {:toggle => 'tab'}}
+      .panel.signal-panel.panel-new
+        = get_signal_icon 'signalplus-small'
+        .panel-header.header-new
+          Create New
+        .panel-body.body-new
+          Click here to create a new signal for your audience
+
