@@ -1,7 +1,0 @@
-%h3 Create New Signal
-%p Select a template to start
-
-.row.create-new
-  - @signal_types.each do |t|
-    = link_to signals_path, method: :post, signal_type: t do
-      = render :partial => 'listen_signals/templates', :locals => { :signal_type => t }
