@@ -1,3 +1,7 @@
+.dash {
+  padding-left: 109px;
+}
+
 .dash-header {
   height: 100px;
 
@@ -19,7 +23,6 @@
 
   p {
     margin-left: 17px;
-    width: 150px;
     display: inline-block;
   }
 }
@@ -32,17 +35,9 @@
   background-color: $light-gray;
 }
 
-.dash-main {
+.dash-panel {
+  padding-left: 109px;
   padding-bottom: 200px;
   background-color: $light-gray;
-}
-
-.dash {
-  padding-left: 109px;
-}
-
-.signal-header {
-  margin-top: 28px;
-  font-size: 24px;
 }
 

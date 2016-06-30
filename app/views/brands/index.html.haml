@@ -1,29 +1,32 @@
 .row
-  .col-md-12.dash.dash-header
-    =image_tag('#', :alt => 'pic', :class => 'brand-img')
-    %h3
-      = @brand.name
+  .dash
+    .col-md-12.dash-header
+      =image_tag('#', :alt => 'pic', :class => 'brand-img')
+      %h3
+        = @brand.name
 
-    .brand-pricing-plan
-      %p= "brand princing info here"
+      .brand-pricing-plan
+        %p= "brand princing info here"
 
-    %br
-    %p
-      @
-      = @brand.name
+      %br
+      %p
+        @
+        = @brand.name
 
-  .col-md-12.dash
-    %ul.nav.nav-pills
-      %li.active
-        %a{:href => '#signals', :data => {:toggle => 'tab'}}
-          %p SIGNALS
-      %li
-        %a{:href => '#new-signals', :data => {:toggle => 'tab'}}
-          %p CREATE NEW
+    .col-md-12
+      %ul.nav.nav-pills
+        %li.active
+          %a{:href => '#signals', :data => {:toggle => 'tab'}}
+            %p SIGNALS
+        %li
+          %a{:href => '#new-signals', :data => {:toggle => 'tab'}}
+            %p CREATE NEW
 
   .col-md-12
     .tab-content.clearfix
       .tab-pane.active#signals
-        = render 'listen_signals/index', :locals => { :brand => @brand }
+        .row.dash-panel
+          = render 'listen_signals/index', :locals => { :brand => @brand }
       .tab-pane#new-signals
-        = render 'listen_signals/new'
+        .row.dash-panel
+          = render 'listen_signals/new'

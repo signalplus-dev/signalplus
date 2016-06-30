@@ -1,0 +1,9 @@
+.panel.signal-panel.panel-new
+  = get_signal_type_icon(signal_type)
+  .panel-header{ class: "#{signal_type}"}
+    .header-text
+      = signal_type.to_s.humanize
+    .subheader
+      SIGNAL
+  .panel-body
+    = get_signal_type_text(signal_type)

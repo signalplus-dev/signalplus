@@ -1,13 +1,19 @@
 // Signal Panel styles
+.signal-header {
+  margin-top: 28px;
+  font-size: 24px;
+}
+
 .signal-panel {
+  position: relative;
   float: left;
   margin-top: 28px;
-  color: $text-white;
   margin-right: 20px;
   display: inline-block;
   width: 257px;
   height: 280px;
   border-radius: 6px;
+  color: $text-white;
   background-color: #fafbfc;
   box-shadow: $box-shadow1;
 }
@@ -16,17 +22,6 @@
   margin-top: 20px;
   margin-left: 12px;
   margin-bottom: 14px;
-}
-
-.panel-1 {
-  color: $text-light;
-  background-color: $signal-turquoise;
-}
-
-.panel-new {
-  border: solid 2px $signal-border;
-  outline: dotted $signal-border 2px;
-  outline-offset: -7px;
 }
 
 .panel-header {
@@ -41,18 +36,70 @@
   padding: 0 !important;
   color: $text-white;
 
-
   width: 213px;
   height: 60px;
   font-size: 16px;
 }
 
 .panel-status {
-
+  position: absolute;
+  bottom: 0;
+  color: $text-white;
 }
 
-.header-new, .body-new {
-  color: $text-light;
+.signal-status {
+  float: left;
+  width: 115px;
+  height: 34px;
+  border-radius: 27px;
+  background-color: rgba(255, 255, 255, 0.19);
+  text-align: center;
+  font-family: $default-font-bold;
+  font-size: 14px;
+  color: $light-gray;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding-left: 10px;
+  padding-top: 7px;
+}
+
+.circle-active {
+  margin-top: 2px;
+  margin-right: -10px;
+  float: left;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
+  width: 16px;
+  height: 16px;
+  background-color: $active-green;
+}
+
+.circle-inactive {
+  margin-top: 2px;
+  margin-right: -10px;
+  float: left;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
+  width: 16px;
+  height: 16px;
+  background-color: $inactive-gray;
+}
+
+.signal-type {
+  float: right;
+}
+
+.panel-new {
+  border: solid 2px $signal-border;
+  outline: dotted $signal-border 2px;
+  outline-offset: -7px;
+
+  .header-new, .body-new {
+    color: $text-black;
+  }
 }
 
 .create-new {
@@ -65,14 +112,14 @@
     }
   }
   .panel-body {
-    color: $text-light;
+    color: $text-black;
   }
-}
 
-.subheader {
-  width: 43px;
-  height: 13px;
-  font-size: 12px;
+  .subheader {
+    width: 43px;
+    height: 13px;
+    font-size: 12px;
+  }
 }
 
 .offer {

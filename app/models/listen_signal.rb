@@ -23,6 +23,10 @@ class ListenSignal < ActiveRecord::Base
     TODAY    = :today
     CONTEST  = :contest
     REMINDER = :reminder
+
+    def self.values
+      constants.map{ |t| const_get(t) }
+    end
   end
 
   def self.active
