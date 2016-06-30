@@ -1,0 +1,24 @@
+%h4.signal-header
+  = pluralize(@brand.listen_signals.count, 'signal')
+  \-
+  = @brand.listen_signals.active.count
+  active
+
+- @brand.listen_signals.each_with_index do |signal, i|
+  %div{ class: "panel signal-panel #{signal.signal_type}" }
+    = get_signal_type_icon(signal.signal_type)
+    .panel-header
+      = "##{signal.name}"
+    .panel-body
+      Send your users a special offer every time they send a custom hashtag
+    .panel-status
+      .signal-status
+        - if signal.active?
+          %div.circle-active
+          %span.status ACTIVE
+        - else
+          %div.circle-inactive
+          %span.status INACTIVE
+      .signal-type
+        %span TYPE
+        = signal.signal_type.to_s.humanize

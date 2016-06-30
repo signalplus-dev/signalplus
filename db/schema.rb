@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524131221) do
+ActiveRecord::Schema.define(version: 20160629183409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,9 +47,10 @@ ActiveRecord::Schema.define(version: 20160524131221) do
     t.integer  "identity_id"
     t.text     "name"
     t.datetime "expiration_date"
-    t.boolean  "active"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.boolean  "active",          default: false, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "signal_type"
   end
 
   add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
