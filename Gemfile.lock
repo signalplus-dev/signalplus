@@ -47,6 +47,10 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.2.4)
       aws-sdk-core (= 2.2.4)
+    babel-source (5.8.35)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
     bcrypt (3.1.11)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -230,6 +234,13 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    react-rails (1.8.0)
+      babel-transpiler (>= 0.7.0)
+      coffee-script-source (~> 1.8)
+      connection_pool
+      execjs
+      railties (>= 3.2)
+      tilt
     redis (3.2.2)
     responders (2.1.2)
       railties (>= 4.2.0, < 5.1)
@@ -361,6 +372,7 @@ DEPENDENCIES
   pry-stack_explorer
   rails (= 4.2.5)
   rails_12factor
+  react-rails
   rollbar
   rspec-its
   rspec-rails (~> 3.3.3)

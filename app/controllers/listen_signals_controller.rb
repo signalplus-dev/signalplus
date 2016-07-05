@@ -7,5 +7,6 @@ class ListenSignalsController < ApplicationController
     @user = current_user
 
     @signal = SignalHandler.create_signal(@signal_type, @name, @exp_date, @user)
+
   end
 end

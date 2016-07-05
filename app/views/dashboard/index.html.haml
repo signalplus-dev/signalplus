@@ -14,26 +14,30 @@
         = @brand.name
 
     .col-md-12
-      %ul.nav.nav-pills
-        %li.active
-          %a{:href => '#signals', :data => {:toggle => 'tab'}}
-            %p SIGNALS
-        %li
-          %a{:href => '#templates', :data => {:toggle => 'tab'}}
-            %p CREATE NEW
-        %li
-          %a{:href => '#create', :data => {:toggle => 'tab'}}
-            %p NEW
+      = react_component 'Navigation'
+  -# .col-md-12
+  -#   = react_component 'TabContent', { data: { brand: @brand, signal_types: @signal_types }}
 
-  .col-md-12
-    .tab-content.clearfix
-      .tab-pane.active#signals
-        .row.dash-panel
-          = render 'listen_signals/index', :locals => { :brand => @brand }
-      .tab-pane#templates
-        .row.dash-panel
-          = render 'listen_signals/templates'
-      .tab-pane#create
-        .row.dash-panel
-          = render 'listen_signals/create'
+  -#     %ul.nav.nav-pills
+  -#       %li.active
+  -#         %a{:href => '#signals', :data => {:toggle => 'tab'}}
+  -#           %p SIGNALS
+  -#       %li
+  -#         %a{:href => '#templates', :data => {:toggle => 'tab'}}
+  -#           %p CREATE NEW
+  -#       %li
+  -#         %a{:href => '#create', :data => {:toggle => 'tab'}}
+  -#           %p NEW
+
+  -# .col-md-12
+  -#   .tab-content.clearfix
+  -#     .tab-pane.active#signals
+  -#       .row.dash-panel
+  -#         = render 'listen_signals/index', :locals => { :brand => @brand }
+  -#     .tab-pane#templates
+  -#       .row.dash-panel
+  -#         = render 'listen_signals/templates'
+  -#     .tab-pane#create
+  -#       .row.dash-panel
+  -#         = render 'listen_signals/create'
 
