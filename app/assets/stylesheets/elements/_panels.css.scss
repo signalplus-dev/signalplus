@@ -21,8 +21,10 @@
 }
 
 .panel-icon {
-  padding-left: 14px;
-  padding-bottom: 14px;
+  height: 44px;
+  width: 36px;
+  margin-left: 14px;
+  margin-bottom: 14px;
 }
 
 .panel-header {
@@ -123,5 +125,9 @@
 
 .reminder {
   background-color: $signal-green;
+}
+
+.welcome {
+  background-color: $signal-gray;
 }
 

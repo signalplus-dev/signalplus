@@ -8,9 +8,12 @@
 .navbar-static-top .navbar-nav > li > a {
   font-family: $default-font-bold;
   font-weight: 300;
-  font-size: 14px;
-  color: $light-gray !important;
+  color: $light-gray;
   margin-right: 15px;
+
+  &:hover {
+    background-color: $main-pink;
+  }
 }
 
 .navbar-header {

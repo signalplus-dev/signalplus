@@ -1,5 +1,8 @@
-// Dash Panel Buttons
-.nav-pills > li > a{
+.nav-tabs {
+  padding-left: 109px;
+}
+
+.nav-tabs > li > a{
   color: $text-white;
   background-color: $dark-gray;
   width: 150px;
@@ -15,7 +18,7 @@
   }
 }
 
-.nav-pills > li.active > a {
+.nav-tabs > li.active > a {
   &,
   &:active,
   &:focus {
