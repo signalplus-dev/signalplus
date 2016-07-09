@@ -7,8 +7,10 @@ html {
   position: relative;
 }
 
-body .container-fluid {
+body {
   font-family: $default-font;
   color: $text-black;
+  .dash-main {
+    min-height: 700px;
+  }
 }
-
