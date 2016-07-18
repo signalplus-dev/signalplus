@@ -40,7 +40,7 @@ gem 'gibberish'
 gem 'paperclip'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'react-rails'
-# gem 'browserify-rails'
+gem 'stripe'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -74,4 +74,6 @@ group :test do
   gem 'rspec-its'
   gem 'spring-commands-rspec', require: false
   gem "factory_girl_rails", "~> 4.0"
+  gem 'vcr'
+  gem 'webmock'
 end

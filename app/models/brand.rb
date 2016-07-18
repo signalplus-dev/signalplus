@@ -13,12 +13,15 @@
 class Brand < ActiveRecord::Base
   has_many :users
   has_many :identities
+  has_many :admin_users, through: :identities, source: :user
   has_many :listen_signals
   has_many :response_groups, through: :listen_signals
 
   has_one :twitter_identity, -> { where(provider: Identity::Provider::TWITTER) }, class_name: 'Identity'
+  has_one :twitter_admin, through: :twitter_identity, source: :user
   has_one :tweet_tracker,      class_name: 'TwitterTracker'
   has_one :twitter_dm_tracker, class_name: 'TwitterDirectMessageTracker'
+  has_one :payment_handler
 
   after_create :create_trackers
 

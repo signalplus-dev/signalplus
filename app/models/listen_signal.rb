@@ -7,9 +7,10 @@
 #  identity_id     :integer
 #  name            :text
 #  expiration_date :datetime
-#  active          :boolean
+#  active          :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  signal_type     :string
 #
 
 class ListenSignal < ActiveRecord::Base
