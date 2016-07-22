@@ -16,8 +16,23 @@
   color: $text-white;
   background-color: #fafbfc;
   box-shadow: $box-shadow1;
-
   padding-top: 20px;
+
+  &:hover {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    transition-duration: 0.3s;
+    transition-property: transform;
+  }
+  &:hover,
+  &:focus,
+  &:active {
+    transform: scale(1.1);
+  }
 }
 
 .panel-icon {
@@ -46,12 +61,10 @@
 }
 
 .signal-status {
-  float: left;
   width: 115px;
   height: 34px;
   border-radius: 27px;
   background-color: rgba(255, 255, 255, 0.19);
-  text-align: center;
   font-family: $default-font-bold;
   font-size: 14px;
   color: $light-gray;
@@ -63,6 +76,10 @@
     margin-top: 2px;
     margin-right: -10px;
     float: left;
+  }
+
+  .status{
+    padding-left:20px;
   }
 }
 
@@ -129,5 +146,13 @@
 
 .welcome {
   background-color: $signal-gray;
+}
+
+.inactiveTab {
+  display: none;
+}
+
+.activeTab {
+  display: block !important;
 }
 

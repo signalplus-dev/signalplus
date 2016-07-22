@@ -11,7 +11,7 @@ var ActiveSignalPanel = React.createClass({
     signals = [];
     this.props.signals.forEach(function(s, idx) {
       signals.push(
-        <div className={'panel signal-panel '+ s.signal_type}>
+        <div className={'panel signal-panel '+ s.signal_type} key={idx} >
           <SignalIcon path={'icons/' + s.signal_type} />
           <div className='panel-header'>
             {'# ' + s.name}
@@ -21,12 +21,13 @@ var ActiveSignalPanel = React.createClass({
           </div>
           <div className='panel-status'>
             <div className='signal-status'>
-              <div className='circle active'>
-                <span className='status'>ACTIVE</span>
-              </div>
+              <div className='circle active'></div>
+              <span className='status'>ACTIVE</span>
+
             </div>
           </div>
-          <div className='signal-type uctext'>
+          <div className='signal-type'>
+            <span>TYPE</span>
             {s.signal_type}
           </div>
         </div>

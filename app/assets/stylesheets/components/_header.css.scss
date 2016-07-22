@@ -19,3 +19,11 @@
 .navbar-header {
   padding-left: 20px;
 }
+
+
+// Get rid of strange bootstrap last child margin
+@media (min-width: 768px) {
+  .navbar-nav.navbar-right:last-child {
+    margin-right: 0;
+  }
+}

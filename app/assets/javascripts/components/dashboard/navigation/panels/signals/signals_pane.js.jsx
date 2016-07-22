@@ -1,32 +1,4 @@
-var GetSignals = React.createClass({
-  getSignals: function() {
-    $.ajax({
-      url: '/dashboard/get_data',
-      dataType: 'json',
-      success: function(data) {
-        this.setState({signals: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error('/dashboard/get_data', status, err.toString());
-      }.bind(this)
-    });
-  },
-  getInitialState: function() {
-    return {signals: []};
-  },
-  componentDidMount: function() {
-    this.getSignals();
-  },
-  render: function() {
-    return (
-      <div>
-        <SignalPanel signals={this.state.signals} />
-      </div>
-    );
-  }
-});
-
-var SignalPanel = React.createClass({
+var SignalsPane = React.createClass({
   render: function() {
     return (
       <div>
