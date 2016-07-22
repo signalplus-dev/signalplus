@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629183409) do
+ActiveRecord::Schema.define(version: 20160718000251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 20160629183409) do
   add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
   add_index "listen_signals", ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
 
+  create_table "payment_handlers", force: :cascade do |t|
+    t.integer  "brand_id"
+    t.string   "provider"
+    t.string   "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "payment_handlers", ["brand_id"], name: "index_payment_handlers_on_brand_id", using: :btree
+
   create_table "promotional_tweets", force: :cascade do |t|
     t.text     "message"
     t.integer  "listen_signal_id"
@@ -88,6 +98,29 @@ ActiveRecord::Schema.define(version: 20160629183409) do
   end
 
   add_index "responses", ["response_group_id"], name: "index_responses_on_response_group_id", using: :btree
+
+  create_table "subscription_plans", force: :cascade do |t|
+    t.integer  "amount"
+    t.string   "name"
+    t.integer  "number_of_messages"
+    t.string   "currency"
+    t.string   "provider"
+    t.string   "provider_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "brand_id"
+    t.integer  "subscription_plan_id"
+    t.string   "provider"
+    t.string   "token"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "subscriptions", ["brand_id"], name: "index_subscriptions_on_brand_id", using: :btree
+  add_index "subscriptions", ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree
 
   create_table "twitter_direct_message_trackers", force: :cascade do |t|
     t.datetime "created_at",                                   null: false

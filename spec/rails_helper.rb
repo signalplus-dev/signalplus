@@ -7,6 +7,13 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'factory_girl_rails'
 require 'sidekiq/testing'
+require 'vcr'
+require 'webmock/rspec'
+
+VCR.configure do |config|
+  config.cassette_library_dir = "fixtures/vcr_cassettes"
+  config.hook_into :webmock # or :fakeweb
+end
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
