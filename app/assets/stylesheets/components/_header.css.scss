@@ -8,11 +8,22 @@
 .navbar-static-top .navbar-nav > li > a {
   font-family: $default-font-bold;
   font-weight: 300;
-  font-size: 14px;
-  color: $light-gray !important;
+  color: $light-gray;
   margin-right: 15px;
+
+  &:hover {
+    background-color: $main-pink;
+  }
 }
 
 .navbar-header {
   padding-left: 20px;
+}
+
+
+// Get rid of strange bootstrap last child margin
+@media (min-width: 768px) {
+  .navbar-nav.navbar-right:last-child {
+    margin-right: 0;
+  }
 }

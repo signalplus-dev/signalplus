@@ -9,9 +9,9 @@ Rails.application.routes.draw do
 
   get 'users/index'
   root 'users#index'
-  get 'brands/index'
 
+
+  get 'dashboard/get_data' => 'dashboard#get_data'
+  get 'dashboard/index'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
-
-  resources :signals, :controller => 'listen_signals'
 end

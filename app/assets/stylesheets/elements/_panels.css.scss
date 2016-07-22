@@ -16,80 +16,86 @@
   color: $text-white;
   background-color: #fafbfc;
   box-shadow: $box-shadow1;
+  padding-top: 20px;
+
+  &:hover {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    transition-duration: 0.3s;
+    transition-property: transform;
+  }
+  &:hover,
+  &:focus,
+  &:active {
+    transform: scale(1.1);
+  }
 }
 
 .panel-icon {
-  margin-top: 20px;
-  margin-left: 12px;
+  height: 44px;
+  width: 36px;
+  margin-left: 14px;
   margin-bottom: 14px;
 }
 
 .panel-header {
-  margin-left: 17px;
+  padding-left: 17px;
   font-size: 34px;
   color: $text-white;
 }
 
 .panel-body {
-  margin-left: 17px;
-  margin-top: 5px;
-  padding: 0 !important;
-  color: $text-white;
-
-  width: 213px;
-  height: 60px;
+  padding-left: 17px;
   font-size: 16px;
+  color: $text-white;
 }
 
 .panel-status {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   color: $text-white;
 }
 
 .signal-status {
-  float: left;
   width: 115px;
   height: 34px;
   border-radius: 27px;
   background-color: rgba(255, 255, 255, 0.19);
-  text-align: center;
   font-family: $default-font-bold;
   font-size: 14px;
   color: $light-gray;
   margin-left: 10px;
-  margin-bottom: 10px;
-  text-align: center;
   padding-left: 10px;
   padding-top: 7px;
-}
 
-.circle-active {
-  margin-top: 2px;
-  margin-right: -10px;
-  float: left;
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  border-radius: 16px;
-  width: 16px;
-  height: 16px;
-  background-color: $active-green;
-}
+  .circle {
+    margin-top: 2px;
+    margin-right: -10px;
+    float: left;
+  }
 
-.circle-inactive {
-  margin-top: 2px;
-  margin-right: -10px;
-  float: left;
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  border-radius: 16px;
-  width: 16px;
-  height: 16px;
-  background-color: $inactive-gray;
+  .status{
+    padding-left:20px;
+  }
 }
 
 .signal-type {
-  float: right;
+  left: 200px;
+  bottom: 0px;
+  position: absolute;
+  text-align: right;
+  font-size: 16px;
+  height: 42px;
+  width: 44px;
+
+  span {
+    font-family: $default-font;
+    font-size: 12px;
+  }
 }
 
 .panel-new {
@@ -136,5 +142,17 @@
 
 .reminder {
   background-color: $signal-green;
+}
+
+.welcome {
+  background-color: $signal-gray;
+}
+
+.inactiveTab {
+  display: none;
+}
+
+.activeTab {
+  display: block !important;
 }
 

@@ -1,8 +1,9 @@
-.dash {
-  padding-left: 109px;
+.dash{
+  padding: 0;
 }
 
 .dash-header {
+  padding-left: 109px;
   height: 100px;
 
   img {
@@ -35,7 +36,7 @@
   background-color: $light-gray;
 }
 
-.dash-panel {
+.tab-content {
   padding-left: 109px;
   padding-bottom: 200px;
   background-color: $light-gray;

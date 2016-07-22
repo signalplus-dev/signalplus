@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    redirect_to brands_index_path if current_user
+    redirect_to dashboard_index_path if current_user
   end
 
   # GET /users/:id/edit

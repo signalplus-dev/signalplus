@@ -10,7 +10,13 @@ html {
 body {
   font-family: $default-font;
   color: $text-black;
-  .dash-main {
-    min-height: 700px;
+
+  .uctext {
+    text-transform: capitalize;
   }
 }
+
+.main {
+  min-height: 700px;
+}
+
