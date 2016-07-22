@@ -33,7 +33,7 @@ task create_subscription_plans: :environment do
     rescue Stripe::InvalidRequestError
     end
 
-    SubscriptionPlan.create(
+    SubscriptionPlan.first_or_create(
       sp.slice(:amount, :name, :number_of_messages, :currency)
         .merge(provider: 'Stripe', provider_id: sp[:id])
     )
