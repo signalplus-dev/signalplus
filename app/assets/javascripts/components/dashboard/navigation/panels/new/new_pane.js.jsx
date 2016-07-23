@@ -1,7 +1,8 @@
 var NewPane = React.createClass({
   render: function() {
     return (
-      <p>New Signal Pane</p>
+      <ContentPanel signalType={this.props.templateType}/>
     );
   }
 });
+

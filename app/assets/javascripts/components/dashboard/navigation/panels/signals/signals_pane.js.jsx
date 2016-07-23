@@ -4,7 +4,7 @@ var SignalsPane = React.createClass({
       <div>
         <h4 className='signal-header'>{this.renderPanelTitle()}</h4>
         {this.choosePanel()}
-        <CreateNew/>
+        <CreateNew handleClick={this.props.handleClick}/>
       </div>
     );
   },

@@ -11,14 +11,15 @@ var TemplatesPane = React.createClass({
     );
   },
 
-  handleClick: function(idx, signal_type) {
+  handleClick: function(idx, signalType) {
     tab = {
       name: 'NEW',
       className: 'active',
       paneId: 'new'
     };
-
+    
     this.props.handleTab(tab);
+    this.props.handleTemplate(signalType);
   },
 
   renderTemplates: function() {
