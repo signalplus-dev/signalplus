@@ -3,7 +3,7 @@ var CreateNew = React.createClass({
     return (
       <a href='#templates' data-toggle='tab'>
         <div className='panel signal-panel panel-new'>
-          <SignalIcon path='icons/signalplus-small' />
+          <SignalIcon type='create' />
           <div className='panel-header header-new'>
             Create New
           </div>
