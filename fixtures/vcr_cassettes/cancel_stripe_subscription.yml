@@ -1,0 +1,101 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://api.stripe.com/v1/subscriptions/sub_8q6Cc93nR3NR59
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.48.0
+      Authorization:
+      - Bearer sk_test_1edJffGpWL6BsWNjzicAe9R2
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Idempotency-Key:
+      - f5da8647-92ab-43e0-a779-f3e9b620f812
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.48.0","lang":"ruby","lang_version":"2.2.3 p173 (2015-08-18)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Ricardos-MacBook-Pro.local 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13
+        19:56:56 PST 2015; root:xnu-3248.20.55~2/RELEASE_X86_64 x86_64","hostname":"Ricardos-MacBook-Pro.local"}'
+      Host:
+      - api.stripe.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 24 Jul 2016 20:06:24 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '815'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - f5da8647-92ab-43e0-a779-f3e9b620f812
+      Request-Id:
+      - req_8seABGr71YG12n
+      Stripe-Version:
+      - '2016-07-06'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "sub_8q6Cc93nR3NR59",
+          "object": "subscription",
+          "application_fee_percent": null,
+          "cancel_at_period_end": false,
+          "canceled_at": 1469390784,
+          "created": 1468803199,
+          "current_period_end": 1471481599,
+          "current_period_start": 1468803199,
+          "customer": "cus_8q6CEjen9UhRNn",
+          "discount": null,
+          "ended_at": 1469390784,
+          "livemode": false,
+          "metadata": {},
+          "plan": {
+            "id": "basic",
+            "object": "plan",
+            "amount": 2900,
+            "created": 1468799116,
+            "currency": "usd",
+            "interval": "month",
+            "interval_count": 1,
+            "livemode": false,
+            "metadata": {},
+            "name": "Basic",
+            "statement_descriptor": null,
+            "trial_period_days": null
+          },
+          "quantity": 1,
+          "start": 1469389691,
+          "status": "canceled",
+          "tax_percent": null,
+          "trial_end": null,
+          "trial_start": null
+        }
+    http_version: 
+  recorded_at: Sun, 24 Jul 2016 20:06:25 GMT
+recorded_with: VCR 3.0.3
