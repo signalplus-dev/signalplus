@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718000251) do
+ActiveRecord::Schema.define(version: 20160724185337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20160718000251) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "subscriptions", ["brand_id"], name: "index_subscriptions_on_brand_id", using: :btree
+  add_index "subscriptions", ["brand_id"], name: "index_subscriptions_on_brand_id", unique: true, using: :btree
   add_index "subscriptions", ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree
 
   create_table "twitter_direct_message_trackers", force: :cascade do |t|
