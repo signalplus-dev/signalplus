@@ -9,9 +9,90 @@
 #  token                :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  canceled_at          :datetime
 #
 
 class Subscription < ActiveRecord::Base
   belongs_to :brand
   belongs_to :subscription_plan
+
+  class << self
+    # Subscribes a brand to to a subscription plan. Handles error outside of this method
+    #
+    # @param brand             [Brand] A brand object
+    # @param subscription_plan [SubscriptionPlan] A subscription plan object
+    # @param stripe_token      [String] The Stripe token response necessary to create the Stripe
+    #                                   Customer object and their Stripe subscription
+    def subscribe!(brand, subscription_plan, stripe_token)
+      customer = create_customer!(brand, subscription_plan, stripe_token)
+
+      if customer
+        create_payment_handler!(brand, customer)
+        create_subscription!(brand, subscription_plan, customer)
+      end
+    end
+
+    private
+
+    def create_customer!(brand, subscription_plan, stripe_token)
+      Stripe::Customer.create(
+        source: stripe_token,
+        plan:   subscription_plan.provider_id,
+        email:  brand.twitter_admin.email,
+      )
+    end
+
+    def create_payment_handler!(brand, customer)
+      PaymentHandler.create!(
+        brand_id: brand.id,
+        provider: 'Stripe',
+        token:    customer.id
+      )
+    end
+
+    def create_subscription!(brand, subscription_plan, customer)
+      create!(
+        brand_id:             brand.id,
+        subscription_plan_id: subscription_plan.id,
+        provider:             'Stripe',
+        token:                customer.subscriptions.first.id
+      )
+    end
+  end
+
+  # Updates the subscription's subscription plan
+  #
+  # @param subscription_plan [SubscriptionPlan] A subscription plan object
+  # TODO: add logging
+  def update!(subscription_plan)
+    stripe_subscription.plan = subscription_plan.provider_id
+    update_stripe_subscription!
+    update(subscription_plan_id: subscription_plan.id)
+  end
+
+  # Cancels the subscription plan
+  # TODO: add logging
+  def cancel!
+    cancel_stripe_subscription!
+    update(canceled_at: Time.current)
+  end
+
+  def stripe_subscription
+    @stripe_subscription ||= Stripe::Subscription.retrieve(token)
+  end
+
+  def canceled?
+    !canceled_at.nil?
+  end
+
+  private
+
+  # Used to stub out in tests for mocking of the Stripe API response
+  def update_stripe_subscription!
+    stripe_subscription.save
+  end
+
+  def cancel_stripe_subscription!
+    stripe_subscription.delete
+  end
 end
