@@ -16,6 +16,8 @@ class Subscription < ActiveRecord::Base
   belongs_to :brand
   belongs_to :subscription_plan
 
+  has_paper_trail only: [:subscription_plan_id, :canceled_at], on: [:update]
+
   class << self
     # Subscribes a brand to to a subscription plan. Handles error outside of this method
     #
@@ -63,7 +65,6 @@ class Subscription < ActiveRecord::Base
   # Updates the subscription's subscription plan
   #
   # @param subscription_plan [SubscriptionPlan] A subscription plan object
-  # TODO: add logging
   def update!(subscription_plan)
     stripe_subscription.plan = subscription_plan.provider_id
     update_stripe_subscription!
@@ -71,16 +72,17 @@ class Subscription < ActiveRecord::Base
   end
 
   # Cancels the subscription plan
-  # TODO: add logging
   def cancel!
     cancel_stripe_subscription!
     update(canceled_at: Time.current)
   end
 
+  # @return [Stripe::Subscription]
   def stripe_subscription
     @stripe_subscription ||= Stripe::Subscription.retrieve(token)
   end
 
+  # @return [Boolean]
   def canceled?
     !canceled_at.nil?
   end

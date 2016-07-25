@@ -56,6 +56,19 @@ def example_twitter_direct_message
   YAML::load(File.read("#{Rails.root}/spec/factories/twitter_direct_message.yml"))
 end
 
+def with_versioning
+  was_enabled = PaperTrail.enabled?
+  was_enabled_for_controller = PaperTrail.enabled_for_controller?
+  PaperTrail.enabled = true
+  PaperTrail.enabled_for_controller = true
+  begin
+    yield
+  ensure
+    PaperTrail.enabled = was_enabled
+    PaperTrail.enabled_for_controller = was_enabled_for_controller
+  end
+end
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -80,4 +93,9 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  #  Default to not tracking changes
+  config.before(:all) do
+    PaperTrail.enabled = false
+  end
 end
