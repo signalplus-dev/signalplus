@@ -105,6 +105,16 @@ describe Subscription do
           subscription.subscription_plan
         }.from(basic_plan).to(advanced_plan)
       end
+
+      it 'logs the changes' do
+        with_versioning do
+          expect {
+            subscription.update!(advanced_plan)
+          }.to change {
+            subscription.versions.count
+          }.from(0).to(1)
+        end
+      end
     end
 
     describe '.cancel!' do
@@ -128,6 +138,16 @@ describe Subscription do
         }.to change {
           subscription.canceled?
         }.from(false).to(true)
+      end
+
+      it 'logs the changes' do
+        with_versioning do
+          expect {
+            subscription.cancel!
+          }.to change {
+            subscription.versions.count
+          }.from(0).to(1)
+        end
       end
     end
   end
