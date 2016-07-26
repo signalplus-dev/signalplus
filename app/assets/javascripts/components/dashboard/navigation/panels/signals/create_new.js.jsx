@@ -7,7 +7,7 @@ var CreateNew = React.createClass({
     return (
       <a href='#templates'>
         <div onClick={this.handleClick} className='panel signal-panel panel-new'>
-          <SignalIcon type='create' />
+          <SignalIcon type='create' className='panel-icon'/>
           <div className='panel-header header-new'>
             Create New
           </div>

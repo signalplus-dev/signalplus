@@ -10,7 +10,7 @@ var WelcomePanel = React.createClass({
   renderPanel: function() {
     return (
       <div className='panel signal-panel welcome'>
-        <SignalIcon type='welcome' />
+        <SignalIcon type='welcome' className='panel-icon'/>
         <div className='panel-header'>
           Welcome
         </div>

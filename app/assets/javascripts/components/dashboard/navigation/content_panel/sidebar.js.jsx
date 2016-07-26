@@ -12,7 +12,7 @@ var Sidebar = React.createClass({
       );
     });
     return (
-      <div className='sidebar-wrapper'>
+      <div className='col-md-2 sidebar'>
         <ul className='sidebar-menus'>
           {sidebarMenus}
         </ul>
@@ -44,12 +44,7 @@ var MenuItem = React.createClass({
         //   <p>{'#' + this.signalType}</p>
         //   <a href='#'>Edit Name</a>
         // </div>
-        // <div className='promote'>
-        //   <h4>Promote</h4>
-        // </div>
-        // <div className='preview'>
-        //   <h4>Preview</h4>
-        // </div>
+
         // <div className='activity'>
         //   <h4>Activity</h4>
         // </div>

@@ -3,15 +3,13 @@ var MenuContent = React.createClass({
     var contentList = this.props.menus.map(function(menu) {
       return (
         <ContentPane active={menu.active} key={menu.id} menu={menu}
-          signalState={this.props.signalState} />
+          signal={this.props.signal} />
       );
     }, this);
 
     return (
-      <div className='container-fluid'>
-        <div className = 'row'>
-          {contentList}
-        </div>
+      <div>
+        {contentList}
       </div>
     );
   }
@@ -21,7 +19,7 @@ var ContentPane = React.createClass({
   render: function() {
     var viewClassName = this.props.active ? 'activeTab' : 'inactiveTab';
     return (
-      <div className={'col-md-12 content-pane ' + viewClassName}>
+      <div className={'content-pane ' + viewClassName}>
         {this.renderPane()}
       </div>
     );
@@ -31,7 +29,7 @@ var ContentPane = React.createClass({
     var pane = this.props.menu.contentId;
 
     if (pane == 'edit') {
-      return (<Edit/>)
+      return (<Edit signal={this.props.signal}/>)
     } else if (pane == 'promote') {
       return (<Promote/>)
     } else if (pane == 'preview') {

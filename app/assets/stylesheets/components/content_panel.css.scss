@@ -1,0 +1,113 @@
+.content-panel {
+  padding-top: 15px;
+}
+
+.content-box {
+  padding-left: 15px;
+  padding-top: 15px;
+  min-height: 500px;
+  background-color: $text-white;
+  padding-right: 30px;
+}
+
+.content-explanation {
+  float: right;
+  width: 350px;
+  height: 60px;
+}
+
+.content-icon {
+  height: 50px;
+  float: left;
+  display: block;
+  margin-right: 15px;
+}
+.signal-type-label {
+  margin: 0 !important;
+  font-size: 11px;
+}
+
+.signal-type-header {
+    display: inline-block;
+    width: 200px;
+    margin: 0 !important;
+}
+
+.signal-description {
+  width: 240px;
+  height: 28px;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 14px;
+  margin: 0 !important;
+}
+
+.response-info {
+  h3 {
+    display: inline;
+  }
+
+  img {
+    display: inline;
+    height:28px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.tip-box {
+  margin-top: 15px;
+  border: solid 1px $light-gray;
+  h5 {
+    display: inline-block;
+    margin: 0 !important;
+  }
+
+  p {
+    font-size: 13px;
+    width: 70%;
+    margin: 0 !important;
+  }
+
+  img {
+    float: left;
+    height: 40px;
+    padding-right: 3px;
+  }
+}
+
+.response-edit-box {
+  margin-top: 15px;
+  min-height: 100px;
+  padding: 10px;
+  border: solid 1px $light-gray;
+  background-color: $light-gray;
+
+  .response-text{
+    float:left;
+  }
+
+  h5 {
+    display: block;
+    margin: 0px !important;
+    width: 150px;
+  }
+
+  p {
+    float: left;
+    font-size: 12px;
+    margin: 0 !important;
+    width: 150px;
+  }
+}
+
+.input-box input {
+  float:right;
+  width: 400px;
+  height: 80px;
+  border-radius: 11px;
+  background-color: $text-white;
+  border: solid 1px $signal-border;
+}
+
+

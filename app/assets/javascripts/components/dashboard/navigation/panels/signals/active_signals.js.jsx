@@ -12,7 +12,7 @@ var ActiveSignalPanel = React.createClass({
     this.props.signals.forEach(function(s, idx) {
       signals.push(
         <div className={'panel signal-panel '+ s.signal_type} key={idx} >
-          <SignalIcon path={'icons/' + s.signal_type} />
+          <SignalIcon path={'icons/' + s.signal_type} className='panel-icon'/>
           <div className='panel-header'>
             {'# ' + s.name}
           </div>

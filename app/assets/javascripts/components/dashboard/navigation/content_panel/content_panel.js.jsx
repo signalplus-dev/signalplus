@@ -22,20 +22,24 @@ var ContentPanel = React.createClass({
     }
   },
 
-  getSignalState: function() {
+  getSignal: function() {
     // TODO:
     // Logic to check if its signal: create or show, or Account index
     // api if show/account then call to get info
-    var signalType = this.props.templateType
+    var signal = {
+      type: this.props.templateType
+    }
+
+    return signal
   },
 
   render: function() {
-    var signalState = this.getSignalState()
+    var signal = this.getSignal();
 
     return (
-      <div className='content-panel-wrapper'>
-        <Sidebar menus={this.state.sidebarMenus} handleClick={this.handleSideBar} templateType={this.signalState} />
-        <MenuContent menus={this.state.sidebarMenus} signalState={this.signalState}/>
+      <div className='content-panel'>
+          <Sidebar menus={this.state.sidebarMenus} handleClick={this.handleSideBar} templateType={this.signalState} />
+          <MenuContent menus={this.state.sidebarMenus} signal={signal}/>
       </div>
     );
   }

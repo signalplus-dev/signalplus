@@ -1,0 +1,33 @@
+.sidebar {
+  padding: 0 !important;
+  background-color: $dark-gray;
+  box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.24);
+}
+
+.sidebar-menus {
+  padding: 0 !important;
+  text-align: center;
+  line-height: 50px;
+}
+
+.sidebar-menus li {
+  height: 50px;
+  list-style: none;
+  text-decoration: none;
+  color: $text-white;
+
+  a {
+    display: block;
+    font-weight: 300;
+    color: $text-white;
+    font-size: 18px;
+  }
+
+}
+
+ul li a:hover, 
+ul li a:focus {
+  background-color: $text-white;
+  text-decoration: none;
+  color: $text-black;
+}
