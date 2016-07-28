@@ -41,5 +41,4 @@ class ListenSignal < ActiveRecord::Base
   def expired?
     expiration_date <= Time.current
   end
-
 end

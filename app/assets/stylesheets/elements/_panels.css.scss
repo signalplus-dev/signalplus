@@ -146,6 +146,9 @@
 
 .welcome {
   background-color: $signal-gray;
+  .panel-header, .panel-body{
+    color: $text-black;
+  }
 }
 
 .inactiveTab {

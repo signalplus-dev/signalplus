@@ -23,6 +23,8 @@ class DashboardController < ApplicationController
     render json: ListenSignal.all
   end
 
+
+
   private
 
   def get_signal_type_text(signal_type)
