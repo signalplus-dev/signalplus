@@ -9,15 +9,14 @@
   font-family: $default-font-bold;
   font-weight: 300;
   color: $light-gray;
-  margin-right: 15px;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: $main-pink;
   }
 }
 
-.navbar-header {
-  padding-left: 20px;
+.navbar-right {
+  margin-right: 20px;
 }
 
 

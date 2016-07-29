@@ -21,9 +21,11 @@ var SaveBtn = React.createClass({
 
   render: function() {
     return (
-      <button type='button' className='btn btn-primary save-btn' onClick={this.handleSubmit}>
-        + ADD
-      </button>
+      <div className='edit-btns'>
+        <button type='button' className='btn btn-primary save-btn' onClick={this.handleSubmit}>
+          SAVE
+        </button>
+      </div>
     );
   }
 });

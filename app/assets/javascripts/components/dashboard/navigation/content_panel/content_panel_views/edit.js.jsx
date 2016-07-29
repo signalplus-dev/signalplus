@@ -6,7 +6,7 @@ var Edit = React.createClass({
       firstUrl: '',
       repeatResponse: 'Type your response here',
       repeatlink: '',
-      active: false
+      active: false,
       startDate: '',
       endDate: ''
     };
@@ -62,6 +62,12 @@ var Edit = React.createClass({
             <h5>Not Available/ Repeat Requests</h5>
           </div>
           <InputBox response={this.state.repeatResponse} setResponse={this.setResponse} type='repeat'/>
+        </div>
+
+        <div className='response-edit-box'>
+          <div className='response-exp-date'>
+            <h5>Expiration Date</h5>
+          </div>
         </div>
       </div>
     );

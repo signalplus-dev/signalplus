@@ -238,6 +238,8 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    react-bootstrap-rails (0.29.4)
+      rails (>= 3.1)
     react-rails (1.8.0)
       babel-transpiler (>= 0.7.0)
       coffee-script-source (~> 1.8)
@@ -388,6 +390,7 @@ DEPENDENCIES
   pry-stack_explorer
   rails (= 4.2.5)
   rails_12factor
+  react-bootstrap-rails
   react-rails
   rollbar
   rspec-its
@@ -414,4 +417,4 @@ RUBY VERSION
    ruby 2.2.3p173
 
 BUNDLED WITH
-   1.12.4
+   1.12.5

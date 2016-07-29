@@ -13,10 +13,12 @@ var InputBox = React.createClass({
   },
 
   render: function() {
+    var DropdownButton = ReactBootstrap.DropdownButton;
+    var MenuItem = ReactBootstrap.MenuItem;
+
     return (
       <div className='input-box'>
         <input value={this.props.response} onChange={this.handleChange} onClick={this.reset} />
-        <button className='glyphicon glyphicon-plus'></button>
       </div>
     );
   }
