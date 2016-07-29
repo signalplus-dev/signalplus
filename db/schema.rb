@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718000251) do
+ActiveRecord::Schema.define(version: 20160725013324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,9 +117,11 @@ ActiveRecord::Schema.define(version: 20160718000251) do
     t.string   "token"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.datetime "canceled_at"
   end
 
-  add_index "subscriptions", ["brand_id"], name: "index_subscriptions_on_brand_id", using: :btree
+  add_index "subscriptions", ["brand_id"], name: "index_subscriptions_on_brand_id", unique: true, using: :btree
+  add_index "subscriptions", ["canceled_at"], name: "index_subscriptions_on_canceled_at", using: :btree
   add_index "subscriptions", ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree
 
   create_table "twitter_direct_message_trackers", force: :cascade do |t|
@@ -182,6 +184,20 @@ ActiveRecord::Schema.define(version: 20160718000251) do
   add_index "users", ["brand_id"], name: "index_users_on_brand_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "versions", force: :cascade do |t|
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
+    t.string   "whodunnit"
+    t.jsonb    "object"
+    t.datetime "created_at"
+    t.jsonb    "object_changes"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["object"], name: "index_versions_on_object", using: :btree
+  add_index "versions", ["object_changes"], name: "index_versions_on_object_changes", using: :btree
 
   add_foreign_key "identities", "brands"
   add_foreign_key "identities", "users"
