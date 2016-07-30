@@ -1,3 +1,30 @@
+@mixin input-form($height) {
+  margin-top: 15px;
+  min-height: $height;
+  padding: 10px;
+  border: solid 1px $light-gray;
+  background-color: $light-gray;
+
+  .response-text{
+    float:left;
+  }
+
+  h5 {
+    font-weight: 600;
+    display: block;
+    margin: 0px !important;
+    width: 150px;
+  }
+
+  p {
+    float: left;
+    font-size: 12px;
+    margin: 0 !important;
+    padding-top: 6px;
+  }
+}
+
+
 .content-panel {
   padding-top: 15px;
 }
@@ -77,29 +104,23 @@
 }
 
 .response-edit-box {
-  margin-top: 15px;
-  min-height: 100px;
-  padding: 10px;
-  border: solid 1px $light-gray;
-  background-color: $light-gray;
-
-  .response-text{
-    float:left;
-  }
-
-  h5 {
-    font-weight: 600;
-    display: block;
-    margin: 0px !important;
-    width: 150px;
-  }
+  @include input-form(100px);
 
   p {
-    float: left;
-    font-size: 12px;
-    margin: 0 !important;
-    padding-top: 6px;
     width: 150px;
+  }
+}
+
+.promote-box {
+  @include input-form(350px);
+
+  .subheader {
+    padding-top: 50px;
+  }
+
+  .thumbnails {
+    float: left;
+    padding-top: 30px;
   }
 }
 

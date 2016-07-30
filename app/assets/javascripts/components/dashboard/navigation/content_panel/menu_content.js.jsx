@@ -31,7 +31,7 @@ var ContentPane = React.createClass({
     if (pane == 'edit') {
       return (<Edit signal={this.props.signal}/>)
     } else if (pane == 'promote') {
-      return (<Promote/>)
+      return (<Promote signal={this.props.signal}/>)
     } else if (pane == 'preview') {
       return (<Preview/>)
     } else if (pane == 'activity') {

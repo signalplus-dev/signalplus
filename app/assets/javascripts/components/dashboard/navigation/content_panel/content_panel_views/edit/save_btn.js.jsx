@@ -11,7 +11,7 @@ var SaveBtn = React.createClass({
     })
     .done(function(result) {
       console.log('success' + result)
-
+      afterSubmit(result)
     }.bind(this))
     .fail(function(jqXhr) {
       console.log('failed to register');
