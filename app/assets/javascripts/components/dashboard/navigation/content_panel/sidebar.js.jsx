@@ -21,6 +21,7 @@ var Sidebar = React.createClass({
   }
 });
 
+
 var MenuItem = React.createClass({
   handleClick: function() {
     this.props.handleClick(this.props.menu.contentId);
@@ -28,26 +29,24 @@ var MenuItem = React.createClass({
 
   render: function() {
     var menuClassName = this.props.active ? 'active' : '';
+    var menu = this.props.menu.contentId;
 
     return (
-      <li className={menuClassName} onClick={this.handleClick}> 
-        <a href={'#'+this.props.menu.contentId}>
-          {this.props.menu.contentId}
-        </a>
+      <li className={menuClassName + ' ' + menu} onClick={this.handleClick}> 
+        {this.renderMenuItem(menu)} 
       </li>
     );
+  },
+
+  renderMenuItem: function(menu) {
+    if (menu == 'edit') {
+      return (<a href={'#' + menu}>{menu}</a>);
+    } else if (menu == 'activity') {
+      return ( <a href={'#' + menu}>{menu}</a>);
+    } else {
+      return(<a href={'#' + menu}>{menu}</a>);
+    }
   }
 });
 
-        // <div className='signal-info'>
-        //   <p>SIGNAL NAME</p>
-        //   <p>{'#' + this.signalType}</p>
-        //   <a href='#'>Edit Name</a>
-        // </div>
 
-        // <div className='activity'>
-        //   <h4>Activity</h4>
-        // </div>
-        // <div className='signal-delete'>
-        //   <a href='#'>DELETE SIGNAL</a>
-        // </div>

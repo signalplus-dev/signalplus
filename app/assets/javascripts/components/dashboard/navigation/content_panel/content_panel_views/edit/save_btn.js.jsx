@@ -1,17 +1,30 @@
 var SaveBtn = React.createClass({
   handleSubmit: function() {
-    if (this.props.type = 'add') {
-      return null
-    } else {
-      return null
-    }
+    this.createSignal(this.props.data);
+  },
+
+  createSignal: function(data) {
+    $.ajax({
+      type: 'POST',
+      url: '/template/signal',
+      data: data
+    })
+    .done(function(result) {
+      console.log('success' + result)
+
+    }.bind(this))
+    .fail(function(jqXhr) {
+      console.log('failed to register');
+    });
   },
 
   render: function() {
     return (
-      <button type='button' className='btn btn-primary save-btn' onClick={this.handleSubmit}>
-        + ADD
-      </button>
+      <div className='edit-btns'>
+        <button type='button' className='btn btn-primary save-btn' onClick={this.handleSubmit}>
+          SAVE
+        </button>
+      </div>
     );
   }
 });

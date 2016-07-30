@@ -18,6 +18,8 @@ class Response < ActiveRecord::Base
 
   module Type
     DEFAULT = 'default'
+    FIRST = 'first'
+    REPEAT = 'repeat'
     EXPIRED = 'expired'
     FLOW    = 'flow'
   end

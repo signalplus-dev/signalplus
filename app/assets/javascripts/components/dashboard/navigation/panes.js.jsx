@@ -30,11 +30,11 @@ var PaneContent = React.createClass({
   renderPane: function() {
     var pane = this.props.tab.paneId;
     if ( pane == 'signals') {
-      return (<SignalsPane signals={this.props.data.signals} handleTab={this.props.handleTab} handleClick={this.props.handleClick} />)
+      return (<SignalsPane signals={this.props.data.signals} handleTab={this.props.handleTab} handleClick={this.props.handleClick} />);
     } else if ( pane == 'templates') {
-      return (<TemplatesPane signal_types={this.props.data.signal_types} handleTab={this.props.handleTab} handleTemplate={this.props.handleTemplate} />)
+      return (<TemplatesPane signal_types={this.props.data.signal_types} handleTab={this.props.handleTab} handleTemplate={this.props.handleTemplate} />);
     } else if ( pane == 'new') {
-      return (<NewPane templateType={this.props.templateType}/>)
+      return (<NewPane templateType={this.props.templateType}/>);
     }
   },
 });

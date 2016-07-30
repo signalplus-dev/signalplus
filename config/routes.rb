@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   root 'users#index'
 
   get 'dashboard/index'
-  post 'signal/create' => 'listen_signals#create'
+  post 'template/signal' => 'listen_signals#create_template_signal'
   
   get 'dashboard/get_data' => 'dashboard#get_data'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup

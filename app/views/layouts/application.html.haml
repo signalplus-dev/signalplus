@@ -8,6 +8,8 @@
     = csrf_meta_tags
   %body
     = render 'shared/header'
+    .div.container
+      .div#flash_messages
 
     .container-fluid.main
       = yield

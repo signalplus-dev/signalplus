@@ -4,7 +4,6 @@ class DashboardController < ApplicationController
   def index
     @brand = current_user.brand
     @signals = @brand.listen_signals
-
     @signal_types = ListenSignal::Types.values
     @type_hash = @signal_types.map do |t|
       { t.to_sym => get_signal_type_text(t) }
@@ -22,8 +21,6 @@ class DashboardController < ApplicationController
     # }
     render json: ListenSignal.all
   end
-
-
 
   private
 

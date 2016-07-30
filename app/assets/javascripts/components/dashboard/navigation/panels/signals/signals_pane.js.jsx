@@ -10,7 +10,8 @@ var SignalsPane = React.createClass({
   },
 
   renderPanelTitle: function() {
-    var signalCount = this.props.signals.length
+    var signalCount = this.props.signals.length;
+
     if (signalCount == 0) {
       return 'All Signals'
     } else if (signalCount == 1) {

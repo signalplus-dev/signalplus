@@ -2,13 +2,11 @@ var Edit = React.createClass({
   getInitialState: function() {
     return {
       signalType: this.props.signal.type,
+      name: this.props.signal.type,
       firstResponse: 'Type your response here',
-      firstUrl: '',
       repeatResponse: 'Type your response here',
-      repeatlink: '',
       active: false,
-      startDate: '',
-      endDate: ''
+      expDate: '2017-01-01'
     };
   },
 
@@ -16,10 +14,6 @@ var Edit = React.createClass({
     var obj = {};
     obj[key] = value;
     this.setState(obj);
-  },
-
-  handleBtnClick:function() {
-
   },
 
   render: function() {
@@ -39,7 +33,7 @@ var Edit = React.createClass({
           <h3>Responses to:</h3>
           <SignalIcon type='twitter'/>
           <h3><strong>@Brand #Offers</strong></h3>
-          <SaveBtn type='add' data={this.state}/>
+          <SaveBtn type='add' data={{ 'listen_signal': this.state }}/>
         </div>
 
         <div className='tip-box'>
@@ -51,23 +45,24 @@ var Edit = React.createClass({
 
         <div className='response-edit-box'>
           <div className='response-text'>
+            <h5>Name/Expiration Date</h5>
+          </div>
+          <InputBox data={this.state.name} setResponse={this.setResponse} type='name'/>
+        </div>
+
+        <div className='response-edit-box'>
+          <div className='response-text'>
             <h5>First Response</h5>
             <p>Users will see this response the first time they use your signal</p>
           </div>
-          <InputBox response={this.state.firstResponse} setResponse={this.setResponse} type='first'/>
+          <InputBox data={this.state.firstResponse} setResponse={this.setResponse} type='firstResponse'/>
         </div>
 
         <div className='response-edit-box'>
           <div className='response-text'>
             <h5>Not Available/ Repeat Requests</h5>
           </div>
-          <InputBox response={this.state.repeatResponse} setResponse={this.setResponse} type='repeat'/>
-        </div>
-
-        <div className='response-edit-box'>
-          <div className='response-exp-date'>
-            <h5>Expiration Date</h5>
-          </div>
+          <InputBox data={this.state.repeatResponse} setResponse={this.setResponse} type='repeatResponse'/>
         </div>
       </div>
     );

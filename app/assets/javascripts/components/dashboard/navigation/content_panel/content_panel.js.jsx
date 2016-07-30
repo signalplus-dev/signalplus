@@ -1,4 +1,15 @@
 var ContentPanel = React.createClass({
+  getInitialState: function() {
+    return {
+      sidebarMenus: [
+        { id: 1, contentId: 'edit', active: true },
+        { id: 2, contentId: 'promote', active: false },
+        { id: 3, contentId: 'preview', active: false },
+        { id: 4, contentId: 'activity', active: false },
+      ]
+    }
+  },
+
   handleSideBar: function(menu) {
     var newMenus = this.state.sidebarMenus.map(function(m) {
       if (m.contentId == menu) {
@@ -9,17 +20,6 @@ var ContentPanel = React.createClass({
       return m
     });
     this.setState({sidebarMenus: newMenus})
-  },
-
-  getInitialState: function() {
-    return {
-      sidebarMenus: [
-        { id: 1, contentId: 'edit', active: true },
-        { id: 2, contentId: 'promote', active: false },
-        { id: 3, contentId: 'preview', active: false },
-        { id: 4, contentId: 'activity', active: false },
-      ]
-    }
   },
 
   getSignal: function() {
@@ -38,7 +38,7 @@ var ContentPanel = React.createClass({
 
     return (
       <div className='content-panel'>
-          <Sidebar menus={this.state.sidebarMenus} handleClick={this.handleSideBar} templateType={this.signalState} />
+          <Sidebar menus={this.state.sidebarMenus} handleClick={this.handleSideBar} signalType={this.signalState} />
           <MenuContent menus={this.state.sidebarMenus} signal={signal}/>
       </div>
     );
