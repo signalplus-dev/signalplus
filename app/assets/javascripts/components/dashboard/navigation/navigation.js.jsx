@@ -18,8 +18,10 @@ var Navigation = React.createClass({
     this.setState({tabList: newTabs})
   },
 
-  handleTemplates: function(signalType) {
-    this.setState({templateType: signalType})
+  handleSignal: function(key, value) {
+    var obj = {};
+    obj[key] = value;
+    this.setState(obj);
   },
 
   handleTabClick: function(tabId) {
@@ -47,7 +49,8 @@ var Navigation = React.createClass({
           active: false,
         }
       ],
-
+      signals: this.props.data,
+      editSignal: '',
       templateType: ''
     }
   },
@@ -55,9 +58,19 @@ var Navigation = React.createClass({
   render: function() {
     return (
       <div>
-        <Tabs tabs={this.state.tabList} handleClick={this.handleTabClick} />
-        <Panes tabs={this.state.tabList} data={this.props.data} handleClick={this.handleTabClick}
-        handleTab={this.handleTabs} templateType={this.state.templateType} handleTemplate={this.handleTemplates} />
+        <Tabs 
+          tabs={this.state.tabList} 
+          handleClick={this.handleTabClick} 
+        />
+        <Panes 
+          tabs={this.state.tabList} 
+          data={this.state.signals} 
+          handleClick={this.handleTabClick}
+          handleTab={this.handleTabs} 
+          handleSignal={this.handleSignal}
+          templateType={this.state.templateType} 
+          editSignal={this.state.editSignal}
+        />
       </div>
     );
   }

@@ -15,10 +15,10 @@ class ListenSignalsController < ApplicationController
     create_template_response
 
     if @signal
-      flash[:success] = "#{@signal.name} created!"
+      flash[:success] = "Alert:  #{@signal.name} signal created!"
       render json: { signal: @signal.to_json, responses: @signal.responses.to_json }
     else
-      flash[:error] = 'Please fill out missing fields'
+      flash[:error] = 'Alert:  Please fill out missing fields'
     end
   end
 

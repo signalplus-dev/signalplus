@@ -19,7 +19,7 @@ var TemplatesPane = React.createClass({
     };
     
     this.props.handleTab(tab);
-    this.props.handleTemplate(signalType);
+    this.props.handleSignal('templateType', signalType);
   },
 
   renderTemplates: function() {
@@ -28,7 +28,8 @@ var TemplatesPane = React.createClass({
 
     this.props.signal_types.forEach(function(t, idx) {
       templates.push(
-        <div onClick={scope.handleClick.bind(this, idx, t.type)} key={idx} className='panel signal-panel panel-new'>
+        <div 
+          onClick={scope.handleClick.bind(this, idx, t.type)} key={idx} className='panel signal-panel panel-new'>
           <SignalIcon type={t.type} className='panel-icon'/>
           <div className={'panel-header ' + t.type}>
             <div className='header-text uctext'>

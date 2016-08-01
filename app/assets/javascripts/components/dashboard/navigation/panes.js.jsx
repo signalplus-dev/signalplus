@@ -2,9 +2,17 @@ var Panes = React.createClass({
   render: function() {
     var paneList = this.props.tabs.map(function(pane) {
       return (
-        <PaneContent active={pane.active} key={pane.id} tab={pane} data={this.props.data} 
-          handleTab={this.props.handleTab} handleTemplate={this.props.handleTemplate} 
-          handleClick={this.props.handleClick} templateType={this.props.templateType} />
+        <PaneContent 
+          active={pane.active} 
+          key={pane.id} 
+          tab={pane} 
+          data={this.props.data} 
+          handleTab={this.props.handleTab} 
+          handleSignal={this.props.handleSignal} 
+          handleClick={this.props.handleClick} 
+          templateType={this.props.templateType}
+          editSignal={this.props.editSignal}
+        />
       );
     }, this);
 
@@ -29,12 +37,31 @@ var PaneContent = React.createClass({
 
   renderPane: function() {
     var pane = this.props.tab.paneId;
+    
     if ( pane == 'signals') {
-      return (<SignalsPane signals={this.props.data.signals} handleTab={this.props.handleTab} handleClick={this.props.handleClick} />);
+      return (
+        <SignalsPane 
+          signals={this.props.data.signals} 
+          handleTab={this.props.handleTab} 
+          handleClick={this.props.handleClick} 
+          handleSignal={this.props.handleSignal}
+        />
+      );
     } else if ( pane == 'templates') {
-      return (<TemplatesPane signal_types={this.props.data.signal_types} handleTab={this.props.handleTab} handleTemplate={this.props.handleTemplate} />);
+      return (
+        <TemplatesPane 
+          signal_types={this.props.data.signal_types} 
+          handleTab={this.props.handleTab} 
+          handleSignal={this.props.handleSignal} 
+        />
+      );
     } else if ( pane == 'new') {
-      return (<NewPane templateType={this.props.templateType}/>);
+      return (
+        <ContentPanel
+          editSignal={this.props.editSignal} 
+          templateType={this.props.templateType}
+        />
+      );
     }
   },
 });

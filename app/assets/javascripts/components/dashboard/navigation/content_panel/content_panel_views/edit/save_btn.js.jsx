@@ -10,8 +10,8 @@ var SaveBtn = React.createClass({
       data: data
     })
     .done(function(result) {
+      // Need to update the highest level signal state.
       console.log('success' + result)
-      afterSubmit(result)
     }.bind(this))
     .fail(function(jqXhr) {
       console.log('failed to register');

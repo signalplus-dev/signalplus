@@ -4,7 +4,10 @@ var SignalsPane = React.createClass({
       <div>
         <h4 className='signal-header'>{this.renderPanelTitle()}</h4>
         {this.choosePanel()}
-        <CreateNew handleClick={this.props.handleClick}/>
+        <CreateNew 
+          handleClick={this.props.handleClick} 
+          handleSignal={this.props.handleSignal}
+        />
       </div>
     );
   },
@@ -27,7 +30,13 @@ var SignalsPane = React.createClass({
     if (signalCount == 0) {
       return(<WelcomePanel/>)
     } else {
-      return(<ActiveSignalPanel signals={this.props.signals}/>)
+      return(
+        <ActiveSignalPanel 
+          signals={this.props.signals} 
+          handleTab={this.props.handleTab}
+          handleSignal={this.props.handleSignal}
+        />
+      );
     }
   }
 });

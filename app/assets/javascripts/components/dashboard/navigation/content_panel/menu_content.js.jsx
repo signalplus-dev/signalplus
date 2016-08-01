@@ -2,8 +2,12 @@ var MenuContent = React.createClass({
   render: function() {
     var contentList = this.props.menus.map(function(menu) {
       return (
-        <ContentPane active={menu.active} key={menu.id} menu={menu}
-          signal={this.props.signal} />
+        <ContentPane 
+          active={menu.active} 
+          key={menu.id} 
+          menu={menu}
+          signal={this.props.signal} 
+        />
       );
     }, this);
 

@@ -1,13 +1,27 @@
 var Edit = React.createClass({
   getInitialState: function() {
-    return {
-      signalType: this.props.signal.type,
-      name: this.props.signal.type,
-      firstResponse: 'Type your response here',
-      repeatResponse: 'Type your response here',
-      active: false,
-      expDate: '2017-01-01'
-    };
+    var signal = this.props.signal;
+    console.log('printing signal')
+    console.log(this.props.signal)
+    if ('edit' in signal) {
+      return {
+        signalType: signal['type'],
+        name: signal['name'],
+        firstResponse: signal['first_response'],
+        repeatResponse: signal['repeat_response'],
+        active: signal['active'],
+        expDate: signal['exp_date']
+      };
+    } else {
+      return {
+        signalType: signal.type,
+        name: signal.type,
+        firstResponse: 'Type your response here',
+        repeatResponse: 'Type your response here',
+        active: false,
+        expDate: '2017-01-01'
+      }; 
+    }
   },
 
   setResponse: function(key, value) {

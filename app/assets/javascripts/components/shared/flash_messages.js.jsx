@@ -16,6 +16,7 @@ var FlashMessages = React.createClass({
           _text  = message[1];
           return (
             <div key={index} className={this._flash_class(_level)}>
+              <i className='glyphicon glyphicon-bell'></i>
               {_text}
             </div>
           );
