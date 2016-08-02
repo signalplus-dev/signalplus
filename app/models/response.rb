@@ -13,11 +13,16 @@
 #
 
 class Response < ActiveRecord::Base
+  validates :message, :response_type, :response_group_id, 
+            :expiration_date, :priority, presence: true
+
   belongs_to :response_group
   has_many :twitter_responses
 
   module Type
     DEFAULT = 'default'
+    FIRST = 'first'
+    REPEAT = 'repeat'
     EXPIRED = 'expired'
     FLOW    = 'flow'
   end

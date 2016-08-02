@@ -43,3 +43,19 @@
   border: solid 1px $button-border;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
 }
+
+
+.edit-btns {
+  float:right;
+}
+// Signal Save Button
+.save-btn {
+  float: right;
+  border-radius: 10px;
+  background-color: $button-blue !important;
+  background-color: var(--windows-blue);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px $button-blue;
+  border: solid 1px var(--windows-blue);
+}
+

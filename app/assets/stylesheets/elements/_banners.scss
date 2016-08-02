@@ -1,0 +1,15 @@
+.alert {
+  font-family: $default-font;
+  color: $text-white;
+  border-color: $button-blue;
+  background-color: $button-blue;
+
+  i {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+#flash_messages {
+  margin-top: 20px;
+}

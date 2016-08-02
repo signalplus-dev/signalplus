@@ -92,8 +92,12 @@
   height: 42px;
   width: 44px;
 
-  span {
-    font-family: $default-font;
+  p {
+    margin: 0 !important;
+    font-size: 10px;
+  }
+
+  .type {
     font-size: 12px;
   }
 }
@@ -146,6 +150,9 @@
 
 .welcome {
   background-color: $signal-gray;
+  .panel-header, .panel-body{
+    color: $text-black;
+  }
 }
 
 .inactiveTab {

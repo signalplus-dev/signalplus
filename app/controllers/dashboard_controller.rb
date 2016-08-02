@@ -4,23 +4,10 @@ class DashboardController < ApplicationController
   def index
     @brand = current_user.brand
     @signals = @brand.listen_signals
-
     @signal_types = ListenSignal::Types.values
     @type_hash = @signal_types.map do |t|
       { t.to_sym => get_signal_type_text(t) }
     end
-  end
-
-  def get_data
-    # @signals = current_user.brand.listen_signals
-    # @signal_types = ListenSignal::Types.values
-
-    # render json: {
-    #   signals: @signals,
-    #   active_signals: @signals.active,
-    #   all_types: @signal_types
-    # }
-    render json: ListenSignal.all
   end
 
   private

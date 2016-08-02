@@ -1,10 +1,19 @@
 var Navigation = React.createClass({
- 
   handleTabs: function(tab) {
-    var newTabs = this.state.tabList.map(function(t) {
-      t.active = false
-      return t
-    });
+    var newTabs = [
+      {
+        id: 1,
+        name: 'SIGNALS',
+        paneId: 'signals',
+        active: false,
+      },
+      {
+        id: 2,
+        name: 'CREATE NEW',
+        paneId: 'templates',
+        active: false,
+      }
+    ];
 
     newTabs.push(
       {
@@ -16,6 +25,12 @@ var Navigation = React.createClass({
     );
 
     this.setState({tabList: newTabs})
+  },
+
+  handleSignal: function(key, value) {
+    var obj = {};
+    obj[key] = value;
+    this.setState(obj);
   },
 
   handleTabClick: function(tabId) {
@@ -42,15 +57,29 @@ var Navigation = React.createClass({
           paneId: 'templates',
           active: false,
         }
-      ]
+      ],
+      signals: this.props.data,
+      editSignal: '',
+      templateType: ''
     }
   },
 
   render: function() {
     return (
       <div>
-        <Tabs tabs={this.state.tabList} handleClick={this.handleTabClick} />
-        <Panes tabs={this.state.tabList} data={this.props.data} handleTab={this.handleTabs}/>
+        <Tabs 
+          tabs={this.state.tabList} 
+          handleClick={this.handleTabClick} 
+        />
+        <Panes 
+          tabs={this.state.tabList} 
+          data={this.state.signals} 
+          handleClick={this.handleTabClick}
+          handleTab={this.handleTabs} 
+          handleSignal={this.handleSignal}
+          templateType={this.state.templateType} 
+          editSignal={this.state.editSignal}
+        />
       </div>
     );
   }

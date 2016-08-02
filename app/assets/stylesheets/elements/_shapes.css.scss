@@ -15,3 +15,9 @@
   height: 16px;
   background-color: $inactive-gray;
 }
+
+
+.line {
+  border: 0;
+  border-top: solid 1px $dark-gray;
+}

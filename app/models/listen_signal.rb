@@ -14,6 +14,10 @@
 #
 
 class ListenSignal < ActiveRecord::Base
+  validates :name, :brand_id, :identity_id, :expiration_date, 
+            :signal_type, presence: true
+
+
   belongs_to :brand
   belongs_to :identity
   has_one :response_group
@@ -41,5 +45,4 @@ class ListenSignal < ActiveRecord::Base
   def expired?
     expiration_date <= Time.current
   end
-
 end

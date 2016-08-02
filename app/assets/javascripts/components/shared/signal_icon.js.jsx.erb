@@ -1,0 +1,20 @@
+var iconTypes = {
+  offer: '<%= image_url("icons/offer.png") %>',
+  contest: '<%= image_url("icons/contest.png") %>',
+  today: '<%= image_url("icons/today.png") %>',
+  reminder: '<%= image_url("icons/reminder.png") %>',
+  welcome: '<%= image_url("icons/signalplus-small-pink.png") %>',
+  create: '<%= image_url("icons/signalplus-small.png") %>',
+  tip: '<%= image_url("icons/tip-icon.png") %>',
+  public: '<%= image_url("icons/public-icon.png") %>',
+  explanation: '<%= image_url("icons/explanation.png") %>',
+  twitter: '<%= image_url("social/twitter-blue.png") %>'
+};
+
+var SignalIcon = React.createClass({
+  render: function() {
+    return (
+      <img src={iconTypes[this.props.type]} className={this.props.className} />
+    );
+  }
+});
