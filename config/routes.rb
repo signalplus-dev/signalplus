@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'users/index'
   root 'users#index'
 
+  get 'guide' => 'dashboard#guide'
+  get 'support' => 'dashboard#support'
   get 'dashboard/index'
   post 'template/signal' => 'listen_signals#create_template_signal'
   

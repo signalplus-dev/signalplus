@@ -3,7 +3,6 @@ var Edit = React.createClass({
     if (this.props.signal['edit']) {
       var signal = this.props.signal['edit'];
       var responses = signal['responses'];
-
       return {
         signalType: signal['signal_type'],
         name: signal['name'],
@@ -36,7 +35,7 @@ var Edit = React.createClass({
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
-          <SignalIcon type={this.props.signal.type} className='content-icon' />
+          <SignalIcon type={this.state.signalType} className='content-icon' />
           <SignalIcon type='explanation' className='content-explanation' />
           <p className='signal-type-label'> TYPE </p>
           <h3 className='signal-type-header uctext'> {this.state.signalType} Signal </h3>

@@ -10,6 +10,13 @@ class DashboardController < ApplicationController
     end
   end
 
+  def support
+  end
+
+  def contact
+  end
+
+
   private
 
   def get_signal_type_text(signal_type)
