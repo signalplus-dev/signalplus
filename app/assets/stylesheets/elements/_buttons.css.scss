@@ -1,3 +1,13 @@
+@mixin btn-blue {
+  border-radius: 10px;
+  color: $text-white;
+  background-color: $button-blue !important;
+  background-color: var(--windows-blue);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px $button-blue;
+  border: solid 1px var(--windows-blue);
+}
+
 .nav-tabs {
   padding-left: 109px;
 }
@@ -31,31 +41,28 @@
 
 // Login Button
 .btn-login {
+  @include btn-blue;
+
   display: block;
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 22px;
   text-decoration: none;
   font-size: 18px;
-  color: $text-white;
-  background-color: $button-blue;
-  border-radius: 10px;
-  border: solid 1px $button-border;
-  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
 }
 
 
 .edit-btns {
   float:right;
 }
+
 // Signal Save Button
 .save-btn {
+  @include btn-blue;
   float: right;
-  border-radius: 10px;
-  background-color: $button-blue !important;
-  background-color: var(--windows-blue);
-  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px $button-blue;
-  border: solid 1px var(--windows-blue);
+}
+
+.support-btn {
+  @include btn-blue;
 }
 

@@ -10,9 +10,7 @@
   / Collection of nav links and other content for toggling
   #navbarCollapse.collapse.navbar-collapse
     %ul.nav.navbar-nav.navbar-right
-      %li= link_to 'TOUR', '#'
-      %li= link_to 'PRICING', '#'
-      %li= link_to 'SUPPORT', '#'
+      %li= link_to 'SUPPORT', support_path
       %li.dropdown-open
         %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", :role => "button"}
           LOGIN
