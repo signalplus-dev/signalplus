@@ -1,10 +1,9 @@
 var Edit = React.createClass({
   getInitialState: function() {
-    if ('edit' in this.props.signal) {
+    if (this.props.signal['edit']) {
       var signal = this.props.signal['edit'];
       var responses = signal['responses'];
 
-      console.log(signal)
       return {
         signalType: signal['signal_type'],
         name: signal['name'],
@@ -13,10 +12,12 @@ var Edit = React.createClass({
         active: signal['active'],
         expDate: signal['exp_date']
       };
-    } else {
+    } else if (this.props.signal['type']) {
+      var signal = this.props.signal['type'];
+      
       return {
-        signalType: signal.type,
-        name: signal.type,
+        signalType: signal,
+        name: signal,
         firstResponse: 'Type your response here',
         repeatResponse: 'Type your response here',
         active: false,

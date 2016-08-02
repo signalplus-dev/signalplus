@@ -23,16 +23,17 @@ var ContentPanel = React.createClass({
   },
 
   getSignal: function() {
-    if (typeof this.props.editSignal !== 'undefined') {
+    if (this.props.editSignal) {
       return ({ edit: this.props.editSignal })
-    } else if (typeof this.props.templateType !== 'undefined') {
+    } else if (this.props.templateType) {
       return ({ type: this.props.templateType })
     }
   },
 
   render: function() {
     var signal = this.getSignal();
-
+    console.log('printing waht signal is')
+    console.log(signal);
     return (
       <div className='content-panel'>
           <Sidebar 
