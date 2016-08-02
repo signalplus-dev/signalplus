@@ -63,7 +63,9 @@ var Edit = React.createClass({
 
         <div className='response-edit-box'>
           <div className='response-text'>
-            <h5>Name/Expiration Date</h5>
+            <h5>Name</h5>
+            <br/>
+            <h5>Expiration Date</h5>
           </div>
           <InputBox data={this.state.name} setResponse={this.setResponse} type='name'/>
         </div>

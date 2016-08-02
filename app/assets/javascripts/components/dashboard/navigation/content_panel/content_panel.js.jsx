@@ -32,8 +32,7 @@ var ContentPanel = React.createClass({
 
   render: function() {
     var signal = this.getSignal();
-    console.log('printing waht signal is')
-    console.log(signal);
+    
     return (
       <div className='content-panel'>
           <Sidebar 

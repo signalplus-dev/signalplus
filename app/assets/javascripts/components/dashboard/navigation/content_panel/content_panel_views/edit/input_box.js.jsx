@@ -1,5 +1,4 @@
 var InputBox = React.createClass({
-
   handleChange: function(e) {
     key = this.props.type;
     this.props.setResponse(key, e.target.value);
@@ -13,9 +12,11 @@ var InputBox = React.createClass({
   },
 
   render: function() {
+    var FormControl = ReactBootstrap.FormControl;
+
     return (
       <div className='input-box'>
-        <input value={this.props.data} onChange={this.handleChange} onClick={this.reset} />
+        <FormControl type="text" placeholder={this.props.data} onClick={this.reset}/>
       </div>
     );
   }

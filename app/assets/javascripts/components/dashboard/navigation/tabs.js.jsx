@@ -2,7 +2,7 @@ var Tabs = React.createClass({
   render: function() {
     var self = this;
     var tabList = this.props.tabs.map(function(tab) {
-      // console.log(self.props.handleClick);
+
       return (
         <Tab
           active={tab.active}

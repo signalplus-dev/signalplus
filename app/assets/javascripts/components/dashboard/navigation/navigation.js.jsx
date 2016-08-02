@@ -1,10 +1,19 @@
 var Navigation = React.createClass({
- 
   handleTabs: function(tab) {
-    var newTabs = this.state.tabList.map(function(t) {
-      t.active = false
-      return t
-    });
+    var newTabs = [
+      {
+        id: 1,
+        name: 'SIGNALS',
+        paneId: 'signals',
+        active: false,
+      },
+      {
+        id: 2,
+        name: 'CREATE NEW',
+        paneId: 'templates',
+        active: false,
+      }
+    ];
 
     newTabs.push(
       {
