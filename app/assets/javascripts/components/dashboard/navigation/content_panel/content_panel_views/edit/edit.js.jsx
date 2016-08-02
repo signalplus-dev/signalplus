@@ -1,14 +1,15 @@
 var Edit = React.createClass({
   getInitialState: function() {
-    var signal = this.props.signal;
-    console.log('printing signal')
-    console.log(this.props.signal)
-    if ('edit' in signal) {
+    if ('edit' in this.props.signal) {
+      var signal = this.props.signal['edit'];
+      var responses = signal['responses'];
+
+      console.log(signal)
       return {
-        signalType: signal['type'],
+        signalType: signal['signal_type'],
         name: signal['name'],
-        firstResponse: signal['first_response'],
-        repeatResponse: signal['repeat_response'],
+        firstResponse: responses[0]['message'],
+        repeatResponse: responses[1]['message'],
         active: signal['active'],
         expDate: signal['exp_date']
       };
@@ -36,17 +37,19 @@ var Edit = React.createClass({
         <div className='content-header'>
           <SignalIcon type={this.props.signal.type} className='content-icon' />
           <SignalIcon type='explanation' className='content-explanation' />
-
           <p className='signal-type-label'> TYPE </p>
-          <h3 className='signal-type-header uctext'> {this.props.signal.type} Signal </h3>
-          <p className='signal-description'> Send your users a special offer everytime they send a custom hashtag </p> 
+          <h3 className='signal-type-header uctext'> {this.state.signalType} Signal </h3>
+          <p className='signal-description'> 
+            Send your users a special offer everytime they send a custom hashtag 
+          </p> 
         </div>
+
         <hr className='line'/>
 
         <div className='response-info'>
           <h3>Responses to:</h3>
           <SignalIcon type='twitter'/>
-          <h3><strong>@Brand #Offers</strong></h3>
+          <h3>@Brand #<strong>{this.state.name}</strong></h3>
           <SaveBtn type='add' data={{ 'listen_signal': this.state }}/>
         </div>
 

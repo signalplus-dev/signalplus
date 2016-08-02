@@ -14,7 +14,7 @@ var Promote = React.createClass({
         </div>
 
         <div className='response-info'>
-          <h3>Promote to:</h3>
+          <h3>Promote:</h3>
           <SignalIcon type='twitter'/>
           <h3><strong>@Brand #Offers</strong></h3>
         </div>

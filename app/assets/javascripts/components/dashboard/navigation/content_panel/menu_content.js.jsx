@@ -12,9 +12,7 @@ var MenuContent = React.createClass({
     }, this);
 
     return (
-      <div>
-        {contentList}
-      </div>
+      <div>{contentList}</div>
     );
   }
 });
@@ -37,9 +35,9 @@ var ContentPane = React.createClass({
     } else if (pane == 'promote') {
       return (<Promote signal={this.props.signal}/>)
     } else if (pane == 'preview') {
-      return (<Preview/>)
+      return (<Preview signal={this.props.signal}/>)
     } else if (pane == 'activity') {
-      return (<Activity/>)
+      return (<Activity signal={this.props.signal}/>)
     }
   }
 });
