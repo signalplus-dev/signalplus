@@ -47,9 +47,9 @@ var Edit = React.createClass({
         <hr className='line'/>
 
         <div className='response-info'>
-          <h3>Responses to:</h3>
+          <h4>Responses to:</h4>
           <SignalIcon type='twitter'/>
-          <h3>@Brand #<strong>{this.state.name}</strong></h3>
+          <h4 className='subheading'>@Brand #{this.state.name}</h4>
           <SaveBtn type='add' data={{ 'listen_signal': this.state }}/>
         </div>
 

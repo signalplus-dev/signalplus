@@ -6,7 +6,6 @@ var Promote = React.createClass({
     var Col = ReactBootstrap.Col;
     var Thumbnail = ReactBootstrap.Thumbnail;
 
-
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
@@ -14,9 +13,9 @@ var Promote = React.createClass({
         </div>
 
         <div className='response-info'>
-          <h3>Promote:</h3>
+          <h4>Promote:</h4>
           <SignalIcon type='twitter'/>
-          <h3><strong>@Brand #Offers</strong></h3>
+          <h4 className='subheading'>@Brand #Offers</h4>
         </div>
 
         <div className='tip-box'>
@@ -32,7 +31,7 @@ var Promote = React.createClass({
           </div>
 
           <div className='input-box'>
-            <FormControl type="text" placeholder='Searching for deals any time? Tweet or message #Deals to @Brand' />
+            <FormControl componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
           </div>
 
           <div className='subheader'>

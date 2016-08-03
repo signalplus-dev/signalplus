@@ -16,7 +16,7 @@ var InputBox = React.createClass({
 
     return (
       <div className='input-box'>
-        <FormControl type="text" placeholder={this.props.data} onClick={this.reset}/>
+        <FormControl componentClass="textarea" onChange={this.handleChange} placeholder={this.props.data} onClick={this.reset}/>
       </div>
     );
   }
