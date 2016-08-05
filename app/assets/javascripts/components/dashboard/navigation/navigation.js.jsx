@@ -28,9 +28,14 @@ var Navigation = React.createClass({
   },
 
   handleSignal: function(key, value) {
-    var obj = {};
+    obj = {}
     obj[key] = value;
     this.setState(obj);
+  },
+
+  handleTemplateClick: function(key, value) {
+    this.handleSignal(key, value);
+    this.handleSignal('editSignal', '');
   },
 
   handleTabClick: function(tabId) {
@@ -77,6 +82,7 @@ var Navigation = React.createClass({
           handleClick={this.handleTabClick}
           handleTab={this.handleTabs} 
           handleSignal={this.handleSignal}
+          handleTemplateClick={this.handleTemplateClick}
           templateType={this.state.templateType} 
           editSignal={this.state.editSignal}
         />

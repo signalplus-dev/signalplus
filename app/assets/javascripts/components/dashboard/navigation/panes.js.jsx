@@ -10,6 +10,7 @@ var Panes = React.createClass({
           handleTab={this.props.handleTab} 
           handleSignal={this.props.handleSignal} 
           handleClick={this.props.handleClick} 
+          handleTemplateClick={this.props.handleTemplateClick}
           templateType={this.props.templateType}
           editSignal={this.props.editSignal}
         />
@@ -51,7 +52,8 @@ var PaneContent = React.createClass({
       return (
         <TemplatesPane 
           signal_types={this.props.data.signal_types} 
-          handleTab={this.props.handleTab} 
+          handleTab={this.props.handleTab}
+          handleTemplateClick={this.props.handleTemplateClick} 
           handleSignal={this.props.handleSignal} 
         />
       );
@@ -60,6 +62,7 @@ var PaneContent = React.createClass({
         <ContentPanel
           editSignal={this.props.editSignal} 
           templateType={this.props.templateType}
+          handleTemplateClick={this.props.handleTemplateClick} 
         />
       );
     }
