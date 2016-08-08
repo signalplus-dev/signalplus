@@ -33,6 +33,7 @@ gem 'aws-sdk', '~> 2'
 gem 'annotate'
 gem 'rails_12factor', group: :production
 gem 'devise'
+gem 'devise_token_auth'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'rollbar'
@@ -43,6 +44,7 @@ gem 'react-rails'
 gem 'stripe'
 gem 'react-bootstrap-rails'
 gem 'paper_trail'
+gem 'browserify-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

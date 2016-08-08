@@ -16,10 +16,11 @@ FactoryGirl.define do
   end
 
   factory :user do
+    brand
     email "testing@signal.com"
     name "signal"
     password "123456789"
-    brand
+    confirmed_at Time.current
   end
 
   factory :identity do

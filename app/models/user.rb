@@ -20,14 +20,17 @@
 #
 
 class User < ActiveRecord::Base
+  include DeviseTokenAuth::Concerns::User
+
+  # Include default devise modules.
+  devise :omniauthable, :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
 
 
   belongs_to :brand
-
-  devise :database_authenticatable, :registerable, :recoverable,
-    :rememberable, :trackable, :validatable, :omniauthable
 
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
 
@@ -56,10 +59,11 @@ class User < ActiveRecord::Base
         brand = Brand.create(name: auth.info.name)
 
         user = User.new(
-          name:     auth.extra.raw_info.name,
-          email:    email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
-          password: Devise.friendly_token[0,20],
-          brand:    brand
+          name:         auth.extra.raw_info.name,
+          email:        email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+          password:     Devise.friendly_token[0, 20],
+          brand:        brand,
+          confirmed_at: Time.current, # Needed for devise_token_auth gem
         )
 
         user.save!
