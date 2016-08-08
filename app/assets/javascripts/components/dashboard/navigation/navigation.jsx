@@ -8,6 +8,7 @@ export default class Navigation extends Component {
     super(props);
     this.handleTabs = this.handleTabs.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
+    this.handleSignal = this.handleSignal.bind(this);
     this.state = {
       tabList: [
         {
