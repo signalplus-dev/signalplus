@@ -34,6 +34,7 @@ module ProjectSignal
       #{config.root}/app/services/responders
       #{config.root}/app/services/streamers
       #{config.root}/app/models/strategies
+      #{config.root}/app/errors
     )
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.

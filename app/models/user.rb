@@ -17,6 +17,12 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  brand_id               :integer
+#  provider               :string           default("email"), not null
+#  uid                    :string           default(""), not null
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  tokens                 :json
 #
 
 class User < ActiveRecord::Base
