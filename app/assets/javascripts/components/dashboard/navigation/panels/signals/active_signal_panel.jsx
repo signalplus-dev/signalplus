@@ -3,7 +3,12 @@ import _ from 'lodash';
 import SignalIcon from '../../../../links/signal_icon.jsx';
 
 export default class ActiveSignalPanel extends Component {
-  handleClick(idx, signalType) {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(idx) {
     tab = {
       name: 'Edit',
       className: 'active',
@@ -17,7 +22,7 @@ export default class ActiveSignalPanel extends Component {
   renderPanel() {
     return this.props.signals.map((s, idx) => {
       return (
-        <div onClick={scope.handleClick.bind(this, idx)} className={'panel signal-panel '+ s.signal_type} key={idx} >
+        <div onClick={() => this.handleClick(idx)} className={'panel signal-panel '+ s.signal_type} key={idx} >
           <SignalIcon className='panel-icon' src={window.__IMAGE_ASSETS__[`icons${_.capitalize(s.signal_type)}Svg`]} />
           <div className='panel-header'>{'# ' + s.name}</div>
           <div className='panel-body'>Send your users a special offer every time they send a custom hashtag</div>
@@ -39,8 +44,6 @@ export default class ActiveSignalPanel extends Component {
   }
 
   render() {
-    return (
-      <div>{this.renderPanel()}</div>
-    );
+    return <div>{this.renderPanel()}</div>;
   }
 }
