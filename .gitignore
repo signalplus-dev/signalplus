@@ -13,3 +13,4 @@
 /tmp
 __init__.py
 application.yml
+node_modules/

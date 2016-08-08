@@ -13,3 +13,6 @@
       = yield
 
     = render 'shared/footer'
+
+    :javascript
+      window.__IMAGE_ASSETS__ = #{image_assets.to_json};
