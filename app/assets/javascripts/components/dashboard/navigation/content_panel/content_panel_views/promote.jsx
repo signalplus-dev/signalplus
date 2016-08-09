@@ -1,11 +1,15 @@
-var Promote = React.createClass({
-  render: function() {
-    var FormControl = ReactBootstrap.FormControl;
-    var Grid = ReactBootstrap.Grid;
-    var Row = ReactBootstrap.Row;
-    var Col = ReactBootstrap.Col;
-    var Thumbnail = ReactBootstrap.Thumbnail;
+import React, { Component } from 'react';
+import SignalIcon from '../../../../links/signal_icon.jsx';
+import {
+  FormControl,
+  Grid,
+  Row,
+  Col,
+  Thumbnail,
+} from 'react-bootstrap';
 
+export default class Promote extends Component {
+  render() {
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
@@ -58,4 +62,4 @@ var Promote = React.createClass({
       </div>
     );
   }
-});
+}

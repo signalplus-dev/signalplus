@@ -9,7 +9,7 @@ export default class ActiveSignalPanel extends Component {
   }
 
   handleClick(idx) {
-    tab = {
+    const tab = {
       name: 'Edit',
       className: 'active',
       paneId: 'new',
@@ -22,7 +22,7 @@ export default class ActiveSignalPanel extends Component {
   renderPanel() {
     return this.props.signals.map((s, idx) => {
       return (
-        <div onClick={() => this.handleClick(idx)} className={'panel signal-panel '+ s.signal_type} key={idx} >
+        <div onClick={() => this.handleClick(idx)} className={`panel signal-panel ${s.signal_type}`} key={idx} >
           <SignalIcon className='panel-icon' src={window.__IMAGE_ASSETS__[`icons${_.capitalize(s.signal_type)}Svg`]} />
           <div className='panel-header'>{'# ' + s.name}</div>
           <div className='panel-body'>Send your users a special offer every time they send a custom hashtag</div>

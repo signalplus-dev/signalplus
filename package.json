@@ -10,6 +10,7 @@
     "browserify-incremental": "^3.1.1",
     "lodash": "^4.14.1",
     "react": "^15.3.0",
+    "react-bootstrap": "^0.30.2",
     "react-dom": "^15.3.0"
   },
   "license": "MIT",

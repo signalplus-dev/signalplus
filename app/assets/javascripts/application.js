@@ -12,7 +12,6 @@
 //
 //= require_self
 //= require react_ujs
-//= require react_bootstrap
 
 window.$ = window.jQuery = global.$ = require('jquery');
 var React = window.React = global.React = require('react');

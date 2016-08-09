@@ -1,62 +1,68 @@
-var Edit = React.createClass({
-  getInitialState: function() {
-    if (this.props.signal['edit']) {
-      var signal = this.props.signal['edit'];
-      var responses = signal['responses'];
-      return {
-        signalType: signal['signal_type'],
-        name: signal['name'],
-        firstResponse: responses[0]['message'],
-        repeatResponse: responses[1]['message'],
-        active: signal['active'],
-        expDate: signal['exp_date']
+import React, { Component } from 'react';
+import _ from 'lodash';
+import InputBox from './input_box.jsx';
+import SaveBtn from './save_btn.jsx';
+import SignalIcon from '../../../../../links/signal_icon.jsx';
+
+export default class Edit extends Component {
+  constructor(props) {
+    super(props);
+    this.setResponse = this.setResponse.bind(this);
+
+    if (props.signal.edit) {
+      const signal = props.signal.edit;
+      const responses = signal.responses;
+      this.state = {
+        signalType:     signal.signal_type,
+        name:           signal.name,
+        firstResponse:  responses[0].message,
+        repeatResponse: responses[1].message,
+        active:         signal.active,
+        expDate:        signal.exp_date,
       };
-    } else if (this.props.signal['type']) {
-      var signal = this.props.signal['type'];
-      
-      return {
-        signalType: signal,
-        name: signal,
-        firstResponse: 'Type your response here',
+    } else if (props.signal.type) {
+      const signal = props.signal.type
+      this.state = {
+        signalType:     signal,
+        name:           signal,
+        firstResponse:  'Type your response here',
         repeatResponse: 'Type your response here',
-        active: false,
-        expDate: '2017-01-01'
-      }; 
+        active:         false,
+        expDate:        '2017-01-01'
+      }
     }
-  },
+  }
 
-  setResponse: function(key, value) {
-    var obj = {};
-    obj[key] = value;
-    this.setState(obj);
-  },
+  setResponse(key, value) {
+    this.setState({ key: value });
+  }
 
-  render: function() {
+  render() {
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
           <SignalIcon type={this.state.signalType} className='content-icon' />
           <SignalIcon type='explanation' className='content-explanation' />
-          <p className='signal-type-label'> TYPE </p>
-          <h3 className='signal-type-header uctext'> {this.state.signalType} Signal </h3>
-          <p className='signal-description'> 
-            Send your users a special offer everytime they send a custom hashtag 
-          </p> 
+          <p className='signal-type-label'>TYPE</p>
+          <h3 className='signal-type-header uctext'>{this.state.signalType} Signal</h3>
+          <p className='signal-description'>
+            Send your users a special offer everytime they send a custom hashtag
+          </p>
         </div>
 
         <hr className='line'/>
 
         <div className='response-info'>
           <h4>Responses to:</h4>
-          <SignalIcon type='twitter'/>
+          <SignalIcon type="twitter" />
           <h4 className='subheading'>@Brand #{this.state.name}</h4>
           <SaveBtn type='add' data={{ 'listen_signal': this.state }}/>
         </div>
 
         <div className='tip-box'>
-          <SignalIcon type='tip'/>
+          <SignalIcon type="tip"/>
           <h5>Tip</h5>
-          <p> Add your offer responses here, be sure to include a link or details on how to use the offer.  
+          <p> Add your offer responses here, be sure to include a link or details on how to use the offer.
               When you’re ready, activate your signal and promote it </p>
         </div>
 
@@ -86,6 +92,6 @@ var Edit = React.createClass({
       </div>
     );
   }
-});
+}
 
 

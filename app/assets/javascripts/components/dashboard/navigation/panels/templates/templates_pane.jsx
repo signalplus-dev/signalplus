@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import SignalIcon from '../../../../links/signal_icon.jsx';
 
 export default class TemplatesPane extends Component {
-  handleClick(idx, signal_type) {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(idx, signalType) {
     const tab = {
       name: 'NEW',
       className: 'active',
@@ -16,7 +21,7 @@ export default class TemplatesPane extends Component {
   renderTemplates() {
     return this.props.signal_types.map((t, idx) => {
       return (
-        <div onClick={this.handleClick.bind(this, idx, t.type)} key={idx} className='panel signal-panel panel-new'>
+        <div onClick={() => this.handleClick(idx, t.type)} key={idx} className='panel signal-panel panel-new'>
           <SignalIcon src={window.__IMAGE_ASSETS__.iconsOfferPng} />
           <div className={'panel-header ' + t.type}>
             <div className='header-text uctext'>

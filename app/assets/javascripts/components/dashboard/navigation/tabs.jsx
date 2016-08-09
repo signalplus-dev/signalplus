@@ -10,13 +10,14 @@ class Tab extends Component {
     this.props.handleClick(this.props.tab.id);
   }
 
-  render(){
-    var tabClassName = this.props.active ? 'active' : '';
+  render() {
+    const { tab } = this.props;
+    const tabClassName = this.props.active ? 'active' : '';
 
     return (
       <li className={tabClassName} onClick={this.handleClick}>
-        <a href={'#'+this.props.tab.paneId} data-toggle='tab'>
-          {this.props.tab.name}
+        <a href={`#${tab.paneId}`} data-toggle='tab'>
+          {tab.name}
         </a>
       </li>
     );
@@ -29,8 +30,7 @@ export default function Tabs({ tabs, handleClick }) {
       <Tab
         active={tab.active}
         key={tab.id}
-        tab={tab}
-        handleClick={handleClick}
+        {...{ tab, handleClick }}
       />
     );
   });

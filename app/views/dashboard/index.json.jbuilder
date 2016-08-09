@@ -1,4 +1,4 @@
-json.data do 
+json.data do
   json.signals @signals do |s|
     json.name s.name
     json.active s.active
