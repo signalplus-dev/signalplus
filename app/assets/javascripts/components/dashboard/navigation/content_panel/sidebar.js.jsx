@@ -1,4 +1,9 @@
 var Sidebar = React.createClass({
+  addDeleteBtn: function() {
+    
+  },
+
+
   render: function() {
     var self = this;
     var sidebarMenus = this.props.menus.map(function(menu) {

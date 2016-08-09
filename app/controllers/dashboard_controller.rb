@@ -16,6 +16,8 @@ class DashboardController < ApplicationController
   def contact
   end
 
+  def create_promotional_tweet
+  end
 
   private
 

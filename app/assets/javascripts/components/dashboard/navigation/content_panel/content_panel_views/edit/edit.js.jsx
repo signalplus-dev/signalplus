@@ -25,17 +25,46 @@ var Edit = React.createClass({
     }
   },
 
+
+  componentWillReceiveProps: function(nextProps) {
+    var nextEdit = nextProps.signal['edit'];
+    var nextType = nextProps.signal['type'];
+
+    if (nextEdit && nextEdit != this.state.signal) {
+      this.setState({
+        signalType: nextEdit['signal_type'],
+        name: nextEdit['name'],
+        firstResponse: nextEdit['responses'][0]['message'],
+        repeatResponse: nextEdit['responses'][1]['message'],
+        active: nextEdit['active'],
+        expDate: nextEdit['exp_date']
+      });
+    } else if ( nextType && nextType != this.state.signal) {
+      console.log('calling type state')
+      this.setState({
+        signalType: nextType,
+        name: nextType,
+        firstResponse: 'Type your response here',
+        repeatResponse: 'Type your response here',
+        active: false,
+        expDate: '2017-01-01'
+      });
+    }
+  },
+
   setResponse: function(key, value) {
-    var obj = {};
+    obj = {};
     obj[key] = value;
     this.setState(obj);
   },
 
   render: function() {
+    var signalType = this.state.signalType;
+    var name = this.state.name;
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
-          <SignalIcon type={this.state.signalType} className='content-icon' />
+          <SignalIcon type={signalType} className='content-icon' />
           <SignalIcon type='explanation' className='content-explanation' />
           <p className='signal-type-label'> TYPE </p>
           <h3 className='signal-type-header uctext'> {this.state.signalType} Signal </h3>
@@ -67,6 +96,7 @@ var Edit = React.createClass({
             <h5>Expiration Date</h5>
           </div>
           <InputBox data={this.state.name} setResponse={this.setResponse} type='name'/>
+          <span className='required'>REQUIRED</span>
         </div>
 
         <div className='response-edit-box'>
@@ -75,6 +105,7 @@ var Edit = React.createClass({
             <p>Users will see this response the first time they use your signal</p>
           </div>
           <InputBox data={this.state.firstResponse} setResponse={this.setResponse} type='firstResponse'/>
+          <span className='required'>REQUIRED</span>
         </div>
 
         <div className='response-edit-box'>
@@ -82,6 +113,7 @@ var Edit = React.createClass({
             <h5>Not Available/ Repeat Requests</h5>
           </div>
           <InputBox data={this.state.repeatResponse} setResponse={this.setResponse} type='repeatResponse'/>
+          <span className='required'>REQUIRED</span>
         </div>
       </div>
     );
