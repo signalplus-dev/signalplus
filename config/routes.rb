@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'users/index'
   root 'users#index'
 
+  get 'promotional_tweet' => 'dashboard#create_promotional_tweet'
   get 'guide' => 'dashboard#guide'
   get 'support' => 'dashboard#support'
   get 'dashboard/index'

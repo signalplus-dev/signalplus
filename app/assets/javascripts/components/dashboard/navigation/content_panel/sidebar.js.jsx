@@ -1,6 +1,6 @@
 var Sidebar = React.createClass({
   addDeleteBtn: function() {
-
+    
   },
 
 

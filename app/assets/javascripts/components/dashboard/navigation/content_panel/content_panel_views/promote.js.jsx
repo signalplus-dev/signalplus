@@ -1,4 +1,57 @@
 var Promote = React.createClass({
+  getInitialState: function() {
+    return { message: "", imageUrl: "", imageFile: null };
+  },
+
+
+  handleChange: function(e) {
+    this.setState({ message: e.currentTarget.value });
+  },
+
+  changeFile: function(e) {
+    var reader = new FileReader();
+    var file = e.currentTarget.files[0];
+    var that = this;
+
+    reader.onloadend = function() {
+      that.setState({ imageUrl: reader.result, imageFile: file });
+    }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      this.setState({ imageUrl: "", imageFile: null });
+    }
+  },
+
+  createPost: function(formData, callback) {
+    $.ajax({
+      url: '/api/posts',
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      data: formData,
+      success: function(post) {
+        PostActions.receivePost(post);
+        callback && callback();
+      }
+    })
+  },
+
+  handleSubmit: function(e) {
+    e.preventDefault();
+
+    var title = this.state.title;
+    var file = this.state.imageFile;
+
+    var formData = new FormData();
+    formData.append("post[title]", title);
+    formData.append("post[image]", file);
+
+    ApiUtil.createPost(formData, this.resetForm);
+  },
+
   render: function() {
     var FormControl = ReactBootstrap.FormControl;
     var Grid = ReactBootstrap.Grid;
@@ -31,7 +84,7 @@ var Promote = React.createClass({
           </div>
 
           <div className='input-box'>
-            <FormControl componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
+            <FormControl onChange={this.handleChange} componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
           </div>
 
           <div className='subheader'>
@@ -43,7 +96,7 @@ var Promote = React.createClass({
             <Grid>
               <Row>
               <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
+                <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
               </Col>
               <Col xs={6} md={2}>
                 <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
