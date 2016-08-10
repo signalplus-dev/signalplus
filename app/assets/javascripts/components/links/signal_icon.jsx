@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 
 function getIcon(type) {
   const iconTypes = {
@@ -18,10 +19,10 @@ function getIcon(type) {
   return iconTypes[type];
 }
 
-export default function SignalIcon(props) {
-  const src = props.src || getIcon(props.type);
+export default function SignalIcon({ className, src, type }) {
+  const actualSrc = src || getIcon(type);
 
   return (
-    <img src={src} className='panel-icon' />
+    <img src={actualSrc} className={cn('panel-icon', { [className]: !!className })} />
   );
 }
