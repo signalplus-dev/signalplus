@@ -22,7 +22,7 @@ export default class TemplatesPane extends Component {
     return this.props.signal_types.map((t, idx) => {
       return (
         <div onClick={() => this.handleClick(idx, t.type)} key={idx} className='panel signal-panel panel-new'>
-          <SignalIcon src={window.__IMAGE_ASSETS__.iconsOfferPng} />
+          <SignalIcon type={t.type} className='panel-icon'/>
           <div className={'panel-header ' + t.type}>
             <div className='header-text uctext'>
               {t.type}
