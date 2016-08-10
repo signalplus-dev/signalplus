@@ -73,6 +73,7 @@ export default class Edit extends Component {
             <h5>Expiration Date</h5>
           </div>
           <InputBox data={this.state.name} setResponse={this.setResponse} type='name'/>
+          <span className='required'>REQUIRED</span>
         </div>
 
         <div className='response-edit-box'>
@@ -81,6 +82,7 @@ export default class Edit extends Component {
             <p>Users will see this response the first time they use your signal</p>
           </div>
           <InputBox data={this.state.firstResponse} setResponse={this.setResponse} type='firstResponse'/>
+          <span className='required'>REQUIRED</span>
         </div>
 
         <div className='response-edit-box'>
@@ -88,6 +90,7 @@ export default class Edit extends Component {
             <h5>Not Available/ Repeat Requests</h5>
           </div>
           <InputBox data={this.state.repeatResponse} setResponse={this.setResponse} type='repeatResponse'/>
+          <span className='required'>REQUIRED</span>
         </div>
       </div>
     );

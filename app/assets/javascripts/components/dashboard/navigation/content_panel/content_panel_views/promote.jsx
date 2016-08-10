@@ -9,6 +9,20 @@ import {
 } from 'react-bootstrap';
 
 export default class Promote extends Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);    
+    this.state = {
+      message: '',
+      imageUrl: '',
+      imageFile: ''
+    };
+  }
+
+  handleChange(e) {
+    this.setState({message: e.currentTarget.value});
+  }
+
   render() {
     return (
       <div className='col-md-9 content-box'>
@@ -35,7 +49,7 @@ export default class Promote extends Component {
           </div>
 
           <div className='input-box'>
-            <FormControl componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
+            <FormControl onChange={this.handleChange} componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
           </div>
 
           <div className='subheader'>
@@ -47,7 +61,7 @@ export default class Promote extends Component {
             <Grid>
               <Row>
               <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
+                <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
               </Col>
               <Col xs={6} md={2}>
                 <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
