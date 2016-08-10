@@ -22,6 +22,6 @@ export default function SignalIcon(props) {
   const src = props.src || getIcon(props.type);
 
   return (
-    <img src={props.src} className='panel-icon' />
+    <img src={src} className='panel-icon' />
   );
 }
