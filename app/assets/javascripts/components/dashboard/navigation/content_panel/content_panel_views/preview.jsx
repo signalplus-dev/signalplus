@@ -29,7 +29,7 @@ export default function Preview(props) {
               <div className='signal-info'>
                 @{signal['brand_name']} #{signal['name']}
               </div>
-              <span><SignalIcon src={window.__IMAGE_ASSETS__.iconsPublicIconSvg}/></span>
+              <span><SignalIcon type="public"/></span>
             </div>
           </div>
           <div className='col-md-4' />
