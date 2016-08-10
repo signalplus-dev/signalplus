@@ -6,7 +6,7 @@ export default class CreateNew extends Component {
     return (
       <a href='#templates' data-toggle='tab'>
         <div className='panel signal-panel panel-new'>
-          <SignalIcon src={window.__IMAGE_ASSETS__.iconsSignalplusSmallSvg} />
+          <SignalIcon src={window.__IMAGE_ASSETS__.iconsSignalplusSmallSvg} className='panel-icon'/>
 
           <div className='panel-header header-new'>Create New</div>
 
