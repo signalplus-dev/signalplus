@@ -1,7 +1,9 @@
 class DeviseTokenAuthCreateUsers < ActiveRecord::Migration
-  def change
+  def up
     add_column :users, :provider, :string, :null => false, :default => "email"
     add_column :users, :uid, :string, :null => false, :default => ""
+
+    copy_emails_to_uid
 
     ## Confirmable
     add_column :users, :confirmation_token, :string
@@ -12,5 +14,34 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration
     add_column :users, :tokens, :json
 
     add_index :users, [:uid, :provider], :unique => true
+  end
+
+  def down
+    remove_index :users, [:uid, :provider]
+
+    remove_column :users, :provider
+    remove_column :users, :uid
+
+    ## Confirmable
+    remove_column :users, :confirmation_token
+    remove_column :users, :confirmed_at
+    remove_column :users, :confirmation_sent_at
+
+    ## Tokens
+    remove_column :users, :tokens
+  end
+
+  private
+
+  def copy_emails_to_uid
+    sql = <<-SQL
+      UPDATE
+        users
+      SET
+        uid = email,
+        provider = 'email';
+    SQL
+
+    ActiveRecord::Base.connection.execute(sql)
   end
 end
