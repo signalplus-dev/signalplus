@@ -1,9 +1,17 @@
-var CreateNew = React.createClass({
-  handleClick: function() {
-    this.props.handleClick(2);
-  },
+import React, { Component } from 'react';
+import SignalIcon from '../../../../links/signal_icon.jsx';
 
-  render: function() {
+export default class CreateNew extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.props.handleClick(2);
+  }
+
+  render() {
     return (
       <a href='#templates'>
         <div onClick={this.handleClick} className='panel signal-panel panel-new'>
@@ -18,4 +26,4 @@ var CreateNew = React.createClass({
       </a>
     );
   }
-});
+}

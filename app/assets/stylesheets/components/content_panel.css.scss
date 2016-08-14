@@ -39,8 +39,8 @@
 
 .content-explanation {
   float: right;
-  width: 350px;
-  height: 60px;
+  width: 400px;
+  height: 70px;
 }
 
 .content-icon {
@@ -130,14 +130,30 @@
   }
 }
 
-.input-box textarea {
-  float:right;
-  width: 400px !important;
-  height: 80px;
-  border-radius: 11px;
+.input-box {
+  display: inline-block;
+  
+  textarea {
+    margin-left: 60px;
+    width: 400px !important;
+    height: 80px;
+    border-radius: 11px;
+    background-color: $text-white;
+    border: solid 1px $signal-border;
+    padding: 10px;
+  }
+}
+
+.required {
+  margin-top: 30px;
+  margin-right: 10px;
+  float: right;
+  text-align: center;
+  width: 80px;
+  height: 20px;
+  opacity: 0.7;
   background-color: $text-white;
-  border: solid 1px $signal-border;
-  padding: 15px;
+  display: inline-block;
 }
 
 .preview-image{
@@ -193,5 +209,4 @@ img.arrow {
     border-radius: 8px;
     background-color: $light-gray;
 }
-
 

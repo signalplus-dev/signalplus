@@ -34,6 +34,7 @@ module ProjectSignal
       #{config.root}/app/services/responders
       #{config.root}/app/services/streamers
       #{config.root}/app/models/strategies
+      #{config.root}/app/errors
     )
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
@@ -54,6 +55,20 @@ module ProjectSignal
           BackgroundRake.call_rake(:twitter_stream, brand_id: brand.id)
         end
       end
+    end
+
+    # Configure Browserify to use babelify to compile ES6
+    config.browserify_rails.commandline_options = "-t [ babelify --presets [ es2015 react stage-0 ] ]"
+
+    unless Rails.env.production?
+        # Work around sprockets+teaspoon mismatch:
+        Rails.application.config.assets.precompile += %w(spec_helper.js)
+
+        # Make sure Browserify is triggered when
+        # asked to serve javascript spec files
+        config.browserify_rails.paths << lambda { |p|
+            p.start_with?(Rails.root.join("spec/javascripts").to_s)
+        }
     end
   end
 end

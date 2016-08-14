@@ -9,7 +9,7 @@ class ListenSignalsController < ApplicationController
     @signal_type = params['signalType']
     @first_response = params['firstResponse']
     @repeat_response = params['repeatResponse']
-    @exp_date = params['expDate']
+    @exp_date = params['expirationDate']
 
     @signal = create_signal(@brand, @identity, @name, @signal_type, @exp_date)
     create_template_response
@@ -52,6 +52,6 @@ class ListenSignalsController < ApplicationController
     end
 
     def signal_params
-      params.require(:listen_signal).permit(:signalType, :name, :firstResponse, :repeatResponse, :active, :expDate)
+      params.require(:listen_signal).permit(:signalType, :name, :firstResponse, :repeatResponse, :active, :expirationDate)
     end
 end

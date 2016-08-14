@@ -1,11 +1,29 @@
-var Promote = React.createClass({
-  render: function() {
-    var FormControl = ReactBootstrap.FormControl;
-    var Grid = ReactBootstrap.Grid;
-    var Row = ReactBootstrap.Row;
-    var Col = ReactBootstrap.Col;
-    var Thumbnail = ReactBootstrap.Thumbnail;
+import React, { Component } from 'react';
+import SignalIcon from '../../../../links/signal_icon.jsx';
+import {
+  FormControl,
+  Grid,
+  Row,
+  Col,
+  Thumbnail,
+} from 'react-bootstrap';
 
+export default class Promote extends Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);    
+    this.state = {
+      message: '',
+      imageUrl: '',
+      imageFile: ''
+    };
+  }
+
+  handleChange(e) {
+    this.setState({message: e.currentTarget.value});
+  }
+
+  render() {
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
@@ -31,7 +49,7 @@ var Promote = React.createClass({
           </div>
 
           <div className='input-box'>
-            <FormControl componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
+            <FormControl onChange={this.handleChange} componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
           </div>
 
           <div className='subheader'>
@@ -43,7 +61,7 @@ var Promote = React.createClass({
             <Grid>
               <Row>
               <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
+                <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
               </Col>
               <Col xs={6} md={2}>
                 <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
@@ -58,4 +76,4 @@ var Promote = React.createClass({
       </div>
     );
   }
-});
+}
