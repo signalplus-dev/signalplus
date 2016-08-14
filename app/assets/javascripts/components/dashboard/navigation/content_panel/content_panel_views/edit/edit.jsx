@@ -96,7 +96,6 @@ export default class Edit extends Component {
           <div className='response-text'>
             <h5>Name</h5>
           </div>
-          <Calendar/>
           <InputBox data={this.state.name} setResponse={this.setResponse} type='name'/>
           <span className='required'>REQUIRED</span>
         </div>

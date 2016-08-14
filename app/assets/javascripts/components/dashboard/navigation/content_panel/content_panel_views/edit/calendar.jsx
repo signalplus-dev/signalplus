@@ -8,7 +8,8 @@ export default class Calendar extends Component {
   }
 
   handleChange(e) {
-    console.log(e.target.value);
+    const key = this.props.key;
+    this.props.setResponse(key, e);
   }
 
   render() {
