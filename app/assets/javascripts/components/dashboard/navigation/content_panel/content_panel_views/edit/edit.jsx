@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import Calendar from './calendar.jsx';
 import InputBox from './input_box.jsx';
 import SaveBtn from './save_btn.jsx';
 import SignalIcon from '../../../../../links/signal_icon.jsx';
@@ -94,9 +95,8 @@ export default class Edit extends Component {
         <div className='response-edit-box'>
           <div className='response-text'>
             <h5>Name</h5>
-            <br/>
-            <h5>Expiration Date</h5>
           </div>
+          <Calendar/>
           <InputBox data={this.state.name} setResponse={this.setResponse} type='name'/>
           <span className='required'>REQUIRED</span>
         </div>
