@@ -10,31 +10,56 @@ export default class Edit extends Component {
     this.setResponse = this.setResponse.bind(this);
 
     if (props.signal.edit) {
-      const signal = props.signal.edit;
-      const responses = signal.responses;
+      var signal = props.signal.edit;
+      var responses = signal.responses;
       this.state = {
         signalType:     signal.signal_type,
         name:           signal.name,
+        active:         signal.active,
         firstResponse:  responses[0].message,
         repeatResponse: responses[1].message,
-        active:         signal.active,
-        expDate:        signal.exp_date,
+        expirationDate: signal.expiration_date,
       };
     } else if (props.signal.type) {
-      const signal = props.signal.type
+      var signal = props.signal.type;
       this.state = {
         signalType:     signal,
         name:           signal,
+        active:         false,
         firstResponse:  'Type your response here',
         repeatResponse: 'Type your response here',
-        active:         false,
-        expDate:        '2017-01-01'
-      }
+        expirationDate: '2017-01-01',
+      };
     }
   }
 
   setResponse(key, value) {
     this.setState({ key: value });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    var nextEdit = nextProps.signal.edit;
+    var nextType = nextProps.signal.type;
+
+    if (nextEdit && nextEdit != this.state) {
+      this.setState({
+        signalType: nextEdit.signal_type,
+        name: nextEdit.name,
+        firstResponse: nextEdit.responses[0]['message'],
+        repeatResponse: nextEdit.responses[1]['message'],
+        active: nextEdit.active,
+        expirationDate: nextEdit.exp_date
+      });
+    } else if ( nextType && nextType != this.state) {
+      this.setState({
+        signalType: nextType,
+        name: nextType,
+        firstResponse: 'Type your response here',
+        repeatResponse: 'Type your response here',
+        active: false,
+        expirationDate: '2017-01-01'
+      });
+    }
   }
 
   render() {

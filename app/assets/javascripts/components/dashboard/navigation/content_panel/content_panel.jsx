@@ -34,7 +34,7 @@ export default class ContentPanel extends Component {
   }
 
   render() {
-    const signal = this.getSignal();
+    var signal = this.getSignal();
 
     return (
       <div className='content-panel'>

@@ -16,6 +16,7 @@ export default class ActiveSignalPanel extends Component {
     };
 
     this.props.handleTab(tab);
+    this.props.handleSignal('templateType', '');
     this.props.handleSignal('editSignal', this.props.signals[idx]);
   }
 

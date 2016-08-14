@@ -15,6 +15,7 @@ export default class TemplatesPane extends Component {
     };
 
     this.props.handleTab(tab);
+    this.props.handleSignal('editSignal', '');
     this.props.handleSignal('templateType', signalType);
   }
 
