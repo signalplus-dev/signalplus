@@ -18,6 +18,8 @@ class DashboardController < ApplicationController
   def contact
   end
 
+  def about
+  end
 
   private
 
