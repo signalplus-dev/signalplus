@@ -2,7 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   after_filter :flash_to_http_header
 
-private
+  private
+
   def flash_to_http_header
     return unless request.xhr?
     return if flash.empty?

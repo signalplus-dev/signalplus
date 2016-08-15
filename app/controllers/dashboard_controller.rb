@@ -1,6 +1,8 @@
 class DashboardController < ApplicationController
   respond_to :json
 
+  before_action :check_current_user
+
   def index
     @brand = current_user.brand
     @signals = @brand.listen_signals
@@ -30,5 +32,9 @@ class DashboardController < ApplicationController
       when ListenSignal::Types::REMINDER
         'Send a reminder on a specific date to users when they use a custom hashtag'
     end
+  end
+
+  def check_current_user
+    redirect_to root_path unless current_user
   end
 end
