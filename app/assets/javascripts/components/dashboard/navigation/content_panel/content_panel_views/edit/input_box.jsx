@@ -6,16 +6,22 @@ export default class InputBox extends Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.reset        = this.reset.bind(this);
+
+    if (props.componentClass) {
+      this.state = { componentClass: props.componentClass };
+    } else {
+      this.state = { componentClass: 'textarea'}
+    }
   }
 
   handleChange(e) {
-    const key = this.props.type;
+    var key = this.props.type;
     this.props.setResponse(key, e.target.value);
   }
 
   reset(e) {
     if (this.props.data === 'Type your response here') {
-      const key = this.props.type;
+      var key = this.props.type;
       this.props.setResponse(key, '');
     };
   }
@@ -24,10 +30,11 @@ export default class InputBox extends Component {
     return (
       <div className='input-box'>
         <FormControl
-          componentClass="textarea"
+          componentClass={this.state.componentClass}
           onChange={this.handleChange}
           placeholder={this.props.data}
           onClick={this.reset}
+          className={this.props.className}
         />
       </div>
     );

@@ -51,9 +51,15 @@
   font-size: 18px;
 }
 
-
 .edit-btns {
   float:right;
+
+  .dropdown-menu {
+    float: right;
+    left: -150px;
+    text-align: center !important;
+    min-width: 200px;
+  }
 }
 
 // Signal Save Button
@@ -66,3 +72,14 @@
   @include btn-blue;
 }
 
+.add-btn {
+  border-radius: 10px;
+  color: $button-blue;
+  background-color: $text-white !important;
+  background-color: var(--windows-blue);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px $button-blue;
+  border: solid 1px var(--windows-blue);
+  margin-right: 5px;
+
+}

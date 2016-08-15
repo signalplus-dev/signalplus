@@ -11,8 +11,10 @@ export default class SaveBtn extends Component {
   }
 
   createSignal(data) {
+    const submitType = this.props.submitType;
+
     $.ajax({
-      type: 'POST',
+      type: submitType,
       url: '/template/signal',
       data: data
     }).done((result) => {
