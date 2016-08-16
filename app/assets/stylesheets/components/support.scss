@@ -1,9 +1,10 @@
 .support {
+  font-weight: 300;
   font-family: $default-font;
 
   .support-header {
     p {
-      padding-bottom: 25px;
+      padding-bottom: 10px;
     }
     span {
       padding-left: 15px;
@@ -19,9 +20,6 @@
     font-weight: 700;
   }
 
-  .answer{
-    padding-bottom: 20px;
-  }
 
   hr {
     border-top: 3px solid #eeeeee;

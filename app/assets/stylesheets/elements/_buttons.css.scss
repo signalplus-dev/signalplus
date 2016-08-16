@@ -1,11 +1,22 @@
 @mixin btn-blue {
+  font-weight: 300;
   border-radius: 10px;
   color: $text-white;
-  background-color: $button-blue !important;
+  background-color: $main-purple !important;
   background-color: var(--windows-blue);
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px $button-blue;
+  border: solid 1px $main-purple;
   border: solid 1px var(--windows-blue);
+
+  &:hover,
+  &:focus {
+    color: $text-white;
+    background-color: $main-pink !important;
+  }
+}
+
+.btn-centered {
+  text-align: center;
 }
 
 .nav-tabs {
@@ -52,6 +63,7 @@
 }
 
 .edit-btns {
+  @include btn-blue;
   float:right;
 
   .dropdown-menu {
@@ -62,7 +74,6 @@
   }
 }
 
-// Signal Save Button
 .save-btn {
   @include btn-blue;
   float: right;
@@ -82,4 +93,6 @@
   border: solid 1px var(--windows-blue);
   margin-right: 5px;
 
+.select-btn {
+  @include btn-blue;
 }

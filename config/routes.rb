@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'users/index'
   root 'users#index'
 
+  get 'about' => 'dashboard#about'
   get 'guide' => 'dashboard#guide'
   get 'support' => 'dashboard#support'
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
