@@ -19,6 +19,8 @@ class DashboardController < ApplicationController
   end
 
   def about
+    # Need to provide subsription plan details
+    @plan_types = [1,2,3,4]
   end
 
   private

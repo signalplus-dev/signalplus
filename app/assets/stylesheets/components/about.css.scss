@@ -1,0 +1,61 @@
+.about {
+  min-height: 1400px;
+  font-weight: 300;
+}
+
+.about-jumbotron {
+  min-height: 200px;
+  background-color: $main-purple;
+}
+
+.about-box {
+ width: 250px;
+  height: 250px;
+  border-radius: 8px;
+  display: inline-block;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: solid 2px $main-purple;
+}
+
+.about-content {
+  padding-left: 120px;
+  padding-right: 120px;
+}
+
+
+.plan-types {
+  height: 150px;
+  padding-top: 20px;
+  margin-bottom: 150px;
+}
+
+.why-signal-box {
+  font-weight: 300;
+
+  .subheader {
+    color: $main-purple;
+    font-size: 20px;
+    font-weight: 300;
+  }
+}
+
+.things-you-can-do-box {
+  padding: 20px;
+  color: $text-white;
+  border-radius: 8px;
+  background-color: $main-purple;
+  border: solid 2px $main-purple;
+}
+
+.header {
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.try-out {
+  font-weight: 600;
+}
+
+
