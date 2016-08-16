@@ -23,7 +23,7 @@
   padding-left: 109px;
 }
 
-.nav-tabs > li > a{
+.nav-tabs > li > a {
   color: $text-white;
   background-color: $dark-gray;
   width: 150px;
@@ -50,7 +50,6 @@
   }
 }
 
-// Login Button
 .btn-login {
   @include btn-blue;
 
@@ -85,13 +84,14 @@
 
 .add-btn {
   border-radius: 10px;
-  color: $button-blue;
+  color: $main-purple;
   background-color: $text-white !important;
   background-color: var(--windows-blue);
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px $button-blue;
+  border: solid 1px $main-purple;
   border: solid 1px var(--windows-blue);
   margin-right: 5px;
+}
 
 .select-btn {
   @include btn-blue;
