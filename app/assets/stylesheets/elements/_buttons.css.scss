@@ -15,6 +15,24 @@
   }
 }
 
+@mixin btn-outline {
+  font-weight: 300;
+  border-radius: 10px;
+  color: $main-purple;
+  background-color: $text-white !important;
+  background-color: var(--windows-blue);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+  border: solid 2px $main-purple;
+  border: solid 1px var(--windows-blue);
+
+  &:active,
+  &:hover,
+  &:focus {
+    color: $text-white !important;
+    background-color: $main-purple !important;
+  }
+}
+
 .btn-centered {
   text-align: center;
 }
@@ -23,7 +41,7 @@
   padding-left: 109px;
 }
 
-.nav-tabs > li > a {
+.nav-tabs > li > a{
   color: $text-white;
   background-color: $dark-gray;
   width: 150px;
@@ -62,7 +80,6 @@
 }
 
 .edit-btns {
-  @include btn-blue;
   float:right;
 
   .dropdown-menu {
@@ -83,13 +100,7 @@
 }
 
 .add-btn {
-  border-radius: 10px;
-  color: $main-purple;
-  background-color: $text-white !important;
-  background-color: var(--windows-blue);
-  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px $main-purple;
-  border: solid 1px var(--windows-blue);
+  @include btn-outline;
   margin-right: 5px;
 }
 
