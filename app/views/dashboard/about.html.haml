@@ -1,0 +1,70 @@
+.about 
+  .row
+    .col-md-12.about-jumbotron
+
+
+  .row.about-content
+    .col-md-12.instruction
+      %h3.header How it Works
+      %p
+        SignalPlus turns your social brand account into a powerful tool for your audience.
+        %br
+        Send responses automatically whenever your audience sends you a message.
+        %br
+        We use the power of Twitter to send responses instantly!
+
+    .col-md-12
+      .about-box
+        Activate SignalPlus for your Brand Account
+
+      .about-box
+        Select a Hashtag to listen for and create your responses 
+
+      .about-box
+        SignalPlus does the rest!  </br>
+        We listen for your hashtag and send the correct response
+
+    .col-md-7
+      .why-signal-box
+        %h3.header Why SignalPlus?
+        %h5.subheader
+          Save time and money with automatic responses
+        %p
+          Reduce effort from dedicated social media managers and customer service teams answering questions from your audience 
+        %h5.subheader
+          Add value to your social account
+        %p
+          Create a one to one connection with your audience that’s more powerful with instant response
+        %h5.subheader
+          Social that’s personalized and relevant
+        %p
+          Add value to your followers with content that’s relevant and personalized to the information they are looking for
+
+    .col-md-5
+      .things-you-can-do-box
+        %h3.header Things you can do…
+        %p
+          Send a special offer every time a follower sends a custom hashtag
+        %p
+          Send a summary of your location or event each day a follower uses a custom hashtag
+        %p
+          Run a contest for your followers for a specific date range
+        %p
+          Send a reminder on a specific date to users when they use a custom hashtag
+
+    .col-md-7
+      %h3.header Get Started Today!
+      %p
+        %span.try-out
+          Try SignalPlus for FREE for 7 days then choose the right plan for you.
+        %br
+        %span
+          We’re always adding new features and more platforms for the future.
+    .col-md-5
+
+    .col-md-12
+      .plan-types
+        -@plan_types.each do |plan|
+          = render :partial => 'plan_box', :locals => { plan: plan }
+
+        

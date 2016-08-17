@@ -1,6 +1,5 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
-
 @import 'core';
 
 html {
@@ -8,6 +7,7 @@ html {
 }
 
 body {
+  font-weight: 300;
   font-family: $default-font;
   color: $text-black;
 
@@ -19,5 +19,6 @@ body {
 .main {
   min-height: 700px;
   padding-top: 20px;
+  padding-bottom: 60px;
 }
 
