@@ -20,6 +20,7 @@ FactoryGirl.define do
     name 'somehashtag'
     expiration_date 2.days.from_now
     active true
+    signal_type 'offer'
 
     trait :expired do
       expiration_date 2.days.ago
@@ -29,6 +30,22 @@ FactoryGirl.define do
       after(:build) do |listen_signal|
         listen_signal.response_group ||= FactoryGirl.build(:response_group, listen_signal: listen_signal)
       end
+    end
+
+    trait :offer do
+      signal_type ListenSignal::Types::OFFER
+    end
+
+    trait :today do
+      signal_type ListenSignal::Types::TODAY
+    end
+
+    trait :contest do
+      signal_type ListenSignal::Types::CONTEST
+    end
+
+    trait :reminder do
+      signal_type ListenSignal::Types::REMINDER
     end
   end
 end

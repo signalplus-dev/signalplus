@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'dashboard/index'
   post 'template/signal' => 'listen_signals#create_template_signal'
   put 'template/signal'  => 'listen_signals#edit_signal'
+  post 'promo_tweet/create' => 'listen_signals#create_promo_tweet'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   namespace :api do

@@ -31,6 +31,30 @@ class Response < ActiveRecord::Base
     response_group.listen_signal.provider
   end
 
+  def self.create_response(message, priority, type, response_group, exp_date)
+    Response.create do |r|
+      r.message = message
+      r.priority = priority
+      r.response_type = type
+      r.response_group_id = response_group.id
+      r.expiration_date = exp_date
+    end
+  end
+
+  def update_message(msg)
+    update_attribute(:message, msg)
+  end
+
+  # @return [Boolean]
+  def first? 
+    response_type == Type::FIRST
+  end
+
+  # @return [Boolean]
+  def repeat?
+    response_type == Type::REPEAT
+  end
+
   # @return [Boolean]
   def default?
     response_type == Type::DEFAULT

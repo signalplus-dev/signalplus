@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SignalIcon from '../../../../links/signal_icon.jsx';
 import {
+  Button,
   FormControl,
   Grid,
   Row,
@@ -11,7 +12,8 @@ import {
 export default class Promote extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);    
+    this.handleChange = this.handleChange.bind(this); 
+    this.handleSubmit = this.handleSubmit.bind(this);   
     this.state = {
       message: '',
       imageUrl: '',
@@ -21,6 +23,23 @@ export default class Promote extends Component {
 
   handleChange(e) {
     this.setState({message: e.currentTarget.value});
+  }
+
+  handleSubmit() {
+    this.createPromoTweet(this.state);
+  }
+
+  createPromoTweet(data) {
+    $.ajax({
+      type: 'POST',
+      url: '/promo_tweet/create',
+      data: data
+    }).done((result) => {
+      console.log('sucesss');
+      console.log(result);
+    }).fail((jqXhr) => {
+      console.log('failed request');
+    });
   }
 
   render() {
@@ -72,6 +91,10 @@ export default class Promote extends Component {
               </Row>
             </Grid>
           </div>
+
+          <Button onSubmit={this.handleSubmit} type='submit' className='submit-btn post-to-timeline'>POST TO YOUR TIMELINE</Button>
+
+
         </div>
       </div>
     );

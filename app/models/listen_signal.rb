@@ -38,6 +38,25 @@ class ListenSignal < ActiveRecord::Base
     where(active: true)
   end
 
+  def self.create_signal(brand, identity, name, signal_type, exp_date, active=true)
+    ListenSignal.create do |s|
+      s.brand_id = brand.id
+      s.identity_id = identity.id
+      s.name = name
+      s.signal_type = signal_type
+      s.expiration_date = exp_date
+      s.active = active
+    end
+  end
+
+  def first_response
+    responses.where(response_type: Response::Type::FIRST).first
+  end
+
+  def repeat_response
+    responses.where(response_type: Response::Type::REPEAT).first
+  end
+
   def response(to)
     expired? ? response_group.expired_response : response_group.next_response(to)
   end
