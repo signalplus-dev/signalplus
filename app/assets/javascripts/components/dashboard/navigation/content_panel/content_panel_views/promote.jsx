@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import SignalIcon from '../../../../links/signal_icon.jsx';
+import ReactS3Uploader from 'react-s3-uploader';
 import {
   Button,
   FormControl,
-  Grid,
-  Row,
-  Col,
   Thumbnail,
 } from 'react-bootstrap';
+
+
 
 export default class Promote extends Component {
   constructor(props) {
@@ -77,22 +77,12 @@ export default class Promote extends Component {
           </div>
 
           <div className='thumbnails'>
-            <Grid>
-              <Row>
-              <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
-              </Col>
-              <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
-              </Col>
-              <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
-              </Col>
-              </Row>
-            </Grid>
+            <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
+            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
+            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
           </div>
 
-          <Button onSubmit={this.handleSubmit} type='submit' className='submit-btn post-to-timeline'>POST TO YOUR TIMELINE</Button>
+          <Button onSubmit={this.handleSubmit} type='submit' className='save-btn post-to-timeline'>POST TO YOUR TIMELINE</Button>
 
 
         </div>
