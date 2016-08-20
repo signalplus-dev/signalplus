@@ -1,7 +1,24 @@
 .about 
   .row
     .col-md-12.about-jumbotron
-
+      .row
+        .col-md-6
+          .about-header
+            .h3
+              Turn your social account 
+              %br
+              into a tool for your audience
+            %p 
+              Create automated responses to any #hashtag
+            .about-subheader
+              %p 
+                See the power of SignalPlus automation…
+              %p
+                =link_to('Tweet', '#', {class: 'btn btn'})
+                %span or
+                =link_to('Message', '#', {class: 'btn btn'})
+                %span @SignalPlus with #Power
+        .col-md-6
 
   .row.about-content
     .col-md-12.instruction
@@ -13,16 +30,14 @@
         %br
         We use the power of Twitter to send responses instantly!
 
-    .col-md-12
-      .about-box
-        Activate SignalPlus for your Brand Account
-
-      .about-box
-        Select a Hashtag to listen for and create your responses 
-
-      .about-box
-        SignalPlus does the rest!  </br>
-        We listen for your hashtag and send the correct response
+    .col-xs-12.col-sm-12.col-md-12.col-lg-12.center.about-steps
+      %ul
+        %li
+          = image_tag('static/step1.png', class: ' img-responsive first-step', size:'300x300')
+        %li
+          = image_tag('static/step2.png', class: 'img-responsive second-step', size:'300x300')
+        %li
+          = image_tag('static/step3.png', class: 'img-responsive third-step', size:'300x300')
 
     .col-md-7
       .why-signal-box
@@ -67,4 +82,3 @@
         -@plan_types.each do |plan|
           = render :partial => 'plan_box', :locals => { plan: plan }
 
-        

@@ -4,18 +4,63 @@
 }
 
 .about-jumbotron {
-  min-height: 200px;
-  background-color: $main-purple;
+  margin-top: -40px;
+  min-height: 400px;
+  background-image: url('static/home-back.png');
+  background-size: contain;
+  margin-bottom: 40px;
 }
 
-.about-box {
- width: 250px;
-  height: 250px;
-  border-radius: 8px;
-  display: inline-block;
-  padding-left: 30px;
-  padding-right: 30px;
-  border: solid 2px $main-purple;
+.about-header {
+  padding-left: 120px;
+  padding-top: 70px;
+  color: $text-white;
+  text-decoration: none;
+  font-weight: 300;
+}
+
+.about-subheader {
+  color: $text-white;
+  padding-top: 50px;
+  a {
+    background-color: $main-pink;
+    font-weight: 400;
+    padding: 2px 10px !important;
+    color: $text-white;
+    text-decoration: none;
+
+    &:hover {
+      color: $text-white;
+      background-color: rgba(242 ,40, 143, 0.5)
+    }
+  }
+}
+
+.about-steps {
+  margin-top: 20px;
+  margin-bottom: 50px;
+
+  li {
+    list-style: none;
+    width: 33.3%;
+    float: left
+  }
+  img {
+    border: 0 none;
+    display: inline-block;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    padding-right: 10px;
+  }
+}
+
+.first-step {
+  margin-right: 20px;
+}
+
+.second-step {
+  margin-right: 20px;
 }
 
 .about-content {
@@ -24,7 +69,7 @@
 }
 
 .plan-types {
-  height: 150px;
+  height: 250px;
   padding-top: 20px;
   margin-bottom: 150px;
 }
