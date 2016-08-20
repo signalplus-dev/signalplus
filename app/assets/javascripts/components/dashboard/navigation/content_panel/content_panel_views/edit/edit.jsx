@@ -12,35 +12,28 @@ export default class Edit extends Component {
     this.setResponse = this.setResponse.bind(this);
     this.editSignalName = this.editSignalName.bind(this);
 
-
     if (props.signal.edit) {
       var signal = props.signal.edit;
       var responses = signal.responses;
       this.state = {
         submitType:     'PUT',
-        signal: {
-          signalType:     signal.signal_type,
-          name:           signal.name,
-          active:         signal.active,
-          firstResponse:  responses[0].message,
-          repeatResponse: responses[1].message,
-          expirationDate: signal.expiration_date,
-        }
-
+        signalType:     signal.signal_type,
+        name:           signal.name,
+        active:         signal.active,
+        firstResponse:  responses[0].message,
+        repeatResponse: responses[1].message,
+        expirationDate: signal.expiration_date,
       };
     } else if (props.signal.type) {
       var signal = props.signal.type;
       this.state = {
         submitType:     'POST',
-        signal: {
-          signalType:     signal,
-          name:           signal,
-          active:         false,
-          firstResponse:  'Type your response here',
-          repeatResponse: 'Type your response here',
-          expirationDate: '',
-        }
-
+        signalType:     signal,
+        name:           signal,
+        active:         false,
+        firstResponse:  'Type your response here',
+        repeatResponse: 'Type your response here',
+        expirationDate: ''
       };
     }
   }
@@ -58,30 +51,24 @@ export default class Edit extends Component {
     if (nextEdit && nextEdit != this.state) {
       this.setState({
         submitType:     'PUT',
-        signal: {
-          signalType:     nextEdit.signal_type,
-          name:           nextEdit.name,
-          firstResponse:  nextEdit.responses[0]['message'],
-          repeatResponse: nextEdit.responses[1]['message'],
-          active:         nextEdit.active,
-          activeDate:     nextEdit.active_date,
-          expirationDate: nextEdit.exp_date   
-        }
-
+        signalType:     nextEdit.signal_type,
+        name:           nextEdit.name,
+        firstResponse:  nextEdit.responses[0]['message'],
+        repeatResponse: nextEdit.responses[1]['message'],
+        active:         nextEdit.active,
+        activeDate:     nextEdit.active_date,
+        expirationDate: nextEdit.exp_date   
       });
     } else if ( nextType && nextType != this.state) {
       this.setState({
         submitType:     'POST',
-        signal: {
-          signalType:     nextType,
-          name:           nextType,
-          firstResponse:  'Type your response here',
-          repeatResponse: 'Type your response here',
-          active:         false,
-          activeDate:     '',
-          expirationDate: ''  
-        }
-
+        signalType:     nextType,
+        name:           nextType,
+        firstResponse:  'Type your response here',
+        repeatResponse: 'Type your response here',
+        active:         false,
+        activeDate:     '',
+        expirationDate: ''  
       });
     }
   }
@@ -89,13 +76,13 @@ export default class Edit extends Component {
   editSignalName() {
     if (this.props.signal.edit) {
       return (
-        <h4 className='subheading'>@Brand #{this.state.signal.name}</h4>
+        <h4 className='subheading'>@Brand #{this.state.name}</h4>
       );
     } else if (this.props.signal.type) {
       return (
         <h4 className='subheading'>@Brand #
          <InputBox 
-            data={'Ex. ' + this.state.signal.name} 
+            data={'Ex. ' + this.state.name} 
             setResponse={this.setResponse} 
             type='name' 
             componentClass='input'
@@ -110,10 +97,10 @@ export default class Edit extends Component {
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
-          <SignalIcon type={this.state.signal.signalType} className='content-icon' />
+          <SignalIcon type={this.state.signalType} className='content-icon' />
           <SignalIcon type='explanation' className='content-explanation' />
           <p className='signal-type-label'>TYPE</p>
-          <h3 className='signal-type-header uctext'>{this.state.signal.signalType} Signal</h3>
+          <h3 className='signal-type-header uctext'>{this.state.signalType} Signal</h3>
           <p className='signal-description'>
             Send your users a special offer everytime they send a custom hashtag
           </p>
@@ -125,10 +112,10 @@ export default class Edit extends Component {
           <h4>Responses to:</h4>
           <SignalIcon type="twitter" />
           { this.editSignalName() }
-          <SaveBtn submitType={this.state.submitType} data={{ 'listen_signal': this.state.signal }}/>
+          <SaveBtn data={ this.state }/>
           <AddBtn type='add' 
             setResponse={this.setResponse} 
-            expirationDate={this.state.signal.expirationDate}/>
+            expirationDate={this.state.expirationDate}/>
         </div>
 
         <div className='tip-box'>
@@ -143,7 +130,7 @@ export default class Edit extends Component {
             <h5>First Response</h5>
             <p>Users will see this response the first time they use your signal</p>
           </div>
-          <InputBox data={this.state.signal.firstResponse} setResponse={this.setResponse} type='firstResponse'/>
+          <InputBox data={this.state.firstResponse} setResponse={this.setResponse} type='firstResponse'/>
           <span className='required'>REQUIRED</span>
         </div>
 
@@ -151,7 +138,7 @@ export default class Edit extends Component {
           <div className='response-text'>
             <h5>Not Available/ Repeat Requests</h5>
           </div>
-          <InputBox data={this.state.signal.repeatResponse} setResponse={this.setResponse} type='repeatResponse'/>
+          <InputBox data={this.state.repeatResponse} setResponse={this.setResponse} type='repeatResponse'/>
           <span className='required'>REQUIRED</span>
         </div>
       </div>

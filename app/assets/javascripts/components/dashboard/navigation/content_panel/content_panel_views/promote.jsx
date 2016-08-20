@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import SignalIcon from '../../../../links/signal_icon.jsx';
+import ReactS3Uploader from 'react-s3-uploader';
 import {
+  Button,
   FormControl,
-  Grid,
-  Row,
-  Col,
   Thumbnail,
 } from 'react-bootstrap';
+
+
 
 export default class Promote extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);    
+    this.handleChange = this.handleChange.bind(this); 
+    this.handleSubmit = this.handleSubmit.bind(this);   
     this.state = {
       message: '',
       imageUrl: '',
@@ -21,6 +23,23 @@ export default class Promote extends Component {
 
   handleChange(e) {
     this.setState({message: e.currentTarget.value});
+  }
+
+  handleSubmit() {
+    this.createPromoTweet(this.state);
+  }
+
+  createPromoTweet(data) {
+    $.ajax({
+      type: 'POST',
+      url: '/promo_tweet/create',
+      data: data
+    }).done((result) => {
+      console.log('sucesss');
+      console.log(result);
+    }).fail((jqXhr) => {
+      console.log('failed request');
+    });
   }
 
   render() {
@@ -58,20 +77,14 @@ export default class Promote extends Component {
           </div>
 
           <div className='thumbnails'>
-            <Grid>
-              <Row>
-              <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
-              </Col>
-              <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
-              </Col>
-              <Col xs={6} md={2}>
-                <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
-              </Col>
-              </Row>
-            </Grid>
+            <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
+            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
+            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
           </div>
+
+          <Button onSubmit={this.handleSubmit} type='submit' className='save-btn post-to-timeline'>POST TO YOUR TIMELINE</Button>
+
+
         </div>
       </div>
     );

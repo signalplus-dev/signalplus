@@ -8,18 +8,21 @@ export default class SaveBtn extends Component {
 
   handleSubmit() {
     this.createSignal(this.props.data);
+    console.log(this.props.data)
   }
 
   createSignal(data) {
-    const submitType = this.props.submitType;
+    const submitType = data.submitType;
+    delete data['submitType']
 
     $.ajax({
       type: submitType,
       url: '/template/signal',
       data: data
     }).done((result) => {
-      // Need to update the highest level signal state.
-      console.log('success' + result)
+      // If successful then update the state 
+      // Main dashboard should show newly created signal
+      console.log('success' + result);
     }).fail((jqXhr) => {
       console.log('failed to register');
     });

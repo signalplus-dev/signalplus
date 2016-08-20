@@ -22,7 +22,7 @@ class ListenSignalsController < ApplicationController
     repeat_response = signal_params['repeatResponse']
     exp_date = signal_params['expirationDate']
 
-    @signal = create_signal(@brand, @identity, name, signal_type, exp_date)
+    @signal = ListenSignal.create_signal(@brand, @identity, name, signal_type, exp_date)
     create_template_response(@signal, first_response, repeat_response, exp_date)
 
     if @signal
@@ -34,6 +34,10 @@ class ListenSignalsController < ApplicationController
     else
       flash[:error] = 'Alert:  Please fill out missing fields'
     end
+  end
+
+  def create_promo_tweet
+    puts 'yes'
   end
 
   private
@@ -48,41 +52,17 @@ class ListenSignalsController < ApplicationController
     end
 
     def update_responses(signal, first_msg, repeat_msg)
-      binding.pry
-      first_response = signal.responses.where(response_type: 'first').first
-      repeat_response = signal.responses.where(response_type: 'repeat').first
-      first_response.update_attribute(:message, first_msg)
-      repeat_response.update_attribute(:message, repeat_msg)
+      signal.first_response.update_message(first_msg)
+      signal.repeat_response.update_message(repeat_msg)
     end
 
     def create_template_response(signal, first_response, repeat_response, exp_date)
       response_group = ResponseGroup.create(listen_signal_id: signal.id)
-      create_response(first_response, 1, Response::Type::FIRST, response_group, exp_date)
-      create_response(repeat_response, 2, Response::Type::REPEAT, response_group, exp_date)
-    end
-
-    def create_response(message, priority, type, response_group, exp_date)
-      Response.create do |r|
-        r.message = message
-        r.priority = priority
-        r.response_type = type
-        r.response_group_id = response_group.id
-        r.expiration_date = exp_date
-      end
-    end
-
-    def create_signal(brand, identity, name, signal_type, exp_date)
-      ListenSignal.create do |s|
-        s.brand_id = brand.id
-        s.identity_id = identity.id
-        s.name = name
-        s.signal_type = signal_type
-        s.expiration_date = exp_date
-        s.active = true
-      end
+      Response.create_response(first_response, 1, Response::Type::FIRST, response_group, exp_date)
+      Response.create_response(repeat_response, 2, Response::Type::REPEAT, response_group, exp_date)
     end
 
     def signal_params
-      params.require(:listen_signal).permit(:signalType, :name, :firstResponse, :repeatResponse, :active, :expirationDate)
+      params.permit(:signalType, :name, :firstResponse, :repeatResponse, :active, :expirationDate)
     end
 end
