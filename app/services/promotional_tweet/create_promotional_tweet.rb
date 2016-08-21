@@ -9,7 +9,7 @@ class CreatePromotionalTweet
     build
   end
 
-  # @return [Boolean] Document saved
+  # @return [Boolean] PromotionalTweet saved
   def call
     saved = @promotional_tweet.save
     if saved
@@ -25,6 +25,6 @@ class CreatePromotionalTweet
   end
 
   def queue_process
-    ProcessPromotionalTweetWorker.perform_async(@document)
+    ProcessPromotionalTweetWorker.perform_async(@promotional_tweet)
   end
 end

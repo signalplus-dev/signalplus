@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20160821193948) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.boolean  "processed",          default: false, null: false
+    t.boolean  "status",             default: false, null: false
     t.string   "direct_upload_url",                  null: false
   end
 

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import SignalIcon from '../../../../links/signal_icon.jsx';
-import ReactS3Uploader from 'react-s3-uploader';
 import {
   Button,
   FormControl,
   Thumbnail,
 } from 'react-bootstrap';
-
-
 
 export default class Promote extends Component {
   constructor(props) {

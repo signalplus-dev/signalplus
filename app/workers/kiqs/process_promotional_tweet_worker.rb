@@ -1,9 +1,9 @@
 class ProcessPromotionalTweetWorker
   include Sidekiq::Worker
 
-  def perform(promotional_image)
-    promotional_image.upload = URI.parse(promotional_image.direct_upload_url)
-    promotional_image.status = "processed"
-    promotional_image.save!
+  def perform(promotional_tweet)
+    promotional_tweet.image = URI.parse(promotional_tweet.direct_upload_url)
+    promotional_tweet.status = "processed"
+    promotional_tweet.save!
   end
 end

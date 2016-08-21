@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   post 'template/signal' => 'listen_signals#create_template_signal'
   put 'template/signal'  => 'listen_signals#edit_signal'
   post 'promo_tweet/create' => 'listen_signals#create_promo_tweet'
-  get 'promo_tweet/show', to: 'listen_signals#show_promo_tweet_image', constraints: { format: 'html' }
+  get '*path', to: 'listen_signals#show_promo_tweet_image', constraints: { format: 'html' }
 
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 

@@ -5,7 +5,7 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   end
 
   def create
-    @create_promotional_tweet_service = CreatePromotionalTweet.new(document_params)
+    @create_promotional_tweet_service = CreatePromotionalTweet.new(image_params)
     @promotional_tweet = @create_promotional_tweet_service.promotional_tweet
     if @create_promotional_tweet_service.call
       render :show, status: :created
@@ -16,8 +16,8 @@ class Api::V1::PromotionalTweetsController < ApplicationController
 
   private
 
-  def document_params
-    params.require(:promotional_tweet).permit(:direct_upload_url, :upload_content_type, :upload_file_name, :upload_file_size)
+  def image_params
+    params.require(:promotional_tweet).permit(:direct_upload_url, :image_content_type, :image_file_name, :image_file_size)
   end
 
 end
