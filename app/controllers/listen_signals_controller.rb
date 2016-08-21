@@ -40,6 +40,9 @@ class ListenSignalsController < ApplicationController
     puts 'yes'
   end
 
+  def show_promo_tweet_image
+  end
+
   private
 
     def update_signal(signal, params)

@@ -118,10 +118,10 @@
 }
 
 .promote-box {
-  @include input-form(350px);
+  @include input-form(500px);
 
   .subheader {
-    padding-top: 50px;
+    padding-top: 20px;
   }
 
   .thumbnails {
@@ -216,3 +216,24 @@ img.arrow {
   border-radius: 11px;
 }
 
+.promote-image {
+  margin-top: 20px;
+  
+  li {
+    padding-right: 10px;
+    list-style: none;
+    width: 33.3%;
+    float: left
+  }
+
+  a, img {
+    width: 400px;
+    min-height: 200px !important;
+    border: 0 none;
+    display: inline-block;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    padding-right: 10px;
+  }
+}

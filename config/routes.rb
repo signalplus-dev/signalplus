@@ -18,11 +18,18 @@ Rails.application.routes.draw do
   post 'template/signal' => 'listen_signals#create_template_signal'
   put 'template/signal'  => 'listen_signals#edit_signal'
   post 'promo_tweet/create' => 'listen_signals#create_promo_tweet'
+  get 'promo_tweet/show', to: 'listen_signals#show_promo_tweet_image', constraints: { format: 'html' }
+
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   namespace :api do
     scope :v1 do
       mount_devise_token_auth_for 'User', at: 'auth'
+    end
+
+    namespace :v1, defaults: { format: 'json' } do
+      resources :promotional_tweets, only: [:index, :create]
+      resources :uploads, only: [:create]
     end
   end
 end

@@ -76,13 +76,17 @@ export default class Promote extends Component {
             <p>Select an image to include or upload your own</p>
           </div>
 
-          <div className='thumbnails'>
-            <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
-            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
-            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
+          <div className='row'>
+            <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 center promote-image'>
+              <ul>
+                <li><Thumbnail href="#" alt="171x180" src={this.state.imageUrl} /></li>
+                <li><Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" /></li>
+                <li><Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" /></li>
+              </ul>
+            </div>
           </div>
 
-          <Button onSubmit={this.handleSubmit} type='submit' className='save-btn post-to-timeline'>POST TO YOUR TIMELINE</Button>
+          <Button onSubmit={this.handleSubmit} type='submit' className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
 
 
         </div>
