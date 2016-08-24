@@ -30,7 +30,7 @@ gem 'sidekiq-unique-jobs'
 gem 'sidekiq-failures'
 gem 'sinatra'
 gem 'aws-sdk-v1'
-gem 'aws-sdk', '> 2.0'
+gem 'aws-sdk', '~> 2.0'
 gem 'annotate'
 gem 'rails_12factor', group: :production
 gem 'devise'

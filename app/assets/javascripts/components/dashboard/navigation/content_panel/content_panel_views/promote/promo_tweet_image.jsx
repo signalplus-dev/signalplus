@@ -15,6 +15,6 @@ export default class PromoteTweetImage extends Component {
 
   handleCreateDocument(document) {
     this.setState({ documents: $.merge([document], this.state.documents) });
-  },
+  }
 
 }
