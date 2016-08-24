@@ -1,8 +1,8 @@
-var FileStore = (function($) {
+export default const FileStore = {} {
 
-  const API_PATH_PREFIX = '/api/v1';
+  API_PATH_PREFIX = '/api/v1';
 
-  var getResources = function() {
+  getResources() {
     return $.ajax({
       url:      API_PATH_PREFIX + '/promotional_tweets',
       type:     'GET',
@@ -23,19 +23,17 @@ var FileStore = (function($) {
   //   });
   // };
 
-    var createResource = function(file) {
-      return getSignedUploadUrl(file)
-      .then(function(data) {
-        return uploadFile(file, data.upload.url, data.upload.content_type);
-      })
-      .then(function(downloadUrl) {
-        return saveResource(file, downloadUrl);
-      });
-    };
+  createResource(file) {
+    return getSignedUploadUrl(file)
+    .then(function(data) {
+      return uploadFile(file, data.upload.url, data.upload.content_type);
+    })
+    .then(function(downloadUrl) {
+      return saveResource(file, downloadUrl);
+    });
+  };
 
-  // private
-
-  var getSignedUploadUrl = function(file) {
+  getSignedUploadUrl(file) {
     return $.ajax({
       url:      API_PATH_PREFIX + '/uploads',
       type:     'POST',
@@ -46,7 +44,7 @@ var FileStore = (function($) {
     });
   };
 
-  var uploadFile = function(file, uploadUrl, contentType, callbacks) {
+  uploadFile(file, uploadUrl, contentType, callbacks) {
     var deferred = $.Deferred();
 
     var xhr = new XMLHttpRequest();
@@ -62,11 +60,11 @@ var FileStore = (function($) {
       }
     };
 
-    xhr.onerror = function() {
+    xhr.onerror() {
       deferred.reject(xhr);
     };
 
-    xhr.upload.onprogress = function(e) {
+    xhr.upload.onprogress(e) {
       if (e.lengthComputable) {
         callbacks.onProgress(file, e.loaded);
       }
@@ -77,7 +75,7 @@ var FileStore = (function($) {
     return deferred.promise();
   };
 
-  var saveResource = function(file, downloadUrl, callbacks) {
+  saveResource(file, downloadUrl, callbacks) {
     return $.ajax({
       url:      API_PATH_PREFIX + '/promotional_tweets',
       type:     'POST',
@@ -98,4 +96,4 @@ var FileStore = (function($) {
     createResource: createResource
   };
 
-})(jQuery);
+}
