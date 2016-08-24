@@ -1,16 +1,73 @@
-const FileStore = {};
+const API_PATH_PREFIX = '/api/v1';
 
-export default FileStore {
+// private
 
-  const API_PATH_PREFIX = '/api/v1';
+const getSignedUploadUrl = (file) => {
+  return $.ajax({
+    url:      API_PATH_PREFIX + '/uploads',
+    type:     'POST',
+    dataType: 'json',
+    data: {
+      upload: { image_filename: file.name }
+    }
+  });
+};
 
-  const getResources() {
+const uploadFile = (file, uploadUrl, contentType, callbacks) => {
+  var deferred = $.Deferred();
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('PUT', uploadUrl, true);
+  xhr.setRequestHeader('Content-Type', contentType);
+
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      callbacks.onProgress(file, file.size);
+      deferred.resolve(uploadUrl.split('?')[0]);
+    } else {
+      deferred.reject(xhr);
+    }
+  };
+
+  xhr.onerror = () => {
+    deferred.reject(xhr);
+  };
+
+  xhr.upload.onprogress = (e) => {
+    if (e.lengthComputable) {
+      callbacks.onProgress(file, e.loaded);
+    }
+  };
+
+  xhr.send(file);
+
+  return deferred.promise();
+};
+
+const saveResource = (file, downloadUrl, callbacks) => {
+  return $.ajax({
+    url:      API_PATH_PREFIX + '/promotional_tweets',
+    type:     'POST',
+    dataType: 'json',
+    data: {
+      document: {
+        direct_upload_url:   downloadUrl,
+        upload_file_name:    file.name,
+        upload_content_type: file.type,
+        upload_file_size:    file.size
+      }
+    }
+  });
+};
+
+const FileStore = {
+  getResources: function() {
     return $.ajax({
       url:      API_PATH_PREFIX + '/promotional_tweets',
       type:     'GET',
       dataType: 'json'
     });
-  };
+  },
 
   // 1. Generate signed upload URL
   // 2. Upload to s3
@@ -25,79 +82,15 @@ export default FileStore {
   //   });
   // };
 
-  const createResource(file) {
+  createResource: function(file) {
     return getSignedUploadUrl(file)
-    .then(function(data) {
-      return uploadFile(file, data.upload.url, data.upload.content_type);
-    })
-    .then(function(downloadUrl) {
-      return saveResource(file, downloadUrl);
-    });
-  };
-
-  // private
-
-  const getSignedUploadUrl(file) {
-    return $.ajax({
-      url:      API_PATH_PREFIX + '/uploads',
-      type:     'POST',
-      dataType: 'json',
-      data: {
-        upload: { image_filename: file.name }
-      }
-    });
-  };
-
-  const uploadFile(file, uploadUrl, contentType, callbacks) {
-    var deferred = $.Deferred();
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('PUT', uploadUrl, true);
-    xhr.setRequestHeader('Content-Type', contentType);
-
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        callbacks.onProgress(file, file.size);
-        deferred.resolve(uploadUrl.split('?')[0]);
-      } else {
-        deferred.reject(xhr);
-      }
-    };
-
-    xhr.onerror() {
-      deferred.reject(xhr);
-    };
-
-    xhr.upload.onprogress(e) {
-      if (e.lengthComputable) {
-        callbacks.onProgress(file, e.loaded);
-      }
-    };
-
-    xhr.send(file);
-
-    return deferred.promise();
-  };
-
-  const saveResource(file, downloadUrl, callbacks) {
-    return $.ajax({
-      url:      API_PATH_PREFIX + '/promotional_tweets',
-      type:     'POST',
-      dataType: 'json',
-      data: {
-        document: {
-          direct_upload_url:   downloadUrl,
-          upload_file_name:    file.name,
-          upload_content_type: file.type,
-          upload_file_size:    file.size
-        }
-      }
-    });
-  };
-
-  return {
-    getResources:   getResources,
-    createResource: createResource
-  };
-
+      .then(function(data) {
+        return uploadFile(file, data.upload.url, data.upload.content_type);
+      })
+      .then(function(downloadUrl) {
+        return saveResource(file, downloadUrl);
+      });
+  },
 }
+
+export default FileStore;
