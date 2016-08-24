@@ -41,6 +41,7 @@ class ListenSignalsController < ApplicationController
   end
 
   def show_promo_tweet_image
+    puts 'no'
   end
 
   private

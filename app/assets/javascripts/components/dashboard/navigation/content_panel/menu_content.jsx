@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Edit from './content_panel_views/edit/edit.jsx';
-import Promote from './content_panel_views/promote.jsx';
+import Promote from './content_panel_views/promote/promote.jsx';
 import Preview from './content_panel_views/preview.jsx';
 import Activity from './content_panel_views/activity.jsx';
 

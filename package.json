@@ -18,6 +18,8 @@
     "react-date-picker": "^5.3.27",
     "react-day-picker": "^2.4.1",
     "react-dom": "^15.3.0",
+    "react-dropzone": "^3.5.3",
+    "react-dropzone-s3-uploader": "^0.5.2",
     "react-s3-uploader": "^3.3.0"
   },
   "license": "MIT",

@@ -21,8 +21,7 @@ class GenerateUploadUrl
     obj = AWS::S3.new.
       buckets[ENV['AWS_S3_IMAGE_BUCKET']].
       objects["images/#{SecureRandom.uuid}/#{@image_filename}"]
-    @url = obj.url_for(:write, content_type: @content_type, acl: :public_read).to_s
-    true
+    obj.url_for(:write, content_type: @content_type, acl: :public_read).to_s
   end
 
 end
