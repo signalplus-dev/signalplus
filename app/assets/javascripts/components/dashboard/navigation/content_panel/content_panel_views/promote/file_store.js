@@ -1,28 +1,26 @@
 const API_PATH_PREFIX = '/api/v1';
 
-// private
-
 const getSignedUploadUrl = (file) => {
   return $.ajax({
     url:      API_PATH_PREFIX + '/uploads',
-    type:     'POST',
+    type:     'GET',
     dataType: 'json',
     data: {
-      upload: { image_filename: file.name }
+      upload: { filename: file.name }
     }
   });
 };
 
-const uploadFile = (file, uploadUrl, contentType, callbacks) => {
+const uploadFile = (file, uploadUrl, contentType) => {
   var deferred = $.Deferred();
 
   var xhr = new XMLHttpRequest();
   xhr.open('PUT', uploadUrl, true);
   xhr.setRequestHeader('Content-Type', contentType);
-
+  
   xhr.onload = () => {
     if (xhr.status === 200) {
-      callbacks.onProgress(file, file.size);
+      // callbacks.onProgress(file, file.size);
       deferred.resolve(uploadUrl.split('?')[0]);
     } else {
       deferred.reject(xhr);
@@ -35,7 +33,7 @@ const uploadFile = (file, uploadUrl, contentType, callbacks) => {
 
   xhr.upload.onprogress = (e) => {
     if (e.lengthComputable) {
-      callbacks.onProgress(file, e.loaded);
+      // callbacks.onProgress(file, e.loaded);
     }
   };
 
@@ -44,17 +42,17 @@ const uploadFile = (file, uploadUrl, contentType, callbacks) => {
   return deferred.promise();
 };
 
-const saveResource = (file, downloadUrl, callbacks) => {
+const saveResource = (file, downloadUrl) => {
   return $.ajax({
     url:      API_PATH_PREFIX + '/promotional_tweets',
     type:     'POST',
     dataType: 'json',
     data: {
-      document: {
-        direct_upload_url:   downloadUrl,
-        upload_file_name:    file.name,
-        upload_content_type: file.type,
-        upload_file_size:    file.size
+      promotional_tweet: {
+        direct_upload_url:  downloadUrl,
+        image_file_name:    file.name,
+        image_content_type: file.type,
+        image_file_size:    file.size
       }
     }
   });
@@ -72,20 +70,10 @@ const FileStore = {
   // 1. Generate signed upload URL
   // 2. Upload to s3
   // 3. Post uploaded file properties to API
-  // var createResource = function(file, callbacks) {
-  //   return getSignedUploadUrl(file)
-  //   .then(function(data) {
-  //     return uploadFile(file, data.upload.url, data.upload.content_type, callbacks);
-  //   })
-  //   .then(function(downloadUrl) {
-  //     return saveResource(file, downloadUrl, callbacks);
-  //   });
-  // };
-
   createResource: function(file) {
     return getSignedUploadUrl(file)
       .then(function(data) {
-        return uploadFile(file, data.upload.url, data.upload.content_type);
+        return uploadFile(file, data.url, data.content_type);
       })
       .then(function(downloadUrl) {
         return saveResource(file, downloadUrl);

@@ -47,9 +47,6 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.2.4)
       aws-sdk-core (= 2.2.4)
-    aws-sdk-v1 (1.66.0)
-      json (~> 1.4)
-      nokogiri (>= 1.4.4)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -382,7 +379,6 @@ PLATFORMS
 DEPENDENCIES
   annotate
   aws-sdk (~> 2.0)
-  aws-sdk-v1
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.2.0)

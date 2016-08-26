@@ -7,7 +7,6 @@ export default class ImageUpload extends Component {
   constructor(props) {
     super(props);
     this.uploadS3 = this.uploadS3.bind(this);
-    this.createResource = FileStore.createResource.bind(this);
     this.state = {
       uploadedFile: null,
       ulloadedFileUrl: ''
@@ -24,7 +23,7 @@ export default class ImageUpload extends Component {
     this.setState({ 
       uploadedFile: files[0]
     });
-
+    
     this.createResource(this.state.uploadedFile);
   }
 

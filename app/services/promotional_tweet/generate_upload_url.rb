@@ -18,10 +18,9 @@ class GenerateUploadUrl
 
   # @return [Boolean] Generation successful
   def call
-    obj = AWS::S3.new.
-      buckets[ENV['AWS_S3_IMAGE_BUCKET']].
-      objects["images/#{SecureRandom.uuid}/#{@image_filename}"]
-    obj.url_for(:write, content_type: @content_type, acl: :public_read).to_s
+    s3 = Aws::S3::Resource.new()
+    obj = s3.bucket(ENV['AWS_S3_IMAGE_BUCKET']).object("promotional-images/#{SecureRandom.uuid}/#{@image_filename}")
+    URI.parse(obj.presigned_url(:put)).to_s
   end
 
 end
