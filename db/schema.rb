@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821193948) do
+ActiveRecord::Schema.define(version: 20160906012559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,10 +32,12 @@ ActiveRecord::Schema.define(version: 20160821193948) do
     t.integer  "brand_id"
     t.string   "provider"
     t.string   "uid"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "encrypted_token"
     t.string   "encrypted_secret"
+    t.string   "user_name"
+    t.string   "profile_image_url"
   end
 
   add_index "identities", ["brand_id"], name: "index_identities_on_brand_id", using: :btree

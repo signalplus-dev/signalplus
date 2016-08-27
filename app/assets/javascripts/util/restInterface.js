@@ -27,7 +27,7 @@ export default {
     return fetch(Endpoints.REFRESH_TOKEN, {
       method:      'POST',
       credentials: 'same-origin',
-      headers:     baseHeaders(this.getAT().content),
+      headers:     this.requestHeaders(),
     }).then(response => {
       if (response.status === 200) {
         this.setTA(response);
@@ -98,6 +98,12 @@ export default {
       console.log(response);
     });
   },
+  requestHeaders: function() {
+    return {
+      ...baseHeaders(this.getAT().content),
+      ...this.getTA(),
+    };
+  },
   /**
     * Interface for GET requests
     *
@@ -115,8 +121,7 @@ export default {
       fetch(basePath, {
         method:  'GET',
         headers: {
-          ...baseHeaders(this.getAT().content),
-          ...this.getTA(),
+          ...this.requestHeaders(),
           ...additionalHeaders,
         },
       })
@@ -132,8 +137,7 @@ export default {
       fetch(path, {
         method:  'POST',
         headers: {
-          ...baseHeaders(this.getAT().content),
-          ...this.getTA(),
+          ...this.requestHeaders(),
           ...additionalHeaders,
         },
         body: JSON.stringify(body),
@@ -147,19 +151,13 @@ export default {
     */
   deleteRequest: function(path, params = {}, additionalHeaders = {}) {
     let basePath = path;
-    const at = this.getAT().content;
-    const sentParams = {
-      ...params,
-      authenticity_token: at,
-    };
-    basePath += `?${queryString.stringify(sentParams)}`;
+    basePath += `?${queryString.stringify(params)}`;
 
     return this.handleRequest(
-      fetch(path, {
+      fetch(basePath, {
         method:  'DELETE',
         headers: {
-          ...baseHeaders(at),
-          ...this.getTA(),
+          ...this.requestHeaders(),
           ...additionalHeaders,
         },
       })

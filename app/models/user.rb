@@ -78,8 +78,10 @@ class User < ActiveRecord::Base
 
     # Associate the identity with the user and the brand if needed
     if identity.user != user
-      identity.user  = user
-      identity.brand = brand
+      identity.user              = user
+      identity.brand             = brand
+      identity.user_name         = auth.extra.raw_info.screen_name
+      identity.profile_image_url = auth.extra.raw_info.profile_image_url
       identity.save!
     end
 

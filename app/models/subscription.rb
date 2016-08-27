@@ -87,6 +87,16 @@ class Subscription < ActiveRecord::Base
     !canceled_at.nil?
   end
 
+  # @return [String]
+  def name
+    subscription_plan.try(:name)
+  end
+
+  # @return [Fixnum]
+  def number_of_messages
+    subscription_plan.try(:number_of_messages)
+  end
+
   private
 
   # Used to stub out in tests for mocking of the Stripe API response

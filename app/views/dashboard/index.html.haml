@@ -1,17 +1,1 @@
-.row
-  .dash
-    .col-md-12.dash-header
-      =image_tag('#', :alt => 'pic', :class => 'brand-img')
-      %h3
-        = @brand.name
-
-      .brand-pricing-plan
-        %p= "brand princing info here"
-
-      %br
-      %p
-        @
-        = @brand.name
-
-    .col-md-12.dash
-      = react_component 'Navigation', render(template: 'dashboard/index.json.jbuilder')
+= react_component 'App', render(template: 'dashboard/index.json.jbuilder')

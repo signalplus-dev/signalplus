@@ -14,14 +14,13 @@ Rails.application.routes.draw do
   get 'guide'   => 'dashboard#guide'
   get 'support' => 'dashboard#support'
 
-
   get 'dashboard/index'
   get 'dashboard/get_data' => 'dashboard#get_data'
   put 'template/signal'    => 'listen_signals#edit_signal'
   post 'template/signal'   => 'listen_signals#create_template_signal'
 
   namespace :api do
-    namespace :v1 do
+    namespace :v1, defaults: { format: 'json' } do
       # Testing endpoint for authentication
       get '/test' => 'base#test' if Rails.env.test?
 
@@ -29,15 +28,15 @@ Rails.application.routes.draw do
         sessions: 'api/v1/sessions',
       }
 
+      resources :promotional_tweets, only: [:index, :create]
+
+      get 'uploads', to: 'uploads#signed_url'
+      post 'post_tweet', to: 'promotional_tweets#post_tweet'
+
       resources :subscriptions, only: [:create]
       resources :brands, only: [:show] do
         get '/me' => 'brands#show', on: :collection
       end
-    end
-    namespace :v1, defaults: { format: 'json' } do
-      resources :promotional_tweets, only: [:index, :create]
-      get 'uploads', to: 'uploads#signed_url'
-      post 'post_tweet', to: 'promotional_tweets#post_tweet'
     end
   end
 end
