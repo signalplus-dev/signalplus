@@ -42,6 +42,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def refresh_token
+    # extract client_id from auth header
+    client_id = request.headers['client']
+
+    # update token, generate updated auth headers for response
+    new_auth_header = current_user.create_new_auth_token(client_id)
+
+    # update response with the header that will be required by the next request
+    response.headers.merge!(new_auth_header)
+
+    render json: { success: true }
+  end
+
   # DELETE /users/:id.:format
   def destroy
     # authorize! :delete, @user
@@ -53,13 +66,14 @@ class UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    def user_params
-      accessible = [ :name, :email ] # extend with your own params
-      accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
-      params.require(:user).permit(accessible)
-    end
+  def set_user
+    @user = current_user
+  end
+
+  def user_params
+    accessible = [ :name, :email ] # extend with your own params
+    accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
+    params.require(:user).permit(accessible)
+  end
 end

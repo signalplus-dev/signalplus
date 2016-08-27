@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq'
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
-  
+  post '/users/refresh_token' => 'users#refresh_token'
+
   root 'users#index'
   get 'users/index'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
@@ -13,14 +14,25 @@ Rails.application.routes.draw do
   get 'guide'   => 'dashboard#guide'
   get 'support' => 'dashboard#support'
 
+
   get 'dashboard/index'
   get 'dashboard/get_data' => 'dashboard#get_data'
   put 'template/signal'    => 'listen_signals#edit_signal'
   post 'template/signal'   => 'listen_signals#create_template_signal'
 
   namespace :api do
-    scope :v1 do
-      mount_devise_token_auth_for 'User', at: 'auth'
+    namespace :v1 do
+      # Testing endpoint for authentication
+      get '/test' => 'base#test' if Rails.env.test?
+
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+        sessions: 'api/v1/sessions',
+      }
+
+      resources :subscriptions, only: [:create]
+      resources :brands, only: [:show] do
+        get '/me' => 'brands#show', on: :collection
+      end
     end
     namespace :v1, defaults: { format: 'json' } do
       resources :promotional_tweets, only: [:index, :create]

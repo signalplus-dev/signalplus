@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
+import restInterface from '../../../util/restInterface.js';
+import endpoints from '../../../util/endpoints.js';
 import Panes from './panes.jsx';
 import Tabs from './tabs.jsx';
 
@@ -28,6 +29,15 @@ export default class Navigation extends Component {
       editSignal: '',
       templateType: '',
     };
+  }
+
+  componentDidMount() {
+    if (restInterface.hasToken() && !restInterface.isTAExpired()) {
+      restInterface.getRequest(endpoints.BRAND);
+    } else {
+      restInterface.refreshToken()
+        .then(response => restInterface.getRequest(endpoints.BRAND));
+    }
   }
 
   handleTabs(tab) {
