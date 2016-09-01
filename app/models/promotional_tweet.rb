@@ -23,19 +23,11 @@ class PromotionalTweet < ActiveRecord::Base
   # validates_attachment :image, content_type: { content_type: ["image/jpg", "image/jpeg", "image/png"] }
 
 
-  DIRECT_UPLOAD_URL_FORMAT = %r{
-    \A
-    https:\/\/
-    #{ENV['AWS_S3_BUCKET']}\.s3\.amazonaws\.com\/
-    (?<path>images\/.+\/(?<image_filename>.+))
-    \z
-  }x.freeze
+  DIRECT_UPLOAD_URL_FORMAT = /\A(https:\/\/signal-twitter-images-development.s3.amazonaws.com\/promotional-images\/.+\/.+\.(jpg|png|jpeg))\z/
 
   enum status: { unprocessed: 0, processed: 1 }
-
   has_attached_file :image
-
-  validates :direct_upload_url, presence: true, format: { with: DIRECT_UPLOAD_URL_FORMAT }
+  validates_format_of :direct_upload_url, with: DIRECT_UPLOAD_URL_FORMAT
   do_not_validate_attachment_file_type :image
 
 

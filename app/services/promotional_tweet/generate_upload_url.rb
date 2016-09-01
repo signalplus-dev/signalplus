@@ -2,9 +2,6 @@ class GenerateUploadUrl
 
   attr_reader :content_type, :image_filename, :url
 
-  # @note It is important to have a single source of truth (Rails) for content-type, as
-  #   clients may return mismatched content-types versus what Rails deduces, resulting in s3 signature errors.
-  #
   # @example
   #   generate_upload_url_service = GenerateUploadUrl.new(filename)
   #   generate_upload_url_service.call
@@ -12,8 +9,8 @@ class GenerateUploadUrl
   # @param filename [String]
   #
   def initialize(image_filename)
-    @image_filename     = image_filename
-    @content_type = MIME::Types.type_for(image_filename).first.content_type
+    @image_filename = image_filename
+    @content_type   = MIME::Types.type_for(image_filename).first.content_type
   end
 
   # @return [Boolean] Generation successful

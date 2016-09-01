@@ -8,7 +8,6 @@ export default class SaveBtn extends Component {
 
   handleSubmit() {
     this.createSignal(this.props.data);
-    console.log(this.props.data)
   }
 
   createSignal(data) {

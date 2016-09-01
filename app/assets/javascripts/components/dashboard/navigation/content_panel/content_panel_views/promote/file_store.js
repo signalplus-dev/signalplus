@@ -42,13 +42,14 @@ const uploadFile = (file, uploadUrl, contentType) => {
   return deferred.promise();
 };
 
-const saveResource = (file, downloadUrl) => {
+const saveResource = (file, downloadUrl, signalId) => {
   return $.ajax({
     url:      API_PATH_PREFIX + '/promotional_tweets',
     type:     'POST',
     dataType: 'json',
     data: {
       promotional_tweet: {
+        listen_signal_id:          signalId, 
         direct_upload_url:  downloadUrl,
         image_file_name:    file.name,
         image_content_type: file.type,
@@ -70,13 +71,13 @@ const FileStore = {
   // 1. Generate signed upload URL
   // 2. Upload to s3
   // 3. Post uploaded file properties to API
-  createResource: function(file) {
+  createResource: function(file, signalId) {
     return getSignedUploadUrl(file)
       .then(function(data) {
         return uploadFile(file, data.url, data.content_type);
       })
       .then(function(downloadUrl) {
-        return saveResource(file, downloadUrl);
+        return saveResource(file, downloadUrl, signalId);
       });
   },
 }

@@ -1,5 +1,6 @@
 json.data do
   json.signals @signals do |s|
+    json.id   s.id
     json.name s.name
     json.active s.active
     json.expiration_date s.expiration_date.strftime('%Y-%m-%d')

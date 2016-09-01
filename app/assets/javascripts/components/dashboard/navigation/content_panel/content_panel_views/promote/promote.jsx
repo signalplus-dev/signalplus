@@ -13,8 +13,7 @@ export default class Promote extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);   
     this.state = {
       message: '',
-      imageUrl: '',
-      imageFile: ''
+      imageUrl: ''
     };
   }
 
@@ -26,11 +25,14 @@ export default class Promote extends Component {
     this.createPromoTweet(this.state);
   }
 
-  createPromoTweet(data) {
+  createPromoTweet(msg) {
     $.ajax({
       type: 'POST',
-      url: '/promo_tweet/create',
-      data: data
+      url: '/api/v1/post_tweet',
+      data: {
+        signal_id: this.props.signal.edit.id,
+        message: this.state.message
+      }
     }).done((result) => {
       console.log('sucesss');
       console.log(result);
@@ -75,11 +77,11 @@ export default class Promote extends Component {
 
           <div className='row'>
             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 center promote-image'>
-              <ImageUpload/>
+              <ImageUpload signal={this.props.signal.edit}/>
             </div>
           </div>
 
-          <Button onSubmit={this.handleSubmit} type='submit' className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
+          <Button onClick={this.handleSubmit} type='submit' className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
         </div>
       </div>
     );

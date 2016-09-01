@@ -17,7 +17,10 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   private
 
   def image_params
-    params.require(:promotional_tweet).permit(:direct_upload_url, :image_content_type, :image_file_name, :image_file_size)
+    params.require(:promotional_tweet).permit(:listen_signal_id, :direct_upload_url, :image_content_type, :image_file_name, :image_file_size)
   end
 
+  def tweet_params
+    params.permit(:signal_id, :message)
+  end
 end
