@@ -18,9 +18,6 @@ Rails.application.routes.draw do
   put 'template/signal'    => 'listen_signals#edit_signal'
   post 'template/signal'   => 'listen_signals#create_template_signal'
 
-  post 'post_tweet', to: 'listen_signals#post_tweet'
-
-
   namespace :api do
     scope :v1 do
       mount_devise_token_auth_for 'User', at: 'auth'
@@ -28,6 +25,7 @@ Rails.application.routes.draw do
     namespace :v1, defaults: { format: 'json' } do
       resources :promotional_tweets, only: [:index, :create]
       get 'uploads', to: 'uploads#signed_url'
+      post 'post_tweet', to: 'promotional_tweets#post_tweet'
     end
   end
 end

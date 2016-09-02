@@ -2,7 +2,7 @@ import React from 'react'
 import SignalIcon from '../../../../links/signal_icon.jsx';
 
 export default function Preview(props) {
-  const signal = props.signal['edit'];
+  const signal = props.signal.edit;
 
   if (signal) {
     return (

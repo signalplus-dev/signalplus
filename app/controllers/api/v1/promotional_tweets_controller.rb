@@ -14,6 +14,13 @@ class Api::V1::PromotionalTweetsController < ApplicationController
     end
   end
 
+  def post_tweet
+    binding.pry
+    @signal_id = tweet_params[:signal_id]
+    @promotional_tweet = PromotionalTweet.find_or_create_by(id: @signal_id)
+    @promotional_tweet.update_attributes(message: tweet_params[:message])
+  end
+
   private
 
   def image_params
@@ -21,6 +28,6 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   end
 
   def tweet_params
-    params.permit(:signal_id, :message)
+    params.permit(:signal_id, :message, :promotional_tweet_id)
   end
 end

@@ -36,13 +36,6 @@ class ListenSignalsController < ApplicationController
     end
   end
 
-  def post_tweet
-    binding.pry
-    @signal_id = tweet_params[:signal_id]
-    @promotional_tweet = PromotionalTweet.find_or_create_by(id: @signal_id)
-    @promotional_tweet.update_attributes(message: tweet_params[:message])
-  end
-
   private
 
     def update_signal(signal, params)

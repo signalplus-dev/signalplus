@@ -14,25 +14,27 @@ export default class Promote extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);  
     this.showPromoImage = this.showPromoImage.bind(this); 
 
-    var promoTweet = props.signal.edit.promotional_tweet;
+    const signal = props.signal.edit;
 
-    if (_.isEmpty(promoTweet)) {
+    if (signal && signal.promotional_tweet) {
+      const promoTweet = signal.promotional_tweet;
+
+      this.state = {
+        promoTweetId: promoTweet.id,
+        message: promoTweet.message,
+        url: promoTweet.url
+      };
+    } else {
       this.state = {
         promoTweetId: '',
         message: '',
         imageUrl: ''
       };
-    } else {
-      this.state = {
-        promoTweetId: promoTweet.id,
-        message: promoTweet.message,
-        url: promoTweet.url
-      }
     }
   }
 
   handleChange(e) {
-    this.setState({message: e.currentTarget.value});
+    this.setState({ message: e.currentTarget.value });
   }
 
   handleSubmit() {
@@ -45,25 +47,22 @@ export default class Promote extends Component {
       url: '/api/v1/post_tweet',
       data: {
         signal_id: this.props.signal.edit.id,
-        message: this.state.message
+        message: this.state.message,
+        promotional_tweet_id: this.state.promoTweetId
       }
     }).done((result) => {
       console.log('sucesss');
       console.log(result);
     }).fail((jqXhr) => {
-      console.log('failed request');
+      console.log(jqXhr);
     });
   }
 
   showPromoImage() {
-    if (this.state.url) {
-      return (
-        <img 
-          src={ this.state.url }
-          className='promo-image-preview'
-        />
-      );
+    if (this.state.url && this.props.signal.edit) {
+      return (<img src={ this.state.url } className='promo-image-preview'/>);
     }
+    return (<ImageUpload signal={this.props.signal.edit}/>);
   }
 
   render() {
@@ -103,7 +102,6 @@ export default class Promote extends Component {
           <div className='row'>
             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 center promote-image'>
               { this.showPromoImage() }
-              <ImageUpload signal={this.props.signal.edit}/>
             </div>
           </div>
 

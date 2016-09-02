@@ -14,10 +14,12 @@ json.data do
       json.priority           r.priority
     end
 
-    json.promotional_tweet do 
-      json.id       s.promotional_tweets.last.id
-      json.message  s.promotional_tweets.last.message
-      json.url      s.promotional_tweets.last.direct_upload_url
+    if s.promotional_tweets.present?
+      json.promotional_tweet do 
+        json.id       s.promotional_tweets.last.id
+        json.message  s.promotional_tweets.last.message
+        json.url      s.promotional_tweets.last.direct_upload_url
+      end
     end
   end
 
