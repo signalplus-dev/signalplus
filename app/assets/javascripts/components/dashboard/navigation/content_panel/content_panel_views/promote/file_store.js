@@ -78,7 +78,7 @@ const FileStore = {
       })
       .then(function(downloadUrl) {
         return saveResource(file, downloadUrl, signalId);
-      });
+      })
   },
 }
 

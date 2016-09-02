@@ -12,22 +12,23 @@ export default class ImageUpload extends Component {
     this.showImage = this.showImage.bind(this);
     this.state = {
       uploadedFile: [],
-      ulloadedFileUrl: ''
+      uploadedFileUrl: ''
     }
+  }
+
+  handleState(key, value) {
+    var obj = {};
+    obj[key] = value;
+    this.setState(obj);
   }
 
   createResource(file) {
     FileStore.createResource(file, this.props.signal.id);
-  }
-
-  setImageState(file) {
-    this.setState({
-      uploadedFile: file
-    });
+    this.handleState('uploadedFileUrl', url);
   }
 
   uploadS3(files) {
-    this.setImageState(files[0]);
+    this.handleState('uploadedFile', files[0]);
     this.createResource(files[0]);
   }
 
