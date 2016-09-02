@@ -13,13 +13,15 @@ json.data do
       json.expiration_date    r.expiration_date.strftime('%Y-%m-%d')
       json.priority           r.priority
     end
+
+    json.promotional_tweet do 
+      json.id       s.promotional_tweets.last.id
+      json.message  s.promotional_tweets.last.message
+      json.url      s.promotional_tweets.last.direct_upload_url
+    end
   end
 
-  json.promotional_tweet @promotional_tweet do |t|
-    json.id       t.id
-    json.message  t.message
-    json.url      t.direct_upload_url
-  end
+
 
   json.signal_types @type_hash do |t|
     json.type     t.keys.first

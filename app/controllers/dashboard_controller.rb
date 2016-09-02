@@ -6,7 +6,6 @@ class DashboardController < ApplicationController
   def index
     @brand = current_user.brand
     @signals = @brand.listen_signals
-    @promotional_tweet = @signal.promotional_tweets.last
 
     @signal_types = ListenSignal::Types.values
     @type_hash = @signal_types.map do |t|

@@ -9,7 +9,7 @@ export default class ImageUpload extends Component {
   constructor(props) {
     super(props);
     this.uploadS3 = this.uploadS3.bind(this);
-    this.showImage = this.showImage.bind(this);
+
     this.state = {
       uploadedFile: [],
       uploadedFileUrl: ''
@@ -32,30 +32,22 @@ export default class ImageUpload extends Component {
     this.createResource(files[0]);
   }
 
-  showImage() {
-    return (
-      <div>
-        <img src={this.state.uploadedFile.preview}/>
-      </div>
-    );
-  }
-
-  showDropzone() {
-    return (
-      <Dropzone
-        multiple={true}
-        accept='image/*'
-        onDrop={this.uploadS3}>
-        <div>Drop an image!</div>
-      </Dropzone>
-    );
-  }
-
   render() {
     if (_.isEmpty(this.state.uploadedFile)) {
-      return this.showDropzone();
+      return (
+        <div className='dropzone'>
+          <Dropzone
+            multiple={true}
+            accept='image/*'
+            onDrop={this.uploadS3}>
+            <div className='dropzone-text'>Drag & Drop an image to upload!</div>
+          </Dropzone>
+        </div>
+      );
     } 
-    return (this.showImage());
 
+    return (
+      <img src={this.state.uploadedFile.preview}/>
+    );
   }
 };

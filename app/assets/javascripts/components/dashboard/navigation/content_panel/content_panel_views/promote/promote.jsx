@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SignalIcon from '../../../../../links/signal_icon.jsx';
 import ImageUpload from './image_upload.jsx';
+import _ from 'lodash';
 import {
   Button,
   FormControl,
@@ -10,11 +11,24 @@ export default class Promote extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this); 
-    this.handleSubmit = this.handleSubmit.bind(this);   
-    this.state = {
-      message: '',
-      imageUrl: ''
-    };
+    this.handleSubmit = this.handleSubmit.bind(this);  
+    this.showPromoImage = this.showPromoImage.bind(this); 
+
+    var promoTweet = props.signal.edit.promotional_tweet;
+
+    if (_.isEmpty(promoTweet)) {
+      this.state = {
+        promoTweetId: '',
+        message: '',
+        imageUrl: ''
+      };
+    } else {
+      this.state = {
+        promoTweetId: promoTweet.id,
+        message: promoTweet.message,
+        url: promoTweet.url
+      }
+    }
   }
 
   handleChange(e) {
@@ -39,6 +53,17 @@ export default class Promote extends Component {
     }).fail((jqXhr) => {
       console.log('failed request');
     });
+  }
+
+  showPromoImage() {
+    if (this.state.url) {
+      return (
+        <img 
+          src={ this.state.url }
+          className='promo-image-preview'
+        />
+      );
+    }
   }
 
   render() {
@@ -77,6 +102,7 @@ export default class Promote extends Component {
 
           <div className='row'>
             <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 center promote-image'>
+              { this.showPromoImage() }
               <ImageUpload signal={this.props.signal.edit}/>
             </div>
           </div>

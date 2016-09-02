@@ -227,7 +227,8 @@ img.arrow {
   }
 
   a, img {
-    width: 400px;
+    float: left;
+    width: 200px;
     min-height: 200px !important;
     border: 0 none;
     display: inline-block;
@@ -237,3 +238,8 @@ img.arrow {
     padding-right: 10px;
   }
 }
+
+.dropzone {
+  display: inline-block;
+}
+
