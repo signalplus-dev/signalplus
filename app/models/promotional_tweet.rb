@@ -31,4 +31,9 @@ class PromotionalTweet < ActiveRecord::Base
   do_not_validate_attachment_file_type :image
 
 
+  def self.update_or_create_by(args, attributes)
+    binding.pry
+    find_or_create_by(args)
+    update(attributes)
+  end
 end

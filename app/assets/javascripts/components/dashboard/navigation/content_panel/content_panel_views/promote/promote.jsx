@@ -46,9 +46,11 @@ export default class Promote extends Component {
       type: 'POST',
       url: '/api/v1/post_tweet',
       data: {
-        signal_id: this.props.signal.edit.id,
-        message: this.state.message,
-        promotional_tweet_id: this.state.promoTweetId
+        promotional_tweet: {
+          signal_id: this.props.signal.edit.id,
+          message: this.state.message,
+          promotional_tweet_id: this.state.promoTweetId
+        }
       }
     }).done((result) => {
       console.log('sucesss');

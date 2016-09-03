@@ -17,8 +17,7 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   def post_tweet
     binding.pry
     @signal_id = tweet_params[:signal_id]
-    @promotional_tweet = PromotionalTweet.find_or_create_by(id: @signal_id)
-    @promotional_tweet.update_attributes(message: tweet_params[:message])
+    @promotional_tweet = PromotionalTweet.update_or_create_by(tweet_params)
   end
 
   private
@@ -28,6 +27,6 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   end
 
   def tweet_params
-    params.permit(:signal_id, :message, :promotional_tweet_id)
+    params.require(:promotional_tweet).permit(:signal_id, :message, :promotional_tweet_id)
   end
 end

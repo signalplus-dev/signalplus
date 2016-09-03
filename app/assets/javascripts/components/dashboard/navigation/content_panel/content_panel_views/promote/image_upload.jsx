@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactS3Uploader from 'react-s3-uploader';
 import Dropzone from 'react-dropzone';
 import FileStore from './file_store.js';
 import _ from 'lodash';
@@ -24,7 +23,6 @@ export default class ImageUpload extends Component {
 
   createResource(file) {
     FileStore.createResource(file, this.props.signal.id);
-    this.handleState('uploadedFileUrl', url);
   }
 
   uploadS3(files) {
