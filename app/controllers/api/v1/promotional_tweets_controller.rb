@@ -7,7 +7,7 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   def create
     @create_promotional_tweet_service = CreatePromotionalTweet.new(image_params)
     @promotional_tweet = @create_promotional_tweet_service.promotional_tweet
-    if @create_promotional_tweet_service.call
+    if @create_promotional_tweet_service.enqueue_process
       render :show, status: :created
     else
       render json: { errors: @promotional_tweet.errors.messages }, status: :unprocessable_entity
@@ -15,9 +15,9 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   end
 
   def post_tweet
-    binding.pry
-    @signal_id = tweet_params[:signal_id]
-    @promotional_tweet = PromotionalTweet.update_or_create_by(tweet_params)
+    promo_tweet_id = { id: tweet_params[:promotional_tweet_id] }
+    message = { message: tweet_params[:message] }
+    @promotional_tweet = PromotionalTweet.update_or_create_by(promo_tweet_id, message)
   end
 
   private

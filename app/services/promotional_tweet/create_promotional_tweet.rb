@@ -10,7 +10,7 @@ class CreatePromotionalTweet
   end
 
   # @return [Boolean] PromotionalTweet saved
-  def call
+  def enqueue_process
     saved = @promotional_tweet.save
     if saved
       queue_process
@@ -25,6 +25,12 @@ class CreatePromotionalTweet
   end
 
   def queue_process
-    ProcessPromotionalTweetWorker.perform_async(@promotional_tweet)
+    promo_tweet = {
+      id: @promotional_tweet.id,
+      image: URI.parse(@promotional_tweet.direct_upload_url),
+      status: 'processed'
+    }
+
+    ProcessPromotionalTweetImagesWorker.perform_async(promo_tweet)
   end
 end
