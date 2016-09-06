@@ -2,7 +2,7 @@ class Api::V1::UploadsController < ApplicationController
 
   def signed_url
     @generate_upload_url_service = GenerateUploadUrl.new(create_params[:filename])
-    @url = @generate_upload_url_service.call
+    @url = @generate_upload_url_service.get_url
 
     respond_to do |format|
       format.json { 
