@@ -30,7 +30,7 @@
   min-height: 40px;
   padding: 6px;
   text-align: center;
-  background: #450b6b;
+  background: $twitter-blue;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -41,11 +41,11 @@
   position: absolute;
   border-style: solid;
   border-width: 9px 0 9px 17px;
-  border-color: transparent #450b6b;
+  border-color: transparent $twitter-blue;
   display: block;
   width: 0;
   z-index: 1;
-  right: -13px;
+  right: -10px;
   top: 18px;
 }
 
