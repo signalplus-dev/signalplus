@@ -97,7 +97,7 @@ export default class Promote extends Component {
           </div>
 
           <div className='subheader'>
-            <h5 className='subheader'>Promotional Image</h5>
+            <h5>Promotional Image</h5>
             <p>Select an image to include or upload your own</p>
           </div>
 

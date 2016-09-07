@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormControl } from 'react-bootstrap';
+import { FormControl, FormGroup } from 'react-bootstrap';
 
 export default class InputBox extends Component {
   constructor(props) {
@@ -8,7 +8,7 @@ export default class InputBox extends Component {
     this.reset        = this.reset.bind(this);
 
     if (props.componentClass) {
-      this.state = { componentClass: props.componentClass };
+      this.state = { componentClass: props.componentClass};
     } else {
       this.state = { componentClass: 'textarea'}
     }
@@ -16,6 +16,7 @@ export default class InputBox extends Component {
 
   handleChange(e) {
     var key = this.props.type;
+    this.state = { value: e.target.value };
     this.props.setResponse(key, e.target.value);
   }
 
