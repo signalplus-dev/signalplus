@@ -147,6 +147,12 @@
   }
 }
 
+@media only screen and (max-width: 1150px) {
+    .required {
+      display: none !important;
+    }
+}
+
 .required {
   margin-top: 30px;
   margin-right: 10px;
