@@ -1,5 +1,9 @@
 import React from 'react';
 
 export default function Activity(props) {
-  return <div><p>activity</p></div>;
+  return (
+    <div className='col-md-9 activity'>
+      <p>activity place holder</p>
+    </div>
+  );
 }

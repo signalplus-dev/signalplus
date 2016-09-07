@@ -25,13 +25,6 @@
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
   border: solid 2px $twitter-blue;
   border: solid 1px var(--windows-blue);
-
-  &:hover,
-  &:active,
-  &:focus, {
-    color: $text-white !important;
-    background-color: rgba(27, 140, 229, .3)!important;
-  }
 }
 
 .btn-centered {

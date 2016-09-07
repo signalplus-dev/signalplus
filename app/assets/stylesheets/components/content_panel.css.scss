@@ -122,6 +122,14 @@
 
   .subheader {
     padding-top: 20px;
+    float:left;
+    
+    p {
+      float: left;
+      font-size: 12px;
+      margin: 0 !important;
+      padding-top: 6px;
+    }
   }
 
   .thumbnails {
