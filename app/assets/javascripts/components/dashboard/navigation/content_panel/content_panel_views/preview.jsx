@@ -23,9 +23,7 @@ export default function Preview(props) {
 
         <div className='preview-bubble'>
           <div className='bubble'>
-            <div className='bubble-text'>
               @{signal['brand_name']} #{signal['name']}
-            </div>
           </div>
           <span><SignalIcon className='preview-image' type="public"/></span>
         </div>
@@ -41,14 +39,10 @@ export default function Preview(props) {
 
           <div className='col-md-5 preview-responses'>
             <div className='preview-response-bubble'>
-              <div className='preview-bubble-text'>
-                {signal.responses[0].message}
-              </div>
+              {signal.responses[0].message}
             </div>
             <div className='preview-response-bubble'>
-              <div className='preview-bubble-text'>
-                {signal.responses[1].message}
-              </div>
+              {signal.responses[1].message}
             </div>
             <div className='preview-response-bubble' />
             <div className='preview-response-bubble' />
