@@ -10,7 +10,7 @@ export default class AddBtn extends Component {
   render() {
     return (
       <div className='edit-btns'>
-        <DropdownButton title='ADD' className='btn add-btn'>
+        <DropdownButton title='ADD' id='addBtn' className='btn add-btn'>
           <p>Expiration Date</p>
           <Calendar  
             setResponse={this.props.setResponse}

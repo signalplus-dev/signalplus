@@ -36,10 +36,6 @@ class ListenSignalsController < ApplicationController
     end
   end
 
-  def create_promo_tweet
-    puts 'yes'
-  end
-
   private
 
     def update_signal(signal, params)

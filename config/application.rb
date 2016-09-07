@@ -33,6 +33,7 @@ module ProjectSignal
       #{config.root}/app/services
       #{config.root}/app/services/responders
       #{config.root}/app/services/streamers
+      #{config.root}/app/services/promotional_tweet
       #{config.root}/app/models/strategies
       #{config.root}/app/errors
     )

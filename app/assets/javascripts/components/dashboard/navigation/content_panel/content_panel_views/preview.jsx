@@ -2,7 +2,7 @@ import React from 'react'
 import SignalIcon from '../../../../links/signal_icon.jsx';
 
 export default function Preview(props) {
-  const signal = props.signal['edit'];
+  const signal = props.signal.edit;
 
   if (signal) {
     return (
@@ -21,18 +21,13 @@ export default function Preview(props) {
           <h4 className='subheading'>Direct Message</h4>
         </div>
 
-
-        <div className='row'>
-          <div className='col-md-4' />
-          <div className='col-md-4'>
-            <div className='preview-image'>
-              <div className='signal-info'>
-                @{signal['brand_name']} #{signal['name']}
-              </div>
-              <span><SignalIcon type="public"/></span>
+        <div className='preview-bubble'>
+          <div className='bubble'>
+            <div className='bubble-text'>
+              @{signal['brand_name']} #{signal['name']}
             </div>
           </div>
-          <div className='col-md-4' />
+          <span><SignalIcon className='preview-image' type="public"/></span>
         </div>
 
         <div className='row'>
@@ -45,10 +40,18 @@ export default function Preview(props) {
           </div>
 
           <div className='col-md-5 preview-responses'>
-            <div className='preview-response-box'>{signal.responses[0].message}</div>
-            <div className='preview-response-box'>{signal.responses[1].message}</div>
-            <div className='preview-response-box' />
-            <div className='preview-response-box' />
+            <div className='preview-response-bubble'>
+              <div className='preview-bubble-text'>
+                {signal.responses[0].message}
+              </div>
+            </div>
+            <div className='preview-response-bubble'>
+              <div className='preview-bubble-text'>
+                {signal.responses[1].message}
+              </div>
+            </div>
+            <div className='preview-response-bubble' />
+            <div className='preview-response-bubble' />
           </div>
         </div>
       </div>

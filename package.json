@@ -16,9 +16,8 @@
     "react": "^15.3.0",
     "react-bootstrap": "^0.30.2",
     "react-date-picker": "^5.3.27",
-    "react-day-picker": "^2.4.1",
     "react-dom": "^15.3.0",
-    "react-s3-uploader": "^3.3.0"
+    "react-dropzone": "^3.5.3"
   },
   "license": "MIT",
   "engines": {

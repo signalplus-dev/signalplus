@@ -22,6 +22,7 @@ class ListenSignal < ActiveRecord::Base
   belongs_to :identity
   has_one :response_group
   has_many :responses, through: :response_group
+  has_many :promotional_tweets
 
   module Types
     OFFER    = :offer

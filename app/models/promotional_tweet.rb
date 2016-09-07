@@ -16,10 +16,16 @@
 class PromotionalTweet < ActiveRecord::Base
   belongs_to :listen_signal
 
-  has_attached_file :image, :styles => {
-    :medium => "300x300#",
-    :thumb => "200x200#"
-  }
-  validates_attachment :image, content_type: { content_type: ["image/jpg", "image/jpeg", "image/png"] }
+  DIRECT_UPLOAD_URL_FORMAT = /\A(https:\/\/signal-twitter-images-development.s3.amazonaws.com\/promotional-images\/.+\/.+\.(jpg|png|jpeg))\z/
 
+  enum status: { unprocessed: 0, processed: 1 }
+  has_attached_file :image
+  validates_format_of :direct_upload_url, with: DIRECT_UPLOAD_URL_FORMAT
+  do_not_validate_attachment_file_type :image
+
+  def self.update_or_create_by(args, attributes)
+    promo_tweet = find_or_create_by(args)
+    promo_tweet.update(attributes)
+    promo_tweet
+  end
 end

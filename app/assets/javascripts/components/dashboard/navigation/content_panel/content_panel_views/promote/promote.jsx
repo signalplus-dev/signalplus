@@ -1,45 +1,70 @@
 import React, { Component } from 'react';
-import SignalIcon from '../../../../links/signal_icon.jsx';
-import ReactS3Uploader from 'react-s3-uploader';
+import SignalIcon from '../../../../../links/signal_icon.jsx';
+import ImageUpload from './image_upload.jsx';
+import _ from 'lodash';
 import {
   Button,
   FormControl,
-  Thumbnail,
 } from 'react-bootstrap';
-
-
 
 export default class Promote extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this); 
-    this.handleSubmit = this.handleSubmit.bind(this);   
-    this.state = {
-      message: '',
-      imageUrl: '',
-      imageFile: ''
-    };
+    this.handleSubmit = this.handleSubmit.bind(this);  
+    this.showPromoImage = this.showPromoImage.bind(this); 
+
+    const signal = props.signal.edit;
+
+    if (signal && signal.promotional_tweet) {
+      const promoTweet = signal.promotional_tweet;
+
+      this.state = {
+        promoTweetId: promoTweet.id,
+        message: promoTweet.message,
+        url: promoTweet.url
+      };
+    } else {
+      this.state = {
+        promoTweetId: '',
+        message: '',
+        imageUrl: ''
+      };
+    }
   }
 
   handleChange(e) {
-    this.setState({message: e.currentTarget.value});
+    this.setState({ message: e.currentTarget.value });
   }
 
   handleSubmit() {
     this.createPromoTweet(this.state);
   }
 
-  createPromoTweet(data) {
+  createPromoTweet(msg) {
     $.ajax({
       type: 'POST',
-      url: '/promo_tweet/create',
-      data: data
+      url: '/api/v1/post_tweet',
+      data: {
+        promotional_tweet: {
+          signal_id: this.props.signal.edit.id,
+          message: this.state.message,
+          promotional_tweet_id: this.state.promoTweetId
+        }
+      }
     }).done((result) => {
       console.log('sucesss');
       console.log(result);
     }).fail((jqXhr) => {
-      console.log('failed request');
+      console.log(jqXhr);
     });
+  }
+
+  showPromoImage() {
+    if (this.state.url && this.props.signal.edit) {
+      return (<img src={ this.state.url } className='promo-image-preview'/>);
+    }
+    return (<ImageUpload signal={this.props.signal.edit}/>);
   }
 
   render() {
@@ -76,15 +101,13 @@ export default class Promote extends Component {
             <p>Select an image to include or upload your own</p>
           </div>
 
-          <div className='thumbnails'>
-            <Thumbnail href="#" alt="171x180" src={this.state.imageUrl} />
-            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
-            <Thumbnail href="#" alt="171x180" src="/assets/thumbnail.png" />
+          <div className='row'>
+            <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 center promote-image'>
+              { this.showPromoImage() }
+            </div>
           </div>
 
-          <Button onSubmit={this.handleSubmit} type='submit' className='save-btn post-to-timeline'>POST TO YOUR TIMELINE</Button>
-
-
+          <Button onClick={this.handleSubmit} type='submit' className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
         </div>
       </div>
     );

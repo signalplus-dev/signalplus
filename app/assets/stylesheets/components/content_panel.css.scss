@@ -118,10 +118,10 @@
 }
 
 .promote-box {
-  @include input-form(350px);
+  @include input-form(500px);
 
   .subheader {
-    padding-top: 50px;
+    padding-top: 20px;
   }
 
   .thumbnails {
@@ -156,24 +156,14 @@
   display: inline-block;
 }
 
-.preview-image{
-  padding-top: 30px;
-  padding-bottom: 30px;
-  img {
-    padding-left: 20px;
-    height: 40px;
-  }
+.preview-image {
+  padding-left: 20px;
+  height: 40px;
 }
 
-
-.signal-info {
-  width: 150px;
-  height: 40px;
-  border-radius: 8px;
-  display: inline-block;
-  background-color: $main-purple;
-  color: $text-white;
-  line-height: 40px;
+.preview-bubble {
+  margin-top: 30px;
+  margin-bottom: 30px;
   text-align: center;
 }
 
@@ -199,20 +189,36 @@ img.arrow {
   padding-right: 10px;
 }
 
-.preview-response-box{
-    width: 350px;
-    height: 70px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    padding: 10px;
-    padding-left: 20px;
-    border-radius: 8px;
-    background-color: $light-gray;
-}
-
 .signal-name-edit {
   font-weight:400;
   margin-left: 5px;
   border-radius: 11px;
+}
+
+.promote-image {
+  margin-top: 20px;
+  
+  li {
+    padding-right: 10px;
+    list-style: none;
+    width: 33.3%;
+    float: left
+  }
+
+  a, img {
+    float: left;
+    width: 200px;
+    min-height: 200px !important;
+    border: 0 none;
+    display: inline-block;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    padding-right: 10px;
+  }
+}
+
+.dropzone {
+  display: inline-block;
 }
 
