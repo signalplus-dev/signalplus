@@ -2,34 +2,35 @@
   font-weight: 300;
   border-radius: 10px;
   color: $text-white;
-  background-color: $main-purple !important;
+  background-color: $twitter-blue !important;
   background-color: var(--windows-blue);
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px $main-purple;
+  border: solid 1px $twitter-blue;
   border: solid 1px var(--windows-blue);
 
   &:hover,
+  &:active,
   &:focus {
     color: $text-white;
-    background-color: $main-pink !important;
+    background-color: rgba(27, 140, 229, .7) !important;
   }
 }
 
 @mixin btn-outline {
   font-weight: 300;
   border-radius: 10px;
-  color: $main-purple;
+  color: $twitter-blue;
   background-color: $text-white !important;
   background-color: var(--windows-blue);
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 2px $main-purple;
+  border: solid 2px $twitter-blue;
   border: solid 1px var(--windows-blue);
 
-  &:active,
   &:hover,
-  &:focus {
+  &:active,
+  &:focus, {
     color: $text-white !important;
-    background-color: $main-purple !important;
+    background-color: rgba(27, 140, 229, .3)!important;
   }
 }
 
