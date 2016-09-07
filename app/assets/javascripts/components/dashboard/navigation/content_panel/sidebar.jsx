@@ -19,7 +19,7 @@ class MenuItem extends Component {
     const menu = this.props.menu.contentId;
 
     return (
-      <li className={`${menuClassName} ${menu}`} onClick={this.handleClick}>
+      <li className={`${menuClassName} ${menu}` + ' ' + 'uctext'} onClick={this.handleClick}>
         {this.renderMenuItem(menu)}
       </li>
     );

@@ -38,7 +38,7 @@ export default class ImageUpload extends Component {
             multiple={true}
             accept='image/*'
             onDrop={this.uploadS3}>
-            <div className='dropzone-text'>Drag & Drop an image to upload!</div>
+            <div className='dropzone-text'>Upload image...</div>
           </Dropzone>
         </div>
       );

@@ -10,7 +10,7 @@ export default class ActiveSignalPanel extends Component {
 
   handleClick(idx) {
     const tab = {
-      name: 'Edit',
+      name: 'EDIT',
       className: 'active',
       paneId: 'new',
     };

@@ -18,6 +18,9 @@
   color: $text-white;
 
   a {
+    border-bottom-style: solid;
+    border-bottom-color: $text-white;
+    border-bottom-width: 1px;
     display: block;
     font-weight: 300;
     color: $text-white;
