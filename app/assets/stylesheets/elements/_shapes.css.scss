@@ -27,8 +27,9 @@
   display: inline-block;
   position: relative;
   width: 200px;
-  height: 40px;
-  padding: 0px;
+  min-height: 40px;
+  padding: 6px;
+  text-align: center;
   background: #450b6b;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -48,18 +49,13 @@
   top: 18px;
 }
 
-.bubble-text {
-  line-height: 40px;
-  text-align: center;
-}
-
 .preview-response-bubble {
   margin-top: 15px;
   margin-bottom: 15px;
   position: relative;
-  width: 350px;
+  min-width: 20px;
   height: 70px;
-  padding: 0px;
+  padding: 10px;
   background: #f3f5f6;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -77,10 +73,4 @@
   z-index: 1;
   left: -17px;
   top: 35px;
-}
-
-.preview-bubble-text {
-  font-size: 12px;
-  padding: 10px;
-  line-height: 30px;
 }
