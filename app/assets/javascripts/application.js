@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require_self
+//= require bootstrap/dropdown
 //= require react_ujs
 
 window.$ = window.jQuery = global.$ = require('jquery');
