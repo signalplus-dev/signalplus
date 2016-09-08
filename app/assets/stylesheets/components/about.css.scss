@@ -6,7 +6,7 @@
 .about-jumbotron {
   margin-top: -40px;
   min-height: 400px;
-  background-image: url('static/home-back.png');
+  background-image: url(asset-path('static/home-back.png'));
   background-size: contain;
   margin-bottom: 40px;
 }
