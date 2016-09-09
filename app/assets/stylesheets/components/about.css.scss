@@ -1,22 +1,39 @@
 .about {
   min-height: 1400px;
   font-weight: 300;
+
+  p {
+    font-size: 18px;
+  }
 }
 
 .about-jumbotron {
   margin-top: -40px;
-  min-height: 400px;
+  min-height: 591px;
   background-image: url(asset-path('static/home-back.png'));
   background-size: contain;
   margin-bottom: 40px;
 }
 
 .about-header {
-  padding-left: 120px;
-  padding-top: 70px;
+  .header {
+    font-weight: bold;
+    font-size: 42px;
+  }
+
+  .sub-header {
+    font-wight: bold;
+    font-size: 32px;
+  }
+
+  .sub-text {
+    font-weight: 300;
+    font-size: 21px;
+  }
+
+  padding-top: 175px;
   color: $text-white;
   text-decoration: none;
-  font-weight: 300;
 }
 
 .about-subheader {
@@ -24,7 +41,8 @@
   padding-top: 50px;
   a {
     background-color: $main-pink;
-    font-weight: 400;
+    font-weight: bold;
+    font-size: 32px;
     padding: 2px 10px !important;
     color: $text-white;
     text-decoration: none;
@@ -37,8 +55,9 @@
 }
 
 .about-steps {
+  margin-left: -40px;
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 71px;
 
   li {
     list-style: none;
@@ -64,14 +83,14 @@
 }
 
 .about-content {
-  padding-left: 120px;
-  padding-right: 120px;
+  // padding-left: 120px;
+  // padding-right: 120px;
 }
 
 .plan-types {
   height: 250px;
   padding-top: 20px;
-  margin-bottom: 150px;
+  margin-bottom: 450px;
 }
 
 .why-signal-box {
@@ -79,8 +98,8 @@
 
   .subheader {
     color: $main-purple;
-    font-size: 20px;
-    font-weight: 300;
+    font-size: 26px;
+    font-weight: 500;
   }
 }
 
@@ -93,7 +112,8 @@
 }
 
 .header {
-  font-weight: 300;
+  font-size: 38px;
+  font-weight: 400;
   margin-top: 0;
   margin-bottom: 20px;
 }
