@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Provider, connect } from 'react-redux';
+import { Router, Route, browserHistory } from 'react-router'
 import configureStore from '../redux/configureStore.js';
 import { actions as appActions } from '../redux/modules/app.js';
 import restInterface from '../util/restInterface.js';
@@ -54,10 +55,16 @@ const ConnectedApp = connect(state => ({ authenticated: state.app.authenticated 
 
 export default function Root({ data }) {
   const store = configureStore();
+  function ConnectedAppWithData() {
+    return <ConnectedApp {...{ data }} />;
+  }
 
   return (
     <Provider {...{ store }}>
-      <ConnectedApp {...{ data }} />
+      <Router history={browserHistory}>
+        <Route path="/dashboard/index" component={ConnectedAppWithData}>
+        </Route>
+      </Router>
     </Provider>
   );
 }

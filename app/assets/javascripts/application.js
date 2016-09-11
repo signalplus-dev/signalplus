@@ -17,5 +17,5 @@
 window.$ = window.jQuery = global.$ = require('jquery');
 const React = window.React = global.React = require('react');
 const ReactDOM = window.ReactDOM = global.ReactDOM = require('react-dom');
-require( 'jquery-ujs' );
-require( './components' );
+require('jquery-ujs');
+require('./components');
