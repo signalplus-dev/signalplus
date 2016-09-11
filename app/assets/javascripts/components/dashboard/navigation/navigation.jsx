@@ -7,9 +7,9 @@ import Tabs from './tabs.jsx';
 export default class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.handleTabs = this.handleTabs.bind(this);
+    this.handleTabs     = this.handleTabs.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
-    this.handleSignal = this.handleSignal.bind(this);
+    this.handleSignal   = this.handleSignal.bind(this);
     this.state = {
       tabList: [
         {
@@ -32,12 +32,9 @@ export default class Navigation extends Component {
   }
 
   componentDidMount() {
-    if (restInterface.hasToken() && !restInterface.isTAExpired()) {
-      restInterface.getRequest(endpoints.BRAND);
-    } else {
-      restInterface.refreshToken()
-        .then(response => restInterface.getRequest(endpoints.BRAND));
-    }
+    // if (!restInterface.hasToken() || restInterface.isTAExpired()) {
+    //   restInterface.refreshToken();
+    // }
   }
 
   handleTabs(tab) {

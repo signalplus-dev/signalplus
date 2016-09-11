@@ -9,8 +9,11 @@ html {
 
 body {
   font-weight: 400;
+  font-size:   $base-font-size;
   font-family: $default-font;
-  color: $text-black;
+  color:       $text-black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   .uctext {
     text-transform: capitalize;

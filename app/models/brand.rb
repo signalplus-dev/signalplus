@@ -82,6 +82,16 @@ class Brand < ActiveRecord::Base
     twitter_identity.uid.to_i
   end
 
+  # @return [String]
+  def user_name
+    twitter_identity.try(:user_name)
+  end
+
+  # @return [String]
+  def profile_image_url
+    twitter_identity.try(:profile_image_url)
+  end
+
   def turn_off_twitter_polling!
     update!(polling_tweets: false)
   end
