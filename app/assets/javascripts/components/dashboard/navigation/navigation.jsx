@@ -87,7 +87,10 @@ class Navigation extends Component {
           tabs={this.state.tabList}
           handleClick={this.handleTabClick}
         />
-        <Panes
+        <div className="tab-pane dash-panel">
+          {this.props.children}
+        </div>
+        {/*<Panes
           tabs={this.state.tabList}
           data={this.state.signals}
           handleClick={this.handleTabClick}
@@ -95,7 +98,7 @@ class Navigation extends Component {
           handleSignal={this.handleSignal}
           templateType={this.state.templateType}
           editSignal={this.state.editSignal}
-        />
+        />*/}
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider, connect } from 'react-redux';
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, IndexRoute, Route, browserHistory } from 'react-router'
 import { RedialContext } from 'react-router-redial';
 import configureStore from '../redux/configureStore.js';
 import { actions as appActions } from '../redux/modules/app.js';
@@ -10,10 +10,11 @@ import restInterface from '../util/restInterface.js';
 import SubscriptionSummary from './subscriptionSummary.jsx';
 import BrandProfileBlock from './brandProfileBlock.jsx';
 import Navigation from './dashboard/navigation/navigation.jsx';
+import SignalsPane from './dashboard/navigation/panels/signals/signals_pane.jsx';
 import Loader from './loader.jsx';
 
 
-function renderApp(data, authenticated) {
+function renderApp(data, authenticated, children) {
   if (authenticated) {
     return (
       <div className="dash">
@@ -22,7 +23,7 @@ function renderApp(data, authenticated) {
           <SubscriptionSummary />
         </div>
         <div className="col-md-12 dash">
-          <Navigation {...{ data }} />
+          <Navigation {...{ data }}>{children}</Navigation>
         </div>
       </div>
     );
@@ -49,8 +50,9 @@ class App extends Component {
   }
 
   render() {
-    const { data, authenticated } = this.props;
-    return <div className="row">{renderApp(data, authenticated)}</div>;
+    const { data, authenticated, children } = this.props;
+    debugger;
+    return <div className="row">{renderApp(data, authenticated, children)}</div>;
   }
 }
 
@@ -60,8 +62,8 @@ const ConnectedApp = connect(state => ({ authenticated: state.app.authenticated 
 
 export default function Root({ data }) {
   const store = configureStore();
-  function ConnectedAppWithData() {
-    return <ConnectedApp {...{ data }} />;
+  function ConnectedAppWithData(props) {
+    return <ConnectedApp {...{ ...props, data }} />;
   }
 
   return (
@@ -78,7 +80,9 @@ export default function Root({ data }) {
           />
         )}
       >
-        <Route path="/dashboard/index" component={ConnectedAppWithData}></Route>
+        <Route path="/dashboard/index" component={ConnectedAppWithData}>
+          <IndexRoute component={SignalsPane} />
+        </Route>
       </Router>
     </Provider>
   );
