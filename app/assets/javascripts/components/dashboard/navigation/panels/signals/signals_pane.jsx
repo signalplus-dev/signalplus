@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 import WelcomePanel from './welcome_panel.jsx';
 import ActiveSignalPanel from './active_signal_panel.jsx';
 import CreateNew from './create_new.jsx';
 
-export default class SignalsPane extends Component {
+class SignalsPane extends Component {
   renderPanelTitle() {
-    const signalCount = this.props.signals.length
-    if (signalCount == 0) {
-      return 'All Signals'
-    } else if (signalCount == 1) {
-      return 'Signal - 1 Active'
+    const signalCount = _.keys(this.props.signals.data).length;
+
+    if (signalCount) {
+      return `Signals - ${signalCount} Active`;
     } else {
-      return 'Signals - ' + signalCount + ' Active'
+      return 'All Signals';
     }
   }
 
   choosePanel() {
-    const signalCount = this.props.signals.length
-
-    if (signalCount == 0) {
-      return <WelcomePanel/>;
+    if (_.isEmpty(this.props.signals.data)) {
+      return <WelcomePanel />;
     } else {
       return(
         <ActiveSignalPanel
@@ -44,3 +43,7 @@ export default class SignalsPane extends Component {
     );
   }
 }
+
+export default connect(state => ({
+  signals: state.models.listenSignals,
+}))(SignalsPane);

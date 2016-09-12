@@ -28,4 +28,8 @@ class PromotionalTweet < ActiveRecord::Base
     promo_tweet.update(attributes)
     promo_tweet
   end
+
+  def url
+    direct_upload_url
+  end
 end

@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { normalizeSubscription } from '../../util/normalize.js';
+import { normalizeSubscription } from '../../../util/normalize.js';
 import {
   BRAND_REQUEST,
   BRAND_REQUEST_SUCCESS,

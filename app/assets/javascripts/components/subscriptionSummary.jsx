@@ -36,5 +36,5 @@ class SubscriptionSummary extends Component {
 }
 
 export default connect(state => ({
-  subscription: state.subscription,
+  subscription: state.models.subscription,
 }))(SubscriptionSummary);

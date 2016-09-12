@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { fetchBrandData } from '../redux/modules/brand.js';
+import { fetchBrandData } from '../redux/modules/models/brand.js';
 import Loader from './loader.jsx';
 
 class BrandProfileBlock extends Component {
@@ -30,5 +30,5 @@ class BrandProfileBlock extends Component {
 }
 
 export default connect(state => ({
-  brand: state.brand,
+  brand: state.models.brand,
 }))(BrandProfileBlock);

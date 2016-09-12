@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Provider, connect } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router'
+import { RedialContext } from 'react-router-redial';
 import configureStore from '../redux/configureStore.js';
 import { actions as appActions } from '../redux/modules/app.js';
 import restInterface from '../util/restInterface.js';
@@ -29,6 +30,10 @@ function renderApp(data, authenticated) {
 
   return <Loader />;
 }
+
+// function Dashboard({ data }) {
+
+// }
 
 class App extends Component {
   componentWillMount() {
@@ -61,9 +66,19 @@ export default function Root({ data }) {
 
   return (
     <Provider {...{ store }}>
-      <Router history={browserHistory}>
-        <Route path="/dashboard/index" component={ConnectedAppWithData}>
-        </Route>
+      <Router
+        history={browserHistory}
+        render={props => (
+          <RedialContext
+            {...props}
+            blocking={ ['fetch'] }
+            defer={['defer', 'done' ]}
+            parallel={true}
+            initialLoading={() => <div>Loading…</div>}
+          />
+        )}
+      >
+        <Route path="/dashboard/index" component={ConnectedAppWithData}></Route>
       </Router>
     </Provider>
   );

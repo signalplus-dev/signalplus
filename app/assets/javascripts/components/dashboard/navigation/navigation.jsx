@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { get } from 'lodash';
 import restInterface from '../../../util/restInterface.js';
+import { fetchListenSignalsData } from '../../../redux/modules/models/listenSignals.js';
 import endpoints from '../../../util/endpoints.js';
 import Panes from './panes.jsx';
 import Tabs from './tabs.jsx';
 
-export default class Navigation extends Component {
+class Navigation extends Component {
   constructor(props) {
     super(props);
     this.handleTabs     = this.handleTabs.bind(this);
@@ -31,10 +34,9 @@ export default class Navigation extends Component {
     };
   }
 
-  componentDidMount() {
-    // if (!restInterface.hasToken() || restInterface.isTAExpired()) {
-    //   restInterface.refreshToken();
-    // }
+  componentWillMount() {
+    const { listenSignals, dispatch } = this.props;
+    if (!listenSignals.loaded) dispatch(fetchListenSignalsData());
   }
 
   handleTabs(tab) {
@@ -98,3 +100,7 @@ export default class Navigation extends Component {
     );
   }
 }
+
+export default connect(state => ({
+  listenSignals: get(state, 'listenSignals', {}),
+}))(Navigation)

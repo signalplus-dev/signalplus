@@ -8,7 +8,7 @@ export default class ActiveSignalPanel extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(idx) {
+  handleClick(signalId) {
     const tab = {
       name: 'EDIT',
       className: 'active',
@@ -17,15 +17,15 @@ export default class ActiveSignalPanel extends Component {
 
     this.props.handleTab(tab);
     this.props.handleSignal('templateType', '');
-    this.props.handleSignal('editSignal', this.props.signals[idx]);
+    this.props.handleSignal('editSignal', this.props.signals[signalId]);
   }
 
   renderPanel() {
-    return this.props.signals.map((s, idx) => {
+    return _.map(this.props.signals.data, (s, signalId) => {
       return (
-        <div onClick={() => this.handleClick(idx)} className={`panel signal-panel ${s.signal_type}`} key={idx} >
+        <div onClick={() => this.handleClick(signalId)} className={`panel signal-panel ${s.signal_type}`} key={signalId} >
           <SignalIcon className='panel-icon' src={window.__IMAGE_ASSETS__[`icons${_.capitalize(s.signal_type)}Svg`]} />
-          <div className='panel-header'>{'# ' + s.name}</div>
+          <div className='panel-header'>{`#${s.name}`}</div>
           <div className='panel-body'>Send your users a special offer every time they send a custom hashtag</div>
 
           <div className='panel-status'>

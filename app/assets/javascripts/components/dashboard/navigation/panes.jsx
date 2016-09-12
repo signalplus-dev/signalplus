@@ -10,7 +10,6 @@ class PaneContent extends Component {
     if (pane === 'signals') {
       return (
         <SignalsPane
-          signals={this.props.data.signals}
           handleTab={this.props.handleTab}
           handleClick={this.props.handleClick}
           handleSignal={this.props.handleSignal}

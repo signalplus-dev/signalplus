@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions';
-import { createRequestAction } from '../utils.js';
-import Endpoints from '../../util/endpoints.js';
-import { normalizeBrand } from '../../util/normalize.js';
+import { createRequestAction } from '../../utils.js';
+import Endpoints from '../../../util/endpoints.js';
+import { normalizeBrand } from '../../../util/normalize.js';
 
 /*
 * Action Type Constants
