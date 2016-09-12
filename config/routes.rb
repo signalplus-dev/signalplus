@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get 'guide'   => 'dashboard#guide'
   get 'support' => 'dashboard#support'
 
-  get 'dashboard/index'
+  resources :dashboard, only: [:index]
+
   get 'dashboard/get_data' => 'dashboard#get_data'
   put 'template/signal'    => 'listen_signals#edit_signal'
   post 'template/signal'   => 'listen_signals#create_template_signal'
@@ -40,4 +41,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  # Catch all for any routes nested with `/dashboard`. Any non-existant routes will be handled by the React app.
+  get 'dashboard/*other' => 'dashboard#index'
 end

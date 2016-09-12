@@ -1,39 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import { Link, withRouter } from 'react-router';
+import cn from 'classnames';
 
-class Tab extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
 
-  handleClick() {
-    this.props.handleClick(this.props.tab.id);
-  }
-
-  render() {
-    const { tab } = this.props;
-    const tabClassName = this.props.active ? 'active' : '';
-
-    return (
-      <li className={tabClassName} onClick={this.handleClick}>
-        <a href={`#${tab.paneId}`} data-toggle='tab'>
-          {tab.name}
-        </a>
-      </li>
-    );
-  }
+function Tab({ tab, active }){
+  return (
+    <li className={cn({ active })}>
+      <Link to={tab.link}>{tab.label}</Link>
+    </li>
+  );
 }
 
-export default function Tabs({ tabs, handleClick }) {
-  const tabList = tabs.map((tab) => {
+function Tabs({ tabs, currentRoute }) {
+  const tabList = _.map(tabs, (tab) => {
     return (
       <Tab
-        active={tab.active}
         key={tab.id}
-        {...{ tab, handleClick }}
+        active={tab.link === currentRoute}
+        {...{ tab }}
       />
     );
   });
 
   return <ul className='nav nav-tabs'>{tabList}</ul>;
 }
+
+export default connect(state => ({
+  tabs: state.app.dashboard.tabs,
+  currentRoute: state.routing.locationBeforeTransitions.pathname,
+}))(Tabs);

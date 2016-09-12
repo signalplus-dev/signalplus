@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SignalIcon from '../../../../links/signal_icon.jsx';
+import _ from 'lodash';
 
 export default class TemplatesPane extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ export default class TemplatesPane extends Component {
   }
 
   renderTemplates() {
-    return this.props.signal_types.map((t, idx) => {
+    return _.map(this.props.data.signal_types, (t, idx) => {
       return (
         <div onClick={() => this.handleClick(idx, t.type)} key={idx} className='panel signal-panel panel-new'>
           <SignalIcon type={t.type} className='panel-icon'/>

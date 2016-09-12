@@ -28,7 +28,6 @@ class Navigation extends Component {
           active: false,
         }
       ],
-      signals: this.props.data,
       editSignal: '',
       templateType: '',
     };
@@ -81,14 +80,18 @@ class Navigation extends Component {
   }
 
   render() {
+    const { children, ...props } = this.props;
+
     return (
       <div>
         <Tabs
           tabs={this.state.tabList}
           handleClick={this.handleTabClick}
         />
-        <div className="tab-pane dash-panel">
-          {this.props.children}
+        <div className='tab-content clearfix'>
+          <div className="tab-pane dash-panel activeTab">
+            {React.cloneElement(children, { ...props })}
+          </div>
         </div>
         {/*<Panes
           tabs={this.state.tabList}

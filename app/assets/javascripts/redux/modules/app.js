@@ -7,7 +7,7 @@ export const AUTHENTICATED = 'signalplus/app/AUTHENTICATED';
 
 
 export const SIGNALS_TAB_ID = 'signals';
-export const TEMPLATE_TAB_ID = 'template';
+export const TEMPLATE_TAB_ID = 'templates';
 
 /*
 * Initial State
@@ -19,10 +19,12 @@ export const initialState = {
       {
         id: SIGNALS_TAB_ID,
         label: 'SIGNALS',
+        link: '/dashboard/signals',
       },
       {
         id: TEMPLATE_TAB_ID,
         label: 'CREATE NEW',
+        link: '/dashboard/templates',
       },
     ],
   },
