@@ -9,7 +9,8 @@
   border-color: none;
 }
 
-.navbar-static-top .navbar-nav > li > a {
+.navbar-static-top 
+.navbar-nav > li > a {
   font-family: $default-font-bold;
   font-weight: 300;
   color: $light-gray;
@@ -23,7 +24,11 @@
   margin-right: 20px;
 }
 
-
+.navbar-header
+.navbar-toggle 
+.icon-bar {
+  background-color: $main-pink;
+}
 // Get rid of strange bootstrap last child margin
 @media (min-width: 768px) {
   .navbar-nav.navbar-right:last-child {
