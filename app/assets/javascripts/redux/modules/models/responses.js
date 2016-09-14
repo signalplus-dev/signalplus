@@ -29,7 +29,7 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    data: get(normalizeListenSignalsResponse(action.payload), 'entities.responses', []),
+    data: get(normalizeListenSignalsResponse(action.payload), 'entities.responses', {}),
     loading: false,
     loaded: true,
   }),

@@ -4,7 +4,6 @@ import { get } from 'lodash';
 import restInterface from '../../../util/restInterface.js';
 import { fetchListenSignalsData } from '../../../redux/modules/models/listenSignals.js';
 import endpoints from '../../../util/endpoints.js';
-import Panes from './panes.jsx';
 import Tabs from './tabs.jsx';
 
 class Navigation extends Component {
@@ -84,24 +83,12 @@ class Navigation extends Component {
 
     return (
       <div>
-        <Tabs
-          tabs={this.state.tabList}
-          handleClick={this.handleTabClick}
-        />
+        <Tabs />
         <div className='tab-content clearfix'>
           <div className="tab-pane dash-panel activeTab">
             {React.cloneElement(children, { ...props })}
           </div>
         </div>
-        {/*<Panes
-          tabs={this.state.tabList}
-          data={this.state.signals}
-          handleClick={this.handleTabClick}
-          handleTab={this.handleTabs}
-          handleSignal={this.handleSignal}
-          templateType={this.state.templateType}
-          editSignal={this.state.editSignal}
-        />*/}
       </div>
     );
   }

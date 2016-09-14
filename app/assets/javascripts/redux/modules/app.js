@@ -12,7 +12,7 @@ export const TEMPLATE_TAB_ID = 'templates';
 /*
 * Initial State
 */
-export const initialState = {
+const initialState = {
   authenticated: false,
   dashboard: {
     tabs: [

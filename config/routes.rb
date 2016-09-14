@@ -35,7 +35,9 @@ Rails.application.routes.draw do
       post 'post_tweet', to: 'promotional_tweets#post_tweet'
 
       resources :subscriptions, only: [:create]
-      resources :listen_signals, only: [:index]
+      resources :listen_signals, only: [:index] do
+        get :templates, on: :collection
+      end
       resources :brands, only: [:show] do
         get '/me' => 'brands#show', on: :collection
       end

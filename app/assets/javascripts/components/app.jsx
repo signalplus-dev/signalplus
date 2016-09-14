@@ -20,6 +20,7 @@ import BrandProfileBlock from './brandProfileBlock.jsx';
 import Navigation from './dashboard/navigation/navigation.jsx';
 import SignalsPane from './dashboard/navigation/panels/signals/signals_pane.jsx';
 import TemplatesPane from './dashboard/navigation/panels/templates/templates_pane.jsx';
+import ContentPanel from './dashboard/navigation/content_panel/content_panel.jsx';
 import Loader from './loader.jsx';
 
 
@@ -80,8 +81,9 @@ export default function Root({ data }) {
         render={props => (
           <RedialContext
             {...props}
+            locals={{ dispatch: store.dispatch }}
             blocking={['fetch']}
-            defer={['defer', 'done' ]}
+            defer={['defer', 'done']}
             parallel={true}
             initialLoading={() => <div>Loading…</div>}
           />
@@ -93,6 +95,13 @@ export default function Root({ data }) {
             <IndexRedirect to="signals" />
             <Route path="signals" component={SignalsPane} />
             <Route path="templates" component={TemplatesPane}/>
+            <Route path="new" component={ContentPanel}>
+              <IndexRedirect to="offer" />
+              <Route path=":type">
+
+              </Route>
+            </Route>
+            <Route path="edit" component={ContentPanel} />
 
             {/* Keep at bottom; this is a catch all for any routes that don't exist */}
             <Redirect from="*" to="signals"/>

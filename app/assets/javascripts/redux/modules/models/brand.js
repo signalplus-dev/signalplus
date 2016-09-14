@@ -27,7 +27,6 @@ export const reducer = handleActions({
   [BRAND_REQUEST]: (state, action) => ({
     ...state,
     loading: true,
-    loaded: false,
   }),
 
   [BRAND_REQUEST_SUCCESS]: (state, action) => ({

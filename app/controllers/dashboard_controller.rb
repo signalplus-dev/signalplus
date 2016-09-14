@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
   respond_to :json
 
-  before_action :check_current_user
+  before_action :check_current_user, only: [:index]
 
   def index
     @brand = current_user.brand

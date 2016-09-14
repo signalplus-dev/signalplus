@@ -26,11 +26,12 @@ export default class ContentPanel extends Component {
   }
 
   getSignal() {
-    if (this.props.editSignal) {
-      return ({ edit: this.props.editSignal })
-    } else if (this.props.templateType) {
-      return ({ type: this.props.templateType })
-    }
+    return { type: this.props.params.type };
+    // if (this.props.editSignal) {
+    //   return ({ edit: this.props.editSignal })
+    // } else if (this.props.templateType) {
+    //   return ({ type: this.props.templateType })
+    // }
   }
 
   render() {
@@ -38,15 +39,15 @@ export default class ContentPanel extends Component {
 
     return (
       <div className='content-panel'>
-          <Sidebar
-            menus={this.state.sidebarMenus}
-            handleClick={this.handleSideBar}
-            signalType={this.signalState}
-          />
-          <MenuContent
-            menus={this.state.sidebarMenus}
-            signal={signal}
-          />
+        <Sidebar
+          menus={this.state.sidebarMenus}
+          handleClick={this.handleSideBar}
+          signalType={this.signalState}
+        />
+        <MenuContent
+          menus={this.state.sidebarMenus}
+          signal={signal}
+        />
       </div>
     );
   }

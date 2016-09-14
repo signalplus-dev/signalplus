@@ -7,16 +7,16 @@ import { normalizeListenSignalsResponse } from '../../../util/normalize.js';
 /*
 * Action Type Constants
 */
-export const LISTEN_SIGNALS_REQUEST = 'signalplus/listenSignal/REQUEST';
-export const LISTEN_SIGNALS_REQUEST_SUCCESS = 'signalplus/listenSignal/REQUEST_SUCCESS';
-export const LISTEN_SIGNALS_REQUEST_FAIL = 'signalplus/listenSignal/REQUEST_FAIL';
+export const LISTEN_SIGNALS_REQUEST = 'signalplus/listenSignals/REQUEST';
+export const LISTEN_SIGNALS_REQUEST_SUCCESS = 'signalplus/listenSignals/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_REQUEST_FAIL = 'signalplus/listenSignals/REQUEST_FAIL';
 
 
 /*
 * Initial State
 */
 export const initialState = {
-  data: [],
+  data: {},
   loaded: false,
   loading: false,
 };
@@ -33,7 +33,7 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    data: get(normalizeListenSignalsResponse(action.payload), 'entities.listenSignals', []),
+    data: get(normalizeListenSignalsResponse(action.payload), 'entities.listenSignals', {}),
     loading: false,
     loaded: true,
   }),

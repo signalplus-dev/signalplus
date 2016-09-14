@@ -6,9 +6,9 @@ class ListenSignalsController < ApplicationController
     update_responses(@signal, signal_params['firstResponse'], signal_params['repeatResponse'])
 
     flash[:success] = "Alert:  #{@signal.name} signal updated!"
-    render json: { 
-      signal: @signal.to_json, 
-      responses: @signal.responses.to_json 
+    render json: {
+      signal: @signal.to_json,
+      responses: @signal.responses.to_json
     }
   end
 
@@ -27,9 +27,9 @@ class ListenSignalsController < ApplicationController
 
     if @signal
       flash[:success] = "Alert:  #{@signal.name} signal created!"
-      render json: { 
-        signal: @signal.to_json, 
-        responses: @signal.responses.to_json 
+      render json: {
+        signal: @signal.to_json,
+        responses: @signal.responses.to_json
       }
     else
       flash[:error] = 'Alert:  Please fill out missing fields'
@@ -38,27 +38,27 @@ class ListenSignalsController < ApplicationController
 
   private
 
-    def update_signal(signal, params)
-      signal_attr = {
-        name: params['name'],
-        active: params['active'],
-        expiration_date: params['expirationDate']
-      }
-      signal.update_attributes(signal_attr)
-    end
+  def update_signal(signal, params)
+    signal_attr = {
+      name: params['name'],
+      active: params['active'],
+      expiration_date: params['expirationDate']
+    }
+    signal.update_attributes(signal_attr)
+  end
 
-    def update_responses(signal, first_msg, repeat_msg)
-      signal.first_response.update_message(first_msg)
-      signal.repeat_response.update_message(repeat_msg)
-    end
+  def update_responses(signal, first_msg, repeat_msg)
+    signal.first_response.update_message(first_msg)
+    signal.repeat_response.update_message(repeat_msg)
+  end
 
-    def create_template_response(signal, first_response, repeat_response, exp_date)
-      response_group = ResponseGroup.create(listen_signal_id: signal.id)
-      Response.create_response(first_response, 1, Response::Type::FIRST, response_group, exp_date)
-      Response.create_response(repeat_response, 2, Response::Type::REPEAT, response_group, exp_date)
-    end
+  def create_template_response(signal, first_response, repeat_response, exp_date)
+    response_group = ResponseGroup.create(listen_signal_id: signal.id)
+    Response.create_response(first_response, 1, Response::Type::FIRST, response_group, exp_date)
+    Response.create_response(repeat_response, 2, Response::Type::REPEAT, response_group, exp_date)
+  end
 
-    def signal_params
-      params.permit(:signalType, :name, :firstResponse, :repeatResponse, :active, :expirationDate)
-    end
+  def signal_params
+    params.permit(:signalType, :name, :firstResponse, :repeatResponse, :active, :expirationDate)
+  end
 end
