@@ -93,7 +93,10 @@ export default function Root({ data }) {
           <IndexRedirect to="dashboard" />
           <Route path="dashboard" component={Dashboard}>
             <IndexRedirect to="signals" />
-            <Route path="signals" component={SignalsPane} />
+            <Route path="signals">
+              <IndexRedirect to="active" />
+              <Route path="active" component={SignalsPane} />
+            </Route>
             <Route path="templates" component={TemplatesPane}/>
             <Route path="new" component={ContentPanel}>
               <IndexRedirect to="offer" />

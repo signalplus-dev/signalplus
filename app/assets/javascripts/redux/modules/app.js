@@ -5,6 +5,8 @@ import { createAction, handleActions } from 'redux-actions';
 */
 export const AUTHENTICATED = 'signalplus/app/AUTHENTICATED';
 
+export const ADD_TAB = 'signalplus/app/dashboard/tab/ADD_TAB';
+export const REMOVE_TAB = 'signalplus/app/dashboard/tab/REMOVE_TAB';
 
 export const SIGNALS_TAB_ID = 'signals';
 export const TEMPLATE_TAB_ID = 'templates';
@@ -19,7 +21,7 @@ const initialState = {
       {
         id: SIGNALS_TAB_ID,
         label: 'SIGNALS',
-        link: '/dashboard/signals',
+        link: '/dashboard/signals/active',
       },
       {
         id: TEMPLATE_TAB_ID,
@@ -38,13 +40,31 @@ export const reducer = handleActions({
     ...state,
     authenticated: true
   }),
+  [ADD_TAB]: (state, action) => ({
+    ...state,
+    dashboard: {
+      ...state.dashboard,
+      tabs: [
+        ...state.dashboard.tabs,
+        action.payload
+      ]
+    }
+  }),
+
+  [REMOVE_TAB]: (state, action) => ({
+    ...state,
+  })
 }, initialState);
 
 /*
 * Action Creators
 */
 const authenticated = createAction(AUTHENTICATED)
+const addTab = createAction(ADD_TAB);
+const removeTab = createAction(REMOVE_TAB);
 
 export const actions = {
   authenticated,
+  addTab,
+  removeTab,
 };
