@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       post 'post_tweet', to: 'promotional_tweets#post_tweet'
 
       resources :subscriptions, only: [:create]
+      resources :subscription_plans, only: [:index]
       resources :listen_signals, only: [:index] do
         get :templates, on: :collection
       end
@@ -43,6 +44,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'subscription_plans' => 'dashboard#index'
 
   # Catch all for any routes nested with `/dashboard`. Any non-existant routes will be handled by the React app.
   get 'dashboard/*other' => 'dashboard#index'

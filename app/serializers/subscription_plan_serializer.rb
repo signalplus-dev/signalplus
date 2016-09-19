@@ -14,20 +14,6 @@
 #  description        :string           default("")
 #
 
-FactoryGirl.define do
-  factory :subscription_plan do
-    provider 'Stripe'
-    provider_id 'basic'
-    amount 2900
-    name 'Basic'
-    description 'Local Brands'
-    currency 'usd'
-    number_of_messages 5000
-
-    trait :advanced do
-      name 'Advanced'
-      provider_id 'advanced'
-      number_of_messages 15000
-    end
-  end
+class SubscriptionPlanSerializer < ActiveModel::Serializer
+  attributes :id, :name, :description, :amount, :currency_symbol, :number_of_messages
 end

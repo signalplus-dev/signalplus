@@ -1,30 +1,28 @@
 @mixin btn-blue {
-  font-weight: 300;
+  font-size: $base-font-size;
+  font-weight: bold;
   border-radius: 10px;
   color: $text-white;
-  background-color: $twitter-blue !important;
-  background-color: var(--windows-blue);
+  background-color: $button-blue !important;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px $twitter-blue;
-  border: solid 1px var(--windows-blue);
+  border: solid 1px $button-blue;
 
   &:hover,
   &:active,
   &:focus {
     color: $text-white;
-    background-color: rgba(27, 140, 229, .7) !important;
+    background-color: rgba($button-blue, .7) !important;
+    border-color: rgba($button-blue, .7) !important;
   }
 }
 
 @mixin btn-outline {
   font-weight: 300;
   border-radius: 10px;
-  color: $twitter-blue;
+  color: $button-blue;
   background-color: $text-white !important;
-  background-color: var(--windows-blue);
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 2px $twitter-blue;
-  border: solid 1px var(--windows-blue);
+  border: solid 2px $button-blue;
 }
 
 .btn-centered {

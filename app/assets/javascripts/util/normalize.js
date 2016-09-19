@@ -51,3 +51,9 @@ listenSignals.define({
 export function normalizeListenSignalsResponse(listenSignalsPayload) {
   return normalize(listenSignalsPayload, { listen_signals: arrayOf(listenSignals) });
 }
+
+// Schemas for the subsciption plans
+const subscriptionPlans = new Schema('subscriptionPlans');
+export function normalizeSubscriptionPlansResponse(subscriptionPlansPayload) {
+  return normalize(subscriptionPlansPayload, { subscription_plans: arrayOf(subscriptionPlans) });
+}

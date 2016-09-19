@@ -21,6 +21,7 @@ import Navigation from './dashboard/navigation/navigation.jsx';
 import SignalsPane from './dashboard/navigation/panels/signals/signals_pane.jsx';
 import TemplatesPane from './dashboard/navigation/panels/templates/templates_pane.jsx';
 import ContentPanel from './dashboard/navigation/content_panel/content_panel.jsx';
+import SubscriptionPlans from './subscriptionPlans/subscriptionPlans.jsx';
 import Loader from './loader.jsx';
 
 
@@ -109,6 +110,7 @@ export default function Root({ data }) {
             {/* Keep at bottom; this is a catch all for any routes that don't exist */}
             <Redirect from="*" to="signals"/>
           </Route>
+          <Route path="subscription_plans" component={SubscriptionPlans} />
         </Route>
       </Router>
     </Provider>

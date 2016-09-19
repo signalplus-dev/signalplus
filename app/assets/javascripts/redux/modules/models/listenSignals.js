@@ -51,7 +51,7 @@ export const fetchListenSignalsData = () => {
     endpoint: Endpoints.LISTEN_SIGNALS_INDEX,
     types: [
       LISTEN_SIGNALS_REQUEST,
-      { type: LISTEN_SIGNALS_REQUEST_SUCCESS },
+      LISTEN_SIGNALS_REQUEST_SUCCESS,
       LISTEN_SIGNALS_REQUEST_FAIL,
     ],
   });

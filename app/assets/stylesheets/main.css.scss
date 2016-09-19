@@ -14,6 +14,7 @@ body {
   color:       $text-black;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 20px / 18px;
 
   .uctext {
     text-transform: capitalize;

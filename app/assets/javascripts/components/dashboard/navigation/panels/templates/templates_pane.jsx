@@ -13,8 +13,8 @@ import SignalIcon from '../../../../links/signal_icon.jsx';
 const hooks = {
   fetch: ({ dispatch }) => {
     dispatch(fetchListenSignalTemplatesData());
-  }
-}
+  },
+};
 
 class TemplatesPane extends Component {
   constructor(props) {
