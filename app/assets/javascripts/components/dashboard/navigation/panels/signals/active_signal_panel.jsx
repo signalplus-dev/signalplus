@@ -16,7 +16,8 @@ export default class ActiveSignalPanel extends Component {
 
     const tab = {
       id: signal.id,
-      name: '#' + _.upperFirst(signal.name),
+      label: '#' + _.upperFirst(signal.name),
+      link: '/dashboard/signals/' + signal.id,
       closeable: true,
     }
 
