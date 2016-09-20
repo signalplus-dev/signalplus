@@ -1,8 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Sidebar from './sidebar.jsx';
 import MenuContent from './menu_content.jsx';
+import _ from 'lodash';
 
-export default class ContentPanel extends Component {
+
+function getSignal(ownProps, state) {
+  const { route, params } = ownProps;
+
+  if (route.path === 'new') {
+    return {
+      type: params.type,
+    }
+  } else {
+    const signals = state.models.listenSignals.data;
+    const key = _.findKey(signals, { id: parseInt(params.id) });
+    const signal = signals[key];
+
+    const responses = (signal) => {
+      const data = [];
+
+      _.forEach(signal.responses, function(key) {
+        data.push(state.models.responses.data[key]);
+      });
+      return data;
+    };
+
+    const newSignal = (signal, responses) => {
+      const newSignalObj = {};
+
+      Object.keys(signal).forEach(function(key) {
+        key == 'responses' ? newSignalObj[key] = responses(signal) : newSignalObj[key] = signal[key]
+      });
+
+      return newSignalObj;
+    };
+    
+    return newSignal(signal, responses);
+  }
+}
+
+class ContentPanel extends Component {
   constructor(props) {
     super(props);
     this.handleSideBar = this.handleSideBar.bind(this);
@@ -25,17 +63,8 @@ export default class ContentPanel extends Component {
     this.setState({ sidebarMenus: newMenus })
   }
 
-  getSignal() {
-    return { type: this.props.params.type };
-    // if (this.props.editSignal) {
-    //   return ({ edit: this.props.editSignal })
-    // } else if (this.props.templateType) {
-    //   return ({ type: this.props.templateType })
-    // }
-  }
-
   render() {
-    var signal = this.getSignal();
+    const signal = this.props.signal
 
     return (
       <div className='content-panel'>
@@ -53,5 +82,9 @@ export default class ContentPanel extends Component {
   }
 }
 
-
+export default connect((state, ownProps) => {
+  return {
+    signal: getSignal(ownProps, state)
+  };
+})(ContentPanel);
 

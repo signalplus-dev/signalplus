@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import _ from 'lodash';
 import SignalIcon from '../../../../links/signal_icon.jsx';
+import { actions as appActions } from '../../../../../redux/modules/app.js';
+
 
 export default class ActiveSignalPanel extends Component {
   constructor(props) {
@@ -8,22 +11,22 @@ export default class ActiveSignalPanel extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(signalId) {
-    const tab = {
-      name: 'EDIT',
-      className: 'active',
-      paneId: 'new',
-    };
+  handleClick(signal) {
+    const { dispatch } = this.props;
 
-    this.props.handleTab(tab);
-    this.props.handleSignal('templateType', '');
-    this.props.handleSignal('editSignal', this.props.signals[signalId]);
+    const tab = {
+      id: signal.id,
+      name: '#' + _.upperFirst(signal.name),
+      closeable: true,
+    }
+
+    dispatch(appActions.addTab(tab));
   }
 
   renderPanel() {
     return _.map(this.props.signals.data, (s, signalId) => {
       return (
-        <div onClick={() => this.handleClick(signalId)} className={`panel signal-panel ${s.signal_type}`} key={signalId} >
+        <Link to={`/dashboard/signals/${signalId}`} onClick={() => this.handleClick(s)} className={`panel signal-panel ${s.signal_type}`} key={signalId}>
           <SignalIcon className='panel-icon' src={window.__IMAGE_ASSETS__[`icons${_.capitalize(s.signal_type)}Svg`]} />
           <div className='panel-header'>{`#${s.name}`}</div>
           <div className='panel-body'>Send your users a special offer every time they send a custom hashtag</div>
@@ -39,7 +42,7 @@ export default class ActiveSignalPanel extends Component {
             <p>TYPE</p>
             <span className='uctext type'>{s.signal_type}</span>
           </div>
-        </div>
+        </Link>
       );
     });
   }
@@ -48,3 +51,4 @@ export default class ActiveSignalPanel extends Component {
     return <div>{this.renderPanel()}</div>;
   }
 }
+

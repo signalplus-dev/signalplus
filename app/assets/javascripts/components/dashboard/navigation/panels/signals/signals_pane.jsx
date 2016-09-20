@@ -23,8 +23,7 @@ class SignalsPane extends Component {
       return(
         <ActiveSignalPanel
           signals={this.props.signals}
-          handleTab={this.props.handleTab}
-          handleSignal={this.props.handleSignal}
+          dispatch={this.props.dispatch}
         />
       );
     }
