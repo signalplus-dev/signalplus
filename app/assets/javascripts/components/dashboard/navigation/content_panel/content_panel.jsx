@@ -5,6 +5,25 @@ import MenuContent from './menu_content.jsx';
 import _ from 'lodash';
 
 
+function getResponses(signal, responses) {
+  const data = [];
+
+  _.forEach(signal.responses, function(key) {
+    data.push(responses[key]);
+  });
+  return data;
+};
+
+function newSignal(signal, responses) {
+  const newSignalObj = {};
+
+  _.forEach(Object.keys(signal), function(key) {
+    key == 'responses' ? newSignalObj[key] = getResponses(signal, responses) : newSignalObj[key] = signal[key]
+  });
+
+  return newSignalObj;
+};
+
 function getSignal(ownProps, state) {
   const { route, params } = ownProps;
 
@@ -13,29 +32,11 @@ function getSignal(ownProps, state) {
       type: params.type,
     }
   } else {
-    const signals = state.models.listenSignals.data;
-    const key = _.findKey(signals, { id: parseInt(params.id) });
-    const signal = signals[key];
+    const signals   = state.models.listenSignals.data;
+    const key       = _.findKey(signals, { id: parseInt(params.id) });
+    const signal    = signals[key];
+    const responses = state.models.responses.data;
 
-    const responses = (signal) => {
-      const data = [];
-
-      _.forEach(signal.responses, function(key) {
-        data.push(state.models.responses.data[key]);
-      });
-      return data;
-    };
-
-    const newSignal = (signal, responses) => {
-      const newSignalObj = {};
-
-      Object.keys(signal).forEach(function(key) {
-        key == 'responses' ? newSignalObj[key] = responses(signal) : newSignalObj[key] = signal[key]
-      });
-
-      return newSignalObj;
-    };
-    
     return newSignal(signal, responses);
   }
 }
