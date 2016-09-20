@@ -44,7 +44,7 @@ class App extends Component {
 
     if (!restInterface.hasToken() || restInterface.isTAExpired()) {
       restInterface.refreshToken().then(response => {
-        dispatch(appActions.authenticated({ foo: 'bar' }));
+        dispatch(appActions.authenticated());
       });
     } else {
       dispatch(appActions.authenticated());
