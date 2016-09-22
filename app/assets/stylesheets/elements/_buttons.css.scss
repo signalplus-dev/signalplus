@@ -1,18 +1,36 @@
-@mixin btn-blue {
+@mixin btn {
   font-size: $base-font-size;
   font-weight: bold;
   border-radius: 10px;
-  color: $text-white;
-  background-color: $button-blue !important;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+@mixin btn-blue {
+  color: $text-white;
+  background-color: $button-blue;
   border: solid 1px $button-blue;
 
   &:hover,
   &:active,
   &:focus {
     color: $text-white;
-    background-color: rgba($button-blue, .7) !important;
-    border-color: rgba($button-blue, .7) !important;
+    background-color: rgba($button-blue, .7);
+    border-color: rgba($button-blue, .7);
+  }
+}
+
+@mixin btn-green {
+  cursor: auto;
+  color: $text-white;
+  background-color: $active-green;
+  border: solid 1px $active-green;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: $text-white;
+    background-color: $active-green;
+    border-color: $active-green;
   }
 }
 
@@ -20,7 +38,7 @@
   font-weight: 300;
   border-radius: 10px;
   color: $button-blue;
-  background-color: $text-white !important;
+  background-color: $text-white;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
   border: solid 2px $button-blue;
 }
@@ -98,7 +116,13 @@
 }
 
 .select-btn {
+  @include btn;
   @include btn-blue;
+}
+
+.selected-btn {
+  @include btn;
+  @include btn-green;
 }
 
 .post-to-timeline-btn {

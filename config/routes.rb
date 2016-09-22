@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       get 'uploads', to: 'uploads#signed_url'
       post 'post_tweet', to: 'promotional_tweets#post_tweet'
 
-      resources :subscriptions, only: [:create]
+      resources :subscriptions, only: [:create, :update]
       resources :subscription_plans, only: [:index]
       resources :listen_signals, only: [:index] do
         get :templates, on: :collection

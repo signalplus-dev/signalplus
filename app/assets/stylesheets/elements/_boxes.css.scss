@@ -1,3 +1,7 @@
+.plan-boxes {
+  text-align: center;
+}
+
 .plan-box {
   vertical-align: top;
   display: inline-block;
@@ -80,7 +84,7 @@
     font-size: $h5-font-size;
   }
 
-  .select-btn {
+  .btn {
     width: 100%;
     max-width: 125px;
     position: absolute;

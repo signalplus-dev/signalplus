@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import restInterface from '../../../util/restInterface.js';
-import { fetchListenSignalsData } from '../../../redux/modules/models/listenSignals.js';
 import endpoints from '../../../util/endpoints.js';
 import Tabs from './tabs.jsx';
 
@@ -30,11 +29,6 @@ class Navigation extends Component {
       editSignal: '',
       templateType: '',
     };
-  }
-
-  componentWillMount() {
-    const { listenSignals, dispatch } = this.props;
-    if (!listenSignals.loaded) dispatch(fetchListenSignalsData());
   }
 
   handleTabs(tab) {

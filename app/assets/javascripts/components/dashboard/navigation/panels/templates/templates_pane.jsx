@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import { provideHooks } from 'redial';
-import { fetchListenSignalTemplatesData } from '../../../../../redux/modules/models/listenSignalTemplates.js'
+import { getListenSignalTemplatesData } from '../../../../../redux/modules/models/listenSignalTemplates.js'
 import { actions as appActions } from '../../../../../redux/modules/app.js';
 
 
@@ -12,7 +12,7 @@ import SignalIcon from '../../../../links/signal_icon.jsx';
 
 const hooks = {
   fetch: ({ dispatch }) => {
-    dispatch(fetchListenSignalTemplatesData());
+    dispatch(getListenSignalTemplatesData());
   },
 };
 

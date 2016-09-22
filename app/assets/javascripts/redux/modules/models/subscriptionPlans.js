@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction } from '../../utils.js';
+import { createRequestAction, getDataFor } from '../../utils.js';
 import Endpoints from '../../../util/endpoints.js';
 import { normalizeSubscriptionPlansResponse } from '../../../util/normalize.js';
 
@@ -46,7 +46,7 @@ export const reducer = handleActions({
   }),
 }, initialState);
 
-export const fetchSubscriptionPlansData = () => {
+export function fetchSubscriptionPlansData() {
   return createRequestAction({
     endpoint: Endpoints.SUBSCRIPTION_PLANS,
     types: [
@@ -56,3 +56,10 @@ export const fetchSubscriptionPlansData = () => {
     ],
   });
 };
+
+export function getSubscriptionPlansData() {
+  return getDataFor(
+    'subscriptionPlans',
+    fetchSubscriptionPlansData
+  );
+}
