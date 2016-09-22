@@ -27,9 +27,10 @@ class TemplatesPane extends Component {
   handleClick(type) {
     const { dispatch } = this.props;
     const tab = {
-      id: 'new',
+      id: 'new ' + type,
       label: 'New ' + _.upperFirst(type) + ' Signal',
-      link: '/dashboard/new/' + type
+      link: '/dashboard/new/' + type,
+      closeable: true,
     }
     dispatch(appActions.addTab(tab));
   }

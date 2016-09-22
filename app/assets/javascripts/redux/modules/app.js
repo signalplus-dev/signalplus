@@ -22,11 +22,13 @@ const initialState = {
         id: SIGNALS_TAB_ID,
         label: 'SIGNALS',
         link: '/dashboard/signals/active',
+        closeable: false,
       },
       {
         id: TEMPLATE_TAB_ID,
         label: 'CREATE NEW',
         link: '/dashboard/templates',
+        closeable: false,
       },
     ],
   },
@@ -50,10 +52,13 @@ export const reducer = handleActions({
       ]
     }
   }),
-
   [REMOVE_TAB]: (state, action) => ({
     ...state,
-  })
+    dashboard: {
+      ...state.dashboard,
+      tabs: state.dashboard.tabs.filter(tab => tab.id !== action.payload)
+    }
+  }),
 }, initialState);
 
 /*

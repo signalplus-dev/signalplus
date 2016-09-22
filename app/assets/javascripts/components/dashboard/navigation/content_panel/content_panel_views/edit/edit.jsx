@@ -9,27 +9,30 @@ import SignalIcon from '../../../../../links/signal_icon.jsx';
 export default class Edit extends Component {
   constructor(props) {
     super(props);
+
     this.setResponse = this.setResponse.bind(this);
     this.editSignalName = this.editSignalName.bind(this);
 
-    if (props.signal.edit) {
-      var signal = props.signal.edit;
-      var responses = signal.responses;
+    const signal = props.signal;
+
+    if (props.signal.id) {
+      const responses = signal.responses;
+
       this.state = {
         submitType:     'PUT',
+        id:             signal.id, 
         signalType:     signal.signal_type,
         name:           signal.name,
         active:         signal.active,
-        firstResponse:  responses[0].message,
-        repeatResponse: responses[1].message,
+        firstResponse:  signal.responses[0].message,
+        repeatResponse: signal.responses[1].message,
         expirationDate: signal.expiration_date,
       };
-    } else if (props.signal.type) {
-      var signal = props.signal.type;
+    } else {
       this.state = {
         submitType:     'POST',
-        signalType:     signal,
-        name:           signal,
+        signalType:     signal.type,
+        name:           _.upperFirst(signal.type),
         active:         false,
         firstResponse:  'Type your response here',
         repeatResponse: 'Type your response here',
@@ -37,48 +40,19 @@ export default class Edit extends Component {
       };
     }
   }
-
+  
   setResponse(key, value) {
     var obj = {};
     obj[key] = value;
     this.setState(obj);
   }
 
-  componentWillReceiveProps(nextProps) {
-    var nextEdit = nextProps.signal.edit;
-    var nextType = nextProps.signal.type;
-
-    if (nextEdit && nextEdit != this.state) {
-      this.setState({
-        submitType:     'PUT',
-        signalType:     nextEdit.signal_type,
-        name:           nextEdit.name,
-        firstResponse:  nextEdit.responses[0]['message'],
-        repeatResponse: nextEdit.responses[1]['message'],
-        active:         nextEdit.active,
-        activeDate:     nextEdit.active_date,
-        expirationDate: nextEdit.exp_date   
-      });
-    } else if ( nextType && nextType != this.state) {
-      this.setState({
-        submitType:     'POST',
-        signalType:     nextType,
-        name:           nextType,
-        firstResponse:  'Type your response here',
-        repeatResponse: 'Type your response here',
-        active:         false,
-        activeDate:     '',
-        expirationDate: ''  
-      });
-    }
-  }
-
   editSignalName() {
-    if (this.props.signal.edit) {
+    if (this.props.signal.id) {
       return (
         <h4 className='subheading'>@Brand #{this.state.name}</h4>
       );
-    } else if (this.props.signal.type) {
+    } else {
       return (
         <h4 className='subheading'>@Brand #
          <InputBox 
@@ -145,5 +119,4 @@ export default class Edit extends Component {
     );
   }
 }
-
 

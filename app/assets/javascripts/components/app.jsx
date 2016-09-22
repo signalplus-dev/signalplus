@@ -96,6 +96,9 @@ export default function Root({ data }) {
             <Route path="signals">
               <IndexRedirect to="active" />
               <Route path="active" component={SignalsPane} />
+              <Route path=":id" component={ContentPanel}>
+                
+              </Route>
             </Route>
             <Route path="templates" component={TemplatesPane}/>
             <Route path="new" component={ContentPanel}>

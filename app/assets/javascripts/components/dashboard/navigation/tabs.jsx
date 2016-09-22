@@ -1,20 +1,49 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import cn from 'classnames';
+import { actions as appActions } from '../../../redux/modules/app.js';
 
+
+const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active'
+
+
+class UnconnectedTabClose extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.closeTab = this.closeTab.bind(this);
+  }
+
+  closeTab(event) {
+    const { tab, dispatch } = this.props;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    dispatch(appActions.removeTab(tab.id));
+    browserHistory.push(ACTIVE_SIGNAL_PATH)
+  }
+
+  render() {
+    return <button onClick={this.closeTab}>x</button>;
+  }
+}
+
+const TabClose = connect()(UnconnectedTabClose);
 
 function Tab({ tab, active }){
   return (
     <li className={cn({ active })}>
-      <Link to={tab.link}>{tab.label}</Link>
+      <Link to={tab.link}>{tab.label}
+        {tab.closeable ? <TabClose tab={tab} /> : undefined }
+      </Link>
     </li>
   );
 }
 
 function Tabs({ tabs, currentRoute }) {
-  const tabList = _.map(tabs, (tab) => {
+  const tabList = _.map(tabs, tab => {
     return (
       <Tab
         key={tab.id}
