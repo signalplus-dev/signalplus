@@ -7,7 +7,7 @@ import CreateNew from './create_new.jsx';
 
 class SignalsPane extends Component {
   renderPanelTitle() {
-    const signalCount = _.keys(this.props.signals.data).length;
+    const signalCount = _.keys(this.props.signals).length;
 
     if (signalCount) {
       return `Signals - ${signalCount} Active`;
@@ -17,15 +17,10 @@ class SignalsPane extends Component {
   }
 
   choosePanel() {
-    if (_.isEmpty(this.props.signals.data)) {
+    if (_.isEmpty(this.props.signals)) {
       return <WelcomePanel />;
     } else {
-      return(
-        <ActiveSignalPanel
-          signals={this.props.signals}
-          dispatch={this.props.dispatch}
-        />
-      );
+      return <ActiveSignalPanel signals={this.props.signals} />;
     }
   }
 
@@ -34,15 +29,12 @@ class SignalsPane extends Component {
       <div>
         <h4 className='signal-header'>{this.renderPanelTitle()}</h4>
         {this.choosePanel()}
-        <CreateNew
-          handleClick={this.props.handleClick}
-          handleSignal={this.props.handleSignal}
-        />
+        <CreateNew />
       </div>
     );
   }
 }
 
 export default connect(state => ({
-  signals: state.models.listenSignals,
+  signals: _.get(state, 'models.listenSignals.data'),
 }))(SignalsPane);

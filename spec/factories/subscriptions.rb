@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: subscriptions
+#
+#  id                   :integer          not null, primary key
+#  brand_id             :integer
+#  subscription_plan_id :integer
+#  provider             :string
+#  token                :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  canceled_at          :datetime
+#
+
 FactoryGirl.define do
   factory :subscription do
     provider 'Stripe'

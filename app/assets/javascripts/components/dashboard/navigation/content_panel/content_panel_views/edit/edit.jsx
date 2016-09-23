@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import Calendar from './calendar.jsx';
-import InputBox from './input_box.jsx';
+import InputBox from '../../../../../forms/inputBox.jsx';
 import SaveBtn from './save_btn.jsx';
 import AddBtn from './add_btn.jsx';
 import SignalIcon from '../../../../../links/signal_icon.jsx';
@@ -9,38 +9,9 @@ import SignalIcon from '../../../../../links/signal_icon.jsx';
 export default class Edit extends Component {
   constructor(props) {
     super(props);
-
     this.setResponse = this.setResponse.bind(this);
-    this.editSignalName = this.editSignalName.bind(this);
-
-    const signal = props.signal;
-
-    if (props.signal.id) {
-      const responses = signal.responses;
-
-      this.state = {
-        submitType:     'PUT',
-        id:             signal.id, 
-        signalType:     signal.signal_type,
-        name:           signal.name,
-        active:         signal.active,
-        firstResponse:  signal.responses[0].message,
-        repeatResponse: signal.responses[1].message,
-        expirationDate: signal.expiration_date,
-      };
-    } else {
-      this.state = {
-        submitType:     'POST',
-        signalType:     signal.type,
-        name:           _.upperFirst(signal.type),
-        active:         false,
-        firstResponse:  'Type your response here',
-        repeatResponse: 'Type your response here',
-        expirationDate: ''
-      };
-    }
   }
-  
+
   setResponse(key, value) {
     var obj = {};
     obj[key] = value;
@@ -48,33 +19,36 @@ export default class Edit extends Component {
   }
 
   editSignalName() {
-    if (this.props.signal.id) {
+    const { signal } = this.props;
+
+    if (signal.id) {
       return (
-        <h4 className='subheading'>@Brand #{this.state.name}</h4>
+        <h4 className='subheading'>@Brand #{signal.name}</h4>
       );
     } else {
       return (
         <h4 className='subheading'>@Brand #
-         <InputBox 
-            data={'Ex. ' + this.state.name} 
-            setResponse={this.setResponse} 
-            type='name' 
-            componentClass='input'
-            className='signal-name-edit uctext'
+         <InputBox
+            name="name"
+            placeholder={`Ex. ${signal.signal_type}`}
+            componentClass="input"
           />
         </h4>
       );
-    } 
+    }
   }
 
   render() {
+    const { signal } = this.props;
+    const responses = _.get(signal, 'responses', [{},{}]);
+
     return (
       <div className='col-md-9 content-box'>
         <div className='content-header'>
-          <SignalIcon type={this.state.signalType} className='content-icon' />
+          <SignalIcon type={signal.signal_type} className='content-icon' />
           <SignalIcon type='explanation' className='content-explanation' />
           <p className='signal-type-label'>TYPE</p>
-          <h3 className='signal-type-header uctext'>{this.state.signalType} Signal</h3>
+          <h3 className='signal-type-header uctext'>{signal.signal_type} Signal</h3>
           <p className='signal-description'>
             Send your users a special offer everytime they send a custom hashtag
           </p>
@@ -85,11 +59,11 @@ export default class Edit extends Component {
         <div className='response-info'>
           <h4>Responses to:</h4>
           <SignalIcon type="twitter" />
-          { this.editSignalName() }
-          <SaveBtn data={ this.state }/>
-          <AddBtn type='add' 
-            setResponse={this.setResponse} 
-            expirationDate={this.state.expirationDate}/>
+          {this.editSignalName()}
+          <SaveBtn data={signal}/>
+          <AddBtn type='add'
+            setResponse={this.setResponse}
+            expirationDate={signal.expiration_date}/>
         </div>
 
         <div className='tip-box'>
@@ -104,7 +78,11 @@ export default class Edit extends Component {
             <h5>First Response</h5>
             <p>Users will see this response the first time they use your signal</p>
           </div>
-          <InputBox data={this.state.firstResponse} setResponse={this.setResponse} type='firstResponse'/>
+          <InputBox
+            name="responses[0].message"
+            placeholder="Type your response here"
+            componentClass="textarea"
+          />
           <span className='required'>REQUIRED</span>
         </div>
 
@@ -112,7 +90,11 @@ export default class Edit extends Component {
           <div className='response-text'>
             <h5>Not Available/ Repeat Requests</h5>
           </div>
-          <InputBox data={this.state.repeatResponse} setResponse={this.setResponse} type='repeatResponse'/>
+          <InputBox
+            name="responses[1].message"
+            placeholder="Type your response here"
+            componentClass="textarea"
+          />
           <span className='required'>REQUIRED</span>
         </div>
       </div>

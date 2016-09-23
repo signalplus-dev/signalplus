@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-
-import { fetchBrandData } from '../redux/modules/models/brand.js';
 import Loader from './loader.jsx';
 
 class BrandProfileBlock extends Component {
-  componentDidMount() {
-    const { brand, dispatch } = this.props;
-    if (!brand.loaded) dispatch(fetchBrandData());
-  }
-
   render() {
     const { brand } = this.props;
 

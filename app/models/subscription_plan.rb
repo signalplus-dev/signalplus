@@ -11,7 +11,15 @@
 #  provider_id        :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  description        :string           default("")
 #
 
 class SubscriptionPlan < ActiveRecord::Base
+  CURRENCY_SYMBOL_MAPPING = {
+    'usd' => '$',
+  }
+
+  def currency_symbol
+    CURRENCY_SYMBOL_MAPPING[currency]
+  end
 end

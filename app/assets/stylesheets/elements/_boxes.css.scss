@@ -1,48 +1,95 @@
+.plan-boxes {
+  text-align: center;
+}
+
 .plan-box {
+  vertical-align: top;
   display: inline-block;
-  width: 220px;
-  height: 320px;
-  margin-left: 15px;
+  width: 278px;
+  height: 438px;
+  margin-left: 29px;
   border-radius: 6px;
   background-color: $signal-white;
   box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
 
 
   .box-header {
-    padding-top: 5px;
-    font-size: 30px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: $h3-font-size;
+    line-height: 42px;
     text-align: center;
-    height: 50px;
     width: 100%;
     background-color: $main-purple;
     color: $signal-white;
     border-radius: 6px 6px 0 0;
-    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  $box-bottom-padding: 36px;
+
+  .box-content {
+    padding-top: 21px;
+    padding-bottom: $box-bottom-padding;
   }
 
   .price-details {
-    padding-top: 5px;
-    font-size: 35px;
     color: $main-purple;
     text-align: center;
 
+    .currency-symbol {
+      vertical-align: top;
+      font-size: $h5-font-size;
+    }
+
+    .plan-price {
+      font-size: $h1-font-size;
+      line-height: 1;
+    }
+
+    .per-month {
+      text-transform: uppercase;
+      color: inherit;
+    }
+
     hr {
-      margin-top: 5px;
-      margin-bottom: 20px;
+      margin-top: 9px;
+      margin-bottom: 24px;
       border-top: 3px solid $main-purple;
-      width: 80px;
+      width: 120px;
     }
   }
 
+  .plan-responses {
+    margin-bottom: 9px;
+
+    > * {
+      line-height: 1;
+    }
+  }
+
+  .plan-message-amount {
+    font-size: $h2-font-size;
+  }
+
   .plan-details {
-    font-size: 18px;
     padding-left: 15px;
     padding-right: 40px;
     padding-bottom: 15px;
   }
 
-  .response-count {
-    font-size: 30px;
-    font-weight: 500;
+  .plan-description {
+    opacity: 0.7;
+    font-weight: bold;
+    font-size: $h5-font-size;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 125px;
+    position: absolute;
+    bottom: $box-bottom-padding;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }

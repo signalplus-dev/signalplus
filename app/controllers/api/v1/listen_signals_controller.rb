@@ -1,9 +1,15 @@
 class Api::V1::ListenSignalsController < Api::V1::BaseController
-  before_action :get_brand, only: [:index]
-  before_action :ensure_user_can_get_signal_info, only: [:index]
+  before_action :get_brand, only: [:index, :show]
+  before_action :get_listen_signal, only: [:show]
+  before_action :ensure_user_can_get_signal_info, only: [:index, :show]
+  before_action :ensure_user_can_get_listen_signal, only: [:show]
 
   def index
     render json: @brand.listen_signals, each_serializer: ListenSignalSerializer
+  end
+
+  def show
+    render json: @listen_signal, serializer: ListenSignalSerializer
   end
 
   def templates
@@ -12,22 +18,21 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
 
   private
 
-  def get_brand
-    @brand = Brand
-               .where(id: current_user.brand_id)
-               .includes(:subscription)
-               .first
-
-    unless @brand
-      raise ApiErrors::StandardError.new(
-        message: 'Sorry, we could not process your request',
-        status: 400,
-      )
-    end
+  def get_listen_signal
+    @listen_signal = ListenSignal.find(params[:id])
   end
 
   def ensure_user_can_get_signal_info
     if current_user.brand_id != @brand.id
+      raise ApiErrors::StandardError.new(
+        message: 'Sorry, you are not authorized to perfom this action',
+        status: 401,
+      )
+    end
+  end
+
+  def ensure_user_can_get_listen_signal
+    if !@brand.listen_signal_ids.include?(@listen_signal.id)
       raise ApiErrors::StandardError.new(
         message: 'Sorry, you are not authorized to perfom this action',
         status: 401,

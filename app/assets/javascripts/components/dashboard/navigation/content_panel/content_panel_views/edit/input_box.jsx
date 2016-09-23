@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormControl, FormGroup } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
 
 export default class InputBox extends Component {
   constructor(props) {
@@ -28,10 +28,12 @@ export default class InputBox extends Component {
   }
 
   render() {
+    const { componentClass } = this.props;
+
     return (
       <div className='input-box'>
         <FormControl
-          componentClass={this.state.componentClass}
+          componentClass={componentClass}
           onChange={this.handleChange}
           placeholder={this.props.data}
           onClick={this.reset}

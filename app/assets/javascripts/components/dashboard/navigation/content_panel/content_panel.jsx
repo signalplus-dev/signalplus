@@ -1,51 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { provideHooks } from 'redial';
+import _ from 'lodash';
 import Sidebar from './sidebar.jsx';
 import MenuContent from './menu_content.jsx';
-import _ from 'lodash';
+import connectSignalForm from '../../../forms/connectSignalForm.jsx';
+import { actions as appActions } from '../../../../redux/modules/app.js';
+import { getListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
+import SignalForm from './signalForm.jsx';
 
+const EXISTING_SIGNAL_PATHNAME_REGEX = /^dashboard\/signals\/\d+/;
+
+function isExistingSignal(pathname) {
+  return EXISTING_SIGNAL_PATHNAME_REGEX.test(pathname);
+}
 
 function getResponses(signal, responses) {
-  const data = [];
-
-  _.forEach(signal.responses, function(key) {
-    data.push(responses[key]);
-  });
-  return data;
+  return _.map(signal.responses, (responseId) => (responses[responseId]));
 };
 
 function newSignal(signal, responses) {
-  const newSignalObj = {};
-
-  _.forEach(Object.keys(signal), function(key) {
-    key == 'responses' ? newSignalObj[key] = getResponses(signal, responses) : newSignalObj[key] = signal[key]
-  });
-
-  return newSignalObj;
+  return _.reduce(signal, (currentSignal, value, key) => ({
+    ...currentSignal,
+    [key]: key === 'responses' ? getResponses(signal, responses) : value,
+  }), {});
 };
 
-function getSignal(ownProps, state) {
-  const { route, params } = ownProps;
+function getSignal(state, ownProps) {
+  const { location, params } = ownProps;
 
-  if (route.path === 'new') {
-    return {
-      type: params.type,
-    }
-  } else {
-    const signals   = state.models.listenSignals.data;
-    const key       = _.findKey(signals, { id: parseInt(params.id) });
-    const signal    = signals[key];
+  if (isExistingSignal(location.pathname)) {
+    const signal = _.get(state, `models.listenSignals.data['${parseInt(params.id)}']`);
     const responses = state.models.responses.data;
 
     return newSignal(signal, responses);
   }
+
+  return {
+    signal_type: params.type,
+    responses: [{},{}],
+  };
 }
+
+const hooks = {
+  fetch: ({ dispatch, location, params }) => {
+    if (isExistingSignal(location.pathname)) {
+      const id = parseInt(params.id);
+      dispatch(getListenSignalData(id));
+    }
+  },
+};
 
 class ContentPanel extends Component {
   constructor(props) {
     super(props);
     this.handleSideBar = this.handleSideBar.bind(this);
+    this.updateSignal = this.updateSignal.bind(this);
     this.state = {
+      tabCreated: false,
       sidebarMenus: [
         { id: 1, contentId: 'edit', active: true },
         { id: 2, contentId: 'promote', active: false },
@@ -53,6 +65,47 @@ class ContentPanel extends Component {
         { id: 4, contentId: 'activity', active: false },
       ],
     };
+  }
+
+  updateSignal(form) {
+    console.log(form);
+  }
+
+  createTab(signal) {
+    const { signal_type: type, id, name } = signal;
+    const isNew = !id
+
+    return {
+      id: isNew ? `new_${type}_${_.uniqueId()}` : `existing_${id}`,
+      label: isNew ? `New ${_.upperFirst(type)} Signal` : `#${_.upperFirst(name)}`,
+      link: isNew ? `/dashboard/signals/new/${type}` : `/dashboard/signals/${id}`,
+      closeable: true,
+    }
+  }
+
+  shouldCreateTab(signal) {
+    if (this.state.tabCreated) return false;
+
+    const { location } = this.props;
+    if (!isExistingSignal(location.pathname)) return true;
+
+    return !!signal.id
+  }
+
+  componentWillMount() {
+    const { signal, dispatch } = this.props;
+
+    if (this.shouldCreateTab(signal)) {
+      dispatch(appActions.addTab(this.createTab(signal)));
+      this.setState({ tabCreated: true });
+    }
+  }
+
+  componenWillReceiveProps({ signal, dispatch }) {
+    if (this.shouldCreateTab(signal)) {
+      dispatch(appActions.addTab(this.createTab(signal)));
+      this.setState({ tabCreated: true });
+    }
   }
 
   handleSideBar(menu) {
@@ -65,10 +118,10 @@ class ContentPanel extends Component {
   }
 
   render() {
-    const signal = this.props.signal
+    const { signal } = this.props;
 
     return (
-      <div className='content-panel'>
+      <SignalForm signal={signal}>
         <Sidebar
           menus={this.state.sidebarMenus}
           handleClick={this.handleSideBar}
@@ -78,14 +131,14 @@ class ContentPanel extends Component {
           menus={this.state.sidebarMenus}
           signal={signal}
         />
-      </div>
+      </SignalForm>
     );
   }
 }
 
-export default connect((state, ownProps) => {
-  return {
-    signal: getSignal(ownProps, state)
-  };
-})(ContentPanel);
+const ConnectedContentPanel = connect((state, ownProps) => ({
+  signal: getSignal(state, ownProps),
+}))(ContentPanel);
+
+export default provideHooks(hooks)(ConnectedContentPanel);
 

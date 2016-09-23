@@ -77,6 +77,7 @@ group :test do
   gem 'database_cleaner'
   gem 'rspec-rails', '~> 3.3.3'
   gem 'rspec-its'
+  gem 'rspec-collection_matchers'
   gem 'spring-commands-rspec', require: false
   gem "factory_girl_rails", "~> 4.0"
   gem 'vcr'
