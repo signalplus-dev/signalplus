@@ -56,11 +56,11 @@ export default class Edit extends Component {
       return (
         <h4 className='subheading'>@Brand #
          <InputBox 
-            data={'Ex. ' + this.state.name} 
             setResponse={this.setResponse} 
             type='name' 
             componentClass='input'
             className='signal-name-edit uctext'
+            placeholder={'Ex. '+ this.state.signalType} 
           />
         </h4>
       );
@@ -104,7 +104,13 @@ export default class Edit extends Component {
             <h5>First Response</h5>
             <p>Users will see this response the first time they use your signal</p>
           </div>
-          <InputBox data={this.state.firstResponse} setResponse={this.setResponse} type='firstResponse'/>
+          <InputBox 
+            data={this.state.firstResponse} 
+            setResponse={this.setResponse} 
+            type='firstResponse'
+            componentClass='textarea'
+            placeholder='Type your response here'
+          />
           <span className='required'>REQUIRED</span>
         </div>
 
@@ -112,7 +118,13 @@ export default class Edit extends Component {
           <div className='response-text'>
             <h5>Not Available/ Repeat Requests</h5>
           </div>
-          <InputBox data={this.state.repeatResponse} setResponse={this.setResponse} type='repeatResponse'/>
+          <InputBox 
+            data={this.state.repeatResponse} 
+            setResponse={this.setResponse} 
+            type='repeatResponse'
+            componentClass='textarea'
+            placeholder='Type your response here'
+          />
           <span className='required'>REQUIRED</span>
         </div>
       </div>
