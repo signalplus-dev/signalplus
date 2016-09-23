@@ -10,6 +10,33 @@ export default class Edit extends Component {
   constructor(props) {
     super(props);
     this.setResponse = this.setResponse.bind(this);
+
+    this.editSignalName = this.editSignalName.bind(this);
+
+    const signal = props.signal;
+
+    if (props.signal.id) {
+      const responses = signal.responses;
+
+      this.state = {
+        id:             signal.id,
+        signalType:     signal.signal_type,
+        name:           signal.name,
+        active:         signal.active,
+        firstResponse:  signal.responses[0].message,
+        repeatResponse: signal.responses[1].message,
+        expirationDate: signal.expiration_date,
+      };
+    } else {
+      this.state = {
+        signalType:     signal.type,
+        name:           _.upperFirst(signal.type),
+        active:         false,
+        firstResponse:  'Type your response here',
+        repeatResponse: 'Type your response here',
+        expirationDate: ''
+      };
+    }
   }
 
   setResponse(key, value) {
@@ -32,6 +59,8 @@ export default class Edit extends Component {
             name="name"
             placeholder={`Ex. ${signal.signal_type}`}
             componentClass="input"
+            setResponse={this.setResponse}
+            className='signal-name-edit uctext'
           />
         </h4>
       );
@@ -61,9 +90,11 @@ export default class Edit extends Component {
           <SignalIcon type="twitter" />
           {this.editSignalName()}
           <SaveBtn data={signal}/>
-          <AddBtn type='add'
+          <AddBtn
+            type='add'
             setResponse={this.setResponse}
-            expirationDate={signal.expiration_date}/>
+            expirationDate={signal.expirationDate}
+          />
         </div>
 
         <div className='tip-box'>
@@ -79,9 +110,11 @@ export default class Edit extends Component {
             <p>Users will see this response the first time they use your signal</p>
           </div>
           <InputBox
-            name="responses[0].message"
+            name="firstResponse"
             placeholder="Type your response here"
             componentClass="textarea"
+            data={this.state.firstResponse}
+            setResponse={this.setResponse}
           />
           <span className='required'>REQUIRED</span>
         </div>
@@ -91,9 +124,11 @@ export default class Edit extends Component {
             <h5>Not Available/ Repeat Requests</h5>
           </div>
           <InputBox
-            name="responses[1].message"
+            name="repeatResponse"
             placeholder="Type your response here"
             componentClass="textarea"
+            data={this.state.repeatResponse}
+            setResponse={this.setResponse}
           />
           <span className='required'>REQUIRED</span>
         </div>

@@ -18,6 +18,14 @@ export const LISTEN_SIGNAL_SHOW_REQUEST = 'signalplus/listenSignals/SHOW_REQUEST
 export const LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS = 'signalplus/listenSignals/SHOW_REQUEST_SUCCESS';
 export const LISTEN_SIGNAL_SHOW_REQUEST_FAIL = 'signalplus/listenSignals/SHOW_REQUEST_FAIL';
 
+export const LISTEN_SIGNALS_PUT_REQUEST = 'signalplus/listenSignals/put/REQUEST';
+export const LISTEN_SIGNALS_PUT_REQUEST_SUCCESS = 'signalplus/listenSignals/put/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_PUT_REQUEST_FAIL = 'signalplus/listenSignals/put/REQUEST_FAIL';
+
+export const LISTEN_SIGNALS_POST_REQUEST = 'signalplus/listenSignals/post/REQUEST';
+export const LISTEN_SIGNALS_POST_REQUEST_SUCCESS = 'signalplus/listenSignals/post/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_POST_REQUEST_FAIL = 'signalplus/listenSignals/post/REQUEST_FAIL';
+
 
 /*
 * Initial State
@@ -86,6 +94,24 @@ export const reducer = handleActions({
       loading: false,
       loaded: false,
     },
+
+  [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ...data,
+      listenSignals: [
+        get(normalizeListenSignalsResponse(action.payload), 'entities.listenSignals', {}),
+      ],
+    },
+    loading: false,
+    loaded: true,
+  }),
+
+  [LISTEN_SIGNALS_POST_REQUEST_FAIL]: (state, action) => ({
+    ...state,
+    error: action.payload,
+    loading: false,
+    loaded: false,
   }),
 }, initialState);
 
@@ -124,3 +150,18 @@ export function getListenSignalData(listenSignalId) {
     fetchListenSignalData(listenSignalId)
   );
 }
+
+export const addListenSignalData = (payload) => {
+  console.log(payload);
+
+  return createRequestAction({
+    endpoint: Endpoints.LISTEN_SIGNALS_INDEX,
+    method: 'POST',
+    body: JSON.stringify(payload),
+    types: [
+      LISTEN_SIGNALS_POST_REQUEST,
+      LISTEN_SIGNALS_POST_REQUEST_SUCCESS,
+      LISTEN_SIGNALS_POST_REQUEST_FAIL,
+    ],
+  });
+};
