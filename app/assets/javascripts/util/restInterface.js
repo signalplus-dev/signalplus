@@ -145,6 +145,26 @@ export default {
     );
   },
   /**
+    * Interface for PUT requests
+    *
+    *
+    */
+  putRequest: function(path, params = {}, body = {}, additionalHeaders = {}) {
+    let basePath = path;
+    basePath += `?${queryString.stringify(params)}`;
+
+    return this.handleRequest(
+      fetch(path, {
+        method:  'PUT',
+        headers: {
+          ...this.requestHeaders(),
+          ...additionalHeaders,
+        },
+        body: JSON.stringify(body),
+      })
+    );
+  },
+  /**
     * Interface for DELETE requests
     *
     *

@@ -14,7 +14,7 @@
 #
 
 class ListenSignal < ActiveRecord::Base
-  validates :name, :brand_id, :identity_id, :expiration_date, 
+  validates :name, :brand_id, :identity_id, :expiration_date,
             :signal_type, presence: true
 
 
@@ -64,5 +64,9 @@ class ListenSignal < ActiveRecord::Base
 
   def expired?
     expiration_date <= Time.current
+  end
+
+  def last_promotional_tweet
+    @last_promotional_tweet ||= promotional_tweets.last
   end
 end

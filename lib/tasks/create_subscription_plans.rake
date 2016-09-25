@@ -6,6 +6,7 @@ task create_subscription_plans: :environment do
       amount:   2900,
       interval: 'month',
       name:     'Basic',
+      description: 'Local Brands',
       currency: 'usd',
       number_of_messages: 5000,
     },
@@ -14,6 +15,7 @@ task create_subscription_plans: :environment do
       amount:   4900,
       interval: 'month',
       name:     'Advanced',
+      description: 'National Brands',
       currency: 'usd',
       number_of_messages: 15000,
     },
@@ -22,6 +24,7 @@ task create_subscription_plans: :environment do
       amount:   9900,
       interval: 'month',
       name:     'Premium',
+      description: 'Global Brands',
       currency: 'usd',
       number_of_messages: 50000,
     },
@@ -33,8 +36,8 @@ task create_subscription_plans: :environment do
     rescue Stripe::InvalidRequestError
     end
 
-    SubscriptionPlan.first_or_create(
-      sp.slice(:amount, :name, :number_of_messages, :currency)
+    SubscriptionPlan.find_or_create_by(
+      sp.slice(:amount, :name, :number_of_messages, :currency, :description)
         .merge(provider: 'Stripe', provider_id: sp[:id])
     )
   end

@@ -11,6 +11,7 @@
 #  provider_id        :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  description        :string           default("")
 #
 
 FactoryGirl.define do
@@ -19,6 +20,7 @@ FactoryGirl.define do
     provider_id 'basic'
     amount 2900
     name 'Basic'
+    description 'Local Brands'
     currency 'usd'
     number_of_messages 5000
 

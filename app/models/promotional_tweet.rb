@@ -11,6 +11,8 @@
 #  image_content_type :string
 #  image_file_size    :integer
 #  image_updated_at   :datetime
+#  status             :boolean          default(FALSE), not null
+#  direct_upload_url  :string           not null
 #
 
 class PromotionalTweet < ActiveRecord::Base
@@ -27,5 +29,9 @@ class PromotionalTweet < ActiveRecord::Base
     promo_tweet = find_or_create_by(args)
     promo_tweet.update(attributes)
     promo_tweet
+  end
+
+  def url
+    direct_upload_url
   end
 end

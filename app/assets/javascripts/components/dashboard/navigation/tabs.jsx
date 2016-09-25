@@ -1,39 +1,62 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import { Link, browserHistory } from 'react-router';
+import cn from 'classnames';
+import { actions as appActions } from '../../../redux/modules/app.js';
 
-class Tab extends Component {
+
+const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active'
+
+
+class UnconnectedTabClose extends PureComponent {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.closeTab = this.closeTab.bind(this);
   }
 
-  handleClick() {
-    this.props.handleClick(this.props.tab.id);
+  closeTab(event) {
+    const { tab, dispatch } = this.props;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    dispatch(appActions.removeTab(tab.id));
+    browserHistory.push(ACTIVE_SIGNAL_PATH)
   }
 
   render() {
-    const { tab } = this.props;
-    const tabClassName = this.props.active ? 'active' : '';
-
-    return (
-      <li className={tabClassName} onClick={this.handleClick}>
-        <a href={`#${tab.paneId}`} data-toggle='tab'>
-          {tab.name}
-        </a>
-      </li>
-    );
+    return <button onClick={this.closeTab}>x</button>;
   }
 }
 
-export default function Tabs({ tabs, handleClick }) {
-  const tabList = tabs.map((tab) => {
+const TabClose = connect()(UnconnectedTabClose);
+
+function Tab({ tab, active }){
+  return (
+    <li className={cn({ active })}>
+      <Link to={tab.link}>{tab.label}
+        {tab.closeable ? <TabClose tab={tab} /> : undefined }
+      </Link>
+    </li>
+  );
+}
+
+function Tabs({ tabs, currentRoute }) {
+  const tabList = _.map(tabs, tab => {
     return (
       <Tab
-        active={tab.active}
         key={tab.id}
-        {...{ tab, handleClick }}
+        active={tab.link === currentRoute}
+        {...{ tab }}
       />
     );
   });
 
   return <ul className='nav nav-tabs'>{tabList}</ul>;
 }
+
+export default connect(state => ({
+  tabs: state.app.dashboard.tabs,
+  currentRoute: state.routing.locationBeforeTransitions.pathname,
+}))(Tabs);

@@ -10,7 +10,6 @@ class PaneContent extends Component {
     if (pane === 'signals') {
       return (
         <SignalsPane
-          signals={this.props.data.signals}
           handleTab={this.props.handleTab}
           handleClick={this.props.handleClick}
           handleSignal={this.props.handleSignal}
@@ -39,24 +38,4 @@ class PaneContent extends Component {
 
     return <div className={`tab-pane dash-panel ${tabClassName}`}>{this.renderPane()}</div>;
   }
-}
-
-export default function Panes({ tabs, ...props }) {
-  const paneList = tabs.map((pane) => {
-    return (
-      <PaneContent
-        active={pane.active}
-        key={pane.id}
-        tab={pane}
-        data={props.data}
-        handleTab={props.handleTab}
-        handleSignal={props.handleSignal}
-        handleClick={props.handleClick}
-        templateType={props.templateType}
-        editSignal={props.editSignal}
-      />
-    );
-  });
-
-  return <div className='tab-content clearfix'>{paneList}</div>;
 }

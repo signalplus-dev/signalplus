@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import _ from 'lodash';
 import moment from 'moment';
 import Loader from './loader.jsx';
@@ -16,7 +17,7 @@ class SubscriptionSummary extends Component {
       return (
         <div>
           <div>No Subscription</div>
-          <p><a href="#subscriptions">Select One</a></p>
+          <p><Link to="/subscription_plans">Select One</Link></p>
         </div>
       );
     }
@@ -36,5 +37,5 @@ class SubscriptionSummary extends Component {
 }
 
 export default connect(state => ({
-  subscription: state.subscription,
+  subscription: state.models.subscription,
 }))(SubscriptionSummary);

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { normalize, Schema, arrayOf } from 'normalizr';
 
 /**
   * Extracts brand info from the brand payload response without the subscription info
@@ -26,4 +27,43 @@ export function normalizeSubscription(brandPayload) {
     loaded: true,
     loading: false,
   };
+}
+
+
+// Schemas for the listen signals, responses, and promotional tweets
+const listenSignals = new Schema('listenSignals');
+const listenSignal = new Schema('listenSignal');
+const responses = new Schema('responses');
+const promotionalTweet = new Schema('promotionalTweet');
+
+listenSignals.define({
+  responses: arrayOf(responses),
+  last_promotional_tweet: promotionalTweet,
+});
+
+listenSignal.define({
+  responses: arrayOf(responses),
+  last_promotional_tweet: promotionalTweet,
+});
+
+
+/**
+  * Normalized version of the listenSignalsPayload from the API.
+  *
+  * @param {Object} listenSignalsPayload - JSON payload response from the server for the brand's
+  *                                        listen signals.
+  * @return {Object}
+*/
+export function normalizeListenSignalsResponse(listenSignalsPayload) {
+  return normalize(listenSignalsPayload, { listen_signals: arrayOf(listenSignals) });
+}
+
+export function normalizeListenSignalResponse(listenSignalPayload) {
+  return normalize(listenSignalPayload, { listen_signal: listenSignal });
+}
+
+// Schemas for the subsciption plans
+const subscriptionPlans = new Schema('subscriptionPlans');
+export function normalizeSubscriptionPlansResponse(subscriptionPlansPayload) {
+  return normalize(subscriptionPlansPayload, { subscription_plans: arrayOf(subscriptionPlans) });
 }
