@@ -98,7 +98,7 @@ class ContentPanel extends Component {
     }
   }
 
-  componenWillReceiveProps({ signal, dispatch }) {
+  componentWillReceiveProps({ signal, dispatch }) {
     if (this.shouldCreateTab(signal, tabs)) {
       dispatch(appActions.addTab(this.createTab(signal)));
       this.setState({ tabCreated: true });
