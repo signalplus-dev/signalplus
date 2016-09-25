@@ -56,6 +56,7 @@ class ContentPanel extends Component {
     this.handleSideBar = this.handleSideBar.bind(this);
     this.updateSignal = this.updateSignal.bind(this);
     this.state = {
+      tabCreated: false,
       sidebarMenus: [
         { id: 1, contentId: 'edit', active: true },
         { id: 2, contentId: 'promote', active: false },
@@ -74,35 +75,42 @@ class ContentPanel extends Component {
     const isNew = !id
 
     return {
-      id: isNew ? `new_${type}_${_.uniqueId()}` : `existing_${id}`,
+      id: isNew ? `new_${type}` : `existing_${id}`,
       label: isNew ? `New ${_.upperFirst(type)} Signal` : `#${_.upperFirst(name)}`,
       link: isNew ? `/dashboard/signals/new/${type}` : `/dashboard/signals/${id}`,
       closeable: true,
-    }
+    };
   }
 
-  shouldCreateTab(signal) {
+  tabAlreadyCreated(signal, tabs) {
+    const newTab = this.createTab(signal);
+    return _.some(tabs, (tab) => (_.isEqual(tab, newTab)));
+  }
 
-    const { location, tabs } = this.props;
+  shouldCreateTab(signal, tabs) {
+    if (this.state.tabCreated) return false;
+    if (this.tabAlreadyCreated(signal, tabs)) return false;
+
+    const { location } = this.props;
     if (!isExistingSignal(location.pathname)) return true;
 
     return !!signal.id
   }
 
-  componentWillMount() {
-    const { signal, tabs, dispatch } = this.props;
-
-    if (this.shouldCreateTab(signal)) {
-      dispatch(appActions.addTab(this.createTab(signal)));
+  createTabIfNotCreated(signal, tabs) {
+    if (this.shouldCreateTab(signal, tabs)) {
+      this.props.dispatch(appActions.addTab(this.createTab(signal)));
       this.setState({ tabCreated: true });
     }
   }
 
-  componentWillReceiveProps({ signal, dispatch }) {
-    if (this.shouldCreateTab(signal, tabs)) {
-      dispatch(appActions.addTab(this.createTab(signal)));
-      this.setState({ tabCreated: true });
-    }
+  componentWillMount() {
+    const { signal, tabs } = this.props;
+    this.createTabIfNotCreated(signal, tabs);
+  }
+
+  componentWillReceiveProps({ signal, tabs }) {
+    this.createTabIfNotCreated(signal, tabs)
   }
 
   handleSideBar(menu) {
