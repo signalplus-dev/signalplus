@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction } from '../../utils.js';
+import { createRequestAction, getDataFor } from '../../utils.js';
 import Endpoints from '../../../util/endpoints.js';
 
 /*
@@ -44,7 +44,7 @@ export const reducer = handleActions({
   }),
 }, initialState);
 
-export const fetchListenSignalTemplatesData = () => {
+const fetchListenSignalTemplatesData = () => {
   return createRequestAction({
     endpoint: Endpoints.LISTEN_SIGNAL_TEMPLATES,
     types: [
@@ -54,3 +54,10 @@ export const fetchListenSignalTemplatesData = () => {
     ],
   });
 };
+
+export function getListenSignalTemplatesData() {
+  return getDataFor(
+    'listenSignalTemplates',
+    fetchListenSignalTemplatesData
+  );
+}

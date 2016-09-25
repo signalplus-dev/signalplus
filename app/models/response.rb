@@ -46,7 +46,7 @@ class Response < ActiveRecord::Base
   end
 
   # @return [Boolean]
-  def first? 
+  def first?
     response_type == Type::FIRST
   end
 

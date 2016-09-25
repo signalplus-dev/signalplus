@@ -1,5 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import restInterface from '../util/restInterface.js';
+import _ from 'lodash';
 
 /**
  * Creates a Redux API initiating action
@@ -28,3 +29,15 @@ export const createRequestAction = ({
     bailout,
   },
 });
+
+export function getDataFor(pathToModel, fetchCallback) {
+  return (dispatch, getState) => {
+    const model = _.get(getState(), `models.${pathToModel}`);
+
+    if (model && (model.loaded || model.loading)) {
+      return Promise.resolve();
+    }
+
+    return dispatch(fetchCallback());
+  }
+}

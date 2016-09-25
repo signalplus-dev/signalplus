@@ -17,8 +17,6 @@ Rails.application.routes.draw do
   resources :dashboard, only: [:index]
 
   get 'dashboard/get_data' => 'dashboard#get_data'
-  put 'template/signal'    => 'listen_signals#edit_signal'
-  post 'template/signal'   => 'listen_signals#create_template_signal'
 
   namespace :api do
     namespace :v1, defaults: { format: 'json' } do
@@ -34,8 +32,9 @@ Rails.application.routes.draw do
       get 'uploads', to: 'uploads#signed_url'
       post 'post_tweet', to: 'promotional_tweets#post_tweet'
 
-      resources :subscriptions, only: [:create]
-      resources :listen_signals, only: [:index] do
+      resources :subscriptions, only: [:create, :update]
+      resources :subscription_plans, only: [:index]
+      resources :listen_signals, only: [:index, :show, :create, :update] do
         get :templates, on: :collection
       end
       resources :brands, only: [:show] do
@@ -43,6 +42,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'subscription_plans' => 'dashboard#index'
 
   # Catch all for any routes nested with `/dashboard`. Any non-existant routes will be handled by the React app.
   get 'dashboard/*other' => 'dashboard#index'

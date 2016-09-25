@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { createRequestAction } from '../../utils.js';
+import { createRequestAction, getDataFor } from '../../utils.js';
 import Endpoints from '../../../util/endpoints.js';
 import { normalizeBrand } from '../../../util/normalize.js';
 
@@ -42,13 +42,20 @@ export const reducer = handleActions({
   }),
 }, initialState);
 
-export const fetchBrandData = (brandId) => {
+export const fetchBrandData = () => {
   return createRequestAction({
     endpoint: Endpoints.BRAND,
     types: [
-      { type: BRAND_REQUEST, meta: { brandId } },
-      { type: BRAND_REQUEST_SUCCESS, meta: { brandId } },
-      { type: BRAND_REQUEST_FAIL, meta: { brandId } },
+      BRAND_REQUEST,
+      BRAND_REQUEST_SUCCESS,
+      BRAND_REQUEST_FAIL,
     ],
   });
 };
+
+export function getBrandData() {
+  return getDataFor(
+    'brand',
+    fetchBrandData
+  );
+}

@@ -274,6 +274,8 @@ GEM
       netrc (~> 0.8)
     rollbar (2.10.0)
       multi_json
+    rspec-collection_matchers (1.1.2)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -415,6 +417,7 @@ DEPENDENCIES
   react-bootstrap-rails
   react-rails
   rollbar
+  rspec-collection_matchers
   rspec-its
   rspec-rails (~> 3.3.3)
   sass-rails (~> 5.0)

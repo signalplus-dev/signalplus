@@ -32,10 +32,16 @@ export function normalizeSubscription(brandPayload) {
 
 // Schemas for the listen signals, responses, and promotional tweets
 const listenSignals = new Schema('listenSignals');
+const listenSignal = new Schema('listenSignal');
 const responses = new Schema('responses');
 const promotionalTweet = new Schema('promotionalTweet');
 
 listenSignals.define({
+  responses: arrayOf(responses),
+  last_promotional_tweet: promotionalTweet,
+});
+
+listenSignal.define({
   responses: arrayOf(responses),
   last_promotional_tweet: promotionalTweet,
 });
@@ -50,4 +56,14 @@ listenSignals.define({
 */
 export function normalizeListenSignalsResponse(listenSignalsPayload) {
   return normalize(listenSignalsPayload, { listen_signals: arrayOf(listenSignals) });
+}
+
+export function normalizeListenSignalResponse(listenSignalPayload) {
+  return normalize(listenSignalPayload, { listen_signal: listenSignal });
+}
+
+// Schemas for the subsciption plans
+const subscriptionPlans = new Schema('subscriptionPlans');
+export function normalizeSubscriptionPlansResponse(subscriptionPlansPayload) {
+  return normalize(subscriptionPlansPayload, { subscription_plans: arrayOf(subscriptionPlans) });
 }
