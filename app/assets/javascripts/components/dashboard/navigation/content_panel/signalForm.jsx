@@ -66,7 +66,7 @@ export default connect((state, ownProps) => {
     formName,
     initialValues: {
       ...ownProps.signal,
-      ..._.get(state, `form['${formName}'].values`, {}),
+      ..._.get(state, `app.dashboard.tabs.['${formName}']`, {}),
     },
   };
 })(SignalForm);
