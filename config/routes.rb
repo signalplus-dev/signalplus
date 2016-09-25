@@ -17,8 +17,6 @@ Rails.application.routes.draw do
   resources :dashboard, only: [:index]
 
   get 'dashboard/get_data' => 'dashboard#get_data'
-  put 'template/signal'    => 'listen_signals#edit_signal'
-  post 'template/signal'   => 'listen_signals#create_template_signal'
 
   namespace :api do
     namespace :v1, defaults: { format: 'json' } do
@@ -36,7 +34,7 @@ Rails.application.routes.draw do
 
       resources :subscriptions, only: [:create, :update]
       resources :subscription_plans, only: [:index]
-      resources :listen_signals, only: [:index, :show] do
+      resources :listen_signals, only: [:index, :show, :create, :update] do
         get :templates, on: :collection
       end
       resources :brands, only: [:show] do

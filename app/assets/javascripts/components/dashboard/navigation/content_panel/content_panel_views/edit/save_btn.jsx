@@ -1,39 +1,43 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addListenSignalData } from '../../../../../../redux/modules/models/listenSignals.js';
 
-export default class SaveBtn extends Component {
+
+export class SaveBtn extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit() {
-    this.createSignal(this.props.data);
+    this.createSignal(this.props.signal);
   }
 
-  createSignal(data) {
-    const submitType = data.submitType;
-    delete data['submitType']
+  createSignal(signal) {
+    const payload = {
+      listen_signal: {
+        id:               signal.id,
+        name:             signal.name,
+        signal_type:      signal.signalType,
+        active:           signal.active,
+        expiration_date:  signal.expirationDate,
+      },
+      responses: {
+        first_response:   signal.firstResponse,
+        repeat_response:  signal.repeatResponse,
+        expiration_date:  signal.expirationDate,
+      },
+    };
 
-    $.ajax({
-      type: submitType,
-      url: '/template/signal',
-      data: data
-    }).done((result) => {
-      // If successful then update the state 
-      // Main dashboard should show newly created signal
-      console.log('success' + result);
-    }).fail((jqXhr) => {
-      console.log('failed to register');
-    });
+    this.props.dispatch(addListenSignalData(payload));
   }
 
   render() {
     return (
       <div className='edit-btns'>
         <button
-          type='button'
+          type='submit'
           className='btn btn-primary save-btn'
-          onClick={this.handleSubmit}
         >
           SAVE
         </button>
@@ -41,3 +45,5 @@ export default class SaveBtn extends Component {
     );
   }
 }
+
+export default connect()(SaveBtn);

@@ -18,6 +18,14 @@ export const LISTEN_SIGNAL_SHOW_REQUEST = 'signalplus/listenSignals/SHOW_REQUEST
 export const LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS = 'signalplus/listenSignals/SHOW_REQUEST_SUCCESS';
 export const LISTEN_SIGNAL_SHOW_REQUEST_FAIL = 'signalplus/listenSignals/SHOW_REQUEST_FAIL';
 
+export const LISTEN_SIGNALS_PUT_REQUEST = 'signalplus/listenSignals/put/REQUEST';
+export const LISTEN_SIGNALS_PUT_REQUEST_SUCCESS = 'signalplus/listenSignals/put/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_PUT_REQUEST_FAIL = 'signalplus/listenSignals/put/REQUEST_FAIL';
+
+export const LISTEN_SIGNALS_POST_REQUEST = 'signalplus/listenSignals/post/REQUEST';
+export const LISTEN_SIGNALS_POST_REQUEST_SUCCESS = 'signalplus/listenSignals/post/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_POST_REQUEST_FAIL = 'signalplus/listenSignals/post/REQUEST_FAIL';
+
 
 /*
 * Initial State
@@ -27,6 +35,26 @@ export const initialState = {
   loaded: false,
   loading: false,
 };
+
+function handlesListenSignalSucccesResponse(state, action) {
+  const normalizedResponse = normalizeListenSignalResponse(action.payload);
+  const listenSignalResponse = _.get(normalizedResponse, 'entities.listenSignal', {});
+  const id = _.findLastKey(listenSignalResponse);
+  const listenSignal = listenSignalResponse[id];
+
+  return {
+    ...state,
+    data: {
+      ..._.get(state, 'data', {}),
+      [id]: {
+        ..._.get(state, `data.${id}`, {}),
+        ...listenSignal,
+        loading: false,
+        loaded: true,
+      },
+    },
+  };
+}
 
 /*
 * Reducer
@@ -62,31 +90,32 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNAL_SHOW_REQUEST]: (state, action) => ({
     ...state,
-    [action.meta.id]: {
-      ...state[action.meta.id],
-      loading: true,
+    data: {
+      ..._.get(state, 'data', {}),
+      [action.meta.id]: {
+        ...state[action.meta.id],
+        loading: true,
+      },
     },
   }),
 
-  [LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    [action.meta.id]: {
-      ...state[action.meta.id],
-      data: _.get(normalizeListenSignalResponse(action.payload), 'entities.listenSignal', {}),
-      loading: false,
-      loaded: true,
-    },
-  }),
+  [LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
   [LISTEN_SIGNAL_SHOW_REQUEST_FAIL]: (state, action) => ({
     ...state,
-    [action.meta.id]: {
-      ...state[action.meta.id],
-      error: action.payload,
-      loading: false,
-      loaded: false,
+    data: {
+      ..._.get(state, 'data', {}),
+      [action.meta.id]: {
+        ..._.get(state, `data.${action.meta.id}`, {}),
+        error: action.payload,
+        loading: false,
+        loaded: false,
+      },
     },
   }),
+
+  [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
+
 }, initialState);
 
 const fetchListenSignalsData = () => {
@@ -124,3 +153,18 @@ export function getListenSignalData(listenSignalId) {
     fetchListenSignalData(listenSignalId)
   );
 }
+
+export const addListenSignalData = (payload) => {
+  console.log(payload);
+
+  return createRequestAction({
+    endpoint: Endpoints.LISTEN_SIGNALS_INDEX,
+    method: 'POST',
+    body: JSON.stringify(payload),
+    types: [
+      LISTEN_SIGNALS_POST_REQUEST,
+      LISTEN_SIGNALS_POST_REQUEST_SUCCESS,
+      LISTEN_SIGNALS_POST_REQUEST_FAIL,
+    ],
+  });
+};

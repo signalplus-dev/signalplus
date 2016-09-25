@@ -49,14 +49,14 @@ export const reducer = handleActions({
       tabs: [
         ...state.dashboard.tabs,
         action.payload
-      ]
+      ],
     }
   }),
   [REMOVE_TAB]: (state, action) => ({
     ...state,
     dashboard: {
       ...state.dashboard,
-      tabs: state.dashboard.tabs.filter(tab => tab.id !== action.payload)
+      tabs: state.dashboard.tabs.filter(tab => tab.id !== action.payload),
     }
   }),
 }, initialState);
