@@ -110,7 +110,7 @@ export default class Edit extends Component {
             <p>Users will see this response the first time they use your signal</p>
           </div>
           <InputBox
-            name="firstResponse"
+            name="responses[0].message"
             placeholder="Type your response here"
             componentClass="textarea"
             data={this.state.firstResponse}
@@ -124,7 +124,7 @@ export default class Edit extends Component {
             <h5>Not Available/ Repeat Requests</h5>
           </div>
           <InputBox
-            name="repeatResponse"
+            name="responses[1].message"
             placeholder="Type your response here"
             componentClass="textarea"
             data={this.state.repeatResponse}

@@ -36,6 +36,26 @@ export const initialState = {
   loading: false,
 };
 
+function handlesListenSignalSucccesResponse(state, action) {
+  const normalizedResponse = normalizeListenSignalResponse(action.payload);
+  const listenSignalResponse = _.get(normalizedResponse, 'entities.listenSignal', {});
+  const id = _.findLastKey(listenSignalResponse);
+  const listenSignal = listenSignalResponse[id];
+
+  return {
+    ...state,
+    data: {
+      ..._.get(state, 'data', {}),
+      [id]: {
+        ..._.get(state, `data.${id}`, {}),
+        ...listenSignal,
+        loading: false,
+        loaded: true,
+      },
+    },
+  };
+}
+
 /*
 * Reducer
 */
@@ -70,50 +90,32 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNAL_SHOW_REQUEST]: (state, action) => ({
     ...state,
-    [action.meta.id]: {
-      ...state[action.meta.id],
-      loading: true,
+    data: {
+      ..._.get(state, 'data', {}),
+      [action.meta.id]: {
+        ...state[action.meta.id],
+        loading: true,
+      },
     },
   }),
 
-  [LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    [action.meta.id]: {
-      ...state[action.meta.id],
-      data: _.get(normalizeListenSignalResponse(action.payload), 'entities.listenSignal', {}),
-      loading: false,
-      loaded: true,
-    },
-  }),
+  [LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
   [LISTEN_SIGNAL_SHOW_REQUEST_FAIL]: (state, action) => ({
     ...state,
-    [action.meta.id]: {
-      ...state[action.meta.id],
-      error: action.payload,
-      loading: false,
-      loaded: false,
-    },
-  }),
-
-  [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
     data: {
-      ...data,
-      listenSignals: [
-        get(normalizeListenSignalsResponse(action.payload), 'entities.listenSignals', {}),
-      ],
+      ..._.get(state, 'data', {}),
+      [action.meta.id]: {
+        ..._.get(state, `data.${action.meta.id}`, {}),
+        error: action.payload,
+        loading: false,
+        loaded: false,
+      },
     },
-    loading: false,
-    loaded: true,
   }),
 
-  [LISTEN_SIGNALS_POST_REQUEST_FAIL]: (state, action) => ({
-    ...state,
-    error: action.payload,
-    loading: false,
-    loaded: false,
-  }),
+  [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
+
 }, initialState);
 
 const fetchListenSignalsData = () => {
