@@ -20,9 +20,9 @@ function InputBox({
   );
 }
 
-export default function DecoratedInputBox(props) {
+export default function DecoratedInputBox({ FieldType = Field, ...props}) {
   return (
-    <Field
+    <FieldType
       {...props}
       component={InputBox}
     />

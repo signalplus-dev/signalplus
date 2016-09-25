@@ -7,25 +7,6 @@ import AddBtn from './add_btn.jsx';
 import SignalIcon from '../../../../../links/signal_icon.jsx';
 
 export default class Edit extends Component {
-  constructor(props) {
-    super(props);
-
-    // temp responses
-    this.state = {
-      firstRespose: 'asdf',
-      repeatResponse: ' adf',
-    }
-
-    this.setResponse = this.setResponse.bind(this);
-    this.editSignalName = this.editSignalName.bind(this);
-  }
-
-  setResponse(key, value) {
-    var obj = {};
-    obj[key] = value;
-    this.setState(obj);
-  }
-
   editSignalName() {
     const { signal } = this.props;
 
@@ -72,7 +53,6 @@ export default class Edit extends Component {
           <SaveBtn data={signal}/>
           <AddBtn
             type='add'
-            setResponse={this.setResponse}
             expirationDate={signal.expirationDate}
           />
         </div>
@@ -90,10 +70,9 @@ export default class Edit extends Component {
             <p>Users will see this response the first time they use your signal</p>
           </div>
           <InputBox
-            name="responses[0].message"
+            name="default_response"
             placeholder="Type your response here"
             componentClass="textarea"
-            data={this.state.firstResponse}
           />
           <span className='required'>REQUIRED</span>
         </div>
@@ -103,10 +82,9 @@ export default class Edit extends Component {
             <h5>Not Available/ Repeat Requests</h5>
           </div>
           <InputBox
-            name="responses[1].message"
+            name="repeat_response"
             placeholder="Type your response here"
             componentClass="textarea"
-            data={this.state.repeatResponse}
           />
           <span className='required'>REQUIRED</span>
         </div>
