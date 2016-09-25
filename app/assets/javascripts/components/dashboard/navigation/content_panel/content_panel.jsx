@@ -4,7 +4,6 @@ import { provideHooks } from 'redial';
 import _ from 'lodash';
 import Sidebar from './sidebar.jsx';
 import MenuContent from './menu_content.jsx';
-import connectSignalForm from '../../../forms/connectSignalForm.jsx';
 import { actions as appActions } from '../../../../redux/modules/app.js';
 import { getListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
 import SignalForm from './signalForm.jsx';

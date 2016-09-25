@@ -19,7 +19,7 @@ export class SaveBtn extends Component {
         id:               signal.id,
         name:             signal.name,
         signal_type:      signal.signalType,
-        active:           signal.active, 
+        active:           signal.active,
         expiration_date:  signal.expirationDate,
       },
       responses: {
@@ -28,7 +28,7 @@ export class SaveBtn extends Component {
         expiration_date:  signal.expirationDate,
       },
     };
-    
+
     this.props.dispatch(addListenSignalData(payload));
   }
 
@@ -36,9 +36,8 @@ export class SaveBtn extends Component {
     return (
       <div className='edit-btns'>
         <button
-          type='button'
+          type='submit'
           className='btn btn-primary save-btn'
-          onClick={this.handleSubmit}
         >
           SAVE
         </button>

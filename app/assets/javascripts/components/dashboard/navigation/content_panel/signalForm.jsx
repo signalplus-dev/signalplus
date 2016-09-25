@@ -12,6 +12,7 @@ class UndecoratedSignalForm extends Component {
   }
 
   updateSignal(form) {
+    conslole.log('Here in the form')
     console.log(form);
   }
 

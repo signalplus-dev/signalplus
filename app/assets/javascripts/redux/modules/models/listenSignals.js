@@ -94,6 +94,7 @@ export const reducer = handleActions({
       loading: false,
       loaded: false,
     },
+  }),
 
   [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
