@@ -9,8 +9,14 @@ import SignalIcon from '../../../../../links/signal_icon.jsx';
 export default class Edit extends Component {
   constructor(props) {
     super(props);
-    this.setResponse = this.setResponse.bind(this);
 
+    // temp responses
+    this.state = {
+      firstRespose: 'asdf',
+      repeatResponse: ' adf',
+    }
+
+    this.setResponse = this.setResponse.bind(this);
     this.editSignalName = this.editSignalName.bind(this);
   }
 
