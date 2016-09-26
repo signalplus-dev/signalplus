@@ -34,8 +34,8 @@ const TabClose = connect()(UnconnectedTabClose);
 
 function Tab({ tab, active }){
   return (
-    <li className={cn({ active })}>
-      <Link to={tab.link}>{tab.label}
+    <li>
+      <Link activeClassName="active" to={tab.link}>{tab.label}
         {tab.closeable ? <TabClose tab={tab} /> : undefined }
       </Link>
     </li>

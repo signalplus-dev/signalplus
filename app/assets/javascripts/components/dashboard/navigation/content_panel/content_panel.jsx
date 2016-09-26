@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import _ from 'lodash';
 import Sidebar from './sidebar.jsx';
-import MenuContent from './menu_content.jsx';
 import { actions as appActions } from '../../../../redux/modules/app.js';
 import { getListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
 import SignalForm from './signalForm.jsx';
 
 const EXISTING_SIGNAL_PATHNAME_REGEX = /^\/dashboard\/signals\/\d+/;
+const MATCHING_LOCATION_BASE_PATHNAME_REGEX = /\/dashboard\/signals\/(\d+|new\/[^\/]+)/
 
 function isExistingSignal(pathname) {
   return EXISTING_SIGNAL_PATHNAME_REGEX.test(pathname);
@@ -53,17 +53,8 @@ const hooks = {
 class ContentPanel extends Component {
   constructor(props) {
     super(props);
-    this.handleSideBar = this.handleSideBar.bind(this);
     this.updateSignal = this.updateSignal.bind(this);
-    this.state = {
-      tabCreated: false,
-      sidebarMenus: [
-        { id: 1, contentId: 'edit', active: true },
-        { id: 2, contentId: 'promote', active: false },
-        { id: 3, contentId: 'preview', active: false },
-        { id: 4, contentId: 'activity', active: false },
-      ],
-    };
+    this.state = { tabCreated: false };
   }
 
   updateSignal(form) {
@@ -113,29 +104,52 @@ class ContentPanel extends Component {
     this.createTabIfNotCreated(signal, tabs)
   }
 
-  handleSideBar(menu) {
-    const newMenus = [ ...this.state.sidebarMenus ].map((menuItem) => {
-      menuItem.active = menuItem.contentId === menu;
-      return menuItem;
-    });
+  menuItems() {
+    const { location } = this.props;
+    const basePath = _.first(location.pathname.match(MATCHING_LOCATION_BASE_PATHNAME_REGEX));
 
-    this.setState({ sidebarMenus: newMenus })
+    return [
+      {
+        label: 'Edit',
+        linkProps: {
+          to: basePath,
+          onlyActiveOnIndex: true,
+        },
+      },
+      {
+        label: 'Promote',
+        linkProps: {
+          to: `${basePath}/promote`,
+          onlyActiveOnIndex: false,
+        },
+      },
+      {
+        label: 'Preview',
+        linkProps: {
+          to: `${basePath}/preview`,
+          onlyActiveOnIndex: false,
+        },
+      },
+    ]
+  }
+
+  cloneChildren() {
+    const { signal } = this.props;
+    return React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, { signal });
+    });
   }
 
   render() {
-    const { signal, routeProps } = this.props;
+    const { signal, children } = this.props;
+    const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
       <SignalForm signal={signal}>
-        <Sidebar
-          menus={this.state.sidebarMenus}
-          handleClick={this.handleSideBar}
-          signalType={this.signalState}
-        />
-        <MenuContent
-          menus={this.state.sidebarMenus}
-          signal={signal}
-        />
+        <Sidebar menuItems={this.menuItems()} />
+        <div className="content-pane">
+          {childrenToRender}
+        </div>
       </SignalForm>
     );
   }

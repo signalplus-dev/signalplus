@@ -10,9 +10,9 @@ import {
 export default class Promote extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this); 
-    this.handleSubmit = this.handleSubmit.bind(this);  
-    this.showPromoImage = this.showPromoImage.bind(this); 
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.showPromoImage = this.showPromoImage.bind(this);
 
     const signal = props.signal.edit;
 
