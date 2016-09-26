@@ -19,6 +19,9 @@ import Dashboard from './dashboard/dashboard.jsx';
 import SignalsPane from './dashboard/navigation/panels/signals/signals_pane.jsx';
 import TemplatesPane from './dashboard/navigation/panels/templates/templates_pane.jsx';
 import ContentPanel from './dashboard/navigation/content_panel/content_panel.jsx';
+import Edit from './dashboard/navigation/content_panel/content_panel_views/edit/edit.jsx';
+import Promote from './dashboard/navigation/content_panel/content_panel_views/promote/promote.jsx';
+import Preview from './dashboard/navigation/content_panel/content_panel_views/preview.jsx';
 import SubscriptionPlans from './subscriptionPlans/subscriptionPlans.jsx';
 import Loader from './loader.jsx';
 
@@ -56,13 +59,18 @@ function UnconnectedAppRouter({ authenticated }) {
           <IndexRedirect to="signals" />
           <Route path="signals">
             <IndexRedirect to="active" />
+
             <Route path="active" component={SignalsPane} />
             <Route path=":id" component={ContentPanel} />
+
             <Route path="new" component={ContentPanel}>
               <IndexRedirect to="offer" />
               <Route path=":type">
-
+                <IndexRoute component={Edit} />
+                <Route path="promote" component={Promote} />
+                <Route path="preview" component={Preview} />
               </Route>
+              <Redirect from="*" to="offer"/>
             </Route>
           </Route>
           <Route path="templates" component={TemplatesPane}/>

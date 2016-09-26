@@ -1,40 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Link } from 'react-router';
+import _ from 'lodash';
 
-class MenuItem extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    this.props.handleClick(this.props.menu.contentId);
-  }
-
-  renderMenuItem(menu) {
-    return <a href={`#${menu}`}>{menu}</a>;
-  }
-
-  render() {
-    const menuClassName = this.props.active ? 'active' : '';
-    const menu = this.props.menu.contentId;
-
-    return (
-      <li className={`${menuClassName} ${menu}` + ' ' + 'uctext'} onClick={this.handleClick}>
-        {this.renderMenuItem(menu)}
-      </li>
-    );
-  }
+function MenuItem({ menu }) {
+  return (
+    <li className="uctext">
+      <Link
+        {...menu.linkProps}
+        activeClassName="active"
+      >
+        {menu.label}
+      </Link>
+    </li>
+  );
 }
 
-export default function Sidebar({ menus, handleClick }) {
-  const sidebarMenus = menus.map((menu) => {
-    return <MenuItem active={menu.active} key={menu.id} {...{ menu, handleClick }} />;
+function renderMenuItems(menuItems) {
+  return _.map(menuItems, (menu) => {
+    return <MenuItem key={menu.label} menu={menu}/>;
   });
+}
 
+export default function Sidebar({ menuItems }) {
   return (
     <div className='col-md-2 sidebar'>
       <ul className='sidebar-menus'>
-        {sidebarMenus}
+        {renderMenuItems(menuItems)}
       </ul>
     </div>
   );

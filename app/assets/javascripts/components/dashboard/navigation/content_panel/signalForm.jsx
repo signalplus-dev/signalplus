@@ -30,6 +30,11 @@ class UndecoratedSignalForm extends Component {
 }
 
 class SignalForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { transitioning: false };
+  }
+
   createForm(formName) {
     this.form = reduxForm({
       form: formName,
@@ -44,26 +49,34 @@ class SignalForm extends Component {
     this.createForm(nextProps.formName);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      transitioning: nextProps.currentRoute !== this.props.currentRoute,
+    });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.formName !== this.props.formName;
+    return (
+      this.state.transitioning ||
+      nextProps.formName !== this.props.formName
+    );
   }
 
   render() {
-    const { signal, children, initialValues } = this.props;
+    const { signal, initialValues, ...props } = this.props;
     const Form = this.form;
     return (
-      <Form {...{ signal, initialValues }} >
-        {children}
-      </Form>
+      <Form {...{ ...props, signal, initialValues }} />
     );
   }
 }
 
 export default connect((state, ownProps) => {
-  const formName = `${genericSignalFormName}_${ownProps.signal.id || ownProps.signal.type}`;
+  const formName = `${genericSignalFormName}_${ownProps.signal.id || ownProps.signal.signal_type}`;
 
   return {
     formName,
+    currentRoute: state.routing.locationBeforeTransitions.pathname,
     initialValues: {
       ...ownProps.signal,
       ..._.get(state, `app.dashboard.tabs.['${formName}']`, {}),

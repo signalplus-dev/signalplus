@@ -35,9 +35,22 @@
 
 }
 
-ul li a:hover, 
-ul li a:focus {
-  background-color: $text-white;
+ul li a:hover,
+ul li a:focus,
+ul li a.active, {
   text-decoration: none;
   color: $text-black;
+}
+
+ul li a:hover {
+  background-color: #eee;
+}
+
+ul li a.active,
+ul li a:focus, {
+  background-color: $text-white;
+}
+
+ul li a.active {
+  cursor: auto;
 }
