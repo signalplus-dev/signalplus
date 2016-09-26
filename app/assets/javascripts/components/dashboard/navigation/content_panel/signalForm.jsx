@@ -71,6 +71,38 @@ class SignalForm extends Component {
   }
 }
 
+export const RESPONSE_TYPES = {
+  DEFAULT: 'default',
+  REPEAT: 'repeat',
+};
+
+const EDITABLE_SIGNAL_FIELDS = [
+  'id',
+  'name',
+  'active',
+  'signal_type',
+  'expiration_date',
+];
+
+const findType = (type) => (response) => {
+  return _.get(response, 'type') === type;
+};
+
+function getResponseMessage(responses, type) {
+  return _.get(_.find(responses, findType(type)), 'message');
+}
+
+function normalizeSignalForEdit(signal) {
+  const responses = _.get(signal, 'responses', []);
+
+  return {
+    ..._.pick(signal, EDITABLE_SIGNAL_FIELDS),
+    [`${RESPONSE_TYPES.DEFAULT}_response`]: getResponseMessage(RESPONSE_TYPES.DEFAULT),
+    [`${RESPONSE_TYPES.REPEAT}_response`]: getResponseMessage(RESPONSE_TYPES.REPEAT),
+    responses: _.drop(responses, 2),
+  };
+};
+
 export default connect((state, ownProps) => {
   const formName = `${genericSignalFormName}_${ownProps.signal.id || ownProps.signal.signal_type}`;
 
@@ -78,7 +110,7 @@ export default connect((state, ownProps) => {
     formName,
     currentRoute: state.routing.locationBeforeTransitions.pathname,
     initialValues: {
-      ...ownProps.signal,
+      ...normalizeSignalForEdit(ownProps.signal),
       ..._.get(state, `app.dashboard.tabs.['${formName}']`, {}),
     },
   };
