@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import Calendar from './calendar.jsx';
 import InputBox from '../../../../../forms/inputBox.jsx';
-import SaveBtn from './save_btn.jsx';
 import AddBtn from './add_btn.jsx';
 import SignalIcon from '../../../../../links/signal_icon.jsx';
 
 export default class Edit extends Component {
   editSignalName() {
     const { signal } = this.props;
-
     if (signal.id) {
       return (
         <h4 className='subheading'>@Brand #{signal.name}</h4>
@@ -50,7 +48,15 @@ export default class Edit extends Component {
           <h4>Responses to:</h4>
           <SignalIcon type="twitter" />
           {this.editSignalName()}
-          <SaveBtn data={signal}/>
+
+          <div className='edit-btns'>
+            <button
+              type='submit'
+              className='btn btn-primary save-btn'
+            >
+              SAVE
+            </button>
+          </div>
           <AddBtn
             type='add'
             expirationDate={signal.expirationDate}

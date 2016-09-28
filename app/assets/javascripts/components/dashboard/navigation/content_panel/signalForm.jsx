@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
+import { addListenSignalData, updateListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
+
 
 const genericSignalFormName = 'listenSignalForm';
 
@@ -11,8 +13,10 @@ class UndecoratedSignalForm extends Component {
     this.updateSignal = this.updateSignal.bind(this);
   }
 
-  updateSignal(form) {
-    console.log(form);
+  updateSignal({id, ...form}) {
+    const { dispatch } = this.props;
+    console.log('logging id here::::::' + id);
+    id ? dispatch(updateListenSignalData(form, id)) : dispatch(addListenSignalData(form));
   }
 
   render() {

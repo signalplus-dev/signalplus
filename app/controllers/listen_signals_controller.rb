@@ -38,13 +38,8 @@ class ListenSignalsController < ApplicationController
 
   private
 
-  def update_signal(signal, params)
-    signal_attr = {
-      name: params['name'],
-      active: params['active'],
-      expiration_date: params['expirationDate']
-    }
-    signal.update_attributes(signal_attr)
+  def update_signal(signal_attr)
+    @signal.update_attributes!(signal_attr)
   end
 
   def update_responses(signal, first_msg, repeat_msg)
