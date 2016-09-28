@@ -36,6 +36,7 @@ class UndecoratedSignalForm extends Component {
 class SignalForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = { transitioning: false };
   }
 
@@ -67,6 +68,7 @@ class SignalForm extends Component {
   }
 
   render() {
+    {console.log(this.props.initialValues)}
     const { signal, initialValues, ...props } = this.props;
     const Form = this.form;
     return (
@@ -89,7 +91,7 @@ const EDITABLE_SIGNAL_FIELDS = [
 ];
 
 const findType = (type) => (response) => {
-  return _.get(response, 'type') === type;
+  return _.get(response, 'response_type') === type;
 };
 
 function getResponseMessage(responses, type) {
@@ -101,8 +103,8 @@ function normalizeSignalForEdit(signal) {
 
   return {
     ..._.pick(signal, EDITABLE_SIGNAL_FIELDS),
-    [`${RESPONSE_TYPES.DEFAULT}_response`]: getResponseMessage(RESPONSE_TYPES.DEFAULT),
-    [`${RESPONSE_TYPES.REPEAT}_response`]: getResponseMessage(RESPONSE_TYPES.REPEAT),
+    [`${RESPONSE_TYPES.DEFAULT}_response`]: getResponseMessage(responses, RESPONSE_TYPES.DEFAULT),
+    [`${RESPONSE_TYPES.REPEAT}_response`]: getResponseMessage(responses, RESPONSE_TYPES.REPEAT),
     responses: _.drop(responses, 2),
   };
 };
