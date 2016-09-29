@@ -16,7 +16,12 @@ class UndecoratedSignalForm extends Component {
   updateSignal({id, ...form}) {
     const { dispatch } = this.props;
     console.log('logging id here::::::' + id);
-    id ? dispatch(updateListenSignalData(form, id)) : dispatch(addListenSignalData(form));
+
+    if (id) {
+      dispatch(updateListenSignalData(form, id))
+    } else {
+      dispatch(addListenSignalData(form))
+    }
   }
 
   render() {
@@ -68,7 +73,6 @@ class SignalForm extends Component {
   }
 
   render() {
-    {console.log(this.props.initialValues)}
     const { signal, initialValues, ...props } = this.props;
     const Form = this.form;
     return (

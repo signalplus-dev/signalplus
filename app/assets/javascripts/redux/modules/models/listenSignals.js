@@ -87,6 +87,7 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => {
     const signals = _.get(normalizeListenSignalsResponse(action.payload), 'entities.listenSignals', {});
+
     return {
       ...state,
       data: _.reduce(signals, (currentSignals, signal, id) => ({
@@ -126,28 +127,16 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
+  // TBD, need to use flash reducer here on failure
   [LISTEN_SIGNALS_POST_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
-  [LISTEN_SIGNALS_PUT_REQUEST]: handleSignalRequest,
+  [LISTEN_SIGNALS_PUT_REQUEST]: (state, action) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+  }),
 
-  [LISTEN_SIGNALS_PUT_REQUEST_SUCCESS]: (state, action) => {
-    const normalizedResponse = normalizeListenSignalResponse(action.payload);
-    const listenSignalResponse = _.get(normalizedResponse, 'entities.listenSignal', {});
-    const id = _.findLastKey(listenSignalResponse);
-    const listenSignal = listenSignalResponse[id];
-
-    return { 
-      ...state,
-      data: {
-        ..._.get(state, 'data', {}),
-        [id]: {
-          ...listenSignal,
-          loading: false,
-          loaded: true,
-        },
-      },
-    };
-  }, 
+  [LISTEN_SIGNALS_PUT_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
   [LISTEN_SIGNALS_PUT_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
@@ -168,7 +157,9 @@ const fetchListenSignalData = (id) => () => {
   return createRequestAction({
     endpoint: listenSignalEndpoint(id),
     types: [
+      { type: LISTEN_SIGNAL_SHOW_REQUEST, meta: { id } },
       { type: LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS, meta: { id } },
+      { type: LISTEN_SIGNAL_SHOW_REQUEST_FAIL, meta: { id } },
     ]
   });
 };
@@ -206,9 +197,9 @@ export const updateListenSignalData = (payload, signalId) => {
     method: 'PUT',
     body: JSON.stringify(payload),
     types: [
-      LISTEN_SIGNALS_PUT_REQUEST,
-      LISTEN_SIGNALS_PUT_REQUEST_SUCCESS,
-      LISTEN_SIGNALS_PUT_REQUEST_FAIL,
+      { type: LISTEN_SIGNALS_PUT_REQUEST, meta: { signalId } },
+      { type: LISTEN_SIGNALS_PUT_REQUEST_SUCCESS, meta: { signalId } },
+      { type: LISTEN_SIGNALS_PUT_REQUEST_FAIL, meta: { signalId } },
     ],
   });
 };
