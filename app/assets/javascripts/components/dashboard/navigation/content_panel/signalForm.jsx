@@ -15,13 +15,8 @@ class UndecoratedSignalForm extends Component {
 
   updateSignal({id, ...form}) {
     const { dispatch } = this.props;
-    console.log('logging id here::::::' + id);
 
-    if (id) {
-      dispatch(updateListenSignalData(form, id))
-    } else {
-      dispatch(addListenSignalData(form))
-    }
+    id ? dispatch(updateListenSignalData(form, id)) : dispatch(addListenSignalData(form))
   }
 
   render() {

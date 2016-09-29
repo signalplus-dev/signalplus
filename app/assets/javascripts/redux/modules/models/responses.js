@@ -30,18 +30,11 @@ function handleResponseRequest(state, action) {
   const normalizedResponse = normalizeListenSignalResponse(action.payload);
   const responses = _.get(normalizedResponse, 'entities.responses', {});
 
-
-
   return {
     ...state,
     data: {
       ..._.get(state, 'data', {}),
-      [id]: {
-        ..._.get(state, `data.${id}`, {}),
-        ...listenSignal,
-        loading: false,
-        loaded: true,
-      },
+      ...responses,
     }
   };
 }
@@ -70,38 +63,8 @@ export const reducer = handleActions({
     loaded: false,
   }),
 
-  [LISTEN_SIGNALS_PUT_REQUEST]: (state, action) => ({
-    ...state,
-    loading: true,
-    loaded: false,
-  }),
-
   [LISTEN_SIGNALS_PUT_REQUEST_SUCCESS]: handleResponseRequest,
 
-  [LISTEN_SIGNALS_PUT_REQUEST_FAIL]: (state, action) => ({
-    ...state,
-    error: action.payload,
-    loading: false,
-    loaded: false,
-  }),
+  [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: handleResponseRequest,
 
-  [LISTEN_SIGNALS_POST_REQUEST]: (state, action) => ({
-    ...state,
-    loading: true,
-    loaded: false,
-  }),
-
-  [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    data: _.get(normalizeListenSignalsResponse(action.payload), 'entities.responses', {}),
-    loading: false,
-    loaded: true,
-  }),
-
-  [LISTEN_SIGNALS_POST_REQUEST_FAIL]: (state, action) => ({
-    ...state,
-    error: action.payload,
-    loading: false,
-    loaded: false,
-  }),
 }, initialState);
