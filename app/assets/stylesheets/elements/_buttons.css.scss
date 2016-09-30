@@ -9,6 +9,7 @@
   color: $text-white;
   background-color: $button-blue;
   border: solid 1px $button-blue;
+  border-radius: 10px;
 
   &:hover,
   &:active,
@@ -126,6 +127,6 @@
 }
 
 .post-to-timeline-btn {
-  margin-right: 30px;
-  margin-top: 15px;
+  float: left;
+  margin-top: 40px;
 }
