@@ -25,11 +25,9 @@
   }
 }
 
-@mixin textarea-input($width, $margin-top, $margin-bottom) {
+@mixin textarea-input($width) {
 
   textarea {
-    margin-top: $margin-top;
-    margin-bottom: $margin-bottom;
     font-size: $base-font-size;
     width: $width !important;
     height: 100px;
@@ -127,24 +125,26 @@
 }
 
 .response-edit-box {
-  @include input-form(150px);
+  @include input-form(130px);
 
   p {
-    width: 150px;
+    width: 180px;
   }
 }
 
 .promote-box {
   @include input-form(600px);
-  @include textarea-input(600px, 40px, 20px);
+}
 
-  padding-top: 20px;
-  padding-left: 15px;
+.promote-input-box {
+  @include textarea-input(600px);
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .input-box {
   display: inline-block;
-  @include textarea-input(450px, 40px, 20px);
+  @include textarea-input(450px);
 }
 
 @media only screen and (max-width: 1200px) {
