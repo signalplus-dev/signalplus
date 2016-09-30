@@ -25,11 +25,6 @@ Rails.application.routes.draw do
         sessions: 'api/v1/sessions',
       }
 
-      resources :promotional_tweets, only: [:index, :create]
-
-      get 'uploads', to: 'uploads#signed_url'
-      post 'post_tweet', to: 'promotional_tweets#post_tweet'
-
       resources :subscriptions, only: [:create, :update]
       resources :subscription_plans, only: [:index]
       resources :listen_signals, only: [:index, :show, :create, :update] do
@@ -37,6 +32,10 @@ Rails.application.routes.draw do
       end
       resources :brands, only: [:show] do
         get '/me' => 'brands#show', on: :collection
+      end
+      resources :promotional_tweets, only: [:index, :create] do
+        get :upload, on: :member
+        post :post_tweet, on: :member
       end
     end
   end
