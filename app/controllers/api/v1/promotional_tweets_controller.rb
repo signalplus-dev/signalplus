@@ -20,7 +20,7 @@ class Api::V1::PromotionalTweetsController < Api::V1::BaseController
     @promotional_tweet = PromotionalTweet.update_or_create_by(promo_tweet_id, message)
   end
 
-  def upload
+  def s3_upload
     @generate_upload_url_service = GenerateUploadUrl.new(upload_params[:filename])
     @url = @generate_upload_url_service.get_url
 

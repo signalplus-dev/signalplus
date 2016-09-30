@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import _ from 'lodash';
 import { handleActions } from 'redux-actions';
 import { normalizeListenSignalsResponse } from '../../../util/normalize.js';
 import Endpoints from '../../../util/endpoints.js';
@@ -34,7 +34,7 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    data: get(normalizeListenSignalsResponse(action.payload), 'entities.promotionalTweet', {}),
+    data: _.get(normalizeListenSignalsResponse(action.payload), 'entities.promotionalTweet', {}),
     loading: false,
     loaded: true,
   }),
@@ -48,14 +48,14 @@ export const reducer = handleActions({
 
   [PROMOTION_SIGNAL_POST_REQUEST]: (state, action) => ({
     ...state,
-    data: get(normalizedListenSignalResponse(action.payload), 'entities.promotionalTweet', {}),
+    data: _.get(normalizedListenSignalResponse(action.payload), 'entities.promotionalTweet', {}),
     loading: false,
     loaded: true,
   }),
 
   [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    data: get(normalizedListenSignalResponse(action.payload), 'entities.promotionalTweet', {}),
+    data: _.get(normalizedListenSignalResponse(action.payload), 'entities.promotionalTweet', {}),
     loading: false,
     loaded: true,
   }),

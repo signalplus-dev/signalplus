@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
 import SignalIcon from '../../../../../links/signal_icon.jsx';
 import ImageUpload from './image_upload.jsx';
 import { addPromotionalTweetData } from '../../../../../../redux/modules/models/listenSignals.js';
-import _ from 'lodash';
 import {
   Button,
   FormControl,
 } from 'react-bootstrap';
 
-export default class Promote extends Component {
+class Promote extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -29,7 +28,10 @@ export default class Promote extends Component {
   }
 
   handleSubmit() {
-    addPromotionalTweetData(this.state);
+    const { dispatch } = this.props;
+    console.log('dispatch')
+    
+    dispatch(addPromotionalTweetData(this.state));
   }
 
   showPromoImage() {
@@ -95,3 +97,5 @@ export default class Promote extends Component {
     }
   }
 }
+
+export default connect()(Promote);
