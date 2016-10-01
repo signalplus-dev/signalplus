@@ -12,9 +12,7 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     default_response = update_response(@listen_signal.default_response, params[:default_response])
     repeat_response = update_response(@listen_signal.repeat_response, params[:repeat_response])
 
-    if @listen_signal 
-      render json: @listen_signal, each_serializer: ListenSignalSerializer
-    end
+    render json: @listen_signal, each_serializer: ListenSignalSerializer
   end
 
   def create
