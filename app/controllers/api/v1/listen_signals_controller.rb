@@ -27,8 +27,7 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
       create_grouped_response(default_response_msg, repeat_response_msg)
     end
 
-    if @listen_signal
-      render json: @listen_signal, each_serializer: ListenSignalSerializer
+    render json: @listen_signal, each_serializer: ListenSignalSerializer
   end
 
   def index
