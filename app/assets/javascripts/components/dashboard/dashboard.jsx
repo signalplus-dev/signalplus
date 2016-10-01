@@ -13,7 +13,7 @@ const hooks = {
     dispatch(getBrandData());
     dispatch(getListenSignalsData());
   },
-};
+}
 
 function Dashboard({ children, ...props }) {
   return (

@@ -229,8 +229,8 @@ img.arrow {
 
 .dropzone {
   border: solid 2px #c0c4c7 !important;
-  outline: dotted #c0c4c7 2px;
-  outline-offset: -7px;
+  outline: dotted #c0c4c7 2px !important;
+  outline-offset: -7px !important;
   display: inline-block;
 }
 

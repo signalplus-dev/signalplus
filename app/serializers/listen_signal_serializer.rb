@@ -33,9 +33,9 @@ class ListenSignalSerializer < ActiveModel::Serializer
     object.last_promotional_tweet.as_json(only: [
       :id,
       :message,
-      :direct_upload_url,
+      :listen_signal_id,
     ], methods: [
-      :url,
+      :tweet_url,
     ])
   end
 end

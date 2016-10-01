@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { handleActions } from 'redux-actions';
+import { createRequestAction} from '../../utils.js';
 import { normalizeListenSignalsResponse } from '../../../util/normalize.js';
 import Endpoints from '../../../util/endpoints.js';
 import {
@@ -21,6 +22,25 @@ export const initialState = {
   loaded: false,
   loading: false,
 };
+
+function handlePromoTweetSuccessResponse(state, action) {
+  const normalizedPromoTweet = normalizedListenSignalResponse(action.payload);
+  const promotionalTweetResponse = _.get(normalizedPromoTweet, 'entities.promotionalTweet', {});
+  const id = _.findLastKey(promotionalTweetResponse);
+  const promotionalTweet = promotionalTweetResponse[id];
+
+  return {
+    ...state,
+    data: {
+      ..._.get(state, 'data', {}),
+      [id]: {
+        ..._.get(state, `data.${id}`, {}),
+        ...promotionalTweet,
+        loaded: true,
+      }
+    }
+  }
+}
 
 /*
 * Reducer
@@ -48,17 +68,11 @@ export const reducer = handleActions({
 
   [PROMOTION_SIGNAL_POST_REQUEST]: (state, action) => ({
     ...state,
-    data: _.get(normalizedListenSignalResponse(action.payload), 'entities.promotionalTweet', {}),
     loading: false,
     loaded: true,
   }),
 
-  [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    data: _.get(normalizedListenSignalResponse(action.payload), 'entities.promotionalTweet', {}),
-    loading: false,
-    loaded: true,
-  }),
+  [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: handlePromoTweetSuccessResponse,
 
   [PROMOTION_SIGNAL_POST_REQUEST_FAIL]: (state, action) => ({
     ...state,
