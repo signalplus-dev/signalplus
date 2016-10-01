@@ -14,8 +14,7 @@
 #
 
 class ListenSignal < ActiveRecord::Base
-  validates :name, :brand_id, :identity_id, :expiration_date,
-            :signal_type, presence: true
+  validates :name, :brand_id, :identity_id, :signal_type, presence: true
 
 
   belongs_to :brand
@@ -39,15 +38,8 @@ class ListenSignal < ActiveRecord::Base
     where(active: true)
   end
 
-  def self.create_signal(brand, identity, name, signal_type, exp_date, active=true)
-    ListenSignal.create do |s|
-      s.brand_id = brand.id
-      s.identity_id = identity.id
-      s.name = name
-      s.signal_type = signal_type
-      s.expiration_date = exp_date
-      s.active = active
-    end
+  def default_response
+    responses.where(response_type: Response::Type::DEFAULT).first
   end
 
   def first_response

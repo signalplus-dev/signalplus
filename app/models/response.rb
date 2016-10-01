@@ -13,8 +13,7 @@
 #
 
 class Response < ActiveRecord::Base
-  validates :message, :response_type, :response_group_id,
-            :expiration_date, presence: true
+  validates :message, :response_type, :response_group_id, presence: true
 
   belongs_to :response_group
   has_many :twitter_responses
@@ -31,15 +30,22 @@ class Response < ActiveRecord::Base
     response_group.listen_signal.provider
   end
 
-  def self.create_response(message, priority, type, response_group, exp_date)
+  def self.create_response(message, type, response_group)
+    Response.create! do |r|
+      r.message = message
+      r.response_type = type
+      r.response_group = response_group
+    end
+  end
+
+  def self.create_timed_response(message, type, response_group, exp_date)
     Response.create do |r|
       r.message = message
-      r.priority = priority
       r.response_type = type
       r.response_group_id = response_group.id
       r.expiration_date = exp_date
     end
-  end
+  end  
 
   def update_message(msg)
     update_attribute(:message, msg)

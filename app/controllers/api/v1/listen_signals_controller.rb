@@ -5,39 +5,30 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   before_action :ensure_user_can_get_listen_signal, only: [:show]
 
   def update
-    @signal = current_user.brand.listen_signals.where(name: signal_params[:name]).first
+    @listen_signal = ListenSignal.find(params[:id])
+    signal_params = signal_params(params)
+    @listen_signal.update_attributes!(signal_params)
 
-    update_signal(@signal, signal_params)
-    update_responses(@signal, signal_params['firstResponse'], signal_params['repeatResponse'])
+    default_response = update_response(@listen_signal.default_response, params[:default_response])
+    repeat_response = update_response(@listen_signal.repeat_response, params[:repeat_response])
 
-    flash[:success] = "Alert:  #{@signal.name} signal updated!"
-    render json: {
-      signal: @signal.to_json,
-      responses: @signal.responses.to_json
-    }
+    render json: @listen_signal, each_serializer: ListenSignalSerializer
   end
 
   def create
-    @brand = current_user.brand
-    @identity = @brand.identities.first
+    signal_params            = signal_params(params)
+    signal_params[:brand]    = @brand
+    signal_params[:identity] = @brand.twitter_identity
+    default_response_msg     = params[:default_response]
+    repeat_response_msg      = params[:repeat_response]
 
-    name = signal_params['name']
-    signal_type = signal_params['signalType']
-    first_response = signal_params['firstResponse']
-    repeat_response = signal_params['repeatResponse']
-    exp_date = signal_params['expirationDate']
-
-    @signal = ListenSignal.create_signal(@brand, @identity, name, signal_type, exp_date)
-    create_template_response(@signal, first_response, repeat_response, exp_date)
-
-    if @signal
-      render json: {
-        signal: @signal.to_json,
-        responses: @signal.responses.to_json
-      }
-    else
-      flash[:error] = 'Alert:  Please fill out missing fields'
+    ActiveRecord::Base.transaction do
+      @listen_signal = ListenSignal.create!(signal_params)
+      create_grouped_response(default_response_msg, repeat_response_msg)
     end
+
+    if @listen_signal
+      render json: @listen_signal, each_serializer: ListenSignalSerializer
   end
 
   def index
@@ -53,6 +44,10 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   end
 
   private
+
+  def signal_params(params)
+    params.permit(:name, :active, :signal_type, :expiration_date)
+  end
 
   def get_listen_signal
     @listen_signal = ListenSignal.find(params[:id])
@@ -87,23 +82,21 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     }
   end
 
-  def update_signal(signal, params)
-    signal_attr = {
-      name: params['name'],
-      active: params['active'],
-      expiration_date: params['expirationDate']
-    }
-    signal.update_attributes(signal_attr)
+  def create_response_group
+    ResponseGroup.create!(listen_signal: @listen_signal)
   end
 
-  def update_responses(signal, first_msg, repeat_msg)
-    signal.first_response.update_message(first_msg)
-    signal.repeat_response.update_message(repeat_msg)
+  def create_response(message, type, response_group)
+    Response.create_response(message, type, response_group)
   end
 
-  def create_template_response(signal, first_response, repeat_response, exp_date)
-    response_group = ResponseGroup.create(listen_signal_id: signal.id)
-    Response.create_response(first_response, 1, Response::Type::FIRST, response_group, exp_date)
-    Response.create_response(repeat_response, 2, Response::Type::REPEAT, response_group, exp_date)
+  def create_grouped_response(default_response_msg, repeat_response_msg)
+    response_group = create_response_group
+    create_response(default_response_msg, Response::Type::DEFAULT, response_group)
+    create_response(repeat_response_msg, Response::Type::REPEAT, response_group)
+  end
+
+  def update_response(response, message)
+    response.update!(message: message)
   end
 end

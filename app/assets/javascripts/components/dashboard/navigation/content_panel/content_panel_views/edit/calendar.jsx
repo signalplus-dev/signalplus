@@ -11,7 +11,6 @@ export default class Calendar extends Component {
   handleChange(e) {
     const key = 'expirationDate'
     this.setState({date: e});
-    this.props.setResponse(key, e);
   }
 
   render() {

@@ -48,11 +48,11 @@ ActiveRecord::Schema.define(version: 20160918195325) do
     t.integer  "brand_id"
     t.integer  "identity_id"
     t.text     "name"
-    t.datetime "expiration_date"
     t.boolean  "active",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.string   "signal_type"
+    t.datetime "expiration_date"
   end
 
   add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree

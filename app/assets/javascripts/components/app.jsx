@@ -61,8 +61,11 @@ function UnconnectedAppRouter({ authenticated }) {
             <IndexRedirect to="active" />
 
             <Route path="active" component={SignalsPane} />
-            <Route path=":id" component={ContentPanel} />
-
+            <Route path=":id" component={ContentPanel}>
+              <IndexRoute component={Edit} />
+              <Route path="promote" component={Promote} />
+              <Route path="preview" component={Preview} />
+            </Route>
             <Route path="new" component={ContentPanel}>
               <IndexRedirect to="offer" />
               <Route path=":type">

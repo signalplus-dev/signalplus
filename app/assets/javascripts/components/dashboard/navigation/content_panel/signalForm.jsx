@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
+import { addListenSignalData, updateListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
+
 
 const genericSignalFormName = 'listenSignalForm';
 
@@ -11,8 +13,10 @@ class UndecoratedSignalForm extends Component {
     this.updateSignal = this.updateSignal.bind(this);
   }
 
-  updateSignal(form) {
-    console.log(form);
+  updateSignal({id, ...form}) {
+    const { dispatch } = this.props;
+
+    id ? dispatch(updateListenSignalData(form, id)) : dispatch(addListenSignalData(form))
   }
 
   render() {
@@ -32,6 +36,7 @@ class UndecoratedSignalForm extends Component {
 class SignalForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = { transitioning: false };
   }
 
@@ -85,7 +90,7 @@ const EDITABLE_SIGNAL_FIELDS = [
 ];
 
 const findType = (type) => (response) => {
-  return _.get(response, 'type') === type;
+  return _.get(response, 'response_type') === type;
 };
 
 function getResponseMessage(responses, type) {
@@ -97,8 +102,8 @@ function normalizeSignalForEdit(signal) {
 
   return {
     ..._.pick(signal, EDITABLE_SIGNAL_FIELDS),
-    [`${RESPONSE_TYPES.DEFAULT}_response`]: getResponseMessage(RESPONSE_TYPES.DEFAULT),
-    [`${RESPONSE_TYPES.REPEAT}_response`]: getResponseMessage(RESPONSE_TYPES.REPEAT),
+    [`${RESPONSE_TYPES.DEFAULT}_response`]: getResponseMessage(responses, RESPONSE_TYPES.DEFAULT),
+    [`${RESPONSE_TYPES.REPEAT}_response`]: getResponseMessage(responses, RESPONSE_TYPES.REPEAT),
     responses: _.drop(responses, 2),
   };
 };
