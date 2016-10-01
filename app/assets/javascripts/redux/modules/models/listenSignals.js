@@ -191,9 +191,9 @@ export const addListenSignalData = (payload) => {
   });
 };
 
-export const updateListenSignalData = (payload, signalId) => {
+export const updateListenSignalData = (payload, id) => {
   return createRequestAction({
-    endpoint: listenSignalEndpoint(signalId),
+    endpoint: listenSignalEndpoint(id),
     method: 'PUT',
     body: JSON.stringify(payload),
     types: [

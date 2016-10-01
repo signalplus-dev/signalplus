@@ -31,9 +31,6 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
 
     if @listen_signal
       render json: @listen_signal, each_serializer: ListenSignalSerializer
-    else
-      show
-    end
   end
 
   def index
