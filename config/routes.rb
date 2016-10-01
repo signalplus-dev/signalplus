@@ -27,11 +27,9 @@ Rails.application.routes.draw do
         sessions: 'api/v1/sessions',
       }
 
+      get 'upload' => 'promotional_tweets#s3_upload'
+
       resources :promotional_tweets, only: [:index, :create]
-
-      get 'uploads', to: 'uploads#signed_url'
-      post 'post_tweet', to: 'promotional_tweets#post_tweet'
-
       resources :subscriptions, only: [:create, :update]
       resources :subscription_plans, only: [:index]
       resources :listen_signals, only: [:index, :show, :create, :update] do

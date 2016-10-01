@@ -1,4 +1,4 @@
-class Api::V1::PromotionalTweetsController < ApplicationController
+class Api::V1::PromotionalTweetsController < Api::V1::BaseController
 
   def index
     @promotional_tweets = PromotionalTweet.all
@@ -20,6 +20,20 @@ class Api::V1::PromotionalTweetsController < ApplicationController
     @promotional_tweet = PromotionalTweet.update_or_create_by(promo_tweet_id, message)
   end
 
+  def s3_upload
+    @generate_upload_url_service = GenerateUploadUrl.new(upload_params[:filename])
+    @url = @generate_upload_url_service.get_url
+
+    respond_to do |format|
+      format.json { 
+        render json: { 
+          url: @url, 
+          content_type: @generate_upload_url_service.content_type 
+        }
+      }
+    end
+  end
+
   private
 
   def image_params
@@ -29,4 +43,10 @@ class Api::V1::PromotionalTweetsController < ApplicationController
   def tweet_params
     params.require(:promotional_tweet).permit(:signal_id, :message, :promotional_tweet_id)
   end
+
+  def upload_params
+    params.require(:upload).permit(:filename)
+  end
 end
+
+

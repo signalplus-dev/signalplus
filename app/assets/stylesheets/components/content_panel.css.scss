@@ -10,17 +10,30 @@
   }
 
   h5 {
+    font-size: $base-font-size;
     font-weight: 600;
     display: block;
     margin: 0px !important;
-    width: 150px;
+    width: 200px;
   }
 
   p {
     float: left;
-    font-size: 12px;
+    font-size: $base-caption-font-size;
     margin: 0 !important;
     padding-top: 6px;
+  }
+}
+
+@mixin textarea-input($width) {
+
+  textarea {
+    font-size: $base-font-size;
+    width: $width !important;
+    height: 100px;
+    background-color: $text-white;
+    border: solid 1px $signal-border;
+    padding: 10px;
   }
 }
 
@@ -32,7 +45,7 @@
 .content-box {
   padding-left: 15px;
   padding-top: 15px;
-  min-height: 700px;
+  min-height: 850px;
   background-color: $text-white;
   padding-right: 30px;
 }
@@ -77,6 +90,7 @@
   }
 
   .subheading {
+    display: inline-block;
     font-weight: 600;
   }
 
@@ -89,17 +103,18 @@
 }
 
 .tip-box {
-  margin-top: 15px;
   border: solid 1px $light-gray;
   h5 {
+    font-weight: 600;
+    font-size: $base-font-size;
     display: inline-block;
     margin: 0 !important;
   }
 
   p {
-    font-size: 13px;
+    font-size: $base-caption-font-size;
     padding-right: 150px;
-    margin: 0 !important;
+    padding-left: 43px;
   }
 
   img {
@@ -110,51 +125,36 @@
 }
 
 .response-edit-box {
-  @include input-form(100px);
+  @include input-form(130px);
 
   p {
-    width: 150px;
+    width: 180px;
   }
 }
 
 .promote-box {
-  @include input-form(500px);
+  @include input-form(600px);
+}
 
-  .subheader {
-    padding-top: 20px;
-    float:left;
-    
-    p {
-      float: left;
-      font-size: 12px;
-      margin: 0 !important;
-      padding-top: 6px;
-    }
-  }
+.promote-input-box {
+  @include textarea-input(600px);
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .input-box {
   display: inline-block;
-  
-  textarea {
-    margin-left: 60px;
-    width: 400px !important;
-    height: 80px;
-    border-radius: 11px;
-    background-color: $text-white;
-    border: solid 1px $signal-border;
-    padding: 10px;
-  }
+  @include textarea-input(450px);
 }
 
-@media only screen and (max-width: 1150px) {
+@media only screen and (max-width: 1200px) {
     .required {
       display: none !important;
     }
 }
 
 .required {
-  margin-top: 30px;
+  margin-top: 55px;
   margin-right: 10px;
   float: right;
   text-align: center;
@@ -228,6 +228,21 @@ img.arrow {
 }
 
 .dropzone {
+  border: solid 2px #c0c4c7 !important;
+  outline: dotted #c0c4c7 2px;
+  outline-offset: -7px;
   display: inline-block;
+}
+
+.dropzone-text {
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline;
+  color: $button-blue;
+  padding-top: 30%;
+
+  &:hover, &:focus {
+    color: $main-purple;
+  }
 }
 
