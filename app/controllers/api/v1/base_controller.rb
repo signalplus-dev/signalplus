@@ -4,6 +4,7 @@ class Api::V1::BaseController < ApplicationController
   before_action :authenticate_user!
   force_ssl if Rails.env.production?
   protect_from_forgery with: :null_session
+  rescue_from ActiveRecord::ActiveRecordError, with: :handle_active_record_error
   rescue_from ApiErrors::StandardError, with: :show_error
 
   def test
@@ -37,5 +38,12 @@ class Api::V1::BaseController < ApplicationController
         status: 401,
       )
     end
+  end
+
+  def handle_active_record_error
+    raise ApiErrors::StandardError.new(
+      message: 'Sorry, we could not create your signal',
+      status: 400,
+    )
   end
 end

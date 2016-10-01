@@ -18,21 +18,21 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   end
 
   def create
-    brand = current_user.brand
-    identity = brand.identities.first
-    signal_params = signal_params(params)
-    signal_params[:brand] = brand
-    signal_params[:identity] = identity
-    @listen_signal = ListenSignal.create!(signal_params)
+    signal_params            = signal_params(params)
+    signal_params[:brand]    = @brand
+    signal_params[:identity] = @brand.twitter_identity
+    default_response_msg     = params[:default_response]
+    repeat_response_msg      = params[:repeat_response]
 
-    default_response_msg = params[:default_response]
-    repeat_response_msg = params[:repeat_response]
-    create_grouped_response(default_response_msg, repeat_response_msg)
+    ActiveRecord::Base.transaction do
+      @listen_signal = ListenSignal.create!(signal_params)
+      create_grouped_response(default_response_msg, repeat_response_msg)
+    end
 
     if @listen_signal
       render json: @listen_signal, each_serializer: ListenSignalSerializer
     else
-      flash[:error] = 'Alert:  Please fill out missing fields'
+      show
     end
   end
 

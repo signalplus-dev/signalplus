@@ -197,9 +197,9 @@ export const updateListenSignalData = (payload, signalId) => {
     method: 'PUT',
     body: JSON.stringify(payload),
     types: [
-      { type: LISTEN_SIGNALS_PUT_REQUEST, meta: { signalId } },
-      { type: LISTEN_SIGNALS_PUT_REQUEST_SUCCESS, meta: { signalId } },
-      { type: LISTEN_SIGNALS_PUT_REQUEST_FAIL, meta: { signalId } },
+      { type: LISTEN_SIGNALS_PUT_REQUEST, meta: { id } },
+      { type: LISTEN_SIGNALS_PUT_REQUEST_SUCCESS, meta: { id } },
+      { type: LISTEN_SIGNALS_PUT_REQUEST_FAIL, meta: { id } },
     ],
   });
 };
