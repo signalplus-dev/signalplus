@@ -25,8 +25,8 @@ class UndecoratedSignalForm extends Component {
         const { tabId } = this.props;
         const listenSignal = _.get(response, 'payload.listen_signal');
         const newTab = createTab(listenSignal);
-        dispatch(appActions.replaceTab({ tabId, newTab }));
-        browserHistory.push(`/dashboard/signals/${listenSignal.id}`)
+        dispatch(appActions.replaceTab({ tabId, newTab }))
+          .then(_ => browserHistory.push(`/dashboard/signals/${listenSignal.id}`));
       });
     }
   }
