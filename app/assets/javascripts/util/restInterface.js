@@ -49,6 +49,9 @@ export default {
     const cookieValue = crypto.AES.encrypt(JSON.stringify(ta), SALT).toString();
     cookies.setItem(TA_KEY, cookieValue, expiry, '/');
   },
+  clearTA: function() {
+    const cookie = cookies.removeItem(TA_KEY, '/');
+  },
   hasToken: function() {
     return !_.isEmpty(this.getTA());
   },

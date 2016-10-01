@@ -30,6 +30,12 @@ export const initialState = {
   loading: false,
 };
 
+const handleSubscriptionRequestSucccess = (state, action) => ({
+  ...state,
+  data: _.get(action, 'payload.subscription'),
+  loading: false,
+});
+
 /*
 * Reducer
 */
@@ -56,11 +62,7 @@ export const reducer = handleActions({
     loading: true,
   }),
 
-  [SUBSCRIPTION_CREATE_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    data: _.get(action, 'payload.subscription'),
-    loading: false,
-  }),
+  [SUBSCRIPTION_CREATE_REQUEST_SUCCESS]: handleSubscriptionRequestSucccess,
 
   [SUBSCRIPTION_CREATE_REQUEST_FAIL]: (state, action) => ({
     ...state,
@@ -73,11 +75,7 @@ export const reducer = handleActions({
     loading: true,
   }),
 
-  [SUBSCRIPTION_UPDATE_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    data: _.get(action, 'payload.subscription'),
-    loading: false,
-  }),
+  [SUBSCRIPTION_UPDATE_REQUEST_SUCCESS]: handleSubscriptionRequestSucccess,
 
   [SUBSCRIPTION_UPDATE_REQUEST_FAIL]: (state, action) => ({
     ...state,

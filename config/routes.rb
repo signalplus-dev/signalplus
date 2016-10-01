@@ -16,8 +16,6 @@ Rails.application.routes.draw do
 
   resources :dashboard, only: [:index]
 
-  get 'dashboard/get_data' => 'dashboard#get_data'
-
   namespace :api do
     namespace :v1, defaults: { format: 'json' } do
       # Testing endpoint for authentication
@@ -43,7 +41,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'subscription_plans' => 'dashboard#index'
+  get 'subscription_plans' => 'dashboard#index', as: :subscription_plans
 
   # Catch all for any routes nested with `/dashboard`. Any non-existant routes will be handled by the React app.
   get 'dashboard/*other' => 'dashboard#index'

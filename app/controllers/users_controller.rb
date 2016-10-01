@@ -27,21 +27,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET/PATCH /users/:id/finish_signup
-  def finish_signup
-    set_user
-    # authorize! :update, @user
-    if request.patch? && params[:user] #&& params[:user][:email]
-      if @user.update(user_params)
-        sign_in(@user, :bypass => true)
-        # redirect_to @user, notice: 'Your profile was successfully updated.'
-        redirect_to root_url
-      else
-        @show_errors = true
-      end
-    end
-  end
-
   def refresh_token
     # extract client_id from auth header
     client_id = request.headers['client']

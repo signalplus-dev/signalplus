@@ -42,7 +42,7 @@ function handleSignalRequest(state, action) {
     loading: true,
     loaded: false,
   }
-} 
+}
 
 function handlesListenSignalSucccesResponse(state, action) {
   const normalizedResponse = normalizeListenSignalResponse(action.payload);
@@ -128,7 +128,7 @@ export const reducer = handleActions({
   [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
   // TBD, need to use flash reducer here on failure
-  [LISTEN_SIGNALS_POST_REQUEST_FAIL]: handlesListenSignalFailResponse,
+  // [LISTEN_SIGNALS_POST_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
   [LISTEN_SIGNALS_PUT_REQUEST]: (state, action) => ({
     ...state,

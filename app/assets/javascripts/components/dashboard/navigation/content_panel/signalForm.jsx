@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { browserHistory } from 'react-router';
 import _ from 'lodash';
+import { actions as appActions } from '../../../../redux/modules/app.js';
 import { addListenSignalData, updateListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
+import { createTab } from './content_panel.jsx';
 
 
 const genericSignalFormName = 'listenSignalForm';
@@ -14,9 +17,18 @@ class UndecoratedSignalForm extends Component {
   }
 
   updateSignal({id, ...form}) {
-    const { dispatch } = this.props;
-
-    id ? dispatch(updateListenSignalData(form, id)) : dispatch(addListenSignalData(form))
+    const { dispatch, tabId } = this.props;
+    if (id) {
+      dispatch(updateListenSignalData(form, id));
+    } else {
+      dispatch(addListenSignalData(form)).then((response) => {
+        const { tabId } = this.props;
+        const listenSignal = _.get(response, 'payload.listen_signal');
+        const newTab = createTab(listenSignal);
+        dispatch(appActions.replaceTab({ tabId, newTab }));
+        browserHistory.push(`/dashboard/signals/${listenSignal.id}`)
+      });
+    }
   }
 
   render() {
