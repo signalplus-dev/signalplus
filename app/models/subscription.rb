@@ -97,6 +97,23 @@ class Subscription < ActiveRecord::Base
     subscription_plan.try(:number_of_messages)
   end
 
+  # TODO - use Stripe webhooks to keep this up-to-date
+  # @return [Boolean]
+  def past_due?
+    false
+  end
+
+  # TODO - use Stripe webhooks to keep this up-to-date
+  # @return [Boolean]
+  def unpaid?
+    false
+  end
+
+  # @return [Boolean]
+  def valid_and_paid_for?
+    !canceled? && !past_due? && !unpaid?
+  end
+
   private
 
   # Used to stub out in tests for mocking of the Stripe API response

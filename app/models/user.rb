@@ -38,8 +38,6 @@ class User < ActiveRecord::Base
 
   belongs_to :brand
 
-  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
-
   def self.find_for_oauth(auth, signed_in_resource = nil)
     brand = nil
     # Get the identity and user if they exist
@@ -86,6 +84,10 @@ class User < ActiveRecord::Base
     end
 
     user
+  end
+
+  def subscription?
+    !!brand.try(:subscription?)
   end
 
   def email_verified?

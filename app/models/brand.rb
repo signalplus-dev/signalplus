@@ -113,6 +113,10 @@ class Brand < ActiveRecord::Base
     streaming_tweet_pid.nil?
   end
 
+  def subscription?
+    subscription.present?
+  end
+
   private
 
   def create_trackers

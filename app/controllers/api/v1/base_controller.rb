@@ -46,4 +46,20 @@ class Api::V1::BaseController < ApplicationController
       status: 400,
     )
   end
+
+  # Should be used for creation and update endpoints.
+  # Use selectively and explicitly.
+  def ensure_has_subscription
+    if !has_valid_subscription?
+      raise ApiErrors::StandardError.new(
+        message: 'Sorry, you must have a valid subscription to perform this action',
+        status: 403,
+      )
+    end
+  end
+
+  def has_valid_subscription?
+    subscription = @brand.subscription
+    !!subscription && subscription.valid_and_paid_for?
+  end
 end

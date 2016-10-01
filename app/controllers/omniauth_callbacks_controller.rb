@@ -9,8 +9,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
           sign_in_and_redirect @user, event: :authentication
           set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
         else
-          session["devise.#{provider}_data"] = env["omniauth.auth"]
-          redirect_to new_user_registration_url
+          redirect_to root_url
         end
       end
     }
@@ -20,10 +19,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   provides_callback_for(provider)
 
   def after_sign_in_path_for(resource)
-    if resource.email_verified?
+    if resource.subscription?
       super resource
     else
-      finish_signup_path(resource)
+      subscription_plans_path
     end
   end
 end

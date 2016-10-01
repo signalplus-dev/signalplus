@@ -41,6 +41,23 @@ function getSignal(state, ownProps) {
   };
 }
 
+function tabId(signal) {
+  const { signal_type: type, id } = signal;
+  return !id ? `new_${type}` : `existing_${id}`;
+}
+
+export function createTab(signal) {
+  const { signal_type: type, id, name } = signal;
+  const isNew = !id
+
+  return {
+    id: tabId(signal),
+    label: isNew ? `New ${_.upperFirst(type)} Signal` : `#${_.upperFirst(name)}`,
+    link: isNew ? `/dashboard/signals/new/${type}` : `/dashboard/signals/${id}`,
+    closeable: true,
+  };
+}
+
 const hooks = {
   fetch: ({ dispatch, location, params }) => {
     if (isExistingSignal(location.pathname)) {
@@ -61,20 +78,8 @@ class ContentPanel extends Component {
     console.log(form);
   }
 
-  createTab(signal) {
-    const { signal_type: type, id, name } = signal;
-    const isNew = !id
-
-    return {
-      id: isNew ? `new_${type}` : `existing_${id}`,
-      label: isNew ? `New ${_.upperFirst(type)} Signal` : `#${_.upperFirst(name)}`,
-      link: isNew ? `/dashboard/signals/new/${type}` : `/dashboard/signals/${id}`,
-      closeable: true,
-    };
-  }
-
   tabAlreadyCreated(signal, tabs) {
-    const newTab = this.createTab(signal);
+    const newTab = createTab(signal);
     return _.some(tabs, (tab) => (_.isEqual(tab, newTab)));
   }
 
@@ -90,7 +95,7 @@ class ContentPanel extends Component {
 
   createTabIfNotCreated(signal, tabs) {
     if (this.shouldCreateTab(signal, tabs)) {
-      this.props.dispatch(appActions.addTab(this.createTab(signal)));
+      this.props.dispatch(appActions.addTab(createTab(signal)));
       this.setState({ tabCreated: true });
     }
   }
@@ -145,7 +150,7 @@ class ContentPanel extends Component {
     const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
-      <SignalForm signal={signal}>
+      <SignalForm signal={signal} tabId={tabId(signal)}>
         <Sidebar menuItems={this.menuItems()} />
         <div className="content-pane">
           {childrenToRender}

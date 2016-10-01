@@ -12,6 +12,11 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
       params[:stripe_token]
     )
 
+    # The email comes in from stripe. Assume it's valid. Don't throw errors
+    # if it is not.
+    current_user.email = params[:email]
+    current_user.save if current_user.valid?
+
     render json: subscription, serializer: SubscriptionSerializer
   end
 
