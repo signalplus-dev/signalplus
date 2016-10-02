@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction, getDataFor } from '../../utils.js';
-import Endpoints, { listenSignalEndpoint } from '../../../util/endpoints.js';
+import { createRequestAction, getDataFor } from 'redux/utils.js';
+import Endpoints, { listenSignalEndpoint } from 'util/endpoints.js';
 import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
-} from '../../../util/normalize.js';
+} from 'util/normalize.js';
 
 /*
 * Action Type Constants

@@ -3,7 +3,7 @@ import { handleActions } from 'redux-actions';
 import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
-} from '../../../util/normalize.js';
+} from 'util/normalize.js';
 import {
   LISTEN_SIGNALS_REQUEST,
   LISTEN_SIGNALS_REQUEST_SUCCESS,
@@ -14,7 +14,7 @@ import {
   LISTEN_SIGNALS_POST_REQUEST,
   LISTEN_SIGNALS_POST_REQUEST_SUCCESS,
   LISTEN_SIGNALS_POST_REQUEST_FAIL,
-} from './listenSignals.js';
+} from 'redux/modules/models/listenSignals.js';
 
 
 /*

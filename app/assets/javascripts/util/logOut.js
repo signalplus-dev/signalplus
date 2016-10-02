@@ -1,7 +1,7 @@
-import cookies from './cookies.js';
-import restInterface from './restInterface.js';
-import endpoints from './endpoints.js';
-import { TA_KEY } from './cookieKeys.js';
+import cookies from 'util/cookies.js';
+import restInterface from 'util/restInterface.js';
+import endpoints from 'util/endpoints.js';
+import { TA_KEY } from 'util/cookieKeys.js';
 
 export default function logOut() {
   return  restInterface

@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import restInterface from '../util/restInterface.js';
+import restInterface from 'util/restInterface.js';
 import _ from 'lodash';
 
 /**

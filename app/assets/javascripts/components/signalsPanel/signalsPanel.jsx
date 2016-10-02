@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import WelcomePanel from './welcome_panel.jsx';
-import ActiveSignalPanel from './active_signal_panel.jsx';
-import CreateNew from './create_new.jsx';
+import WelcomeWidget from 'components/signalsPanel/welcomeWidget.jsx';
+import SignalWidgets from 'components/signalsPanel/signalWidgets.jsx';
+import CreateNewWidget from 'components/signalsPanel/createNewWidget.jsx';
 
-class SignalsPane extends Component {
+class SignalsPanel extends Component {
   renderPanelTitle() {
     const signalCount = _.keys(this.props.signals).length;
 
@@ -16,11 +16,11 @@ class SignalsPane extends Component {
     }
   }
 
-  choosePanel() {
+  renderPanelContent() {
     if (_.isEmpty(this.props.signals)) {
-      return <WelcomePanel />;
+      return <WelcomeWidget />;
     } else {
-      return <ActiveSignalPanel signals={this.props.signals} />;
+      return <SignalWidgets signals={this.props.signals} />;
     }
   }
 
@@ -28,8 +28,8 @@ class SignalsPane extends Component {
     return (
       <div>
         <h4 className='signal-header'>{this.renderPanelTitle()}</h4>
-        {this.choosePanel()}
-        <CreateNew />
+        {this.renderPanelContent()}
+        <CreateNewWidget />
       </div>
     );
   }
@@ -37,4 +37,4 @@ class SignalsPane extends Component {
 
 export default connect(state => ({
   signals: _.get(state, 'models.listenSignals.data'),
-}))(SignalsPane);
+}))(SignalsPanel);

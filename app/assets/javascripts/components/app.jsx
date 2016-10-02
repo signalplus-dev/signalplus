@@ -11,22 +11,22 @@ import {
 } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux';
 import { RedialContext } from 'react-router-redial';
-import configureStore from '../redux/configureStore.js';
-import restInterface from '../util/restInterface.js';
+import configureStore from 'redux/configureStore.js';
+import restInterface from 'util/restInterface.js';
 
 // Components
-import Dashboard from './dashboard/dashboard.jsx';
-import SignalsPane from './dashboard/navigation/panels/signals/signals_pane.jsx';
-import TemplatesPane from './dashboard/navigation/panels/templates/templates_pane.jsx';
-import ContentPanel from './dashboard/navigation/content_panel/content_panel.jsx';
-import Edit from './dashboard/navigation/content_panel/content_panel_views/edit/edit.jsx';
-import Promote from './dashboard/navigation/content_panel/content_panel_views/promote/promote.jsx';
-import Preview from './dashboard/navigation/content_panel/content_panel_views/preview.jsx';
-import SubscriptionPlans from './subscriptionPlans/subscriptionPlans.jsx';
-import Loader from './loader.jsx';
+import Dashboard from 'components/dashboard/dashboard.jsx';
+import SignalsPanel from 'components/signalsPanel/signalsPanel.jsx';
+import TemplatesPanel from 'components/templatesPanel.jsx';
+import ContentPanel from 'components/contentPanel/contentPanel.jsx';
+import Edit from 'components/contentPanel/views/edit.jsx';
+import Promote from 'components/contentPanel/views/promote.jsx';
+import Preview from 'components/contentPanel/views/preview.jsx';
+import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans.jsx';
+import Loader from 'components/loader.jsx';
 
 // Import blocking App actions
-import { actions as appActions } from '../redux/modules/app.js';
+import { actions as appActions } from 'redux/modules/app.js';
 
 const store = configureStore();
 
@@ -60,7 +60,7 @@ function UnconnectedAppRouter({ authenticated }) {
           <Route path="signals">
             <IndexRedirect to="active" />
 
-            <Route path="active" component={SignalsPane} />
+            <Route path="active" component={SignalsPanel} />
             <Route path=":id" component={ContentPanel}>
               <IndexRoute component={Edit} />
               <Route path="promote" component={Promote} />
@@ -76,7 +76,7 @@ function UnconnectedAppRouter({ authenticated }) {
               <Redirect from="*" to="offer"/>
             </Route>
           </Route>
-          <Route path="templates" component={TemplatesPane}/>
+          <Route path="templates" component={TemplatesPanel}/>
 
           {/* Keep at bottom; this is a catch all for any routes that don't exist */}
           <Redirect from="*" to="signals"/>

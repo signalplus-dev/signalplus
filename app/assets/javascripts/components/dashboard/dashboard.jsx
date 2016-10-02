@@ -1,12 +1,12 @@
 import React from 'react';
 import { provideHooks } from 'redial';
-import { getBrandData } from '../../redux/modules/models/brand.js';
-import { getListenSignalsData } from '../../redux/modules/models/listenSignals.js';
+import { getBrandData } from 'redux/modules/models/brand.js';
+import { getListenSignalsData } from 'redux/modules/models/listenSignals.js';
 
 // Components
-import SubscriptionSummary from '../subscriptionSummary.jsx';
-import BrandProfileBlock from '../brandProfileBlock.jsx';
-import Navigation from './navigation/navigation.jsx';
+import SubscriptionSummary from 'components/dashboard/subscriptionSummary.jsx';
+import BrandProfileBlock from 'components/dashboard/brandProfileBlock.jsx';
+import Navigation from 'components/dashboard/navigation.jsx';
 
 const hooks = {
   fetch: ({ dispatch }) => {

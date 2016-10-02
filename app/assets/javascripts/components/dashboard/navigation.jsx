@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
-import Tabs from './tabs.jsx';
+import Tabs from 'components/dashboard/tabs.jsx';
 
 export default function Navigation({ children }) {
   return (

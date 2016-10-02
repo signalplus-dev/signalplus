@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
 import _ from 'lodash';
-import Sidebar from './sidebar.jsx';
-import { actions as appActions } from '../../../../redux/modules/app.js';
-import { getListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
-import SignalForm from './signalForm.jsx';
+import { actions as appActions } from 'redux/modules/app.js';
+import { getListenSignalData } from 'redux/modules/models/listenSignals.js';
+
+// Components
+import Sidebar from 'components/contentPanel/sidebar.jsx';
+import SignalForm from 'components/forms/signalForm.jsx';
 
 const EXISTING_SIGNAL_PATHNAME_REGEX = /^\/dashboard\/signals\/\d+/;
 const MATCHING_LOCATION_BASE_PATHNAME_REGEX = /\/dashboard\/signals\/(\d+|new\/[^\/]+)/

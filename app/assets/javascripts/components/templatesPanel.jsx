@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import { provideHooks } from 'redial';
-import { getListenSignalTemplatesData } from '../../../../../redux/modules/models/listenSignalTemplates.js'
+import { getListenSignalTemplatesData } from 'redux/modules/models/listenSignalTemplates.js'
 
 
 // Components
-import SignalIcon from '../../../../links/signal_icon.jsx';
+import SignalIcon from 'components/links/signal_icon.jsx';
 
 const hooks = {
   fetch: ({ dispatch }) => {

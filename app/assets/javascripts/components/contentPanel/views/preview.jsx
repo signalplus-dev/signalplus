@@ -1,5 +1,5 @@
 import React from 'react'
-import SignalIcon from '../../../../links/signal_icon.jsx';
+import SignalIcon from 'components/links/signal_icon.jsx';
 
 export default function Preview(props) {
   const signal = props.signal.edit;

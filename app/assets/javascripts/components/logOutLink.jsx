@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logOut from '../util/logOut.js';
-import endpoints from '../util/endpoints.js';
+import logOut from 'util/logOut.js';
+import endpoints from 'util/endpoints.js';
 
 
 class LogOutLink extends Component {
