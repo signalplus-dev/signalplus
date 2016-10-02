@@ -4,7 +4,7 @@ class PostPromotionalTweet
 
   def initialize(tweet_params, brand)
     @message           = tweet_params[:message]
-    @image             = tweet_params[:image]
+    @image             = tweet_params[:image].try(:[], :preview)
     @listen_signal_id  = tweet_params[:listen_signal_id]
     @brand             = brand
     @client            = brand.twitter_rest_client
@@ -22,7 +22,6 @@ class PostPromotionalTweet
   end
 
   private
-
 
   def post_promo_tweet
     if image.present?

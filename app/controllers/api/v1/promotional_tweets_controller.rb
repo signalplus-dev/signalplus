@@ -17,7 +17,7 @@ class Api::V1::PromotionalTweetsController < Api::V1::BaseController
   private
 
   def promo_tweet_params
-    params.require(:promotional_tweet).permit(:listen_signal_id, :message, :image)
+    params.permit(:listen_signal_id, :message, image: [:preview] )
   end
 end
 
