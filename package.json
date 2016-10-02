@@ -22,7 +22,7 @@
     "react-bootstrap": "^0.30.2",
     "react-date-picker": "^5.3.27",
     "react-dom": "^15.3.0",
-    "react-dropzone": "^3.5.3",
+    "react-dropzone": "^3.6.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.0",
     "react-router-redial": "^0.2.3",
