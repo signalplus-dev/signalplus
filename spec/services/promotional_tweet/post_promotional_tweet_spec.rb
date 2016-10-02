@@ -1,19 +1,20 @@
 require 'rails_helper'
 
 describe PostPromotionalTweet do
-  let(:brand)             { create(:identity).brand }
-  let(:listen_signal)     { create(:listen_signal, brand: brand, identity: brand.identity) }
+  let(:identity)          { create(:identity) }
+  let(:brand)             { identity.brand }
+  let(:listen_signal)     { create(:listen_signal, brand: brand, identity: identity) }
   let(:promotional_tweet) { create(:promotional_tweet, listen_signal: listen_signal) }
 
   describe '#send!' do
 
-    context 'without image' do 
+    context 'without image' do
       let(:image) { nil }
 
       it 'returns promo tweet with id and timestamp' do
         allow_any_instance_of(PostPromotionalTweet).to receive(:post_tweet).and_return('1234567')
         post_service = PostPromotionalTweet.new(promotional_tweet, image, brand)
-        
+
         expect {
           post_service.send!
         }.to change{
@@ -37,9 +38,6 @@ describe PostPromotionalTweet do
     #     }
     #   end
 
-    end
+    # end
   end
-
-
-
 end
