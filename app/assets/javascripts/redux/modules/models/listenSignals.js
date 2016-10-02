@@ -6,6 +6,7 @@ import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
+import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from './promotionalTweets.js';
 
 /*
 * Action Type Constants
@@ -139,6 +140,16 @@ export const reducer = handleActions({
   [LISTEN_SIGNALS_PUT_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
   [LISTEN_SIGNALS_PUT_REQUEST_FAIL]: handlesListenSignalFailResponse,
+
+  [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => {
+    const promotionalTweet = _.get(action.payload, 'promotional_tweet', {});
+    const id = promotionalTweet.id;
+    const signalId = promotionalTweet.listen_signal_id
+    const data = state.data;
+
+    // Can't figure this out here....??
+
+  },
 
 }, initialState);
 
