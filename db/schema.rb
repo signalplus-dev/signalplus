@@ -48,11 +48,11 @@ ActiveRecord::Schema.define(version: 20161002174430) do
     t.integer  "brand_id"
     t.integer  "identity_id"
     t.text     "name"
-    t.datetime "expiration_date"
     t.boolean  "active",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.string   "signal_type"
+    t.datetime "expiration_date"
   end
 
   add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
@@ -71,10 +71,9 @@ ActiveRecord::Schema.define(version: 20161002174430) do
   create_table "promotional_tweets", force: :cascade do |t|
     t.text     "message"
     t.integer  "listen_signal_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.string   "tweet_id"
-    t.datetime "posted_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "tweet_id",         limit: 8
   end
 
   add_index "promotional_tweets", ["listen_signal_id"], name: "index_promotional_tweets_on_listen_signal_id", using: :btree

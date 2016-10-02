@@ -4,8 +4,7 @@ FactoryGirl.define do
     listen_signal 
 
     trait :posted do 
-      tweet_url 'tweet url'
-      posted_at Time.now
+      tweet_id '23242342'
     end
   end
 end

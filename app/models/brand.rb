@@ -83,8 +83,7 @@ class Brand < ActiveRecord::Base
   end
 
   def tweet_url(tweet_id)
-    user_name = user_name
-    "https://twitter.com/#{user_name}/status/#{tweet_id}"
+    "https://twitter.com/#{self.user_name}/status/#{tweet_id}"
   end
 
   # @return [String]

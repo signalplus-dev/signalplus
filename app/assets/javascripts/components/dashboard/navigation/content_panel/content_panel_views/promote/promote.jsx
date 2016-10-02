@@ -33,7 +33,6 @@ class Promote extends Component {
 
   handleSubmit() {
     const { dispatch } = this.props;
-    console.log('dispatch')
     dispatch(addPromotionalTweetData(this.state));
   }
 
@@ -73,7 +72,7 @@ class Promote extends Component {
                 <PromoteImage image={this.state.image} handleImage={this.handleImage} />
               </div>
             </div>
-            <Button onClick={this.handleSubmit} type='post' className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
+            <Button onClick={this.handleSubmit} className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
           </div>
         </div>
       );

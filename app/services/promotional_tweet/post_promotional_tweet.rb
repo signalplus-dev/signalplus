@@ -1,11 +1,11 @@
 class PostPromotionalTweet
 
-  attr_reader :image, :message, :image, :brand, :client
+  attr_reader :message, :image, :listen_signal_id, :brand, :client
 
-  def initialize(promotional_tweet, image, brand)
-    @promotional_tweet = promotional_tweet
-    @message           = promotional_tweet.message
-    @image             = image
+  def initialize(tweet_params, brand)
+    @message           = tweet_params[:message]
+    @image             = tweet_params[:image]
+    @listen_signal_id  = tweet_params[:listen_signal_id]
     @brand             = brand
     @client            = brand.twitter_rest_client
   end
@@ -15,13 +15,14 @@ class PostPromotionalTweet
     tweet_id = tweet.id
 
     if tweet_id.present?
-      promotional_tweet.update_posted_tweet_id(tweet_id)
+      PromotionalTweet.create_posted_tweet!(listen_signal_id, message, tweet_id)
     else
       raise StandardError.new('Failed to post to twitter')
     end
   end
 
   private
+
 
   def post_promo_tweet
     if image.present?

@@ -1,14 +1,16 @@
 import _ from 'lodash';
 import { handleActions } from 'redux-actions';
 import { createRequestAction} from '../../utils.js';
-import { normalizeListenSignalsResponse } from '../../../util/normalize.js';
 import Endpoints from '../../../util/endpoints.js';
 import {
   LISTEN_SIGNALS_REQUEST,
   LISTEN_SIGNALS_REQUEST_SUCCESS,
   LISTEN_SIGNALS_REQUEST_FAIL,
 } from './listenSignals.js';
-
+import { 
+  normalizeListenSignalsResponse,
+  normalizeListenSignalResponse,
+} from '../../../util/normalize.js';
 
 const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
 const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';
@@ -24,7 +26,7 @@ export const initialState = {
 };
 
 function handlePromoTweetSuccessResponse(state, action) {
-  const normalizedPromoTweet = normalizedListenSignalResponse(action.payload);
+  const normalizedPromoTweet = normalizeListenSignalsResponse(action.payload);
   const promotionalTweetResponse = _.get(normalizedPromoTweet, 'entities.promotionalTweet', {});
   const id = _.findLastKey(promotionalTweetResponse);
   const promotionalTweet = promotionalTweetResponse[id];
