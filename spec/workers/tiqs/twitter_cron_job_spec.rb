@@ -7,8 +7,8 @@ describe TwitterCronJob do
   let(:brand)              { create(:brand, polling_tweets: true) }
 
   it 'calls on Twitter listener' do
-    brand
-    expect(Responders::Twitter::Listener).to receive(:delay).and_call_original
+    expect(Responders::Twitter::Listener)
+      .to receive_message_chain(:delay, :process_messages).with(brand.id)
     worker.perform(last_occurrence, current_occurrence)
   end
 end

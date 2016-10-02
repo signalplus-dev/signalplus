@@ -61,15 +61,16 @@ describe Responders::Twitter::Listener do
 
   let(:client_user)     { double(:user, screen_name: 'SomeBrand') }
   let(:mock_client)     { double(:client, user: client_user) }
-  let(:image)           { double(:image_file) }
+  let(:temp_image)      { double(:image_file) }
   let(:image_string_io) { StringIO.new('some_image.png') }
   let(:temp_file)       { Tempfile.new('test.txt') }
 
   before do
     Sidekiq::Testing.inline!
-    allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
-    allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
-    allow_any_instance_of(Brand).to     receive(:twitter_rest_client).and_return(mock_client)
+    allow(TempImage).to receive(:new).and_return(temp_image)
+    allow(temp_image).to receive(:file).and_return(temp_file)
+    allow(temp_image).to receive(:image_string_io).and_return(image_string_io)
+    allow_any_instance_of(Brand).to receive(:twitter_rest_client).and_return(mock_client)
   end
 
   after { Sidekiq::Testing.disable! }
@@ -186,7 +187,8 @@ describe Responders::Twitter::Listener do
 
           it 'does reply to a hashtag on a different day' do
             stub_current_time(1.day.from_now)
-            allow_any_instance_of(TempImage).to receive(:file).and_return(Tempfile.new('test.txt'))
+            allow(TempImage).to receive(:new).and_return(temp_image)
+            allow(temp_image).to receive(:file).and_return(Tempfile.new('test.txt'))
             expect {
               described_class.send(:reply_to_messages, more_grouped_replies, brand)
             }.to change { TwitterResponse.count }.from(1).to(2)

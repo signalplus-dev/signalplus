@@ -12,14 +12,18 @@ describe PostPromotionalTweet do
     context 'without image' do
       let(:image) { nil }
 
-      it 'returns promo tweet with id and timestamp' do
+      it 'returns promo tweet with id' do
         allow_any_instance_of(PostPromotionalTweet).to receive(:post_tweet).and_return(tweet)
-        allow(tweet).to receive(:id).and_return('123456789')
-
-        post_service = PostPromotionalTweet.new(message, image, listen_signal.id, brand)
+        allow(tweet).to receive(:id).and_return(123456789)
+        tweet_params = {
+          message: message,
+          image: image,
+          listen_signal_id: listen_signal.id,
+        }
+        post_service = PostPromotionalTweet.new(tweet_params, brand)
         promo_tweet = post_service.send!
         expect(promo_tweet).to be_a PromotionalTweet
-        expect(promo_tweet.tweet_id).to eq('123456789')
+        expect(promo_tweet.tweet_id).to eq(123456789)
       end
     end
   end
