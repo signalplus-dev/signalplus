@@ -17,7 +17,7 @@ FactoryGirl.define do
 
   factory :user do
     brand
-    email "testing@signal.com"
+    email 'test@signal.me'
     name "signal"
     password "123456789"
     confirmed_at Time.current

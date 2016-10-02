@@ -73,7 +73,7 @@ class Promote extends Component {
                 <PromoteImage image={this.state.image} handleImage={this.handleImage} />
               </div>
             </div>
-            <Button onClick={this.handleSubmit} type='submit' className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
+            <Button onClick={this.handleSubmit} type='post' className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
           </div>
         </div>
       );

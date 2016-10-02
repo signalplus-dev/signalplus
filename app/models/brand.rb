@@ -82,9 +82,8 @@ class Brand < ActiveRecord::Base
     twitter_identity.uid.to_i
   end
 
-  def tweet_url(tweet)
+  def tweet_url(tweet_id)
     user_name = user_name
-    tweet_id   = tweet.id
     "https://twitter.com/#{user_name}/status/#{tweet_id}"
   end
 

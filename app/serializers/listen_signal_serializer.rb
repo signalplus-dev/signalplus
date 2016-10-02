@@ -34,7 +34,6 @@ class ListenSignalSerializer < ActiveModel::Serializer
       :id,
       :message,
       :listen_signal_id,
-    ], methods: [
       :tweet_url,
     ])
   end
