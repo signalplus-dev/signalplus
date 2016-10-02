@@ -31,8 +31,6 @@ export const initialState = {
 export const reducer = handleActions({
   [LISTEN_SIGNALS_REQUEST]: (state, action) => ({
     ...state,
-    loading: true,
-    loaded: false,
   }),
 
   [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => {
@@ -44,8 +42,6 @@ export const reducer = handleActions({
         ...currentPromo,
         [id]: {
           ...promo_tweet,
-          loading: false,
-          loaded: true,
         },
       }), {}),
     };
@@ -54,28 +50,22 @@ export const reducer = handleActions({
   [LISTEN_SIGNALS_REQUEST_FAIL]: (state, action) => ({
     ...state,
     error: action.payload,
-    loading: false,
-    loaded: false,
   }),
 
   [PROMOTION_SIGNAL_POST_REQUEST]: (state, action) => ({
     ...state,
-    loading: false,
-    loaded: true,
   }),
 
   [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => {
     const promotionalTweet = _.get(action.payload, 'promotional_tweet', {});
     const id = promotionalTweet.id;
-
+    
     return {
       ...state,
       data: {
         ..._.get(state, 'data', {}),
         [id]: {
-          ...promotionalTweet,
-          loading: false,
-          loaded: true,
+          ...promotionalTweet
         },
       },
     };
@@ -84,8 +74,6 @@ export const reducer = handleActions({
   [PROMOTION_SIGNAL_POST_REQUEST_FAIL]: (state, action) => ({
     ...state,
     error: action.payload,
-    loading: false,
-    loaded: true,
   }),
 }, initialState);
 

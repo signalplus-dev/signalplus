@@ -7,6 +7,9 @@ import {
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
 import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from './promotionalTweets.js';
+import { 
+  PROMOTION_SIGNAL_POST_REQUEST_SUCCESS
+ } from './promotionalTweets.js';
 
 /*
 * Action Type Constants
@@ -144,11 +147,18 @@ export const reducer = handleActions({
   [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => {
     const promotionalTweet = _.get(action.payload, 'promotional_tweet', {});
     const id = promotionalTweet.id;
-    const signalId = promotionalTweet.listen_signal_id
-    const data = state.data;
+    const signalId = promotionalTweet.listen_signal_id;
 
-    // Can't figure this out here....??
-
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        [signalId]: {
+          ..._.get(state, `data.${signalId}`, {}),
+          promotionalTweets: ['testing'],
+        },
+      },
+    };
   },
 
 }, initialState);
