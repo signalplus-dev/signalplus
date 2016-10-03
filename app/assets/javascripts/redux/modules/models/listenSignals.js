@@ -7,9 +7,7 @@ import {
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
 import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from './promotionalTweets.js';
-import { 
-  PROMOTION_SIGNAL_POST_REQUEST_SUCCESS
- } from './promotionalTweets.js';
+
 
 /*
 * Action Type Constants
