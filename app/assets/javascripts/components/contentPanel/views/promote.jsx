@@ -12,9 +12,9 @@ import {
 class Promote extends Component {
   constructor(props) {
     super(props);
-    this.handleChange   = this.handleChange.bind(this);
-    this.handleImageState    = this.handleImageState.bind(this);
-    this.handleSubmit   = this.handleSubmit.bind(this);
+    this.handleChange     = this.handleChange.bind(this);
+    this.handleSubmit     = this.handleSubmit.bind(this);
+    this.handleImageState = this.handleImageState.bind(this);
 
     this.state = {
       listen_signal_id: this.props.params.id,
