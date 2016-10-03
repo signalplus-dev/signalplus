@@ -6,19 +6,19 @@ import _ from 'lodash';
 export default class ImageUpload extends Component {
   constructor(props) {
     super(props);
-    this.onDrop = this.handleDrop.bind(this);
+    this.onDrop = this.onDrop.bind(this);
   }
 
-  handleDrop(files) {
+  onDrop(files) {
     const file = files[0];
-    this.props.handleImage(file);
-    this.encodeImage(file, this.props.handleEncoding);
+    this.props.handleImageState('image', file);
+    this.encodeImage(file, this.props.handleImageState);
   }
 
   encodeImage(file, callback) {
     const reader = new FileReader();
     reader.onloadend = function() {
-      callback(_.last(reader.result.split(',')));
+      callback('encoded_image', _.last(reader.result.split(',')));
     }
 
     reader.readAsDataURL(file);
