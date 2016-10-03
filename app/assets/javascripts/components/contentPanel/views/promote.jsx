@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import PromoteImage from './promote_image.jsx';
-import SignalIcon from '../../../../../links/signal_icon.jsx';
-import { addPromotionalTweetData } from '../../../../../../redux/modules/models/promotionalTweets.js';
+import PromoteImage from 'components/contentPanel/promoteImage.jsx';
+import SignalIcon from 'components/links/signal_icon.jsx';
+import { addPromotionalTweetData } from 'redux/modules/models/promotionalTweets.js';
 import {
   Button,
   FormControl,

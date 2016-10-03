@@ -1,16 +1,16 @@
 import _ from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction} from '../../utils.js';
-import Endpoints from '../../../util/endpoints.js';
+import { createRequestAction} from 'redux/utils.js';
+import Endpoints from 'util/endpoints.js';
 import {
   LISTEN_SIGNALS_REQUEST,
   LISTEN_SIGNALS_REQUEST_SUCCESS,
   LISTEN_SIGNALS_REQUEST_FAIL,
-} from './listenSignals.js';
-import { 
+} from 'redux/modules/models/listenSignals.js';
+import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
-} from '../../../util/normalize.js';
+} from 'util/normalize.js';
 
 const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
 const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';

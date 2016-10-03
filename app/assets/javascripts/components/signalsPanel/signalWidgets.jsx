@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
-import SignalIcon from '../../../../links/signal_icon.jsx';
-import { actions as appActions } from '../../../../../redux/modules/app.js';
+import SignalIcon from 'components/links/signal_icon.jsx';
+import { actions as appActions } from 'redux/modules/app.js';
 
-function renderPanel(signals) {
+function renderSignalWidgets(signals) {
   return _.map(signals, (s, signalId) => {
     return (
       <Link to={`/dashboard/signals/${signalId}`} className={`panel signal-panel ${s.signal_type}`} key={signalId}>
@@ -28,7 +28,7 @@ function renderPanel(signals) {
   });
 }
 
-export default function ActiveSignalPanel({ signals }) {
-  return <div>{renderPanel(signals)}</div>;
+export default function SignalWidgets({ signals }) {
+  return <div>{renderSignalWidgets(signals)}</div>;
 }
 

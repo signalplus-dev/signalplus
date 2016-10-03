@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { provideHooks } from 'redial';
-import { push } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import _ from 'lodash';
 import commaNumber from 'comma-number';
 import cn from 'classnames';
-import StripeButton from './stripeButton.jsx';
-import { getSubscriptionPlansData } from '../../redux/modules/models/subscriptionPlans.js'
-import { getBrandData } from '../../redux/modules/models/brand.js'
-import { createSubscription, updateSubscription } from '../../redux/modules/models/subscription.js'
-import restInterface from '../../util/restInterface.js';
+
+import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js'
+import { getBrandData } from 'redux/modules/models/brand.js'
+import { createSubscription, updateSubscription } from 'redux/modules/models/subscription.js'
+import restInterface from 'util/restInterface.js';
+
+import StripeButton from 'components/subscriptionPlans/stripeButton.jsx';
 
 const hooks = {
   fetch: ({ dispatch }) => {

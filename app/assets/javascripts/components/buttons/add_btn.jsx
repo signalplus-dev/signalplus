@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
-import Calendar from './calendar.jsx';
+import Calendar from 'components/forms/calendar.jsx';
 
 export default class AddBtn extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class AddBtn extends Component {
       <div className='edit-btns'>
         <DropdownButton title='ADD' id='addBtn' className='btn add-btn'>
           <p>Expiration Date</p>
-          <Calendar  
+          <Calendar
             date={this.props.expirationDate}
           />
         </DropdownButton>

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { browserHistory } from 'react-router';
 import _ from 'lodash';
-import { actions as appActions } from '../../../../redux/modules/app.js';
-import { addListenSignalData, updateListenSignalData } from '../../../../redux/modules/models/listenSignals.js';
-import { createTab } from './content_panel.jsx';
+import { actions as appActions } from 'redux/modules/app.js';
+import { addListenSignalData, updateListenSignalData } from 'redux/modules/models/listenSignals.js';
+import { createTab } from 'components/contentPanel/contentPanel.jsx';
 
 
 const genericSignalFormName = 'listenSignalForm';

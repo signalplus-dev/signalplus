@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import moment from 'moment';
-import Loader from './loader.jsx';
+import Loader from 'components/loader.jsx';
 
 class SubscriptionSummary extends Component {
   renderContent() {

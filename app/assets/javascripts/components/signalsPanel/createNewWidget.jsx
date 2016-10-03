@@ -1,8 +1,8 @@
 import React from 'react';
-import SignalIcon from '../../../../links/signal_icon.jsx';
 import { Link } from 'react-router';
+import SignalIcon from 'components/links/signal_icon.jsx';
 
-export default function CreateNew() {
+export default function CreateNewWidget() {
   return (
     <Link to="/dashboard/templates">
       <div className='panel signal-panel panel-new'>
