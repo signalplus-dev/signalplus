@@ -34,16 +34,16 @@ export function normalizeSubscription(brandPayload) {
 const listenSignals = new Schema('listenSignals');
 const listenSignal = new Schema('listenSignal');
 const responses = new Schema('responses');
-const promotionalTweet = new Schema('promotionalTweet');
+const promotionalTweets = new Schema('promotionalTweets');
 
 listenSignals.define({
   responses: arrayOf(responses),
-  last_promotional_tweet: promotionalTweet,
+  promotional_tweets: arrayOf(promotionalTweets),
 });
 
 listenSignal.define({
   responses: arrayOf(responses),
-  last_promotional_tweet: promotionalTweet,
+  promotional_tweets: arrayOf(promotionalTweets),
 });
 
 

@@ -12,9 +12,9 @@ import {
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
 
-const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
-const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';
-const PROMOTION_SIGNAL_POST_REQUEST_FAIL = 'signalplus/promotionalSignal/REQUEST_FAIL';
+export const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
+export const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';
+export const PROMOTION_SIGNAL_POST_REQUEST_FAIL = 'signalplus/promotionalSignal/REQUEST_FAIL';
 
 /*
 * Initial State
@@ -25,62 +25,55 @@ export const initialState = {
   loading: false,
 };
 
-function handlePromoTweetSuccessResponse(state, action) {
-  const normalizedPromoTweet = normalizeListenSignalsResponse(action.payload);
-  const promotionalTweetResponse = _.get(normalizedPromoTweet, 'entities.promotionalTweet', {});
-  const id = _.findLastKey(promotionalTweetResponse);
-  const promotionalTweet = promotionalTweetResponse[id];
-
-  return {
-    ...state,
-    data: {
-      ..._.get(state, 'data', {}),
-      [id]: {
-        ..._.get(state, `data.${id}`, {}),
-        ...promotionalTweet,
-        loaded: true,
-      }
-    }
-  }
-}
-
 /*
 * Reducer
 */
 export const reducer = handleActions({
   [LISTEN_SIGNALS_REQUEST]: (state, action) => ({
     ...state,
-    loading: true,
-    loaded: false,
   }),
 
-  [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    data: _.get(normalizeListenSignalsResponse(action.payload), 'entities.promotionalTweet', {}),
-    loading: false,
-    loaded: true,
-  }),
+  [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => {
+    const promo_tweets = _.get(normalizeListenSignalsResponse(action.payload), 'entities.promotionalTweets', {});
+
+    return {
+      ...state,
+      data: _.reduce(promo_tweets, (currentPromo, promo_tweet, id) => ({
+        ...currentPromo,
+        [id]: {
+          ...promo_tweet,
+        },
+      }), {}),
+    };
+  },
 
   [LISTEN_SIGNALS_REQUEST_FAIL]: (state, action) => ({
     ...state,
     error: action.payload,
-    loading: false,
-    loaded: false,
   }),
 
   [PROMOTION_SIGNAL_POST_REQUEST]: (state, action) => ({
     ...state,
-    loading: false,
-    loaded: true,
   }),
 
-  [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: handlePromoTweetSuccessResponse,
+  [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => {
+    const promotionalTweet = _.get(action.payload, 'promotional_tweet', {});
+    const id = promotionalTweet.id;
+
+    return {
+      ...state,
+      data: {
+        ..._.get(state, 'data', {}),
+        [id]: {
+          ...promotionalTweet
+        },
+      },
+    };
+  },
 
   [PROMOTION_SIGNAL_POST_REQUEST_FAIL]: (state, action) => ({
     ...state,
     error: action.payload,
-    loading: false,
-    loaded: true,
   }),
 }, initialState);
 

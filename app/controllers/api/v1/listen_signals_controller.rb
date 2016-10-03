@@ -96,7 +96,7 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     create_response(repeat_response_msg, Response::Type::REPEAT, response_group)
   end
 
-  def update_response(response, message)
-    response.update!(message: message)
+  def update_response(response, message, exp_date=nil)
+    response.update!(message: message, expiration_date: exp_date)
   end
 end

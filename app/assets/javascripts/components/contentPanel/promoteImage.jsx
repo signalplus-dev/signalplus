@@ -10,7 +10,18 @@ export default class ImageUpload extends Component {
   }
 
   handleDrop(files) {
-    this.props.handleImage(files[0]);
+    const file = files[0];
+    this.props.handleImage(file);
+    this.encodeImage(file, this.props.handleEncoding);
+  }
+
+  encodeImage(file, callback) {
+    const reader = new FileReader();
+    reader.onloadend = function() {
+      callback(_.last(reader.result.split(',')));
+    }
+
+    reader.readAsDataURL(file);
   }
 
   render() {
@@ -27,7 +38,6 @@ export default class ImageUpload extends Component {
         </div>
       );
     }
-
     return (
       <img src={this.props.image.preview}/>
     );
