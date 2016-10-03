@@ -36,10 +36,7 @@ class PostPromotionalTweet
   end
 
   def post_tweet_with_image
-    binding.pry
-
-    temp_file = Tempfile.new('tmp_img.png', encoding: decoded_image.encoding)
-    temp_file.write(decoded_image)
+    temp_file = create_temp_file
     file = File.open(temp_file.path)
     client.update_with_media(message, file)
   ensure
@@ -48,11 +45,16 @@ class PostPromotionalTweet
   end
 
   def decoded_image
-    Base64.decode64(encoded_image)
+    @decoded_image ||= Base64.decode64(encoded_image)
   end
 
-  def create_temp_image
-    temp_image = Tempfile.new('tmp_img.png', encoding: decoded_image.encoding)
-    temp_image.write(decoded_image)
+  def create_temp_file
+    Tempfile.new(
+      ['temp_image', '.png'],
+      "#{Rails.root}/tmp/images",
+      encoding: decoded_image.encoding
+    ).tap do |f|
+      f.write(decoded_image)
+    end
   end
 end

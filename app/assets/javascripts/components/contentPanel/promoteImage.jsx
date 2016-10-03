@@ -17,8 +17,8 @@ export default class ImageUpload extends Component {
 
   encodeImage(file, callback) {
     const reader = new FileReader();
-    reader.onloadend = function(e) {
-      callback(reader.result);
+    reader.onloadend = function() {
+      callback(_.last(reader.result.split(',')));
     }
 
     reader.readAsDataURL(file);
