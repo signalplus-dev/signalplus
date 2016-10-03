@@ -36,9 +36,11 @@ class PostPromotionalTweet
   end
 
   def post_tweet_with_image
-    temp_file = Tempfile.new('tmp_img.png', encoding: decoded_image.encoding)
-    temp_file.write(decoded_image)
+    temp_image = Tempfile.new('tmp_img.png', encoding: decoded_image.encoding)
+    temp_image.write(decoded_image)
     client.update_with_media(message, temp_image)
+  ensure
+    temp_image.close
   end
 
   def decoded_image
