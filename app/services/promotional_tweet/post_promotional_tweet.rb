@@ -1,10 +1,10 @@
 class PostPromotionalTweet
 
-  attr_reader :message, :image, :listen_signal_id, :brand, :client
+  attr_reader :message, :encoded_image, :listen_signal_id, :brand, :client
 
   def initialize(tweet_params, brand)
     @message           = tweet_params[:message]
-    @image             = tweet_params[:image].try(:[], :preview)
+    @encoded_image     = tweet_params[:encoded_image]
     @listen_signal_id  = tweet_params[:listen_signal_id]
     @brand             = brand
     @client            = brand.twitter_rest_client
@@ -24,7 +24,7 @@ class PostPromotionalTweet
   private
 
   def post_promo_tweet
-    if image.present?
+    if encoded_image.present?
       post_tweet_with_image
     else
       post_tweet
@@ -36,7 +36,12 @@ class PostPromotionalTweet
   end
 
   def post_tweet_with_image
-    client.update_with_media(message, image)
+    temp_file = Tempfile.new('tmp_img_{timestamp}.png', encoding: decoded_image.encoding)
+    temp_file.write(decoded_image)
+    client.update_with_media(message, temp_image)
   end
 
+  def decoded_image
+    Base64.decode64(encoded_image)
+  end
 end

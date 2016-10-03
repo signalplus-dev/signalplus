@@ -12,9 +12,9 @@ import {
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
 
-const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
-const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';
-const PROMOTION_SIGNAL_POST_REQUEST_FAIL = 'signalplus/promotionalSignal/REQUEST_FAIL';
+export const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
+export const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';
+export const PROMOTION_SIGNAL_POST_REQUEST_FAIL = 'signalplus/promotionalSignal/REQUEST_FAIL';
 
 /*
 * Initial State
@@ -59,7 +59,7 @@ export const reducer = handleActions({
   [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => {
     const promotionalTweet = _.get(action.payload, 'promotional_tweet', {});
     const id = promotionalTweet.id;
-    
+
     return {
       ...state,
       data: {
