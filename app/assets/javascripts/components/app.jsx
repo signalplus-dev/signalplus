@@ -31,7 +31,7 @@ import { actions as appActions } from 'redux/modules/app.js';
 const store = configureStore();
 
 function App({ children }) {
-  return <div className="row">{children}</div>;
+  return <div>{children}</div>;
 }
 
 function UnconnectedAppRouter({ authenticated }) {

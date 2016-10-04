@@ -6,7 +6,7 @@ export default function Preview(props) {
 
   if (signal) {
     return (
-      <div className='col-md-9 content-box'>
+      <div className='col-xs-9 content-box'>
         <div className='content-header'>
           <p className='signal-type-label'>REQUEST > RESPONSE</p>
         </div>

@@ -1,0 +1,105 @@
+.editMenuItem {
+  padding: 16px 15px 24px 15px;
+  text-align: left;
+  line-height: (25 / 18);
+
+  &.active {
+    .toggleSignal, .signalNameInput {
+      pointer-events: auto;
+    }
+
+    .signalNameInput {
+      cursor: auto;
+    }
+  }
+
+  .signalLabel {
+    cursor: inherit;
+
+    > .caption {
+      font-size: $caption-font-size;
+    }
+  }
+
+  .signalNameInput {
+    border-radius: 11px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    pointer-events: none;
+  }
+
+  .toggleSignal {
+    $transition-timing: 0.5s;
+    cursor: pointer;
+    pointer-events: none;
+    width: 120px;
+    height: 30px;
+    border: 1.5px solid $border-gray;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: white;
+    position: relative;
+    transition:
+        border-color $transition-timing $default-easing-function,
+        background-color $transition-timing $default-easing-function;
+
+    > .toggleKnob {
+      height: 27px;
+      width: 27px;
+      border-radius: 50%;
+      position: relative;
+      background-color: white;
+      left: 0;
+      box-shadow:
+        0 2px 2px 0 rgba(0,0,0,0.3),
+        0 5px 10px 0 rgba(0,0,0,0.1);
+      transition:
+        left $transition-timing $default-easing-function,
+        transform $transition-timing $default-easing-function;
+
+      &:before,
+      &:after {
+        position: absolute;
+        text-transform: uppercase;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 100%;
+        line-height: 30px;
+      }
+
+      &:before {
+        content: 'ACTIVE';
+        color: white;
+        right: 100%;
+        margin-right: 14px;
+      }
+
+      &:after {
+        content: 'INACTIVE';
+        color: $button-blue;
+        left: 100%;
+        margin-left: 6px;
+      }
+    }
+
+    &.activeSignal {
+      $delay: 0.2s;
+      $transition: $transition-timing - $delay;
+      background-color: $another-green;
+      border-color: $another-green;
+      transition:
+        border-color $transition $default-easing-function $delay,
+        background-color $transition $default-easing-function $delay;
+
+      > .toggleKnob {
+        left: 100%;
+        transform: translateX(-100%);
+      }
+    }
+  }
+
+
+  .activeSignalRadio {
+    display: none;
+  }
+}

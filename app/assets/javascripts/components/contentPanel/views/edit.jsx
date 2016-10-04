@@ -31,7 +31,7 @@ export default class Edit extends Component {
     const responses = _.get(signal, 'responses', [{},{}]);
 
     return (
-      <div className='col-md-9 content-box'>
+      <div className='col-xs-9 content-box'>
         <div className='content-header'>
           <SignalIcon type={signal.signal_type} className='content-icon' />
           <SignalIcon type='explanation' className='content-explanation' />

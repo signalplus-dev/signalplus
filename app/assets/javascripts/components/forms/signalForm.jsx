@@ -26,7 +26,7 @@ class UndecoratedSignalForm extends Component {
         const listenSignal = _.get(response, 'payload.listen_signal');
         const newTab = createTab(listenSignal);
         dispatch(appActions.replaceTab({ tabId, newTab }))
-          .then(_ => browserHistory.push(`/dashboard/signals/${listenSignal.id}`));
+          .then(() => browserHistory.push(`/dashboard/signals/${listenSignal.id}`));
       });
     }
   }
@@ -75,7 +75,8 @@ class SignalForm extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.state.transitioning ||
-      nextProps.formName !== this.props.formName
+      nextProps.formName !== this.props.formName ||
+      !_.isEqual(nextProps.signal, this.props.signal)
     );
   }
 
