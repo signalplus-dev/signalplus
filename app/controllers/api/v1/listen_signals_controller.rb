@@ -31,6 +31,15 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     render json: @listen_signal, each_serializer: ListenSignalSerializer
   end
 
+  def destroy
+    binding.pry
+    id = params[:id]
+
+    listen_signal = ListenSignal.find(id)
+    listen_signal.delete!
+
+  end
+
   def index
     render json: @brand.listen_signals, each_serializer: ListenSignalSerializer
   end

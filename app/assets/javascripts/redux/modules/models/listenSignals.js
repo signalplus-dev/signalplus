@@ -28,6 +28,10 @@ export const LISTEN_SIGNALS_POST_REQUEST = 'signalplus/listenSignals/post/REQUES
 export const LISTEN_SIGNALS_POST_REQUEST_SUCCESS = 'signalplus/listenSignals/post/REQUEST_SUCCESS';
 export const LISTEN_SIGNALS_POST_REQUEST_FAIL = 'signalplus/listenSignals/post/REQUEST_FAIL';
 
+export const LISTEN_SIGNALS_DELETE_REQUEST = 'signalplus/listenSignals/delete/REQUEST';
+export const LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS = 'signalplus/listenSignals/delete/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_DELETE_REQUEST_FAIL = 'signalplus/listenSignals/delete/REQUEST_FAIL';
+
 
 /*
 * Initial State
@@ -159,6 +163,17 @@ export const reducer = handleActions({
     };
   },
 
+  LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS: (state, action) => {
+    const id = action.payload;
+
+    return {
+      ...state,
+      data: {
+        ..._.omit(state.data, id),
+      },
+    },
+  },
+
 }, initialState);
 
 const fetchListenSignalsData = () => {
@@ -219,6 +234,17 @@ export const updateListenSignalData = (payload, id) => {
       { type: LISTEN_SIGNALS_PUT_REQUEST, meta: { id } },
       { type: LISTEN_SIGNALS_PUT_REQUEST_SUCCESS, meta: { id } },
       { type: LISTEN_SIGNALS_PUT_REQUEST_FAIL, meta: { id } },
+    ],
+  });
+};
+
+export const deleteListenSignalData = (id) => {
+  return createRequestAction({
+    endpoint: listenSignalEndpoint(id),
+    method: 'DELETE',
+    types: [
+      { type: LISTEN_SIGNALS_DELETE_REQUEST, meta: { id } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS, meta: { id } },
     ],
   });
 };

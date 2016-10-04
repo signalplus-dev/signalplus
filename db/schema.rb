@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002174430) do
+ActiveRecord::Schema.define(version: 20161004011734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,9 +53,11 @@ ActiveRecord::Schema.define(version: 20161002174430) do
     t.datetime "updated_at",                      null: false
     t.string   "signal_type"
     t.datetime "expiration_date"
+    t.datetime "deleted_at"
   end
 
   add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
+  add_index "listen_signals", ["deleted_at"], name: "index_listen_signals_on_deleted_at", using: :btree
   add_index "listen_signals", ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
 
   create_table "payment_handlers", force: :cascade do |t|

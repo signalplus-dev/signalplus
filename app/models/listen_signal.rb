@@ -15,6 +15,7 @@
 
 class ListenSignal < ActiveRecord::Base
   validates :name, :brand_id, :identity_id, :signal_type, presence: true
+  acts_as_paranoid
 
   belongs_to :brand
   belongs_to :identity

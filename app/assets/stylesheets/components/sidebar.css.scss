@@ -1,4 +1,5 @@
 .sidebar {
+  min-height: 840px;
   padding: 0 !important;
   background-color: $dark-gray;
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.24);
@@ -8,7 +9,20 @@
   padding: 0 !important;
   text-align: center;
   line-height: 50px;
-  min-height: 840px;
+}
+
+.sidebar-btns {
+  padding-top: 200px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 992px) {
+  .sidebar {
+    min-height: 0px;
+  }
+  .sidebar-btns {
+    padding-top: 0px;
+  }
 }
 
 .sidebar-menus li {
