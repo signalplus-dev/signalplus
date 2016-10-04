@@ -37,11 +37,11 @@ class PostPromotionalTweet
 
   def post_tweet_with_image
     temp_file = create_temp_file
+    temp_file.close
     file = File.open(temp_file.path)
     client.update_with_media(message, file)
   ensure
     file.close
-    temp_file.close
   end
 
   def decoded_image
