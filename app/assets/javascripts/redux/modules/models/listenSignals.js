@@ -163,7 +163,7 @@ export const reducer = handleActions({
     };
   },
 
-  LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS: (state, action) => {
+  [LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS]: (state, action) => {
     return {
       ...state,
       data: {
@@ -241,7 +241,6 @@ export const deleteListenSignalData = (id) => {
     endpoint: listenSignalEndpoint(id),
     method: 'DELETE',
     types: [
-      { type: LISTEN_SIGNALS_DELETE_REQUEST, meta: { id } },
       { type: LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS, meta: { id } },
     ],
   });
