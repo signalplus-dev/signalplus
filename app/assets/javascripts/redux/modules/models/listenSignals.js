@@ -164,14 +164,12 @@ export const reducer = handleActions({
   },
 
   LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS: (state, action) => {
-    const id = action.payload;
-
     return {
       ...state,
       data: {
-        ..._.omit(state.data, id),
+        ..._.omit(state.data, action.meta.id),
       },
-    },
+    };
   },
 
 }, initialState);
