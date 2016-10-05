@@ -3,6 +3,14 @@ module Responders
     class Filter
       attr_reader :brand, :tweet_messages, :grouped_replies
 
+      UNIQUE_REPLY_PARAMS_PER_DAY_PER_RESPONSE = [
+        :date,
+        :brand_id,
+        :listen_signal_id,
+        :to,
+        :response_id,
+      ]
+
       # @param brand          [Brand]
       # @param tweet_messages [Array<Twitter::Tweet>|Twitter::Tweet]
       def initialize(brand, tweet_messages)
@@ -26,7 +34,7 @@ module Responders
       def out_users_already_replied_to!
         grouped_replies.each do |hashtag, twitter_replies|
           next if twitter_replies.empty?
-          query_params               = twitter_replies.first.as_json.slice(:date, :brand_id, :listen_signal_id, :to)
+          query_params               = twitter_replies.first.as_json.slice(*UNIQUE_REPLY_PARAMS_PER_DAY_PER_RESPONSE)
           users_already_responded_to = TwitterResponse.where(query_params).pluck(:to)
 
           grouped_replies[hashtag].reject! do |twitter_reply|
@@ -46,31 +54,22 @@ module Responders
         return false if hashtags.empty?
 
         hashtags.any? do |hashtag_obj|
-          hashtags_being_listened_to.include?(hashtag_obj.text.downcase)
+          !!active_listen_signals[hashtag_obj.text.downcase]
         end
       end
 
-      # @return [ActiveRecord::Relation<ListenSignal>]
+      # @return [Hash<String, ListenSignal>]
       def active_listen_signals
-        @listen_signals ||= brand.listen_signals.active
-      end
-
-      # @return [Array<String>]
-      def hashtags_being_listened_to
-        # Should eventually be brand.signals.active.pluck(:name).map(&:downcase)
-        @hashtags_being_listened_to ||= active_listen_signals.map { |ls| n.name.downcase }
-      end
-
-      # @return [String|NilClass]
-      def get_listen_signal(hashtag_text)
-        active_listen_signals.find { |ls| ls.name == hashtag_text.downcase }
+        @listen_signals ||= brand.listen_signals.active.group_by do |ls|
+          ls.name.downcase
+        end
       end
 
       # @return [Hash<String, Array<Responders::Twitter::Reply>>]
       def build_grouped_replies
         twitter_replies = tweet_messages.map do |message|
           messages = message.hashtags.map do |hashtag|
-            listen_signal = get_listen_signal(hashtag.text)
+            listen_signal = active_listen_signals[hashtag.text.downcase].try(:first)
             Reply.build(brand: brand, message: message, listen_signal: listen_signal) if listen_signal
           end
           messages.compact

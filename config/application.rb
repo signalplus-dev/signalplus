@@ -51,7 +51,7 @@ module ProjectSignal
 
     config.after_initialize do
       if Sidekiq.server?
-        puts "Intitializing rake tasks!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        Rails.logger.info("Intitializing twitter streams")
         Brand.twitter_streaming_query.find_each do |brand|
           BackgroundRake.call_rake(:twitter_stream, brand_id: brand.id)
         end
