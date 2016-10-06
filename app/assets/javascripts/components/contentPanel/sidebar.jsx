@@ -25,8 +25,12 @@ class Sidebar extends Component {
     this.deleteSignal = this.deleteSignal.bind(this);
   }
 
-  renderMenuItems(menuItems) {
+  renderMenuItems(menuItems, signal) {
     return _.map(menuItems, (menu) => {
+      if (menu.label === 'Edit') {
+        return <EditMenuItem key={menu.label} {...{ menu, signal }} />;
+      }
+
       return <MenuItem key={menu.label} menu={menu}/>;
     });
   }
@@ -54,12 +58,12 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { menuItems } = this.props; 
+    const { menuItems, signal } = this.props; 
 
     return (
-      <div className='col-md-2 sidebar'>
+      <div className='col-xs-2 sidebar'>
         <ul className='sidebar-menus'>
-          {this.renderMenuItems(menuItems)}
+          {this.renderMenuItems(menuItems, signal)}
         </ul>
         {this.showDelete()}
       </div>

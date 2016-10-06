@@ -6,25 +6,13 @@ import AddBtn from 'components/buttons/add_btn.jsx';
 import SignalIcon from 'components/links/signal_icon.jsx';
 
 export default class Edit extends Component {
-  editSignalName() {
+  displaySignalName() {
     const { signal } = this.props;
-    
-    if (signal.id) {
-      return (
-        <h4 className='subheading'>@Brand #{signal.name}</h4>
-      );
-    } else {
-      return (
-        <h4 className='subheading'>@Brand #
-         <InputBox
-            name="name"
-            placeholder={`Ex. ${signal.signal_type}`}
-            componentClass="input"
-            className='signal-name-edit uctext'
-          />
-        </h4>
-      );
-    }
+    const signalName = signal.id ? signal.name : signal.signal_type;
+
+    return (
+      <h4 className='subheading'>@Brand #{signalName}</h4>
+    );
   }
 
   render() {
@@ -48,7 +36,7 @@ export default class Edit extends Component {
         <div className='response-info'>
           <h4>Responses to:</h4>
           <SignalIcon type="twitter" />
-          {this.editSignalName()}
+          {this.displaySignalName()}
 
           <div className='edit-btns'>
             <button
