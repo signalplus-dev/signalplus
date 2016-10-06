@@ -4,15 +4,12 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
 import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
-
+import { Button } from 'react-bootstrap';
 
 export function MenuItem({ menu }) {
   return (
     <li className="uctext">
-      <Link
-        {...menu.linkProps}
-        activeClassName="active"
-      >
+      <Link {...menu.linkProps} activeClassName="active">
         {menu.label}
       </Link>
     </li>
@@ -35,17 +32,18 @@ class Sidebar extends Component {
 
   deleteSignal() {
     const { dispatch, signal } = this.props;
-
-    dispatch(deleteListenSignalData(signal.id));
+    if (signal) {
+      dispatch(deleteListenSignalData(signal));
+    };
   }
 
   showDelete() {
     if (this.props.signal) {
       return (
         <div className='sidebar-btns'>
-          <button className='delete-btn' onClick={this.deleteSignal}>
+          <Button className='delete-btn' onClick={this.deleteSignal}>
             DELETE SIGNAL
-          </button>
+          </Button>
         </div>
       );
     }
@@ -59,7 +57,6 @@ class Sidebar extends Component {
         <ul className='sidebar-menus'>
           {this.renderMenuItems(menuItems)}
         </ul>
-
         {this.showDelete()}
       </div>
     );

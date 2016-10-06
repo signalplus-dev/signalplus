@@ -9,8 +9,10 @@
 #
 
 class ResponseGroup < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :listen_signal
-  has_many :responses
+  has_many :responses, dependent: :destroy
   has_many :twitter_responses
 
   # @param [String] Who the response should be sent to

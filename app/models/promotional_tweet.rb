@@ -11,6 +11,7 @@
 #
 
 class PromotionalTweet < ActiveRecord::Base
+  acts_as_paranoid
   belongs_to :listen_signal
 
   def self.create_posted_tweet!(listen_signal_id, message, tweet_id)

@@ -157,7 +157,7 @@ export default {
     basePath += `?${queryString.stringify(params)}`;
 
     return this.handleRequest(
-      fetch(path, {
+      fetch(basePath, {
         method:  'PUT',
         headers: {
           ...this.requestHeaders(),

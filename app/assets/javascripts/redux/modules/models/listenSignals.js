@@ -6,7 +6,7 @@ import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
-import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from './promotionalTweets.js';
+import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from 'redux/modules/models/promotionalTweets.js';
 
 
 /*
@@ -146,6 +146,25 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_PUT_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
+  [LISTEN_SIGNALS_DELETE_REQUEST]: (state, action) => ({
+    ...state,
+  }),
+
+  [LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS]: (state, action) => {
+    return {
+      ...state,
+      data: {
+        ..._.omit(state.data, action.meta.signal.id),
+      },
+    };
+  },
+
+  [LISTEN_SIGNALS_DELETE_REQUEST_FAIL]: (state, action) => ({
+    ...state,
+    error: action.payload,
+  }),
+
+
   [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => {
     const promotionalTweet = _.get(action.payload, 'promotional_tweet', {});
     const id = promotionalTweet.id;
@@ -162,16 +181,6 @@ export const reducer = handleActions({
       },
     };
   },
-
-  [LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS]: (state, action) => {
-    return {
-      ...state,
-      data: {
-        ..._.omit(state.data, action.meta.id),
-      },
-    };
-  },
-
 }, initialState);
 
 const fetchListenSignalsData = () => {
@@ -236,12 +245,14 @@ export const updateListenSignalData = (payload, id) => {
   });
 };
 
-export const deleteListenSignalData = (id) => {
+export const deleteListenSignalData = (signal) => {
   return createRequestAction({
-    endpoint: listenSignalEndpoint(id),
+    endpoint: listenSignalEndpoint(signal.id),
     method: 'DELETE',
     types: [
-      { type: LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS, meta: { id } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST, meta: { signal } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS, meta: { signal } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST_FAIL, meta: { signal } },
     ],
   });
 };

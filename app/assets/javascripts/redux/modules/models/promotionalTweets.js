@@ -6,6 +6,7 @@ import {
   LISTEN_SIGNALS_REQUEST,
   LISTEN_SIGNALS_REQUEST_SUCCESS,
   LISTEN_SIGNALS_REQUEST_FAIL,
+  LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS,
 } from 'redux/modules/models/listenSignals.js';
 import {
   normalizeListenSignalsResponse,

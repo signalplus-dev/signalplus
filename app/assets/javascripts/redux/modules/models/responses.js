@@ -11,6 +11,7 @@ import {
   LISTEN_SIGNALS_PUT_REQUEST_SUCCESS,
   LISTEN_SIGNALS_POST_REQUEST_SUCCESS,
   LISTEN_SIGNALS_POST_REQUEST_FAIL,
+  LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS,
 } from 'redux/modules/models/listenSignals.js';
 
 
@@ -64,4 +65,15 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: handleResponseRequest,
 
+  [LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS]: (state, action) => {
+    const responses = action.meta.signal.responses;
+    const responseIds = _.map(responses, function(response) {
+      return response.id;
+    });
+
+    return {
+      ...state,
+      data: _.omit(state.data, responseIds)
+    }
+  },
 }, initialState);

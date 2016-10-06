@@ -15,6 +15,8 @@
 class Response < ActiveRecord::Base
   validates :message, :response_type, :response_group_id, presence: true
 
+  acts_as_paranoid
+
   belongs_to :response_group
   has_many :twitter_responses
 

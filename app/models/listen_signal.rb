@@ -19,9 +19,10 @@ class ListenSignal < ActiveRecord::Base
 
   belongs_to :brand
   belongs_to :identity
-  has_one :response_group
+  has_one :response_group, dependent: :destroy
   has_many :responses, through: :response_group
   has_many :promotional_tweets
+  
 
   after_commit :toggle_twitter_streamer
 

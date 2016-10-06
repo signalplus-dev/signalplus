@@ -1,8 +1,8 @@
 class Api::V1::ListenSignalsController < Api::V1::BaseController
-  before_action :get_brand, only: [:index, :show, :create, :update]
-  before_action :get_listen_signal, only: [:show]
-  before_action :ensure_user_can_get_signal_info, only: [:index, :show]
-  before_action :ensure_user_can_get_listen_signal, only: [:show]
+  before_action :get_brand, only: [:index, :show, :create, :update, :destroy]
+  before_action :get_listen_signal, only: [:show, :destroy]
+  before_action :ensure_user_can_get_signal_info, only: [:index, :show, :destroy]
+  before_action :ensure_user_can_get_listen_signal, only: [:show, :destroy]
   before_action :has_valid_subscription?, only: [:update, :create]
 
   def update
@@ -32,12 +32,9 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   end
 
   def destroy
-    binding.pry
-    id = params[:id]
-
-    listen_signal = ListenSignal.find(id)
-    listen_signal.delete!
-
+    @listen_signal.destroy
+    
+    render json: @listen_signal, each_serializer: ListenSignalSerializer
   end
 
   def index
