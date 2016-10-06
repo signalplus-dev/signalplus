@@ -46,7 +46,7 @@ class Sidebar extends Component {
   }
 
   showDelete() {
-    if (this.props.signal) {
+    if (this.props.signal.id) {
       return (
         <div className='sidebar-btns'>
           <Button className='delete-btn' onClick={this.deleteSignal}>

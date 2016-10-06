@@ -161,7 +161,12 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_DELETE_REQUEST_FAIL]: (state, action) => ({
     ...state,
-    error: action.payload,
+    data: {
+      [action.meta.signal.id]: {
+        ..._.get(state, `data.${action.meta.signal.id}`, {}),
+        error: action.payload,
+      },
+    },
   }),
 
 
