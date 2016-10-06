@@ -12,10 +12,9 @@ import {
 class Promote extends Component {
   constructor(props) {
     super(props);
-    this.handleChange   = this.handleChange.bind(this);
-    this.handleImage    = this.handleImage.bind(this);
-    this.handleEncoding = this.handleEncoding.bind(this);
-    this.handleSubmit   = this.handleSubmit.bind(this);
+    this.handleChange     = this.handleChange.bind(this);
+    this.handleSubmit     = this.handleSubmit.bind(this);
+    this.handleImageState = this.handleImageState.bind(this);
 
     this.state = {
       listen_signal_id: this.props.params.id,
@@ -29,17 +28,18 @@ class Promote extends Component {
     this.setState({ message: e.currentTarget.value });
   }
 
-  handleImage(image, encodedImage) {
-    this.setState({ image: image });
-  }
+  handleImageState(k, v) {
+    const obj = {};
+    obj[k] = v;
 
-  handleEncoding(encodedImage) {
-    this.setState({ encoded_image: encodedImage });
+    this.setState(obj);
   }
 
   handleSubmit() {
     const { dispatch } = this.props;
-    dispatch(addPromotionalTweetData(this.state));
+    const params = _.omit(this.state, 'image');
+
+    dispatch(addPromotionalTweetData(params));
   }
 
   render() {
@@ -75,7 +75,7 @@ class Promote extends Component {
             </div>
             <div className='row'>
               <div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 center promote-image'>
-                <PromoteImage image={this.state.image} handleImage={this.handleImage} handleEncoding={this.handleEncoding}/>
+                <PromoteImage image={this.state.image} handleImageState={this.handleImageState}/>
               </div>
             </div>
             <Button onClick={this.handleSubmit} className='save-btn post-to-timeline-btn'>POST TO YOUR TIMELINE</Button>
