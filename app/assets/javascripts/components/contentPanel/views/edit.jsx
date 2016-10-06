@@ -7,11 +7,11 @@ import SignalIcon from 'components/links/signal_icon.jsx';
 
 export default class Edit extends Component {
   displaySignalName() {
-    const { signal } = this.props;
+    const { signal, brand } = this.props;
     const signalName = signal.id ? signal.name : signal.signal_type;
 
     return (
-      <h4 className='subheading'>@Brand #{signalName}</h4>
+      <h4 className='subheading'>@{brand.user_name} #{signalName}</h4>
     );
   }
 

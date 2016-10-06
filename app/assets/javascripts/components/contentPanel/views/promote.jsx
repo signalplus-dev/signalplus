@@ -43,7 +43,7 @@ class Promote extends Component {
   }
 
   render() {
-    const { signal } = this.props;
+    const { signal, brand } = this.props;
 
     if (signal.id) {
       return (
@@ -54,7 +54,7 @@ class Promote extends Component {
           <div className='response-info'>
             <h4>Promote:</h4>
             <SignalIcon type='twitter'/>
-            <h4 className='subheading'>@Brand #Offers</h4>
+            <h4 className='subheading'>@{brand.user_name} #{signal.name}</h4>
           </div>
           <div className='tip-box'>
             <SignalIcon type='tip'/>

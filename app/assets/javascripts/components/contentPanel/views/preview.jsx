@@ -1,10 +1,18 @@
 import React from 'react'
 import SignalIcon from 'components/links/signal_icon.jsx';
+import _ from 'lodash';
 
 export default function Preview(props) {
-  const signal = props.signal.edit;
+  const { signal, brand } = props;
 
-  if (signal) {
+  const getResponse = (type) => {
+    const response = _.filter(signal.responses, { response_type: type }); 
+    debugger;
+
+    return response.message;
+  }
+
+  if (signal.id) {
     return (
       <div className='col-xs-9 content-box'>
         <div className='content-header'>
@@ -23,7 +31,7 @@ export default function Preview(props) {
 
         <div className='preview-bubble'>
           <div className='bubble'>
-              @{signal['brand_name']} #{signal['name']}
+              @{brand.user_name} #{signal.name}
           </div>
           <span><SignalIcon className='preview-image' type="public"/></span>
         </div>
@@ -31,20 +39,18 @@ export default function Preview(props) {
         <div className='row'>
           <div className='col-md-1 preview-label' />
           <div className='col-md-3 preview-label'>
-            <h5>First Response</h5>
+            <h5>Default Response</h5>
             <h5 className='preview-wrap-text'>No Offers Available /Repeat Requests</h5>
-            <h5>Timed Offer</h5>
-            <h5>Range Offer</h5>
+            <h5>Custom Response</h5>
           </div>
 
           <div className='col-md-5 preview-responses'>
             <div className='preview-response-bubble'>
-              {signal.responses[0].message}
+              {getResponse('default')}
             </div>
             <div className='preview-response-bubble'>
-              {signal.responses[1].message}
+              {getResponse('repeat')}
             </div>
-            <div className='preview-response-bubble' />
             <div className='preview-response-bubble' />
           </div>
         </div>
