@@ -67,7 +67,7 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS]: (state, action) => {
     const responses = action.meta.signal.responses;
-    const responseIds = _.map(responses, function(response) {
+    const responseIds = _.map(responses, (response) => {
       return response.id;
     });
 

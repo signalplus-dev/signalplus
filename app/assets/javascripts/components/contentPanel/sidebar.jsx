@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import _ from 'lodash';
 import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
 import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
 import { Button } from 'react-bootstrap';
+
+const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';
 
 export function MenuItem({ menu }) {
   return (
@@ -34,6 +36,7 @@ class Sidebar extends Component {
     const { dispatch, signal } = this.props;
     if (signal) {
       dispatch(deleteListenSignalData(signal));
+      browserHistory.push(ACTIVE_SIGNAL_PATH);
     };
   }
 
