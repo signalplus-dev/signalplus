@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
+import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
 import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
-import { Button } from 'react-bootstrap';
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';
 
