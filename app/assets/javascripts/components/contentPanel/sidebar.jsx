@@ -20,10 +20,8 @@ export function MenuItem({ menu }) {
 
 class Sidebar extends Component {
   constructor(props) {
-    super(props)
-    this.renderMenuItems = this.renderMenuItems.bind(this);
+    super(props);
     this.deleteSignal = this.deleteSignal.bind(this);
-    this.showDelete = this.showDelete.bind(this);
   }
 
   renderMenuItems(menuItems) {
@@ -34,7 +32,7 @@ class Sidebar extends Component {
 
   deleteSignal() {
     const { dispatch, signal } = this.props;
-    if (signal) {
+    if (signal.id) {
       dispatch(deleteListenSignalData(signal));
       browserHistory.push(ACTIVE_SIGNAL_PATH);
     };

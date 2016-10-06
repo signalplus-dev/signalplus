@@ -8,6 +8,7 @@ import SignalIcon from 'components/links/signal_icon.jsx';
 export default class Edit extends Component {
   editSignalName() {
     const { signal } = this.props;
+    
     if (signal.id) {
       return (
         <h4 className='subheading'>@Brand #{signal.name}</h4>
