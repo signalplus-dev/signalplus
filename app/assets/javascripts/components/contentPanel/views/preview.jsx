@@ -7,8 +7,6 @@ export default function Preview(props) {
 
   const getResponse = (type) => {
     const response = _.filter(signal.responses, { response_type: type }); 
-    debugger;
-
     return response.message;
   }
 
