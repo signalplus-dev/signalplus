@@ -13,7 +13,7 @@ describe Responders::Twitter::Listener do
   let(:identity)        { create(:identity) }
   let(:brand)           { identity.brand }
   let!(:listen_signal)  { create(:listen_signal, brand: brand, identity: identity) }
-  let!(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
+  let!(:response_group) { create(:default_group_responses, listen_signal: listen_signal) }
 
   # @param hashtags [Array] an array of hashtags
   def create_mock_tweet(hashtags = [])
@@ -160,6 +160,10 @@ describe Responders::Twitter::Listener do
           create_filter(create_mock_tweet(['somehashtag'])).grouped_replies
         end
 
+        let(:even_more_grouped_replies) do
+          create_filter(create_mock_tweet(['somehashtag'])).grouped_replies
+        end
+
         before { stub_current_time(Time.current) }
 
         context 'trying to request a deal on the same day' do
@@ -170,10 +174,19 @@ describe Responders::Twitter::Listener do
             }.to change { TwitterResponse.count }.from(0).to(1)
           end
 
-          it 'does not reply twice to the same hashtag on the same day' do
+          it 'replies with a repeat response' do
             expect {
               described_class.send(:reply_to_messages, more_grouped_replies, brand)
-            }.not_to change { TwitterResponse.count }
+            }.to change { TwitterResponse.count }.from(1).to(2)
+            expect(TwitterResponse.last.response_id).to eq(response_group.repeat_response.id)
+          end
+
+          it 'does not resond after a repeat response' do
+            described_class.send(:reply_to_messages, more_grouped_replies, brand)
+
+            expect {
+              described_class.send(:reply_to_messages, even_more_grouped_replies, brand)
+            }.to_not change { TwitterResponse.count }
           end
         end
 

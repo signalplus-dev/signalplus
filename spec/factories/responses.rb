@@ -22,7 +22,7 @@ FactoryGirl.define do
     trait :default do
       message 'this is the default message'
       response_type 'default'
-      priority 1
+      priority Response::DEFAULT_PRIORITY[Response::Type::DEFAULT]
     end
 
     trait :expired do
@@ -40,7 +40,7 @@ FactoryGirl.define do
     trait :repeat do
       message 'this is the repeat response'
       response_type 'repeat'
-      priority 2
+      priority Response::DEFAULT_PRIORITY[Response::Type::REPEAT]
     end
   end
 end

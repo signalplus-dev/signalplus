@@ -49,12 +49,12 @@ describe ListenSignal do
   end
 
   describe '.repeat_response' do
-    let(:response_group) { create(:response_group_first_and_repeat_responses)}
+    let(:response_group) { create(:default_group_responses) }
     let(:listen_signal) { create(:listen_signal, :offer, response_group: response_group) }
 
     it 'returns repeat response' do
       repeat_response = listen_signal.repeat_response
-      expect(repeat_response.priority).to eq(2)
+      expect(repeat_response.priority).to eq(1000)
     end
   end
 end

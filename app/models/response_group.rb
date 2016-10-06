@@ -39,6 +39,11 @@ class ResponseGroup < ActiveRecord::Base
   end
 
   # @return [Response]
+  def repeat_response
+    responses.find(&:repeat?)
+  end
+
+  # @return [Response]
   def expired_response
     responses.find(&:expired?)
   end
