@@ -73,7 +73,7 @@ export const reducer = handleActions({
 
     return {
       ...state,
-      data: _.omit(state.data, responseIds)
+      data: _.omit(state.data, responseIds),
     }
   },
 }, initialState);

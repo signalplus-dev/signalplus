@@ -4,6 +4,7 @@ import { Link, browserHistory } from 'react-router';
 import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
+import { actions as appActions } from 'redux/modules/app.js';
 import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';
@@ -31,10 +32,12 @@ class Sidebar extends Component {
   }
 
   deleteSignal() {
-    const { dispatch, signal } = this.props;
+    const { dispatch, signal, tabId } = this.props;
     if (signal.id) {
       dispatch(deleteListenSignalData(signal));
-      browserHistory.push(ACTIVE_SIGNAL_PATH);
+      dispatch(appActions.removeTab(tabId)).then(() => {
+        browserHistory.push(ACTIVE_SIGNAL_PATH);
+      });
     };
   }
 

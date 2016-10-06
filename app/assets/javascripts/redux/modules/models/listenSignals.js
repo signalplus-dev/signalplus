@@ -176,7 +176,7 @@ export const reducer = handleActions({
         ...state.data,
         [signalId]: {
           ..._.get(state, `data.${signalId}`, {}),
-          promotionalTweets: _.get(state, `data.${signalId}.promotionalTweets`, []).concat(id),
+          promotional_tweets: _.get(state, `data.${signalId}.promotional_tweets`, []).concat(id),
         },
       },
     };

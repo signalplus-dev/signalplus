@@ -34,7 +34,7 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   def destroy
     @listen_signal.destroy
     
-    render json: @listen_signal, each_serializer: ListenSignalSerializer
+    head :no_content
   end
 
   def index

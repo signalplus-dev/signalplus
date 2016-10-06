@@ -153,7 +153,7 @@ class ContentPanel extends Component {
 
     return (
       <SignalForm signal={signal} tabId={tabId(signal)}>
-        <Sidebar menuItems={this.menuItems()} signal={signal} />
+        <Sidebar menuItems={this.menuItems()} signal={signal} tabId={tabId(signal)}/>
         <div className="content-pane">
           {childrenToRender}
         </div>

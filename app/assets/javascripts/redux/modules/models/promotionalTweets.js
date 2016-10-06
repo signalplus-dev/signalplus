@@ -32,6 +32,8 @@ export const initialState = {
 export const reducer = handleActions({
   [LISTEN_SIGNALS_REQUEST]: (state, action) => ({
     ...state,
+    loading: true,
+    loaded: false,
   }),
 
   [LISTEN_SIGNALS_REQUEST_SUCCESS]: (state, action) => {
@@ -45,12 +47,23 @@ export const reducer = handleActions({
           ...promo_tweet,
         },
       }), {}),
+      loading: false,
+      loaded: true,
     };
   },
 
   [LISTEN_SIGNALS_REQUEST_FAIL]: (state, action) => ({
     ...state,
     error: action.payload,
+    loading: false,
+    loaded: false,
+  }),
+
+  [LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ..._.omit(state.data, action.meta.signal.promotional_tweets),
+    },
   }),
 
   [PROMOTION_SIGNAL_POST_REQUEST]: (state, action) => ({
