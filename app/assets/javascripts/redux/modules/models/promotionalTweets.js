@@ -16,6 +16,8 @@ const LISTEN_SIGNAL_SHOW_REQUEST = 'signalplus/listenSignals/SHOW_REQUEST';
 const LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS = 'signalplus/listenSignals/SHOW_REQUEST_SUCCESS';
 const LISTEN_SIGNAL_SHOW_REQUEST_FAIL = 'signalplus/listenSignals/SHOW_REQUEST_FAIL';
 
+const LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS = 'signalplus/listenSignals/DELETE_REQUEST_SUCCESS';
+
 export const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
 export const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';
 export const PROMOTION_SIGNAL_POST_REQUEST_FAIL = 'signalplus/promotionalSignal/REQUEST_FAIL';
