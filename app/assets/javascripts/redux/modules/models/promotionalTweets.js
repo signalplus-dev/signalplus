@@ -3,15 +3,18 @@ import { handleActions } from 'redux-actions';
 import { createRequestAction} from 'redux/utils.js';
 import Endpoints from 'util/endpoints.js';
 import {
-  LISTEN_SIGNALS_REQUEST,
-  LISTEN_SIGNALS_REQUEST_SUCCESS,
-  LISTEN_SIGNALS_REQUEST_FAIL,
-  LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS,
-} from 'redux/modules/models/listenSignals.js';
-import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
+
+// Something weird going on with imports so just going to bring these constants in
+const LISTEN_SIGNALS_REQUEST = 'signalplus/listenSignals/REQUEST';
+const LISTEN_SIGNALS_REQUEST_SUCCESS = 'signalplus/listenSignals/REQUEST_SUCCESS';
+const LISTEN_SIGNALS_REQUEST_FAIL = 'signalplus/listenSignals/REQUEST_FAIL';
+
+const LISTEN_SIGNAL_SHOW_REQUEST = 'signalplus/listenSignals/SHOW_REQUEST';
+const LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS = 'signalplus/listenSignals/SHOW_REQUEST_SUCCESS';
+const LISTEN_SIGNAL_SHOW_REQUEST_FAIL = 'signalplus/listenSignals/SHOW_REQUEST_FAIL';
 
 export const PROMOTION_SIGNAL_POST_REQUEST = 'signalplus/promotionalSignal/REQUEST';
 export const PROMOTION_SIGNAL_POST_REQUEST_SUCCESS = 'signalplus/promotionalSignal/REQUEST_SUCESS';

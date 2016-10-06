@@ -36,7 +36,7 @@ export const LISTEN_SIGNALS_DELETE_REQUEST_FAIL = 'signalplus/listenSignals/dele
 /*
 * Initial State
 */
-export const initialState = {
+const initialState = {
   data: {},
   loaded: false,
   loading: false,
