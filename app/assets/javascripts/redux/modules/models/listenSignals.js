@@ -6,7 +6,7 @@ import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
 } from 'util/normalize.js';
-import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from './promotionalTweets.js';
+import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from 'redux/modules/models/promotionalTweets.js';
 
 
 /*
@@ -28,11 +28,15 @@ export const LISTEN_SIGNALS_POST_REQUEST = 'signalplus/listenSignals/post/REQUES
 export const LISTEN_SIGNALS_POST_REQUEST_SUCCESS = 'signalplus/listenSignals/post/REQUEST_SUCCESS';
 export const LISTEN_SIGNALS_POST_REQUEST_FAIL = 'signalplus/listenSignals/post/REQUEST_FAIL';
 
+export const LISTEN_SIGNALS_DELETE_REQUEST = 'signalplus/listenSignals/delete/REQUEST';
+export const LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS = 'signalplus/listenSignals/delete/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_DELETE_REQUEST_FAIL = 'signalplus/listenSignals/delete/REQUEST_FAIL';
+
 
 /*
 * Initial State
 */
-export const initialState = {
+const initialState = {
   data: {},
   loaded: false,
   loading: false,
@@ -142,6 +146,30 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNALS_PUT_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
+  [LISTEN_SIGNALS_DELETE_REQUEST]: (state, action) => ({
+    ...state,
+  }),
+
+  [LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS]: (state, action) => {
+    return {
+      ...state,
+      data: {
+        ..._.omit(state.data, action.meta.signal.id),
+      },
+    };
+  },
+
+  [LISTEN_SIGNALS_DELETE_REQUEST_FAIL]: (state, action) => ({
+    ...state,
+    data: {
+      [action.meta.signal.id]: {
+        ..._.get(state, `data.${action.meta.signal.id}`, {}),
+        error: action.payload,
+      },
+    },
+  }),
+
+
   [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (state, action) => {
     const promotionalTweet = _.get(action.payload, 'promotional_tweet', {});
     const id = promotionalTweet.id;
@@ -153,12 +181,11 @@ export const reducer = handleActions({
         ...state.data,
         [signalId]: {
           ..._.get(state, `data.${signalId}`, {}),
-          promotionalTweets: _.get(state, `data.${signalId}.promotionalTweets`, []).concat(id),
+          promotional_tweets: _.get(state, `data.${signalId}.promotional_tweets`, []).concat(id),
         },
       },
     };
   },
-
 }, initialState);
 
 const fetchListenSignalsData = () => {
@@ -219,6 +246,18 @@ export const updateListenSignalData = (payload, id) => {
       { type: LISTEN_SIGNALS_PUT_REQUEST, meta: { id } },
       { type: LISTEN_SIGNALS_PUT_REQUEST_SUCCESS, meta: { id } },
       { type: LISTEN_SIGNALS_PUT_REQUEST_FAIL, meta: { id } },
+    ],
+  });
+};
+
+export const deleteListenSignalData = (signal) => {
+  return createRequestAction({
+    endpoint: listenSignalEndpoint(signal.id),
+    method: 'DELETE',
+    types: [
+      { type: LISTEN_SIGNALS_DELETE_REQUEST, meta: { signal } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS, meta: { signal } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST_FAIL, meta: { signal } },
     ],
   });
 };

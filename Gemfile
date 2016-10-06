@@ -46,6 +46,7 @@ gem 'react-bootstrap-rails'
 gem 'paper_trail'
 gem 'browserify-rails'
 gem 'active_model_serializers'
+gem "paranoia", "~> 2.0"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -1,37 +1,74 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link, browserHistory } from 'react-router';
+import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
+import { actions as appActions } from 'redux/modules/app.js';
+import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
 
-function MenuItem({ menu }) {
+const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';
+
+export function MenuItem({ menu }) {
   return (
     <li className="uctext">
-      <Link
-        {...menu.linkProps}
-        activeClassName="active"
-      >
+      <Link {...menu.linkProps} activeClassName="active">
         {menu.label}
       </Link>
     </li>
   );
 }
 
-function renderMenuItems(menuItems, signal) {
-  return _.map(menuItems, (menu) => {
-    if (menu.label === 'Edit') {
-      return <EditMenuItem key={menu.label} {...{ menu, signal }} />;
+class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.deleteSignal = this.deleteSignal.bind(this);
+  }
+
+  renderMenuItems(menuItems, signal) {
+    return _.map(menuItems, (menu) => {
+      if (menu.label === 'Edit') {
+        return <EditMenuItem key={menu.label} {...{ menu, signal }} />;
+      }
+
+      return <MenuItem key={menu.label} menu={menu}/>;
+    });
+  }
+
+  deleteSignal() {
+    const { dispatch, signal, tabId } = this.props;
+    if (signal.id) {
+      dispatch(deleteListenSignalData(signal));
+      dispatch(appActions.removeTab(tabId)).then(() => {
+        browserHistory.push(ACTIVE_SIGNAL_PATH);
+      });
+    };
+  }
+
+  showDelete() {
+    if (this.props.signal.id) {
+      return (
+        <div className='sidebar-btns'>
+          <Button className='delete-btn' onClick={this.deleteSignal}>
+            DELETE SIGNAL
+          </Button>
+        </div>
+      );
     }
+  }
 
-    return <MenuItem key={menu.label} menu={menu}/>;
-  });
+  render() {
+    const { menuItems, signal } = this.props; 
+
+    return (
+      <div className='col-xs-2 sidebar'>
+        <ul className='sidebar-menus'>
+          {this.renderMenuItems(menuItems, signal)}
+        </ul>
+        {this.showDelete()}
+      </div>
+    );
+  }
 }
 
-export default function Sidebar({ menuItems, signal }) {
-  return (
-    <div className='col-xs-2 sidebar'>
-      <ul className='sidebar-menus'>
-        {renderMenuItems(menuItems, signal)}
-      </ul>
-    </div>
-  );
-}
+export default connect()(Sidebar);

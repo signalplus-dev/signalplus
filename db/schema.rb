@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002174430) do
+ActiveRecord::Schema.define(version: 20161004132452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,9 +53,11 @@ ActiveRecord::Schema.define(version: 20161002174430) do
     t.datetime "updated_at",                      null: false
     t.string   "signal_type"
     t.datetime "expiration_date"
+    t.datetime "deleted_at"
   end
 
   add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
+  add_index "listen_signals", ["deleted_at"], name: "index_listen_signals_on_deleted_at", using: :btree
   add_index "listen_signals", ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
 
   create_table "payment_handlers", force: :cascade do |t|
@@ -74,16 +76,20 @@ ActiveRecord::Schema.define(version: 20161002174430) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "tweet_id",         limit: 8
+    t.datetime "deleted_at"
   end
 
+  add_index "promotional_tweets", ["deleted_at"], name: "index_promotional_tweets_on_deleted_at", using: :btree
   add_index "promotional_tweets", ["listen_signal_id"], name: "index_promotional_tweets_on_listen_signal_id", using: :btree
 
   create_table "response_groups", force: :cascade do |t|
     t.integer  "listen_signal_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "response_groups", ["deleted_at"], name: "index_response_groups_on_deleted_at", using: :btree
   add_index "response_groups", ["listen_signal_id"], name: "index_response_groups_on_listen_signal_id", using: :btree
 
   create_table "responses", force: :cascade do |t|
@@ -94,8 +100,10 @@ ActiveRecord::Schema.define(version: 20161002174430) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "priority"
+    t.datetime "deleted_at"
   end
 
+  add_index "responses", ["deleted_at"], name: "index_responses_on_deleted_at", using: :btree
   add_index "responses", ["response_group_id"], name: "index_responses_on_response_group_id", using: :btree
 
   create_table "subscription_plans", force: :cascade do |t|

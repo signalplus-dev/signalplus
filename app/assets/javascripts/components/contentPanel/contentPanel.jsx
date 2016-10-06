@@ -141,9 +141,9 @@ class ContentPanel extends Component {
   }
 
   cloneChildren() {
-    const { signal } = this.props;
+    const { signal, brand } = this.props;
     return React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, { signal });
+      return React.cloneElement(child, { signal, brand });
     });
   }
 
@@ -153,7 +153,7 @@ class ContentPanel extends Component {
 
     return (
       <SignalForm signal={signal} tabId={tabId(signal)}>
-        <Sidebar menuItems={this.menuItems()} signal={signal} />
+        <Sidebar menuItems={this.menuItems()} signal={signal} tabId={tabId(signal)}/>
         <div className="content-pane">
           {childrenToRender}
         </div>
@@ -165,6 +165,7 @@ class ContentPanel extends Component {
 const ConnectedContentPanel = connect((state, ownProps) => ({
   signal: getSignal(state, ownProps),
   tabs: state.app.dashboard.tabs,
+  brand: state.models.brand.data,
 }))(ContentPanel);
 
 export default provideHooks(hooks)(ConnectedContentPanel);

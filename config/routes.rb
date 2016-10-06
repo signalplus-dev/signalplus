@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       resources :promotional_tweets, only: [:index, :create]
       resources :subscriptions, only: [:create, :update]
       resources :subscription_plans, only: [:index]
-      resources :listen_signals, only: [:index, :show, :create, :update] do
+      resources :listen_signals, only: [:index, :show, :create, :update, :destroy] do
         get :templates, on: :collection
       end
       resources :brands, only: [:show] do
