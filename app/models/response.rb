@@ -26,6 +26,11 @@ class Response < ActiveRecord::Base
     FLOW    = 'flow'
   end
 
+  DEFAULT_PRIORITY = {
+    Type::DEFAULT => 0,
+    Type::REPEAT  => 1000,
+  }
+
   def self.provider
     response_group.listen_signal.provider
   end
@@ -35,6 +40,7 @@ class Response < ActiveRecord::Base
       r.message = message
       r.response_type = type
       r.response_group = response_group
+      r.priority = DEFAULT_PRIORITY[type]
     end
   end
 
@@ -45,7 +51,7 @@ class Response < ActiveRecord::Base
       r.response_group_id = response_group.id
       r.expiration_date = exp_date
     end
-  end  
+  end
 
   def update_message(msg)
     update_attribute(:message, msg)

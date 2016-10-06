@@ -40,7 +40,7 @@ class Brand < ActiveRecord::Base
     end
 
     def twitter_streaming_query
-      where.not(streaming_tweet_pid: nil).select(:id)
+      joins(:listen_signals).merge(ListenSignal.active).select(:id).distinct
     end
   end
 
@@ -117,8 +117,24 @@ class Brand < ActiveRecord::Base
     streaming_tweet_pid.nil?
   end
 
+  def turn_on_twitter_streaming?
+    !currently_streaming_twitter? && has_active_signals?
+  end
+
+  def has_active_signals?
+    listen_signals.active.exists?
+  end
+
   def subscription?
     subscription.present?
+  end
+
+  def process_name
+    "twitter_stream_#{id}"
+  end
+
+  def kill_streaming_process!
+    `killall #{process_name}`
   end
 
   private

@@ -16,12 +16,13 @@
 class ListenSignal < ActiveRecord::Base
   validates :name, :brand_id, :identity_id, :signal_type, presence: true
 
-
   belongs_to :brand
   belongs_to :identity
   has_one :response_group
   has_many :responses, through: :response_group
   has_many :promotional_tweets
+
+  after_commit :toggle_twitter_streamer
 
   module Types
     OFFER    = :offer
@@ -55,10 +56,16 @@ class ListenSignal < ActiveRecord::Base
   end
 
   def expired?
-    expiration_date <= Time.current
+    expiration_date? && expiration_date <= Time.current
   end
 
   def last_promotional_tweet
     @last_promotional_tweet ||= promotional_tweets.last
+  end
+
+  private
+
+  def toggle_twitter_streamer
+    ToggleTwitterStreamWorker.perform_async(brand_id)
   end
 end

@@ -20,7 +20,6 @@ class ResponseGroup < ActiveRecord::Base
                               .joins(:twitter_responses)
                               .where(twitter_responses: { to: to })
                               .where.not(twitter_responses: { reply_tweet_id: nil })
-                              .where.not(response_type: Response::Type::DEFAULT)
                               .where.not(response_type: Response::Type::EXPIRED)
                               .order(priority: :asc)
                               .limit(1)
@@ -29,9 +28,9 @@ class ResponseGroup < ActiveRecord::Base
 
     last_response_priority ||= -1
 
-    response = responses.find { |r| r.priority == last_response_priority + 1 }
+    response = responses.find { |r| r.priority > last_response_priority }
 
-    response.blank? ? default_response : response
+    response || default_response
   end
 
   # @return [Response]

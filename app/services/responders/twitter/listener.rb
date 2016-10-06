@@ -1,16 +1,6 @@
 module Responders
   module Twitter
     class Listener
-      HASHTAGS_TO_LISTEN_TO       = {
-        'somehashtag' => {
-          'text_reply' => 'Check out this puppy!',
-          'image'         => 'puppy_cuteness.gif',
-        },
-        'somehashtagwithoutimage' => {
-          'text_reply' => 'Check out this text reply baby!',
-        },
-      }
-
       class << self
         def process_messages(brand_id)
           brand  = Brand.find_with_trackers(brand_id)

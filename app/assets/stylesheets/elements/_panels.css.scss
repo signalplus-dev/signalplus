@@ -31,6 +31,14 @@
   &:active {
     // transform: scale(1.1);
   }
+
+  &.inactiveSignal {
+    background-color: $dark-gray;
+
+    .circle {
+      background-color: $inactive-gray;
+    }
+  }
 }
 
 .panel-icon {

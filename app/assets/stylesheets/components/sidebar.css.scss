@@ -11,14 +11,8 @@
   min-height: 840px;
 }
 
-@media only screen and (max-width: 992px) {
-    .sidebar-menus {
-      min-height: 0px;
-    }
-}
-
 .sidebar-menus li {
-  height: 50px;
+  display: block;
   list-style: none;
   text-decoration: none;
   color: $text-white;

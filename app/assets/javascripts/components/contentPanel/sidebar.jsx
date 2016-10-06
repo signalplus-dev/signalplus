@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
+import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
 
 function MenuItem({ menu }) {
   return (
@@ -15,17 +16,21 @@ function MenuItem({ menu }) {
   );
 }
 
-function renderMenuItems(menuItems) {
+function renderMenuItems(menuItems, signal) {
   return _.map(menuItems, (menu) => {
+    if (menu.label === 'Edit') {
+      return <EditMenuItem key={menu.label} {...{ menu, signal }} />;
+    }
+
     return <MenuItem key={menu.label} menu={menu}/>;
   });
 }
 
-export default function Sidebar({ menuItems }) {
+export default function Sidebar({ menuItems, signal }) {
   return (
-    <div className='col-md-2 sidebar'>
+    <div className='col-xs-2 sidebar'>
       <ul className='sidebar-menus'>
-        {renderMenuItems(menuItems)}
+        {renderMenuItems(menuItems, signal)}
       </ul>
     </div>
   );

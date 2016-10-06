@@ -17,7 +17,7 @@ const hooks = {
 
 function Dashboard({ children, ...props }) {
   return (
-    <div className="dash">
+    <div className="dash row">
       <div className="col-md-12 dash-header">
         <BrandProfileBlock />
         <SubscriptionSummary />

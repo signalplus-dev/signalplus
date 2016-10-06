@@ -21,31 +21,40 @@ end
 
 desc "Listens to a user's stream of mentions and direct messages"
 task twitter_stream: :environment do
-  brand        = Brand.find(ENV['BRAND_ID'])
-  process_name = "twitter_stream_#{brand.id}"
+  brand = Brand.find(ENV['BRAND_ID'])
 
   # Kill any old processes
-  `killall #{process_name}`
+  brand.kill_streaming_process!
+
   sleep 1
-  Process.setproctitle(process_name)
+  Process.setproctitle(brand.process_name)
 
-  begin
-    brand.streaming_tweets!(Process.pid)
-  rescue StandardError => e
-    Rollbar.error(e)
+  loop do
+    begin
+      brand.streaming_tweets!(Process.pid)
+    rescue StandardError => e
+      # Reload the brand to find if it should stop streaming tweets
+      brand.reload
 
-    # Turn on polling implementation
-    brand.update!(polling_tweets: true)
+      if brand.stop_twitter_streaming?
+        Rails.logger.info('Stopping twitter stream')
+        break
+      else
+        # Should ignore Sigterm
+        Rails.logger.info('Recording error for listening to twitter stream')
+        Rollbar.error(e)
 
-    scheduled_jobs = Sidekiq::ScheduledSet.new
-    twitter_cron_job = scheduled_jobs.find do |j|
-      j.item['class'] == TwitterCronJob.to_s
+        # Turn on polling implementation
+        brand.update!(polling_tweets: true)
+
+        scheduled_jobs = Sidekiq::ScheduledSet.new
+        twitter_cron_job = scheduled_jobs.find do |j|
+          j.item['class'] == TwitterCronJob.to_s
+        end
+
+        # Start polling implementation immediately
+        twitter_cron_job.add_to_queue if twitter_cron_job
+      end
     end
-
-    # Start polling implementation immediately
-    twitter_cron_job.add_to_queue if twitter_cron_job
-
-    # Turn the twitter stream back on
-    BackgroundRake.call_rake(:twitter_stream, brand_id: brand.id)
   end
 end

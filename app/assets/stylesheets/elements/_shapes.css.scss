@@ -1,19 +1,10 @@
-.circle.active {
+.circle {
   -webkit-border-radius: 16px;
   -moz-border-radius: 16px;
   border-radius: 16px;
   width: 16px;
   height: 16px;
   background-color: $active-green;
-}
-
-.circle.inactive {
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  border-radius: 16px;
-  width: 16px;
-  height: 16px;
-  background-color: $inactive-gray;
 }
 
 
