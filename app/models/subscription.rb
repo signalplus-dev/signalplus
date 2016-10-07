@@ -15,6 +15,10 @@
 class Subscription < ActiveRecord::Base
   belongs_to :brand
   belongs_to :subscription_plan
+  has_many :monthly_twitter_responses,
+    -> { paid.for_this_month },
+    through: :brand,
+    source: :twitter_responses
 
   has_paper_trail only: [:subscription_plan_id, :canceled_at], on: [:update]
 

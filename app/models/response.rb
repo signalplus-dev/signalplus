@@ -23,9 +23,11 @@ class Response < ActiveRecord::Base
   module Type
     DEFAULT = 'default'
     FIRST   = 'first'
-    REPEAT  = 'repeat'
-    EXPIRED = 'expired'
     FLOW    = 'flow'
+    NOT_COUNTED = [
+      REPEAT  = 'repeat',
+      EXPIRED = 'expired',
+    ]
   end
 
   DEFAULT_PRIORITY = {

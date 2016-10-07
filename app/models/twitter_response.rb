@@ -17,7 +17,7 @@
 #
 
 class TwitterResponse < ActiveRecord::Base
-  belongs_to :response
+  belongs_to :response, -> { with_deleted }
   belongs_to :listen_signal
 
   module ResponseType
@@ -32,6 +32,15 @@ class TwitterResponse < ActiveRecord::Base
 
     def direct_messages
       where(request_tweet_type: ResponseType::DIRECT_MESSAGE)
+    end
+
+    def paid
+      joins('INNER JOIN responses ON "responses"."id" = "twitter_responses"."response_id"')
+        .where.not(responses: { response_type: Response::Type::NOT_COUNTED })
+    end
+
+    def for_this_month
+      where('EXTRACT(MONTH FROM "twitter_responses"."date") = ?', Date.current.month)
     end
   end
 
