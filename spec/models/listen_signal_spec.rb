@@ -57,4 +57,18 @@ describe ListenSignal do
       expect(repeat_response.priority).to eq(1000)
     end
   end
+
+  describe 'validates_uniqueness_of :name' do
+    let(:listen_signal_1)  { create(:listen_signal) }
+    let(:listen_signal_2) { ListenSignal.new(listen_signal_1.as_json.except('id', 'deleted_at')) }
+
+    it 'does not allow for having 2 signals with the same name' do
+      expect { listen_signal_2.save! }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'will allow the same name if the other signal is deleted' do
+      listen_signal_1.destroy
+      expect { listen_signal_2.save! }.to_not raise_error
+    end
+  end
 end
