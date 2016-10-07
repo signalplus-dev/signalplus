@@ -13,5 +13,5 @@
 #
 
 class SubscriptionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :subscription_plan_id, :number_of_messages
+  attributes :id, :name, :subscription_plan_id, :number_of_messages, :monthly_response_count
 end

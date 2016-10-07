@@ -2,6 +2,7 @@ import React from 'react';
 import { provideHooks } from 'redial';
 import { getBrandData } from 'redux/modules/models/brand.js';
 import { getListenSignalsData } from 'redux/modules/models/listenSignals.js';
+import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js';
 
 // Components
 import SubscriptionSummary from 'components/dashboard/subscriptionSummary.jsx';
@@ -10,8 +11,11 @@ import Navigation from 'components/dashboard/navigation.jsx';
 
 const hooks = {
   fetch: ({ dispatch }) => {
-    dispatch(getBrandData());
-    dispatch(getListenSignalsData());
+    Promise.all([
+      dispatch(getBrandData()),
+      dispatch(getListenSignalsData()),
+      dispatch(getSubscriptionPlansData()),
+    ]);
   },
 }
 

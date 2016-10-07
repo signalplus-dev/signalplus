@@ -1,0 +1,7 @@
+.grayLink {
+  &, &:hover {
+    cursor: pointer;
+    color: $text-black;
+    text-decoration: underline;
+  }
+}

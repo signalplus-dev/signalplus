@@ -9,7 +9,6 @@ class ActivateSignalRadioButton extends PureComponent {
   }
 
   handleClick(event) {
-    console.log('lasdjlskj');
     event.preventDefault();
     event.stopPropagation();
     this.refs.checkbox.click();

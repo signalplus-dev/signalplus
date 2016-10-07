@@ -17,24 +17,6 @@ class ListenSignalSerializer < ActiveModel::Serializer
   attributes :id, :name, :active, :expiration_date, :signal_type
 
   # Associations
-  attributes :responses, :promotional_tweets
-
-  def responses
-    object.responses.as_json(only: [
-      :id,
-      :message,
-      :response_type,
-      :expiration_date,
-      :priority,
-    ])
-  end
-
-  def promotional_tweets
-    object.promotional_tweets.as_json(only: [
-      :id,
-      :message,
-      :listen_signal_id,
-      :tweet_id,
-    ])
-  end
+  has_many :promotional_tweets
+  has_many :responses
 end
