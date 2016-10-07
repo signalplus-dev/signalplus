@@ -118,6 +118,10 @@ class Subscription < ActiveRecord::Base
     !canceled? && !past_due? && !unpaid?
   end
 
+  def monthly_response_count
+    monthly_twitter_responses.count
+  end
+
   private
 
   # Used to stub out in tests for mocking of the Stripe API response
