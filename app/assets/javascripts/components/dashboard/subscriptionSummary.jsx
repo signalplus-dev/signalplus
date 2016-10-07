@@ -37,13 +37,13 @@ function renderContent(subscription, isTopSubscription) {
       <div>
         <div className="numMessages">
           <span className="sentMessages">
-            {`${commaNumber(0)}/`}
+            {`${commaNumber(subscription.data.monthly_response_count)}/`}
           </span>
           <span className="maxMessages">
             {commaNumber(subscription.data.number_of_messages)}
           </span>
         </div>
-        <span className="month">May 2016<br />Responses</span>
+        <span className="month">{moment().format('MMM YYYY')}<br />Responses</span>
       </div>
       {isTopSubscription ? undefined : renderUpgradeLink()}
     </div>
