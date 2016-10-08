@@ -6,56 +6,92 @@ import moment from 'moment';
 import commaNumber from 'comma-number';
 import { isTopSubscriptionSelector } from 'selectors/selectors.js'
 import Loader from 'components/loader.jsx';
+import getDispatcher from 'util/websocketDispatcher.js';
+import { updateResponseCount } from 'redux/modules/models/subscription.js';
 
 function renderUpgradeLink() {
   return (
     <div>
-      <Link to="/subscription_plans" className="grayLink">
-        Updgrade
-      </Link>
+      <Link to="/subscription_plans" className="grayLink">Upgrade</Link>
     </div>
   );
 }
 
-function renderContent(subscription, isTopSubscription) {
-  if (!subscription.loaded) return <Loader />;
+class SubscriptionSummary extends Component {
+  constructor(props) {
+    super(props);
+    this.dispatchNewResponseCount = this.dispatchNewResponseCount.bind(this);
+  }
 
-  // Should never be the case, should have the free trial or the
-  // expired free trial.
-  if (_.isEmpty(subscription.data)) {
+  componentDidMount() {
+    const { brandId } = this.props;
+    if (brandId) this.subscribeToChannel(brandId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.responseChannel && this.props.brandId !== nextProps.brandId) {
+      this.subscribeToChannel(nextProps.brandId);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.responseChannel) this.responseChannel.unbind('update');
+  }
+
+  subscribeToChannel(brandId) {
+    const dispatcher = getDispatcher();
+    const channelSubscription = `monthly_response_count_${brandId}`
+    this.responseChannel = dispatcher.subscribe_private(channelSubscription);
+    this.responseChannel.bind('update', this.dispatchNewResponseCount);
+  }
+
+  dispatchNewResponseCount(newResponseCount) {
+    this.props.dispatch(updateResponseCount(newResponseCount));
+  }
+
+  renderContent() {
+    const { subscription, isTopSubscription } = this.props;
+
+    if (!subscription.loaded) return <Loader />;
+
+    // Should never be the case, should have the free trial or the
+    // expired free trial.
+    if (_.isEmpty(subscription.data)) {
+      return (
+        <div>
+          <div>No Subscription</div>
+          <p><Link to="/subscription_plans" className="grayLink">Select One</Link></p>
+        </div>
+      );
+    }
+
     return (
       <div>
-        <div>No Subscription</div>
-        <p><Link to="/subscription_plans" className="grayLink">Select One</Link></p>
+        <div className="subscriptionName">{`${_.upperFirst(subscription.data.name)} Plan`}</div>
+        <div>
+          <div className="numMessages">
+            <span className="sentMessages">
+              {`${commaNumber(subscription.data.monthly_response_count)}/`}
+            </span>
+            <span className="maxMessages">
+              {commaNumber(subscription.data.number_of_messages)}
+            </span>
+          </div>
+          <span className="month">{moment().format('MMM YYYY')}<br />Responses</span>
+        </div>
+        {isTopSubscription ? undefined : renderUpgradeLink()}
       </div>
     );
   }
+  render() {
+    const { subscription, isTopSubscription } = this.props;
 
-  return (
-    <div>
-      <div className="subscriptionName">{`${_.upperFirst(subscription.data.name)} Plan`}</div>
-      <div>
-        <div className="numMessages">
-          <span className="sentMessages">
-            {`${commaNumber(subscription.data.monthly_response_count)}/`}
-          </span>
-          <span className="maxMessages">
-            {commaNumber(subscription.data.number_of_messages)}
-          </span>
-        </div>
-        <span className="month">{moment().format('MMM YYYY')}<br />Responses</span>
+    return (
+      <div className="brand-pricing-plan">
+        {this.renderContent()}
       </div>
-      {isTopSubscription ? undefined : renderUpgradeLink()}
-    </div>
-  );
-}
-
-function SubscriptionSummary({ subscription, isTopSubscription }) {
-  return (
-    <div className="brand-pricing-plan">
-      {renderContent(subscription, isTopSubscription)}
-    </div>
-  );
+    );
+  }
 }
 
 // Load a selector in a way that allows memoization and caching across components
@@ -67,6 +103,7 @@ export default connect(state => {
 
   return {
     subscription: state.models.subscription,
+    brandId: state.models.brand.data.id,
     isTopSubscription: selector(state),
   };
 })(SubscriptionSummary);

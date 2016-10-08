@@ -22,11 +22,11 @@ const hooks = {
 function Dashboard({ children, ...props }) {
   return (
     <div className="dash row">
-      <div className="col-md-12 dash-header">
+      <div className="col-xs-12 dash-header">
         <BrandProfileBlock />
         <SubscriptionSummary />
       </div>
-      <div className="col-md-12 dash">
+      <div className="col-xs-12 dash">
         <Navigation {...props}>{children}</Navigation>
       </div>
     </div>

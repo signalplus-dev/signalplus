@@ -25,6 +25,7 @@ class ListenSignal < ActiveRecord::Base
   has_many :promotional_tweets, dependent: :destroy
 
   after_commit :toggle_twitter_streamer
+  after_destroy :toggle_twitter_streamer
 
   module Types
     OFFER    = :offer

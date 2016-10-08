@@ -20,7 +20,7 @@ class ResponseGroup < ActiveRecord::Base
   def next_response(to)
     last_response_priority = responses
                               .joins(:twitter_responses)
-                              .where(twitter_responses: { to: to })
+                              .where(twitter_responses: { to: to, date: Time.current })
                               .where.not(twitter_responses: { reply_tweet_id: nil })
                               .where.not(response_type: Response::Type::EXPIRED)
                               .order(priority: :asc)

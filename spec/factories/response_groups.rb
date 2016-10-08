@@ -40,7 +40,7 @@ FactoryGirl.define do
 
     factory :default_group_responses do
       after(:create) do |response_group, evaluator|
-        response_group.responses << create(:response, :first)
+        response_group.responses << create(:response, :default)
         response_group.responses << create(:response, :repeat)
       end
     end

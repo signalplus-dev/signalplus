@@ -4,10 +4,8 @@ class TwitterResponseWorker
   sidekiq_options :retry => true, unique: :until_and_while_executing
 
   def perform(brand_id, response_as_json)
-    puts 'In worker and responding to message'
     brand = Brand.find_with_trackers(brand_id)
     reply = Responders::Twitter::Reply.build(brand: brand, as_json: response_as_json)
-    puts 'Replying back to message'
     reply.respond!
   end
 end

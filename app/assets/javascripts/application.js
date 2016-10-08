@@ -13,6 +13,7 @@
 //= require_self
 //= require bootstrap/dropdown
 //= require react_ujs
+//= require websocket_rails/main
 
 window.$ = window.jQuery = global.$ = require('jquery');
 const React = window.React = global.React = require('react');
