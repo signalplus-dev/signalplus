@@ -22,6 +22,7 @@ WHITE_LIST_OF_KEYS_AVAILABLE_FOR_NODE = [
   'SITE_URL',
   'STRIPE_PUBLIC_KEY',
   'DOMAIN',
+  'RAILS_ENV',
 ]
 
 module ProjectSignal
