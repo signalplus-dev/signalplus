@@ -29,10 +29,10 @@ WebsocketRails.setup do |config|
   # Will not be used unless standalone or synchronization mode
   # is enabled.
   redis_url = ENV['REDIS_URL']
-  redis_host_and_port = (redis_url || '')[/(?<=redis\:\/\/).+/] || ''
-  redis_host_and_port_bits = redis_host_and_port.split(':')
-  redis_host = redis_host_and_port_bits[0...-1].join(':')
-  redis_port = redis_host_and_port_bits[-1]
+  redis_host_and_port_pw = (redis_url || '')[/(?<=redis\:\/\/).+/] || ''
+
+  redis_password, redis_host_and_port = redis_host_and_port_pw.split('@')
+  redis_host, redis_port = (redis_host_and_port || '').split(':')
 
   config.redis_options = {
     host: redis_host.present? ? redis_host : 'localhost',
