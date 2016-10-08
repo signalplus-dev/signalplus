@@ -9,6 +9,7 @@ import SubscriptionSummary from 'components/dashboard/subscriptionSummary.jsx';
 import BrandProfileBlock from 'components/dashboard/brandProfileBlock.jsx';
 import Navigation from 'components/dashboard/navigation.jsx';
 
+// Hooks to dispatch before renderig the dashboard
 const hooks = {
   fetch: ({ dispatch }) => {
     Promise.all([
