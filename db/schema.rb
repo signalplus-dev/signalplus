@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007211652) do
+ActiveRecord::Schema.define(version: 20161008210523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 20161007211652) do
 
   add_index "twitter_responses", ["brand_id"], name: "index_twitter_responses_on_brand_id", using: :btree
   add_index "twitter_responses", ["listen_signal_id"], name: "index_twitter_responses_on_listen_signal_id", using: :btree
+  add_index "twitter_responses", ["request_tweet_id", "listen_signal_id"], name: "index_unique_request_tweet_id", unique: true, using: :btree
   add_index "twitter_responses", ["response_id"], name: "index_twitter_responses_on_response_id", using: :btree
 
   create_table "twitter_trackers", force: :cascade do |t|
