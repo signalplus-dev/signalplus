@@ -15,10 +15,6 @@
 class Subscription < ActiveRecord::Base
   belongs_to :brand
   belongs_to :subscription_plan
-  has_many :monthly_twitter_responses,
-    -> { paid.for_this_month },
-    through: :brand,
-    source: :twitter_responses
 
   has_paper_trail only: [:subscription_plan_id, :canceled_at], on: [:update]
 
@@ -116,6 +112,10 @@ class Subscription < ActiveRecord::Base
   # @return [Boolean]
   def valid_and_paid_for?
     !canceled? && !past_due? && !unpaid?
+  end
+
+  def monthly_twitter_responses
+    @monthly_twitter_responses ||= brand.monthly_twitter_responses
   end
 
   def monthly_response_count

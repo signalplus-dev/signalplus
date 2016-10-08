@@ -88,6 +88,11 @@ class Response < ActiveRecord::Base
     false
   end
 
+  # @return [Boolean]
+  def paid?
+    !Type::NOT_COUNTED.include?(response_type)
+  end
+
   # @return [String]
   def image_name
     'puppy.gif'

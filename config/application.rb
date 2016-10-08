@@ -18,6 +18,11 @@ Bundler.require(*Rails.groups)
 # Load application ENV vars and merge with existing ENV vars.
 # Loaded here so can use values in initializers.
 ENV.update YAML.load_file('config/application.yml') rescue {}
+WHITE_LIST_OF_KEYS_AVAILABLE_FOR_NODE = [
+  'SITE_URL',
+  'STRIPE_PUBLIC_KEY',
+  'DOMAIN',
+]
 
 module ProjectSignal
   class Application < Rails::Application
@@ -59,7 +64,13 @@ module ProjectSignal
     end
 
     # Configure Browserify to use babelify to compile ES6
-    config.browserify_rails.commandline_options = "-t [ babelify --presets [ es2015 react stage-0 ] ]"
+    env_vars = ENV.to_hash.slice(*WHITE_LIST_OF_KEYS_AVAILABLE_FOR_NODE).map do |key, value|
+      "--#{key} #{value}"
+    end.join(' ')
+    config.browserify_rails.commandline_options = [
+      "-t [ babelify --presets [ es2015 react stage-0 ] ]",
+      "-t [ envify #{env_vars} ]",
+    ]
 
     unless Rails.env.production?
         # Work around sprockets+teaspoon mismatch:
@@ -71,5 +82,7 @@ module ProjectSignal
             p.start_with?(Rails.root.join("spec/javascripts").to_s)
         }
     end
+
+    config.middleware.delete Rack::Lock
   end
 end

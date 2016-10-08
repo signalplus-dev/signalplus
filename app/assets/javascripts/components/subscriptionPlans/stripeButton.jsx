@@ -19,7 +19,7 @@ export default class StripeButton extends PureComponent {
         amount={this.props.amount}
         currency="USD"
         token={this.onToken}
-        stripeKey="pk_test_UKOJQ8pCePrRMbqJbnY2oBjY" // Make this more dynamic
+        stripeKey={process.env.STRIPE_PUBLIC_KEY}
         billingAddress
       >
         {this.props.children}

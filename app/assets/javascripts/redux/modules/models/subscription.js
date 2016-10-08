@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions';
+import { handleActions, createAction } from 'redux-actions';
 import { createRequestAction } from 'redux/utils.js';
 import Endpoints, { updateSubscriptionEndpoint } from 'util/endpoints.js';
 import { normalizeSubscription } from 'util/normalize.js';
@@ -20,6 +20,8 @@ const SUBSCRIPTION_CREATE_REQUEST_FAIL = 'signalplus/subscription/SUBSCRIPTION_C
 const SUBSCRIPTION_UPDATE_REQUEST = 'signalplus/subscription/SUBSCRIPTION_UPDATE_REQUEST';
 const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/SUBSCRIPTION_UPDATE_REQUEST_SUCCESS';
 const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/SUBSCRIPTION_UPDATE_REQUEST_FAIL';
+
+const SUBSCRIPTION_RESPONSE_COUNT_UPDATE = 'signalplus/subscription/SUBSCRIPTION_RESPONSE_COUNT_UPDATE';
 
 /*
 * Initial State
@@ -82,6 +84,15 @@ export const reducer = handleActions({
     error: action.payload,
     loading: false,
   }),
+
+  [SUBSCRIPTION_RESPONSE_COUNT_UPDATE]: (state, action) => ({
+    ...state,
+    data: {
+      ...state.data,
+      monthly_response_count: action.payload,
+    },
+  }),
+
 }, initialState);
 
 export function createSubscription(formData) {
@@ -109,3 +120,5 @@ export function updateSubscription({ id, ...formData }) {
     ],
   });
 }
+
+export const updateResponseCount = createAction(SUBSCRIPTION_RESPONSE_COUNT_UPDATE);

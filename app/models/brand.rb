@@ -17,6 +17,7 @@ class Brand < ActiveRecord::Base
   has_many :listen_signals
   has_many :response_groups, through: :listen_signals
   has_many :twitter_responses
+  has_many :monthly_twitter_responses, -> { paid.for_this_month }, class_name: 'TwitterResponse'
 
   has_one :twitter_identity, -> { where(provider: Identity::Provider::TWITTER) }, class_name: 'Identity'
   has_one :twitter_admin, through: :twitter_identity, source: :user
@@ -122,8 +123,12 @@ class Brand < ActiveRecord::Base
     !currently_streaming_twitter? && has_active_signals?
   end
 
+  def turn_off_twitter_streaming?
+    currently_streaming_twitter? && !has_active_signals?
+  end
+
   def has_active_signals?
-    listen_signals.active.exists?
+    @has_active_signals ||= listen_signals.active.exists?
   end
 
   def subscription?
@@ -136,6 +141,10 @@ class Brand < ActiveRecord::Base
 
   def kill_streaming_process!
     `killall #{process_name}`
+  end
+
+  def monthly_response_count
+    monthly_twitter_responses.count
   end
 
   private
