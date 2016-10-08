@@ -1,3 +1,17 @@
+GIT
+  remote: https://github.com/ricardo-quinones/websocket-rails.git
+  revision: 604910df8b73c9514f980df41803153a18d74782
+  specs:
+    websocket-rails (0.7.0)
+      em-synchrony
+      faye-websocket
+      hiredis
+      rack
+      rails
+      redis
+      redis-objects
+      thin
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -394,15 +408,6 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    websocket-rails (0.7.0)
-      em-synchrony
-      faye-websocket
-      hiredis
-      rack
-      rails
-      redis
-      redis-objects
-      thin
 
 PLATFORMS
   ruby
@@ -460,7 +465,7 @@ DEPENDENCIES
   vcr
   web-console (~> 2.0)
   webmock
-  websocket-rails
+  websocket-rails!
 
 RUBY VERSION
    ruby 2.2.3p173
