@@ -28,7 +28,16 @@ WebsocketRails.setup do |config|
   # Uncomment and edit to point to a different redis instance.
   # Will not be used unless standalone or synchronization mode
   # is enabled.
-  # config.redis_options = {:host => 'localhost', :port => '6379'}
+  redis_url = ENV['REDIS_URL']
+  redis_host_and_port = (redis_url || '')[/(?<=redis\:\/\/).+/] || ''
+  redis_host_and_port_bits = redis_host_and_port.split(':')
+  redis_host = redis_host_and_port_bits[0...-1].join(':')
+  redis_port = redis_host_and_port_bits[-1]
+
+  config.redis_options = {
+    host: redis_host.present? ? redis_host : 'localhost',
+    port: redis_port.present? ? redis_port : '6379',
+  }
 
   # By default, all subscribers in to a channel will be removed
   # when that channel is made private. If you don't wish active
