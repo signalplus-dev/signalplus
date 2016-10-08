@@ -38,6 +38,7 @@ class SubscriptionSummary extends Component {
     if (this.responseChannel) this.responseChannel.unbind('update');
   }
 
+  // Subscribes the app to updates to the monthly response count
   subscribeToChannel(brandId) {
     const dispatcher = getDispatcher();
     const channelSubscription = `monthly_response_count_${brandId}`
