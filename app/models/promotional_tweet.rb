@@ -8,6 +8,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  tweet_id         :integer
+#  deleted_at       :datetime
 #
 
 class PromotionalTweet < ActiveRecord::Base

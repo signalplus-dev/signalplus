@@ -10,6 +10,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  priority          :integer
+#  deleted_at        :datetime
 #
 
 class Response < ActiveRecord::Base

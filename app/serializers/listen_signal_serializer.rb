@@ -6,11 +6,12 @@
 #  brand_id        :integer
 #  identity_id     :integer
 #  name            :text
-#  expiration_date :datetime
 #  active          :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  signal_type     :string
+#  expiration_date :datetime
+#  deleted_at      :datetime
 #
 
 class ListenSignalSerializer < ActiveModel::Serializer
