@@ -43,4 +43,27 @@ describe Brand do
       end
     end
   end
+
+  describe '#monthly_twitter_responses' do
+    let(:response_group) { create(:default_group_responses) }
+    let(:listen_signal)  { create(:listen_signal, response_group: response_group, brand: brand, identity: identity) }
+
+    before do
+      brand.save!
+      create(:twitter_response, :replied, brand: brand, listen_signal: listen_signal, response: response_group.default_response)
+    end
+
+    context 'with no deleted signal' do
+      it 'has one response' do
+        expect(brand.monthly_twitter_responses.count).to eq(1)
+      end
+    end
+
+    context 'with a deleted signal' do
+      it 'still has one response' do
+        listen_signal.destroy
+        expect(brand.monthly_twitter_responses.count).to eq(1)
+      end
+    end
+  end
 end
