@@ -33,7 +33,11 @@ class DashboardController < ApplicationController
   end
 
   def check_current_user
-    redirect_to root_path unless current_user
+    if !current_user
+      redirect_to root_path
+      return
+    end
+
     if !current_user.subscription? && !request.path[/^\/subscription_plans/]
       redirect_to subscription_plans_path
     end
