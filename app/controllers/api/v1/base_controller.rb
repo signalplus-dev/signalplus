@@ -1,7 +1,6 @@
 class Api::V1::BaseController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :debug_headers
   before_action :authenticate_user!
   force_ssl if Rails.env.production?
   protect_from_forgery with: :null_session
@@ -62,10 +61,5 @@ class Api::V1::BaseController < ApplicationController
   def has_valid_subscription?
     subscription = @brand.subscription
     !!subscription && subscription.valid_and_paid_for?
-  end
-
-  def debug_headers
-    headers_to_check = request.headers.to_h.slice('HTTP_CLIENT', 'HTTP_UID', 'HTTP_EXPIRY', 'HTTP_ACCESS_TOKEN')
-    Rails.logger.info("DEBUG THESE HEADERS: #{headers_to_check.to_json}")
   end
 end
