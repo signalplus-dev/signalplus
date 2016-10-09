@@ -13,7 +13,7 @@ describe Api::V1::BrandsController, type: :controller do
     context 'a valid, authorized request' do
       context 'with a subscription' do
         let!(:subscription)  { create(:subscription, brand_id: brand.id) }
-        before { get :show, id: brand.id }
+        before { get :show, params: { id: brand.id } }
 
         context 'the status' do
           it 'responds with a 200' do
@@ -38,7 +38,7 @@ describe Api::V1::BrandsController, type: :controller do
       end
 
       context 'without a subscription' do
-        before { get :show, id: brand.id }
+        before { get :show, params: { id: brand.id } }
 
         subject { JSON.parse(response.body).with_indifferent_access }
 
