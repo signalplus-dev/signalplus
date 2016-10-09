@@ -34,12 +34,16 @@ export const reducer = handleActions({
     ...normalizeBrand(action.payload),
   }),
 
-  [BRAND_REQUEST_FAIL]: (state, action) => ({
-    ...state,
-    error: action.payload,
-    loading: false,
-    loaded: false,
-  }),
+  [BRAND_REQUEST_FAIL]: (state, action) => {
+    console.log(action.payload);
+
+    return {
+      ...state,
+      error: action.payload,
+      loading: false,
+      loaded: false,
+    };
+  },
 }, initialState);
 
 export const fetchBrandData = () => {
