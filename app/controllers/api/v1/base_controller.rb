@@ -2,7 +2,6 @@ class Api::V1::BaseController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   before_action :authenticate_user!
-  force_ssl if Rails.env.production?
   protect_from_forgery with: :null_session
   rescue_from ActiveRecord::ActiveRecordError, with: :handle_active_record_error
   rescue_from ApiErrors::StandardError, with: :show_error
