@@ -68,7 +68,7 @@ function UnconnectedAppRouter({ authenticated }) {
           <IndexRedirect to="account" />
           <Route path="account" component={AccountPanel}>
             <IndexRoute component={AccountDetails} />
-            <Route path="current_plan" component={AccountPlan} /> 
+            <Route path="current_plan" component={AccountPlan} />
           </Route>
 
           <IndexRedirect to="signals" />
