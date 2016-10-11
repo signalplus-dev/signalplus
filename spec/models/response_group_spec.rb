@@ -13,6 +13,10 @@ require 'rails_helper'
 
 describe ResponseGroup do
   describe '#next_response' do
+    before do
+      allow_any_instance_of(TwitterResponse).to receive(:should_increment_response_count?).and_return(false)
+    end
+
     let(:identity)       { create(:identity) }
     let(:response_group) { create(:default_group_responses) }
     let(:listen_signal)  { create(:listen_signal, response_group: response_group, brand: identity.brand, identity: identity) }

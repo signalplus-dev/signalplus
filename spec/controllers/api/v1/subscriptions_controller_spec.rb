@@ -22,13 +22,13 @@ describe Api::V1::SubscriptionsController, type: :controller do
     end
     context 'a valid response' do
       it 'responds with a 200' do
-        post :create, params
+        post :create, params: params
         expect(response).to be_ok
       end
 
       it 'creates a subscription' do
         expect {
-          post :create, params
+          post :create, params: params
         }.to change {
           user.brand.reload.subscription.try(:persisted?)
         }.from(nil).to(true)
@@ -37,7 +37,7 @@ describe Api::V1::SubscriptionsController, type: :controller do
       it 'changes the email of the user' do
         og_email = user.email
         expect {
-          post :create, params
+          post :create, params: params
         }.to change {
           user.reload.email
         }.from(og_email).to('test+1234@example.com')

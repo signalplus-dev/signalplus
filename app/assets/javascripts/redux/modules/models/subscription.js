@@ -2,6 +2,7 @@ import { handleActions, createAction } from 'redux-actions';
 import { createRequestAction } from 'redux/utils.js';
 import Endpoints, { updateSubscriptionEndpoint } from 'util/endpoints.js';
 import { normalizeSubscription } from 'util/normalize.js';
+import { getChannelActionType, subscribedChannels } from 'redux/actionCableSubscriptions.js';
 import _ from 'lodash';
 import {
   BRAND_REQUEST,
@@ -22,6 +23,8 @@ const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/SUBSCRIPTIO
 const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/SUBSCRIPTION_UPDATE_REQUEST_FAIL';
 
 const SUBSCRIPTION_RESPONSE_COUNT_UPDATE = 'signalplus/subscription/SUBSCRIPTION_RESPONSE_COUNT_UPDATE';
+
+const MONTHLY_RESPONSE_COUNT_UPDATE = getChannelActionType(subscribedChannels.MONTHLY_RESPONSE_COUNT_CHANNEL);
 
 /*
 * Initial State
@@ -85,11 +88,11 @@ export const reducer = handleActions({
     loading: false,
   }),
 
-  [SUBSCRIPTION_RESPONSE_COUNT_UPDATE]: (state, action) => ({
+  [MONTHLY_RESPONSE_COUNT_UPDATE]: (state, action) => ({
     ...state,
     data: {
       ...state.data,
-      monthly_response_count: action.payload,
+      ...action.payload,
     },
   }),
 

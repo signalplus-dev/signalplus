@@ -147,6 +147,13 @@ class Brand < ActiveRecord::Base
     monthly_twitter_responses.count
   end
 
+  def broadcast_monthly_response_count!
+    ActionCable.server.broadcast(
+      "monthly_response_count_#{id}",
+      monthly_response_count: monthly_response_count
+    )
+  end
+
   private
 
   def create_trackers

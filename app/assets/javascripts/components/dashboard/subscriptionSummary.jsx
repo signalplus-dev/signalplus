@@ -6,8 +6,6 @@ import moment from 'moment';
 import commaNumber from 'comma-number';
 import { isTopSubscriptionSelector } from 'selectors/selectors.js'
 import Loader from 'components/loader.jsx';
-import getDispatcher from 'util/websocketDispatcher.js';
-import { updateResponseCount } from 'redux/modules/models/subscription.js';
 
 function renderUpgradeLink() {
   return (
@@ -18,38 +16,6 @@ function renderUpgradeLink() {
 }
 
 class SubscriptionSummary extends Component {
-  constructor(props) {
-    super(props);
-    this.dispatchNewResponseCount = this.dispatchNewResponseCount.bind(this);
-  }
-
-  componentDidMount() {
-    const { brandId } = this.props;
-    if (brandId) this.subscribeToChannel(brandId);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!this.responseChannel && this.props.brandId !== nextProps.brandId) {
-      this.subscribeToChannel(nextProps.brandId);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.responseChannel) this.responseChannel.unbind('update');
-  }
-
-  // Subscribes the app to updates to the monthly response count
-  subscribeToChannel(brandId) {
-    const dispatcher = getDispatcher();
-    const channelSubscription = `monthly_response_count_${brandId}`
-    this.responseChannel = dispatcher.subscribe_private(channelSubscription);
-    this.responseChannel.bind('update', this.dispatchNewResponseCount);
-  }
-
-  dispatchNewResponseCount(newResponseCount) {
-    this.props.dispatch(updateResponseCount(newResponseCount));
-  }
-
   renderContent() {
     const { subscription, isTopSubscription } = this.props;
 
