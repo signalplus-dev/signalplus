@@ -15,4 +15,5 @@ class BrandSerializer < ActiveModel::Serializer
 
   # Associations
   belongs_to :subscription
+  has_one :twitter_admin
 end
