@@ -17,5 +17,5 @@
           %span.caret
         %ul.dropdown-menu
           - if current_user
-            %li= link_to 'Account', '#'
+            %li= react_component 'AccountLink'
             %li= react_component 'LogOutLink'
