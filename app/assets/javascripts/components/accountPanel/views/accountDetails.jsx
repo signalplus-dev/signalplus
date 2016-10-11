@@ -1,35 +1,48 @@
 import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
 import _ from 'lodash';
 import InputBox from 'components/forms/inputBox.jsx';
 
-export default class AccountDetails extends Component {
+class AccountDetails extends Component {
 
   render() {
+    const { handleSubmit } = this.props;
 
     return (
+      <form onSubmit={handleSubmit}>
+        <div className='col-xs-9 content-box'>
+          <div className='account-details'>
+            <label className='account-email-label'>
+              Email Address <br/>
+              We’ll notify you of changes to your account
+            </label>
 
-      <div className='col-xs-9 content-box'>
-        <div className='account-details'>
-          <p className='account-email-label'>Email Address</p>
-          <p className='account-email-description'>
-            We’ll notify you of changes to your account
-          </p>
-          <p> 
+            <InputBox
+              name="account-email"
+              placeholder="email"
+            />
+          </div>
+
+          <div>
             CHECKBOX PLACE HOLDER Notify me of new features/product annoucements
-          </p>
+          </div>
 
-        <hr className='line'/>
+          <hr className='line'/>
 
-          <p className='account-email-label'>
-            Time Zone
-          </p>
-          <p className='account-email-description'>
-            Set a default time zone for your account.  
-            This will determine timing for your responses.
-          </p>
+          <div>
+            <label className='account-email-label'> 
+              Time Zone <br/>
+              Set a default time zone for your account.  
+              This will determine timing for your responses.
+            </label>
+            <Field name='account-email' component='input' type='text'/>
+          </div>
         </div>
-      </div>
-
+      </form>
     );
   }
 }
+
+export default reduxForm({
+  form: 'accountDetails'
+})(AccountDetails)
