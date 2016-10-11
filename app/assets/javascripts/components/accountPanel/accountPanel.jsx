@@ -45,7 +45,7 @@ class AccountPanel extends Component {
       <div className="account-pane">
         <Sidebar tabId={tabId}/>
         <div className="content-pane">
-          { this.props.children }
+          {this.props.children}
         </div>
       </div>
     );
