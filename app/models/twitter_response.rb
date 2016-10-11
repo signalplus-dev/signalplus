@@ -21,7 +21,7 @@ class TwitterResponse < ActiveRecord::Base
   belongs_to :listen_signal
   belongs_to :brand
 
-  after_commit :increment_response_count, if: :should_increment_response_count?
+  after_commit :increment_response_count!, if: :should_increment_response_count?
 
   module ResponseType
     TWEET          = 'Tweet'
@@ -59,8 +59,7 @@ class TwitterResponse < ActiveRecord::Base
     response.paid?
   end
 
-  def increment_response_count
-    channel = "monthly_response_count_#{brand_id}".to_sym
-    WebsocketRails[channel].trigger(:update, brand.monthly_response_count)
+  def increment_response_count!
+    brand.broadcast_monthly_response_count!
   end
 end

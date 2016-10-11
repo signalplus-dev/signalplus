@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   require 'sidetiq/web'
 
   mount Sidekiq::Web => '/sidekiq'
+
+  # Serve websocket cable requests in-process
+  mount ActionCable.server => '/cable'
+
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   post '/users/refresh_token' => 'users#refresh_token'
 

@@ -47,6 +47,7 @@ gem 'paper_trail'
 gem 'browserify-rails'
 gem 'active_model_serializers'
 gem "paranoia", '~> 2.2.0.pre'
+gem 'puma'
 gem 'websocket-rails', git: 'https://github.com/ricardo-quinones/websocket-rails.git'
 
 # Use ActiveModel has_secure_password
@@ -61,7 +62,6 @@ gem 'websocket-rails', git: 'https://github.com/ricardo-quinones/websocket-rails
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'thin'
   gem 'pry'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'

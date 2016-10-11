@@ -1,14 +1,16 @@
 import { createAction, handleActions } from 'redux-actions';
+import { createChannelSubscriptions, subscribeToChannels } from 'redux/actionCableSubscriptions.js'
 import _ from 'lodash';
 
 /*
 * Action Type Constants
 */
-export const AUTHENTICATED = 'signalplus/app/AUTHENTICATED';
+const AUTHENTICATED = 'signalplus/app/AUTHENTICATED';
 
-export const ADD_TAB = 'signalplus/app/dashboard/tab/ADD_TAB';
-export const REMOVE_TAB = 'signalplus/app/dashboard/tab/REMOVE_TAB';
-export const REPLACE_TAB = 'signalplus/app/dashboard/tab/REPLACE_TAB';
+const ADD_TAB = 'signalplus/app/dashboard/tab/ADD_TAB';
+const REMOVE_TAB = 'signalplus/app/dashboard/tab/REMOVE_TAB';
+const REPLACE_TAB = 'signalplus/app/dashboard/tab/REPLACE_TAB';
+const SUBSCRIBED_TO_CHANNELS = 'signalplus/app/SUBSCRIBED_TO_CHANNELS';
 
 export const SIGNALS_TAB_ID = 'signals';
 export const TEMPLATE_TAB_ID = 'templates';
@@ -18,6 +20,7 @@ export const TEMPLATE_TAB_ID = 'templates';
 */
 const initialState = {
   authenticated: false,
+  subscribedToChannels: false,
   dashboard: {
     tabs: [
       {
@@ -53,6 +56,11 @@ export const reducer = handleActions({
     authenticated: true
   }),
 
+  [SUBSCRIBED_TO_CHANNELS]: (state, action) => ({
+    ...state,
+    subscribedToChannels: true,
+  }),
+
   [ADD_TAB]: (state, action) => ({
     ...state,
     dashboard: {
@@ -79,6 +87,7 @@ export const reducer = handleActions({
       tabs: setNewTab(state.dashboard.tabs, action.payload),
     },
   }),
+
 }, initialState);
 
 /*
@@ -88,10 +97,28 @@ const authenticated = createAction(AUTHENTICATED)
 const addTab = createAction(ADD_TAB);
 const removeTab = createAction(REMOVE_TAB);
 const replaceTab = createAction(REPLACE_TAB);
+const subscribedToChannels = createAction(SUBSCRIBED_TO_CHANNELS);
+
+/**
+  * Create a thunk that conditionally subscribes to channels if we haven't already subscribed
+  */
+const subscribeToChannelsAction = () => (dispatch, getState) => {
+  const state = getState();
+  if (!state.app.subscribedToChannels) {
+    const subscriptionConfig = {
+      brand_id: state.models.brand.data.id
+    };
+
+    const channelSubscriptions = createChannelSubscriptions(subscriptionConfig);
+    subscribeToChannels(channelSubscriptions, dispatch);
+    dispatch(subscribedToChannels());
+  }
+}
 
 export const actions = {
   authenticated,
   addTab,
   removeTab,
   replaceTab,
+  subscribeToChannelsAction,
 };

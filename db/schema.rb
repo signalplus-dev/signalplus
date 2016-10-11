@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -18,14 +17,13 @@ ActiveRecord::Schema.define(version: 20161008210523) do
 
   create_table "brands", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.integer  "streaming_tweet_pid", limit: 8
-    t.boolean  "polling_tweets",                default: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.bigint   "streaming_tweet_pid"
+    t.boolean  "polling_tweets",      default: false
+    t.index ["polling_tweets"], name: "index_brands_on_polling_tweets", using: :btree
+    t.index ["streaming_tweet_pid"], name: "index_brands_on_streaming_tweet_pid", using: :btree
   end
-
-  add_index "brands", ["polling_tweets"], name: "index_brands_on_polling_tweets", using: :btree
-  add_index "brands", ["streaming_tweet_pid"], name: "index_brands_on_streaming_tweet_pid", using: :btree
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"
@@ -38,11 +36,10 @@ ActiveRecord::Schema.define(version: 20161008210523) do
     t.string   "encrypted_secret"
     t.string   "user_name"
     t.string   "profile_image_url"
+    t.index ["brand_id"], name: "index_identities_on_brand_id", using: :btree
+    t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true, using: :btree
+    t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
   end
-
-  add_index "identities", ["brand_id"], name: "index_identities_on_brand_id", using: :btree
-  add_index "identities", ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true, using: :btree
-  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "listen_signals", force: :cascade do |t|
     t.integer  "brand_id"
@@ -54,12 +51,11 @@ ActiveRecord::Schema.define(version: 20161008210523) do
     t.string   "signal_type"
     t.datetime "expiration_date"
     t.datetime "deleted_at"
+    t.index ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
+    t.index ["deleted_at"], name: "index_listen_signals_on_deleted_at", using: :btree
+    t.index ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
+    t.index ["name", "deleted_at"], name: "index_listen_signals_on_name_and_deleted_at", unique: true, using: :btree
   end
-
-  add_index "listen_signals", ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
-  add_index "listen_signals", ["deleted_at"], name: "index_listen_signals_on_deleted_at", using: :btree
-  add_index "listen_signals", ["identity_id"], name: "index_listen_signals_on_identity_id", using: :btree
-  add_index "listen_signals", ["name", "deleted_at"], name: "index_listen_signals_on_name_and_deleted_at", unique: true, using: :btree
 
   create_table "payment_handlers", force: :cascade do |t|
     t.integer  "brand_id"
@@ -67,31 +63,28 @@ ActiveRecord::Schema.define(version: 20161008210523) do
     t.string   "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["brand_id"], name: "index_payment_handlers_on_brand_id", using: :btree
   end
-
-  add_index "payment_handlers", ["brand_id"], name: "index_payment_handlers_on_brand_id", using: :btree
 
   create_table "promotional_tweets", force: :cascade do |t|
     t.text     "message"
     t.integer  "listen_signal_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "tweet_id",         limit: 8
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.bigint   "tweet_id"
     t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_promotional_tweets_on_deleted_at", using: :btree
+    t.index ["listen_signal_id"], name: "index_promotional_tweets_on_listen_signal_id", using: :btree
   end
-
-  add_index "promotional_tweets", ["deleted_at"], name: "index_promotional_tweets_on_deleted_at", using: :btree
-  add_index "promotional_tweets", ["listen_signal_id"], name: "index_promotional_tweets_on_listen_signal_id", using: :btree
 
   create_table "response_groups", force: :cascade do |t|
     t.integer  "listen_signal_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_response_groups_on_deleted_at", using: :btree
+    t.index ["listen_signal_id"], name: "index_response_groups_on_listen_signal_id", using: :btree
   end
-
-  add_index "response_groups", ["deleted_at"], name: "index_response_groups_on_deleted_at", using: :btree
-  add_index "response_groups", ["listen_signal_id"], name: "index_response_groups_on_listen_signal_id", using: :btree
 
   create_table "responses", force: :cascade do |t|
     t.text     "message"
@@ -102,10 +95,9 @@ ActiveRecord::Schema.define(version: 20161008210523) do
     t.datetime "updated_at",        null: false
     t.integer  "priority"
     t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_responses_on_deleted_at", using: :btree
+    t.index ["response_group_id"], name: "index_responses_on_response_group_id", using: :btree
   end
-
-  add_index "responses", ["deleted_at"], name: "index_responses_on_deleted_at", using: :btree
-  add_index "responses", ["response_group_id"], name: "index_responses_on_response_group_id", using: :btree
 
   create_table "subscription_plans", force: :cascade do |t|
     t.integer  "amount"
@@ -127,52 +119,48 @@ ActiveRecord::Schema.define(version: 20161008210523) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.datetime "canceled_at"
+    t.index ["brand_id"], name: "index_subscriptions_on_brand_id", unique: true, using: :btree
+    t.index ["canceled_at"], name: "index_subscriptions_on_canceled_at", using: :btree
+    t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree
   end
-
-  add_index "subscriptions", ["brand_id"], name: "index_subscriptions_on_brand_id", unique: true, using: :btree
-  add_index "subscriptions", ["canceled_at"], name: "index_subscriptions_on_canceled_at", using: :btree
-  add_index "subscriptions", ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree
 
   create_table "twitter_direct_message_trackers", force: :cascade do |t|
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.integer  "last_recorded_tweet_id", limit: 8, default: 1
-    t.integer  "since_id",               limit: 8, default: 1
-    t.integer  "max_id",                 limit: 8
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.bigint   "last_recorded_tweet_id", default: 1
+    t.bigint   "since_id",               default: 1
+    t.bigint   "max_id"
     t.integer  "brand_id"
+    t.index ["brand_id"], name: "index_twitter_direct_message_trackers_on_brand_id", unique: true, using: :btree
   end
 
-  add_index "twitter_direct_message_trackers", ["brand_id"], name: "index_twitter_direct_message_trackers_on_brand_id", unique: true, using: :btree
-
   create_table "twitter_responses", force: :cascade do |t|
-    t.string   "to",                                       null: false
-    t.date     "date",                                     null: false
-    t.integer  "reply_tweet_id",     limit: 8
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
-    t.integer  "request_tweet_id",   limit: 8, default: 0, null: false
+    t.string   "to",                             null: false
+    t.date     "date",                           null: false
+    t.bigint   "reply_tweet_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.bigint   "request_tweet_id",   default: 0, null: false
     t.integer  "brand_id"
     t.string   "reply_tweet_type"
     t.string   "request_tweet_type"
     t.integer  "listen_signal_id"
     t.integer  "response_id"
+    t.index ["brand_id"], name: "index_twitter_responses_on_brand_id", using: :btree
+    t.index ["listen_signal_id"], name: "index_twitter_responses_on_listen_signal_id", using: :btree
+    t.index ["request_tweet_id", "listen_signal_id"], name: "index_unique_request_tweet_id", unique: true, using: :btree
+    t.index ["response_id"], name: "index_twitter_responses_on_response_id", using: :btree
   end
-
-  add_index "twitter_responses", ["brand_id"], name: "index_twitter_responses_on_brand_id", using: :btree
-  add_index "twitter_responses", ["listen_signal_id"], name: "index_twitter_responses_on_listen_signal_id", using: :btree
-  add_index "twitter_responses", ["request_tweet_id", "listen_signal_id"], name: "index_unique_request_tweet_id", unique: true, using: :btree
-  add_index "twitter_responses", ["response_id"], name: "index_twitter_responses_on_response_id", using: :btree
 
   create_table "twitter_trackers", force: :cascade do |t|
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.integer  "last_recorded_tweet_id", limit: 8, default: 1
-    t.integer  "since_id",               limit: 8, default: 1
-    t.integer  "max_id",                 limit: 8
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.bigint   "last_recorded_tweet_id", default: 1
+    t.bigint   "since_id",               default: 1
+    t.bigint   "max_id"
     t.integer  "brand_id"
+    t.index ["brand_id"], name: "index_twitter_trackers_on_brand_id", unique: true, using: :btree
   end
-
-  add_index "twitter_trackers", ["brand_id"], name: "index_twitter_trackers_on_brand_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",      null: false
@@ -195,12 +183,11 @@ ActiveRecord::Schema.define(version: 20161008210523) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.json     "tokens"
+    t.index ["brand_id"], name: "index_users_on_brand_id", using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
-
-  add_index "users", ["brand_id"], name: "index_users_on_brand_id", using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",      null: false
@@ -210,11 +197,10 @@ ActiveRecord::Schema.define(version: 20161008210523) do
     t.jsonb    "object"
     t.datetime "created_at"
     t.jsonb    "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+    t.index ["object"], name: "index_versions_on_object", using: :btree
+    t.index ["object_changes"], name: "index_versions_on_object_changes", using: :btree
   end
-
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
-  add_index "versions", ["object"], name: "index_versions_on_object", using: :btree
-  add_index "versions", ["object_changes"], name: "index_versions_on_object_changes", using: :btree
 
   add_foreign_key "identities", "brands"
   add_foreign_key "identities", "users"
