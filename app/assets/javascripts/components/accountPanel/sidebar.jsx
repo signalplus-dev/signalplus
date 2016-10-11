@@ -18,7 +18,6 @@ export default function MenuItem({ menu }) {
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
   }
 
   closeAccount() {
@@ -44,12 +43,11 @@ class Sidebar extends Component {
     },
   ];
 
-  const x = _.map(menuItems, (menu) => {
+  return _.map(menuItems, (menu) => {
     return (
       <MenuItem key={menu.label} menu={menu}/>
     );
   });
-  return x
 }
 
   render() {
