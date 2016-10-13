@@ -33,6 +33,7 @@
     height: 100px;
     background-color: $text-white;
     border: solid 1px $signal-border;
+    border-radius: 11px;
     padding: 10px;
   }
 }
@@ -141,6 +142,7 @@
 
 .input-box {
   display: inline-block;
+  border-radius: 11px;
   @include textarea-input(450px);
 }
 
@@ -242,4 +244,3 @@ img.arrow {
     color: $main-purple;
   }
 }
-

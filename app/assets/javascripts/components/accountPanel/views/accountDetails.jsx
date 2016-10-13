@@ -1,48 +1,63 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import InputBox from 'components/forms/inputBox.jsx';
 
-class AccountDetails extends Component {
+class AccountDetailsForm extends Component {
 
   render() {
-    const { handleSubmit } = this.props;
-
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className='col-xs-9 content-box'>
           <div className='account-details'>
-            <label className='account-email-label'>
-              Email Address <br/>
-              We’ll notify you of changes to your account
-            </label>
-
+            <p className='account-input-label'>Email Address</p>
+            <p className='email-sublabel'>We’ll notify you of changes to your account</p>
             <InputBox
-              name="account-email"
-              placeholder="email"
+              name="twitter_admin_email"
+              placeholder="Put your admin email address here"
+              className='account-input-box'
             />
           </div>
 
-          <div>
-            CHECKBOX PLACE HOLDER Notify me of new features/product annoucements
+          <div className='notification-checkbox'>
+            Notify me of new features/product annoucements
           </div>
 
           <hr className='line'/>
 
-          <div>
-            <label className='account-email-label'> 
-              Time Zone <br/>
-              Set a default time zone for your account.  
-              This will determine timing for your responses.
-            </label>
-            <Field name='account-email' component='input' type='text'/>
+          <div className='account-timezone'>
+            <p className='account-input-label'>Time Zone</p>
+            <p className='tz-sublabel'>Set a default time zone for your account.  This will determine timing for your responses.</p>
+            <InputBox
+              name="account_tz"
+              placeholder="Put your signal timezone"
+              className='account-input-box'
+            />
           </div>
+          <hr className='line'/>
+          <button type='submit' className='btn btn-primary save-btn'>
+            Save
+          </button>
         </div>
       </form>
     );
   }
 }
 
-export default reduxForm({
-  form: 'accountDetails'
+const AccountDetails =  reduxForm({
+  form: 'accountDetails',
+  initialValues: {
+    twitter_admin_email: 'wtf@email',
+    account_tz: 'usa!',
+  }
+})(AccountDetailsForm)
+
+export default connect((state) => {
+  brand: state.models.brand
 })(AccountDetails)
+
+
+
+
+
