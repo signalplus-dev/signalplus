@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { actions as appActions } from 'redux/modules/app.js';
-import InputBox from 'components/forms/inputBox.jsx';
 
 // Components
 import Sidebar from 'components/accountPanel/sidebar.jsx';
@@ -38,23 +37,23 @@ class AccountPanel extends Component {
     this.createTabIfNotCreated();
   }
 
-  cloneChildren() {
-    const { brand, subscription } = this.props;
-    return React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, { brand, subscription });
-    });
-  }
+  // cloneChildren() {
+  //   const { brand, subscription } = this.props;
+  //   return React.Children.map(this.props.children, (child) => {
+  //     return React.cloneElement(child, { brand, subscription });
+  //   });
+  // }
 
   render() {
     const tabId = _.get(this.findAccountTab(), 'id', {});
-    const { children } = this.props;
-    const childrenToRender = children ? this.cloneChildren() : children;
+    // const { children } = this.props;
+    // const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
       <div className="account-pane">
         <Sidebar tabId={tabId}/>
         <div className="content-pane">
-          {childrenToRender}
+          {this.props.children}
         </div>
       </div>
     );
@@ -63,6 +62,7 @@ class AccountPanel extends Component {
 
 export default connect((state) => ({
   tabs: state.app.dashboard.tabs,
-  brand: state.models.brand,
-  subscription: state.models.subscription,
 }))(AccountPanel);
+
+  // brand: state.models.brand,
+  // subscription: state.models.subscription,
