@@ -4,11 +4,22 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import InputBox from 'components/forms/inputBox.jsx';
 
-class AccountDetailsForm extends Component {
+
+class UndecoratedAccountDetailsForm extends Component {
+  constructor(props) {
+    super(props);
+    this.updateDetails = this.updateDetails.bind(this);
+  }
+
+  updateDetails(x){
+    console.log(x);
+  }
 
   render() {
+    const { handleSubmit } = this.props;
+
     return (
-      <form>
+      <form onSubmit={handleSubmit(this.updateDetails)}>
         <div className='col-xs-9 content-box'>
           <div className='account-details'>
             <p className='account-input-label'>Email Address</p>
@@ -45,19 +56,29 @@ class AccountDetailsForm extends Component {
   }
 }
 
-const AccountDetails =  reduxForm({
-  form: 'accountDetails',
-  initialValues: {
-    twitter_admin_email: 'wtf@email',
-    account_tz: 'usa!',
+class AccountDetails extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
   }
-})(AccountDetailsForm)
 
-export default connect((state) => {
-  brand: state.models.brand
+  initializeValues() {
+    return {
+      initialValues: {
+        twitter_admin_email: this.props.brand,
+        account_tz: 'random tz',
+      }
+    }
+  }
+
+  render() {
+    const initialValues = this.initializeValues();
+
+    <UndecoratedAccountDetailsForm initialValues={initialValues} />
+  }
+}
+
+export default reduxForm({
+  form: 'accountDetails'
 })(AccountDetails)
-
-
-
-
 
