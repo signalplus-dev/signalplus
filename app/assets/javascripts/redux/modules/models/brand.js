@@ -10,6 +10,10 @@ export const BRAND_REQUEST = 'signalplus/brand/REQUEST';
 export const BRAND_REQUEST_SUCCESS = 'signalplus/brand/REQUEST_SUCCESS';
 export const BRAND_REQUEST_FAIL = 'signalplus/brand/REQUEST_FAIL';
 
+export const BRAND_INFO_POST_REQUST = 'signalplus/brand/account_info/REQUEST';
+export const BRAND_INFO_POST_REQUST_SUCCESS = 'signalplus/brand/account_info/REQUEST_SUCESS';
+export const BRAND_INFO_POST_REQUST_FAIL = 'signalplus/brand/account_info/REQUEST_FAIL';
+
 
 /*
 * Initial State
@@ -40,6 +44,19 @@ export const reducer = handleActions({
     loading: false,
     loaded: false,
   }),
+
+  [BRAND_INFO_POST_REQUST]: (state,action) => ({
+
+  }),
+
+  [BRAND_INFO_POST_REQUST_SUCCES]: (state, action) => ({
+
+  }),
+
+  [BRAND_INFO_POST_REQUST_FAIL]: (state, action) => ({
+
+  }),
+  
 }, initialState);
 
 export const fetchBrandData = () => {

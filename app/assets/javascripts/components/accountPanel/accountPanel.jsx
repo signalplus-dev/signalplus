@@ -37,17 +37,8 @@ class AccountPanel extends Component {
     this.createTabIfNotCreated();
   }
 
-  cloneChildren() {
-    const { brand, subscription } = this.props;
-    return React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, { brand, subscription });
-    });
-  }
-
   render() {
     const tabId = _.get(this.findAccountTab(), 'id', {});
-    const { children } = this.props;
-    const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
       <div className="account-pane">
@@ -61,8 +52,6 @@ class AccountPanel extends Component {
 }
 
 export default connect((state) => ({
-  tabs: state.app.dashboard.tabs,
-  brand: state.models.brand,
-  subscription: state.models.subscription,
+  tabs: state.app.dashboard.tabs
 }))(AccountPanel);
 
