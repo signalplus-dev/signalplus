@@ -37,6 +37,8 @@ Rails.application.routes.draw do
       end
       resources :brands, only: [:show] do
         get '/me' => 'brands#show', on: :collection
+        get '/account_plans' => 'brands#account_plans', on: :collection
+        post '/account_info' => 'brands#update_account_info', on: :collection
       end
     end
   end
