@@ -2,25 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import _ from 'lodash';
+
+// Components
 import InputBox from 'components/forms/inputBox.jsx';
+import updateBrandTwitterAdminEmail from 'redux/modules/models/brand.js';
 
-
-class AccountInfoForm extends Component {
+class UndecoratedAccountInfoForm extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.updateDetails = this.updateDetails.bind(this);
   }
 
-  updateDetails(x){
-    console.log(x);
+  updateDetails({ ...form }){
+    this.props.dispatch(updateBrandTwitterAdminEmail(form));
   }
 
   render() {
     const { handleSubmit } = this.props;
 
     return (
-      <form>
+      <form onSubmit={handleSubmit(this.updateDetails)}>
         <div className='col-xs-9 content-box'>
           <div className='account-details'>
             <p className='account-input-label'>Email Address</p>
@@ -43,7 +44,7 @@ class AccountInfoForm extends Component {
             <p className='account-input-label'>Time Zone</p>
             <p className='tz-sublabel'>Set a default time zone for your account.  This will determine timing for your responses.</p>
             <InputBox
-              name="account_tz"
+              name="timezone"
               placeholder="ie. US/EST"
               className='account-input-box'
               componentClass="input"
@@ -60,14 +61,16 @@ class AccountInfoForm extends Component {
 }
 
 const AccountInfoForm = reduxForm({
-  form: 'accountDetails',
-})
+  form: 'accountInfo',
+})(UndecoratedAccountInfoForm)
 
 export default connect((state) => {
+  //NOT POPULATING WTF: twitter_admin_email: _.get(state, 'models.brand.data.twitter_admin_email', ''),
+
   return {
     initialValues: {
       twitter_admin_email: state.models.brand.data.twitter_admin_email,
-      account_tz: 'x',
+      timezone: 'this works.. but not ^^^^',
     }
   }
 })(AccountInfoForm);
