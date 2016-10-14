@@ -7,7 +7,7 @@ class Api::V1::BrandsController < Api::V1::BaseController
   end
 
   def update_account_email
-    params
+    binding.pry
     @brand.twitter_admin_email.update!()
   end
 

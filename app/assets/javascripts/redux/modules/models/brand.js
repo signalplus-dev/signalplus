@@ -22,7 +22,7 @@ export const initialState = {
   data: {},
   loaded: false,
   loading: false,
-};
+}
 
 /*
 * Reducer
@@ -46,17 +46,20 @@ export const reducer = handleActions({
   }),
 
   [BRAND_INFO_POST_REQUST]: (state,action) => ({
-
+    ...state,
+    called: true,
   }),
 
-  [BRAND_INFO_POST_REQUST_SUCCES]: (state, action) => ({
-
+  [BRAND_INFO_POST_REQUST_SUCCESS]: (state, action) => ({
+    ...state,
+    success: 'ya',
   }),
 
   [BRAND_INFO_POST_REQUST_FAIL]: (state, action) => ({
-
+    ...state,
+    fail: 'wtf',
   }),
-  
+
 }, initialState);
 
 export const fetchBrandData = () => {
@@ -68,11 +71,26 @@ export const fetchBrandData = () => {
       BRAND_REQUEST_FAIL,
     ],
   });
-};
+}
 
 export function getBrandData() {
   return getDataFor(
     'brand',
     fetchBrandData
   );
+}
+
+export const updateBrandTwitterAdminEmail = (email) => {
+
+  console.log('NOT BEING CALLED HERE')
+  return createRequestAction({
+    endpoint: Endpoints.BRAND_ACCOUNT_INFO,
+    method: 'POST',
+    body: JSON.stringify(email),
+    types: [
+      BRAND_INFO_POST_REQUST,
+      BRAND_INFO_POST_REQUST_SUCCESS,
+      BRAND_INFO_POST_REQUST_FAIL,
+    ],
+  });
 }
