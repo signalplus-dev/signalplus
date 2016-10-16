@@ -36,25 +36,50 @@ class PostPromotionalTweet
   end
 
   def post_tweet_with_image
-    temp_file = create_temp_file
-    temp_file.close
-    file = File.open(temp_file.path)
+    create_temp_file
+    file = File.open(temp_file_name)
     client.update_with_media(message, file)
   ensure
     file.close
+    delete_temp_file
   end
 
   def decoded_image
     @decoded_image ||= Base64.decode64(encoded_image)
   end
 
+  def temp_file_name
+    @temp_file_name ||= "#{folder_location}/temp_file_#{SecureRandom.hex}#{file_extension}"
+  end
+
   def create_temp_file
-    Tempfile.new(
-      ['temp_image', '.png'],
-      "#{Rails.root}/tmp/images",
-      encoding: decoded_image.encoding
-    ).tap do |f|
+    # Make the temp directory to store the image file
+    folder_path.mkdir unless folder_path.exist?
+
+    File.open(temp_file_name, "wb") do |f|
       f.write(decoded_image)
     end
+  end
+
+  def delete_temp_file
+    File.delete(temp_file_name)
+  end
+
+  def folder_path
+    @folder_path ||= Pathname.new(folder_location)
+  end
+
+  def folder_location
+    "#{Rails.root}/tmp/images"
+  end
+
+  def file_extension
+    return '' unless image
+
+    ".#{image.format.downcase}"
+  end
+
+  def image
+    @image ||= Magick::Image.from_blob(decoded_image).first
   end
 end

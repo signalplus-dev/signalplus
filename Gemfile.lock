@@ -304,6 +304,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rmagick (2.16.0)
     rollbar (2.13.3)
       multi_json
     rspec-collection_matchers (1.1.2)
@@ -455,6 +456,7 @@ DEPENDENCIES
   rails_12factor
   react-bootstrap-rails
   react-rails
+  rmagick
   rollbar
   rspec-collection_matchers
   rspec-its
