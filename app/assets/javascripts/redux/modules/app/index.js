@@ -11,6 +11,8 @@ const ADD_TAB = 'signalplus/app/dashboard/tab/ADD_TAB';
 const REMOVE_TAB = 'signalplus/app/dashboard/tab/REMOVE_TAB';
 const REPLACE_TAB = 'signalplus/app/dashboard/tab/REPLACE_TAB';
 const SUBSCRIBED_TO_CHANNELS = 'signalplus/app/SUBSCRIBED_TO_CHANNELS';
+const SET_FLASH_MESSAGE = 'signalplus/app/SET_FLASH_MESSAGE';
+const DISMISS_FLASH_MESSAGE = 'signalplus/app/DISMISS_FLASH_MESSAGE';
 
 export const SIGNALS_TAB_ID = 'signals';
 export const TEMPLATE_TAB_ID = 'templates';
@@ -36,6 +38,11 @@ const initialState = {
         closeable: false,
       },
     ],
+  },
+  flashMessage: {
+    type: 'info',
+    message: 'I am a flash message',
+    dismissed: true,
   },
 };
 
@@ -88,6 +95,14 @@ export const reducer = handleActions({
     },
   }),
 
+  [DISMISS_FLASH_MESSAGE]: (state, action) => ({
+    ...state,
+    flashMessage: {
+      ...state.flashMessage,
+      dismissed: true,
+    },
+  })
+
 }, initialState);
 
 /*
@@ -97,6 +112,8 @@ const addTab = createAction(ADD_TAB);
 const removeTab = createAction(REMOVE_TAB);
 const replaceTab = createAction(REPLACE_TAB);
 const subscribedToChannels = createAction(SUBSCRIBED_TO_CHANNELS);
+const setFlashMessage = createAction(SET_FLASH_MESSAGE);
+const dismissFlashMessage = createAction(DISMISS_FLASH_MESSAGE);
 
 /**
   * Create a thunk that conditionally subscribes to channels if we haven't already subscribed
@@ -105,7 +122,7 @@ const subscribeToChannelsAction = () => (dispatch, getState) => {
   const state = getState();
   if (!state.app.subscribedToChannels) {
     const subscriptionConfig = {
-      brand_id: state.models.brand.data.id
+      brand_id: state.models.brand.data.id,
     };
 
     const channelSubscriptions = createChannelSubscriptions(subscriptionConfig);
@@ -120,4 +137,6 @@ export const actions = {
   removeTab,
   replaceTab,
   subscribeToChannelsAction,
+  setFlashMessage,
+  dismissFlashMessage,
 };

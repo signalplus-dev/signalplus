@@ -1,0 +1,44 @@
+$opacity: 0.9;
+
+.flash-messages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  background-color: rgba($button-blue, $opacity);
+  color: white;
+  z-index: 1;
+
+  &.dismissed {
+
+  }
+
+  &.error {
+    background-color: rgba($signal-pink, $opacity);
+  }
+
+  &.success {
+    background-color: rgba($active-green, $opacity);
+  }
+
+  .bell {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .message {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 16px;
+  }
+
+  .close {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    opacity: 1;
+  }
+}

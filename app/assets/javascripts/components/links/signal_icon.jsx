@@ -5,6 +5,8 @@ function getIcon(type) {
     offer:       window.__IMAGE_ASSETS__.iconsOfferSvg,
     contest:     window.__IMAGE_ASSETS__.iconsContestSvg,
     today:       window.__IMAGE_ASSETS__.iconsTodaySvg,
+    bell:        window.__IMAGE_ASSETS__.iconsBellSvg,
+    close:       window.__IMAGE_ASSETS__.iconsCloseSvg,
     reminder:    window.__IMAGE_ASSETS__.iconsReminderSvg,
     welcome:     window.__IMAGE_ASSETS__.iconsSignalplusSmallPinkSvg,
     create:      window.__IMAGE_ASSETS__.iconsSignalplusSmallSvg,
