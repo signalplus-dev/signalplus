@@ -44,7 +44,7 @@ class UndecoratedAccountInfo extends Component {
           <hr className='line'/>
           <div className='account-timezone'>
             <p className='account-input-label'>Time Zone</p>
-            <p className='tz-sublabel'>Set a default time zone for your account.  This will determine timing for your responses.</p>
+            <p className='tz-sublabel'>Set a default time zone for your account. This will determine timing for your responses.</p>
             <InputBox
               name="tz"
               placeholder="ie. US/EST"
@@ -64,6 +64,7 @@ class UndecoratedAccountInfo extends Component {
 
 const AccountInfo = reduxForm({
   form: 'accountInfo',
+  enableReinitialize: true,
 })(UndecoratedAccountInfo)
 
 export default connect((state) => {
@@ -73,8 +74,8 @@ export default connect((state) => {
       twitter_admin_email: state.models.brand.data.twitter_admin_email,
       tz: state.models.brand.data.tz,
       email_subscription: true,
-    }
-  }
+    },
+  };
 })(AccountInfo);
 
 
