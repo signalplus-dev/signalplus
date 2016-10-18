@@ -15,7 +15,7 @@
         %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", :role => "button"}
           MENU
           %span.caret
-        %ul.dropdown-menu
+        %ul.dropdown-menu.nav-dropdown
           - if current_user
-            %li= link_to 'Account', '#'
+            %li= react_component 'AccountLink'
             %li= react_component 'LogOutLink'

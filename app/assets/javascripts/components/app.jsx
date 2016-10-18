@@ -16,6 +16,9 @@ import restInterface from 'util/restInterface.js';
 
 // Components
 import Dashboard from 'components/dashboard/dashboard.jsx';
+import AccountPanel from 'components/accountPanel/accountPanel.jsx';
+import AccountInfo from 'components/accountPanel/views/AccountInfo.jsx';
+import AccountPlan from 'components/accountPanel/views/accountPlan.jsx';
 import SignalsPanel from 'components/signalsPanel/signalsPanel.jsx';
 import TemplatesPanel from 'components/templatesPanel.jsx';
 import ContentPanel from 'components/contentPanel/contentPanel.jsx';
@@ -56,6 +59,12 @@ function UnconnectedAppRouter({ authenticated }) {
       <Route path="/" component={App}>
         <IndexRedirect to="dashboard" />
         <Route path="dashboard" component={Dashboard}>
+          <IndexRedirect to="account" />
+          <Route path="account" component={AccountPanel}>
+            <IndexRoute component={AccountInfo} />
+            <Route path="current_plan" component={AccountPlan} />
+          </Route>
+
           <IndexRedirect to="signals" />
           <Route path="signals">
             <IndexRedirect to="active" />

@@ -1,0 +1,41 @@
+@mixin account-input-sublabel($width) {
+  float: left;
+  width: $width;
+  font-weight: 400;
+  font-size: $base-caption-font-size;
+}
+
+.account-input-label {
+  margin: 0 !important;
+  font-weight: bold;
+}
+
+.account-input-box {
+  margin-left: 20px;
+  width: 250px;
+  border-radius: 11px;
+}
+
+.email-sublabel{
+  @include account-input-sublabel(200px);
+}
+
+.tz-sublabel{
+  @include account-input-sublabel(300px);
+}
+
+.notification-checkbox {
+  margin-top: 35px;
+  margin-bottom: 35px;
+  font-weight: bold;
+}
+
+.account-timezone {
+  margin-bottom: 70px;
+}
+
+.account-checkbox {
+  label {
+    font-weight: bold !important;
+  }
+}
