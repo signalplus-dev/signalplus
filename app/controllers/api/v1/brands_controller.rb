@@ -7,7 +7,8 @@ class Api::V1::BrandsController < Api::V1::BaseController
   end
 
   def update_account_info
-    # Binding py gets called here
+    binding.pry
+
     params = account_info_params(params)
     update_timezone(params[:tz])
     update_twitter_admin_info(params[:twitter_admin_email], params[:email_subscription])
