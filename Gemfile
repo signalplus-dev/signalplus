@@ -49,6 +49,7 @@ gem 'active_model_serializers'
 gem "paranoia", '~> 2.2.0.pre'
 gem 'puma'
 gem 'websocket-rails', git: 'https://github.com/ricardo-quinones/websocket-rails.git'
+gem 'thin'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

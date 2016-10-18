@@ -11,7 +11,7 @@ class Api::V1::BrandsController < Api::V1::BaseController
     params = account_info_params(params)
     update_timezone(params[:tz])
     update_twitter_admin_info(params[:twitter_admin_email], params[:email_subscription])
-    
+
     render json: @brand, serializer: BrandSerializer
   end
 
