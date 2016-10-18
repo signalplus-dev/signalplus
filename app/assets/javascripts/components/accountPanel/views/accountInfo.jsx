@@ -68,12 +68,11 @@ const AccountInfo = reduxForm({
 })(UndecoratedAccountInfo)
 
 export default connect((state) => {
-  // State is present but not initializing with the values here
   return {
     initialValues: {
-      twitter_admin_email: state.models.brand.data.twitter_admin_email,
-      tz: state.models.brand.data.tz,
-      email_subscription: true,
+      twitter_admin_email: _.get(state, 'models.brand.data.twitter_admin_email', {}),
+      email_subscription: _.get(state, 'models.brand.data.email_subscription', {}),
+      tz: _.get(state, 'models.brand.data.tz', {}),
     },
   };
 })(AccountInfo);
