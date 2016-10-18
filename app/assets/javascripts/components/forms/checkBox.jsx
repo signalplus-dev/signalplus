@@ -2,12 +2,10 @@ import React, { PureComponent } from 'react';
 import { Field } from 'redux-form';
 import { Checkbox } from 'react-bootstrap';
 
-function CheckBox({
-  ...props
-  }) {
+function CheckBox({...props}) {
+  console.log(props)
   return (
     <Checkbox 
-      {...props}
       checked={props.input.value} 
     >
       {props.label}

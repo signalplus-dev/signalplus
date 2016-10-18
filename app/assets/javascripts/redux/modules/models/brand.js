@@ -79,11 +79,11 @@ export function getBrandData() {
   );
 }
 
-export const updateBrandTwitterAdminEmail = (email) => {
+export const updateBrandTwitterAdminEmail = (payload) => {
   return createRequestAction({
     endpoint: Endpoints.BRAND_ACCOUNT_INFO,
     method: 'POST',
-    body: JSON.stringify(email),
+    body: JSON.stringify(payload),
     types: [
       BRAND_INFO_POST_REQUST,
       BRAND_INFO_POST_REQUST_SUCCESS,
