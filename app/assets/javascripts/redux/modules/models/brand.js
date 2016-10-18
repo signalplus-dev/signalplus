@@ -80,6 +80,7 @@ export function getBrandData() {
 }
 
 export const updateBrandTwitterAdminEmail = (payload) => {
+  console.log(payload)
   return createRequestAction({
     endpoint: Endpoints.BRAND_ACCOUNT_INFO,
     method: 'POST',
