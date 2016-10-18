@@ -36,7 +36,7 @@ class UndecoratedAccountInfo extends Component {
           </div>
           <div className='notification-checkbox'>
             <CheckBox
-              name="email_subsription"
+              name="email_subscription"
               className='account-checkbox'
               label='Notify me of new features/product annoucements'
             />
@@ -72,7 +72,7 @@ export default connect((state) => {
     initialValues: {
       twitter_admin_email: state.models.brand.data.twitter_admin_email,
       tz: state.models.brand.data.tz,
-      email_subscription: state.models.brand.data.email_subscription,
+      email_subscription: true,
     }
   }
 })(AccountInfo);
