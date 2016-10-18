@@ -11,7 +11,7 @@
 #
 
 class BrandSerializer < ActiveModel::Serializer
-  attributes :id, :name, :user_name, :profile_image_url
+  attributes :id, :name, :user_name, :profile_image_url, :tz
 
   # Associations
   belongs_to :subscription
@@ -19,5 +19,9 @@ class BrandSerializer < ActiveModel::Serializer
   # Normalized Association Attributes
   attribute :twitter_admin_email do
     object.twitter_admin.try(:email)
+  end
+
+  attribute :email_subscription do
+    object.twitter_admin.try(:email_subscription)
   end
 end
