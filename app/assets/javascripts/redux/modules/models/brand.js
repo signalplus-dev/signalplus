@@ -47,17 +47,16 @@ export const reducer = handleActions({
 
   [BRAND_INFO_POST_REQUST]: (state,action) => ({
     ...state,
-    called: true,
   }),
 
   [BRAND_INFO_POST_REQUST_SUCCESS]: (state, action) => ({
     ...state,
-    success: 'ya',
+    ...normalizeBrand(action.payload),
   }),
 
   [BRAND_INFO_POST_REQUST_FAIL]: (state, action) => ({
     ...state,
-    fail: 'wtf',
+    error: action.payload,
   }),
 
 }, initialState);
@@ -81,8 +80,6 @@ export function getBrandData() {
 }
 
 export const updateBrandTwitterAdminEmail = (email) => {
-
-  console.log('NOT BEING CALLED HERE')
   return createRequestAction({
     endpoint: Endpoints.BRAND_ACCOUNT_INFO,
     method: 'POST',

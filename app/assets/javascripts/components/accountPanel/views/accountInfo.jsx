@@ -5,9 +5,10 @@ import _ from 'lodash';
 
 // Components
 import InputBox from 'components/forms/inputBox.jsx';
-import updateBrandTwitterAdminEmail from 'redux/modules/models/brand.js';
+import CheckBox from 'components/forms/checkBox.jsx';
+import { updateBrandTwitterAdminEmail } from 'redux/modules/models/brand.js';
 
-class UndecoratedAccountInfoForm extends Component {
+class UndecoratedAccountInfo extends Component {
   constructor(props) {
     super(props);
     this.updateDetails = this.updateDetails.bind(this);
@@ -33,25 +34,26 @@ class UndecoratedAccountInfoForm extends Component {
               componentClass="input"
             />
           </div>
-
           <div className='notification-checkbox'>
-            Notify me of new features/product annoucements
+            <CheckBox
+              name="email_preference"
+              className='account-checkbox'
+              label='Notify me of new features/product annoucements'
+            />
           </div>
-
           <hr className='line'/>
-
           <div className='account-timezone'>
             <p className='account-input-label'>Time Zone</p>
             <p className='tz-sublabel'>Set a default time zone for your account.  This will determine timing for your responses.</p>
             <InputBox
-              name="timezone"
+              name="tz"
               placeholder="ie. US/EST"
               className='account-input-box'
               componentClass="input"
             />
           </div>
           <hr className='line'/>
-          <button type='submit' className='btn btn-primary save-btn'>
+          <button className='btn btn-primary save-btn'>
             Save
           </button>
         </div>
@@ -60,19 +62,19 @@ class UndecoratedAccountInfoForm extends Component {
   }
 }
 
-const AccountInfoForm = reduxForm({
+const AccountInfo = reduxForm({
   form: 'accountInfo',
-})(UndecoratedAccountInfoForm)
+})(UndecoratedAccountInfo)
 
 export default connect((state) => {
-  //NOT POPULATING WTF: twitter_admin_email: _.get(state, 'models.brand.data.twitter_admin_email', ''),
-
+  // State is present but not initializing with the values here
   return {
     initialValues: {
       twitter_admin_email: state.models.brand.data.twitter_admin_email,
-      timezone: 'this works.. but not ^^^^',
+      tz: state.models.brand.data.tz,
+      email_preference: state.models.brand.data.email_subscription,
     }
   }
-})(AccountInfoForm);
+})(AccountInfo);
 
 
