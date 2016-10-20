@@ -1,0 +1,57 @@
+.account-subscription-plan {
+  padding: 20px;
+}
+
+.plan-header {
+  color: $main-purple;
+}
+
+.plan-currency {
+  float: left;
+  font-size: $h5-font-size;
+}
+
+.plan-price {
+  font-size: $h1-font-size;
+  display: inline
+}
+
+.line-bold {
+  border-top: 3px solid $main-purple !important;
+}
+
+.plan-details-responses {
+  width: 240px;
+  display: inline-block;
+  float: left;
+}
+
+.plan-subheader {
+  margin-bottom: 0;
+  font-weight: bold;
+  display: inline-block;
+  width: 240px;
+}
+
+.plan-responses {
+  display: inline-block;
+  font-size: $h2-font-size;
+  margin-top: -5px;
+
+}
+
+.plan-recommendation {
+  display: inline-block;
+  font-size: $h5-font-size;
+  font-weight: bold;
+  color: rgba(70, 81, 98, 0.7);
+}
+
+.billing {
+  margin-top: 60px;
+  display: block;
+}
+
+
+
+

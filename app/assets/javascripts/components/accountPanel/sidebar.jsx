@@ -1,9 +1,12 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Button } from 'react-bootstrap';
 import { actions as appActions } from 'redux/modules/app.js';
+
+// Components
+import CurrentPlanMenuItem from 'components/accountPanel/currentPlanMenuItem.jsx';
 
 function MenuItem({ menu }) {
   return (
@@ -15,7 +18,12 @@ function MenuItem({ menu }) {
   );
 }
 
-class Sidebar extends PureComponent {
+class Sidebar extends Component {
+  constructor(props) {
+    super(props)
+    console.log(props)
+  }
+
   closeAccount() {
     const { dispatch, tabId } = this.props;
   }
@@ -40,16 +48,24 @@ class Sidebar extends PureComponent {
     ];
 
     return _.map(menuItems, (menu) => {
-      return (
-        <MenuItem key={menu.label} menu={menu}/>
-      );
+      if (menu.label === 'Current Plan') {
+        return <CurrentPlanMenuItem 
+                  key={menu.label} 
+                  menu={menu} 
+                  subscription={this.props.subscription}
+                />
+      }
+      
+      return <MenuItem key={menu.label} menu={menu}/>
     });
   }
 
   render() {
     return (
       <div className='col-xs-2 sidebar'>
-        <ul className='sidebar-menus'>{this.renderMenuItems()}</ul>
+        <ul className='sidebar-menus'>
+          {this.renderMenuItems()}
+        </ul>
         <div className='sidebar-btns'>
           <Button className='close-account-btn' onClick={this.closeAccount}>
             CLOSE ACCOUNT
@@ -62,4 +78,5 @@ class Sidebar extends PureComponent {
 
 export default connect(state => ({
   currentRoute: state.routing.locationBeforeTransitions.pathname,
+  subscription: state.models.subscription.data,
 }))(Sidebar);

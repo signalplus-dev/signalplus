@@ -1,0 +1,20 @@
+.currentPlanMenuItem {
+  height: 130px;
+
+  &.active p,
+  &:hover p {
+    color: $dark-gray;
+  }
+}
+
+.subscription-name {
+  color: rgba(243, 245, 246, 0.5);
+  margin-top: -10px;
+  font-size: 36px;
+  height: 25px;
+}
+
+.subscription-month {
+  color: $light-gray;
+  font-size: 12px;
+}
