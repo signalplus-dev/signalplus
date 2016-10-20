@@ -8,6 +8,7 @@ import InputBox from 'components/forms/inputBox.jsx';
 import CheckBox from 'components/forms/checkBox.jsx';
 import { updateBrandTwitterAdminEmail } from 'redux/modules/models/brand.js';
 
+
 class UndecoratedAccountInfo extends Component {
   constructor(props) {
     super(props);
@@ -70,9 +71,9 @@ const AccountInfo = reduxForm({
 export default connect((state) => {
   return {
     initialValues: {
-      twitter_admin_email: _.get(state, 'models.brand.data.twitter_admin_email', {}),
-      email_subscription: _.get(state, 'models.brand.data.email_subscription', {}),
-      tz: _.get(state, 'models.brand.data.tz', {}),
+      twitter_admin_email: state.models.brand.data.twitter_admin_email,
+      email_subscription: state.models.brand.data.email_subscription,
+      tz: state.models.brand.data.tz,
     },
   };
 })(AccountInfo);

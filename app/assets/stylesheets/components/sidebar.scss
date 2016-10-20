@@ -7,22 +7,12 @@
 
 .sidebar-menus {
   padding: 0 !important;
-  text-align: center;
   line-height: 50px;
 }
 
 .sidebar-btns {
   padding-top: 50px;
   text-align: center;
-}
-
-@media only screen and (max-width: 992px) {
-  .sidebar {
-    min-height: 0px;
-  }
-  .sidebar-btns {
-    padding-top: 0px;
-  }
 }
 
 .sidebar-menus li {
@@ -32,6 +22,7 @@
   color: $text-white;
 
   a {
+    padding-left: 15px;
     border-bottom-style: solid;
     border-bottom-color: $text-white;
     border-bottom-width: 1px;
@@ -40,7 +31,6 @@
     color: $text-white;
     font-size: 18px;
   }
-
 }
 
 ul li a:hover,

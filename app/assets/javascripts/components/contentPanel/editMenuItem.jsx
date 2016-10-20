@@ -21,8 +21,7 @@ export default function EditMenuItem({ menu, signal }) {
             className="signalNameInput uctext"
           />
         </label>
-        <ActivateSignalRadioButton
-        />
+        <ActivateSignalRadioButton/>
       </Link>
     </li>
   );
