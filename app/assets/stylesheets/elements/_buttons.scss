@@ -52,14 +52,14 @@
   padding-left: 109px;
 }
 
-.nav-tabs > li > a{
+.nav-tabs > li > a {
   margin-right: 10px;
   color: $text-white;
   background-color: $dark-gray;
   width: 150px;
   height: 49px;
   text-align: center;
-  border-radius:0;
+  border-radius: 0;
 
   p {
     width: 108px;
@@ -67,6 +67,10 @@
     font-family: $default-font-bold;
     font-size: 15px;
   }
+}
+
+.nav-tabs > li > a:hover {
+  border-style: none;
 }
 
 .nav-tabs > li > a.active {
@@ -78,6 +82,11 @@
     width: 150px;
     height: 49px;
   }
+}
+
+.tab-close-btn {
+  background-color: transparent;
+  border: none !important;
 }
 
 .btn-login {

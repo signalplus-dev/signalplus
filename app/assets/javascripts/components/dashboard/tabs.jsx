@@ -26,7 +26,7 @@ class UnconnectedTabClose extends PureComponent {
   }
 
   render() {
-    return <button onClick={this.closeTab}>x</button>;
+    return <button className='tab-close-btn' onClick={this.closeTab}>x</button>;
   }
 }
 
