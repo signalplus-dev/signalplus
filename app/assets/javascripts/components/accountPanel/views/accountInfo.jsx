@@ -7,7 +7,7 @@ import _ from 'lodash';
 import InputBox from 'components/forms/inputBox.jsx';
 import CheckBox from 'components/forms/checkBox.jsx';
 import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
-import { updateBrandTwitterAdminEmail } from 'redux/modules/models/brand.js';
+import { updateBrandAccountInfo } from 'redux/modules/models/brand.js';
 
 
 class UndecoratedAccountInfo extends Component {
@@ -17,7 +17,7 @@ class UndecoratedAccountInfo extends Component {
   }
 
   updateDetails({ ...form }){
-    this.props.dispatch(updateBrandTwitterAdminEmail(form));
+    this.props.dispatch(updateBrandAccountInfo(form));
   }
 
   render() {
