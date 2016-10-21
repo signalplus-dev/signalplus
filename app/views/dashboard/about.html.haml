@@ -1,9 +1,9 @@
 .about 
   .row
-    .col-md-12.about-jumbotron
+    .col-xs-12.about-jumbotron
       .row
-        .col-md-2
-        .col-md-8
+        .col-xs-2
+        .col-xs-8
           .about-header
             .header
               Turn your social account 
@@ -19,11 +19,11 @@
                 %span or
                 =link_to('Message', '#', {class: 'btn btn'})
                 %span @SignalPlus with #Power
-        .col-md-2
+        .col-xs-2
 
   .row
-    .col-md-2
-    .col-md-8.instruction
+    .col-xs-2
+    .col-xs-8.instruction
       %h3.header How it Works
       %p
         SignalPlus turns your social brand account into a powerful tool for your audience.
@@ -31,11 +31,11 @@
         Send responses automatically whenever your audience sends you a message.
         %br
         We use the power of Twitter to send responses instantly!
-    .col-md-2
+    .col-xs-2
 
   .row
-    .col-md-1
-    .col-md-11.center.about-steps
+    .col-xs-1
+    .col-xs-11.center.about-steps
       %ul
         %li
           = image_tag('static/step1.png', class: ' img-responsive first-step', size:'330x330')
@@ -45,8 +45,8 @@
           = image_tag('static/step3.png', class: 'img-responsive third-step', size:'330x330')
 
   .row
-    .col-md-2
-    .col-md-5.center-content
+    .col-xs-2
+    .col-xs-5.center-content
       .why-signal-box
         %h3.header Why SignalPlus?
         %h5.subheader
@@ -62,7 +62,7 @@
         %p
           Add value to your followers with content that’s relevant and personalized to the information they are looking for
 
-    .col-md-4
+    .col-xs-4
       .things-you-can-do-box
         %h3.header Things you can do…
         %p
@@ -73,11 +73,11 @@
           Run a contest for your followers for a specific date range
         %p
           Send a reminder on a specific date to users when they use a custom hashtag
-    .col-md-1
+    .col-xs-1
 
   .row.get-started-row
-    .col-md-2
-    .col-md-8
+    .col-xs-2
+    .col-xs-8
       %h3.header Get Started Today!
       %p
         %span.try-out
@@ -85,12 +85,12 @@
         %br
         %span
           We’re always adding new features and more platforms for the future.
-    .col-md-2
+    .col-xs-2
 
   .row
-    .col-md-1
-    .col-md-10
+    .col-xs-1
+    .col-xs-10
       .plan-types
         -@plan_types.each do |plan|
           = render :partial => 'plan_box', :locals => { plan: plan }
-    .col-md-1
+    .col-xs-1
