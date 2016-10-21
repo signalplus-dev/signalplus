@@ -6,7 +6,7 @@ import _ from 'lodash';
 // Components
 import InputBox from 'components/forms/inputBox.jsx';
 import CheckBox from 'components/forms/checkBox.jsx';
-import Dropdown from 'components/forms/dropdown.jsx';
+import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
 import { updateBrandTwitterAdminEmail } from 'redux/modules/models/brand.js';
 
 
@@ -39,7 +39,6 @@ class UndecoratedAccountInfo extends Component {
           <div className='notification-checkbox'>
             <CheckBox
               name="email_subscription"
-              className='account-checkbox'
               label='Notify me of new features/product annoucements'
             />
           </div>
@@ -47,9 +46,8 @@ class UndecoratedAccountInfo extends Component {
           <div className='account-timezone'>
             <p className='account-input-label'>Time Zone</p>
             <p className='tz-sublabel'>Set a default time zone for your account. This will determine timing for your responses.</p>
-            <Dropdown
+            <TimezoneDropdown
               name="tz"
-              className='tz-dropdown'
               componentClass="input"
             />
           </div>

@@ -1,15 +1,16 @@
 .timezone-picker {
   display: inline-block;
   font: $default-font;
+  font-size: 14px;
   position: relative;
   border-radius: 11px;
 }
 
 .timezone-picker-textfield input {
-  width: 300px;
+  width: 320px;
   padding:9px 12px;
   font: inherit;
-  font-size: 16px;
+  font-size: 14px;
   box-sizing: border-box;
   outline: 0; 
   background:#fff; 
