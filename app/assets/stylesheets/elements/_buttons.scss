@@ -139,3 +139,10 @@
   float: left;
   margin-top: 40px;
 }
+
+.delete-btn {
+  border-radius: 10px;
+  background-color: $signal-border;
+  border: solid 1px $border-gray-alt;
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+}
