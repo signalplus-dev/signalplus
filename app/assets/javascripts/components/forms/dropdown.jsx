@@ -1,15 +1,22 @@
 import React, { PureComponent } from 'react';
 import { Field } from 'redux-form';
-import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
+import TimezonePicker from 'react-bootstrap-timezone-picker';
+
+const TIMEZONES = {
+  '(GMT-08:00) Pacific Time': 'America/Los_Angeles',
+  '(GMT-07:00) Mountain Time': 'America/Denver',
+  '(GMT-06:00) Central Time': 'America/Chicago',
+  '(GMT-05:00) Eastern Time': 'America/New_York',
+};
 
 class Dropdown extends PureComponent {
   constructor(props) {
     super(props);
-    this.onCheck = this.onCheck.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  onCheck(e, checked) {
-    this.props.input.onChange(checked);
+  onChange(e) {
+    this.props.input.onChange(e);
   }
 
   render() {
@@ -25,13 +32,14 @@ class Dropdown extends PureComponent {
 
     return (
       <div className='tz-dropdown'>
-        <ButtonToolbar>
-          <DropdownButton title="Select your Timezone" id="dropdown-size-medium">
-            <MenuItem eventKey="1" value=''>Action</MenuItem>
-            <MenuItem eventKey="2">Another action</MenuItem>
-            <MenuItem eventKey="3">Something else here</MenuItem>
-          </DropdownButton>
-        </ButtonToolbar>
+        <TimezonePicker
+          {...props}
+          absolute={false}
+          defaultValue='Europe/Moscow'
+          placeholder='Select timezone...'
+          onChange={this.onChange}
+          timezones={TIMEZONES}
+        />
       </div>
     );
   }

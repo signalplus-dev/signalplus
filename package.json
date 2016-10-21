@@ -21,6 +21,7 @@
     "query-string": "^4.2.3",
     "react": "^15.3.0",
     "react-bootstrap": "^0.30.2",
+    "react-bootstrap-timezone-picker": "^1.0.7",
     "react-date-picker": "^5.3.27",
     "react-dom": "^15.3.0",
     "react-dropzone": "^3.6.0",
