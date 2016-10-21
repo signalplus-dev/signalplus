@@ -35,14 +35,14 @@ export default function Preview(props) {
         </div>
 
         <div className='row'>
-          <div className='col-md-1 preview-label' />
-          <div className='col-md-3 preview-label'>
+          <div className='col-xs-1 preview-label' />
+          <div className='col-xs-3 preview-label'>
             <h5>Default Response</h5>
             <h5 className='preview-wrap-text'>No Offers Available /Repeat Requests</h5>
             <h5>Custom Response</h5>
           </div>
 
-          <div className='col-md-5 preview-responses'>
+          <div className='col-xs-5 preview-responses'>
             <div className='preview-response-bubble'>
               {getResponse('default')}
             </div>
@@ -56,7 +56,7 @@ export default function Preview(props) {
     );
   } else {
     return (
-      <div className='col-md-9 preview-error'>
+      <div className='col-xs-9 preview-error'>
         Create your signal first before previewing signal
       </div>);
   }
