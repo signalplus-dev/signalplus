@@ -56,7 +56,7 @@ export default function Preview(props) {
     );
   } else {
     return (
-      <div className='col-md-9 preview-error'>
+      <div className='col-xs-9 preview-error'>
         Create your signal first before previewing signal
       </div>);
   }
