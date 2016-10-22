@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 import SignalIcon from 'components/links/signal_icon.jsx';
-import { actions } from 'redux/modules/app.js';
+import { actions } from 'redux/modules/app/index.js';
 
 
 class FlashMessage extends PureComponent {

@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 import { createChannelSubscriptions, subscribeToChannels } from 'redux/actionCableSubscriptions.js'
 import { AUTHENTICATED, authenticate } from 'redux/modules/app/authentication.js';
+import { FLASH_MESSAGE_INFO } from 'redux/middleware/flashMiddleware.js';
 import _ from 'lodash';
 
 /*
@@ -13,6 +14,7 @@ const REPLACE_TAB = 'signalplus/app/dashboard/tab/REPLACE_TAB';
 const SUBSCRIBED_TO_CHANNELS = 'signalplus/app/SUBSCRIBED_TO_CHANNELS';
 const SET_FLASH_MESSAGE = 'signalplus/app/SET_FLASH_MESSAGE';
 const DISMISS_FLASH_MESSAGE = 'signalplus/app/DISMISS_FLASH_MESSAGE';
+const RENDER_FLASH_MESSAGE = 'signalplus/app/RENDER_FLASH_MESSAGE';
 
 export const SIGNALS_TAB_ID = 'signals';
 export const TEMPLATE_TAB_ID = 'templates';
@@ -40,8 +42,8 @@ const initialState = {
     ],
   },
   flashMessage: {
-    type: 'info',
-    message: 'I am a flash message',
+    type: FLASH_MESSAGE_INFO,
+    message: '',
     dismissed: true,
   },
 };
@@ -101,7 +103,16 @@ export const reducer = handleActions({
       ...state.flashMessage,
       dismissed: true,
     },
-  })
+  }),
+
+  [RENDER_FLASH_MESSAGE]: (state, action) => ({
+    ...state,
+    flashMessage: {
+      ...state.flashMessage,
+      ...action.payload,
+      dismissed: false,
+    },
+  }),
 
 }, initialState);
 
@@ -114,6 +125,7 @@ const replaceTab = createAction(REPLACE_TAB);
 const subscribedToChannels = createAction(SUBSCRIBED_TO_CHANNELS);
 const setFlashMessage = createAction(SET_FLASH_MESSAGE);
 const dismissFlashMessage = createAction(DISMISS_FLASH_MESSAGE);
+const renderFlashMessage = createAction(RENDER_FLASH_MESSAGE);
 
 /**
   * Create a thunk that conditionally subscribes to channels if we haven't already subscribed
@@ -139,4 +151,5 @@ export const actions = {
   subscribeToChannelsAction,
   setFlashMessage,
   dismissFlashMessage,
+  renderFlashMessage,
 };

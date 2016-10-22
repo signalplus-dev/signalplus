@@ -9,9 +9,16 @@ $opacity: 0.9;
   background-color: rgba($button-blue, $opacity);
   color: white;
   z-index: 1;
+  max-height: 200px;
+  transition:
+    max-height 330ms $default-easing-function,
+    padding 330ms $default-easing-function;
 
   &.dismissed {
-
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
   }
 
   &.error {
@@ -19,7 +26,7 @@ $opacity: 0.9;
   }
 
   &.success {
-    background-color: rgba($active-green, $opacity);
+    background-color: rgba($another-green, $opacity);
   }
 
   .bell {

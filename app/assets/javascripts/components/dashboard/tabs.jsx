@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link, browserHistory } from 'react-router';
+import { push } from 'react-router-redux';
 import cn from 'classnames';
 import { actions as appActions } from 'redux/modules/app/index.js';
 
@@ -16,13 +17,14 @@ class UnconnectedTabClose extends PureComponent {
   }
 
   closeTab(event) {
-    const { tab, dispatch } = this.props;
-
     event.preventDefault();
     event.stopPropagation();
 
-    dispatch(appActions.removeTab(tab.id));
-    browserHistory.push(ACTIVE_SIGNAL_PATH)
+    const { tab, tabs, dispatch } = this.props;
+    const newPath = _.get(_.slice(tabs, -2, -1), '[0].link', ACTIVE_SIGNAL_PATH);
+
+    dispatch(push(newPath))
+      .then(() => dispatch(appActions.removeTab(tab.id)));
   }
 
   render() {
@@ -32,11 +34,11 @@ class UnconnectedTabClose extends PureComponent {
 
 const TabClose = connect()(UnconnectedTabClose);
 
-function Tab({ tab, active }){
+function Tab({ tab, tabs, active }){
   return (
     <li>
       <Link activeClassName="active" to={tab.link}>{tab.label}
-        {tab.closeable ? <TabClose tab={tab} /> : undefined }
+        {tab.closeable ? <TabClose tab={tab} tabs={tabs} /> : undefined }
       </Link>
     </li>
   );
@@ -48,7 +50,7 @@ function Tabs({ tabs, currentRoute }) {
       <Tab
         key={tab.id}
         active={tab.link === currentRoute}
-        {...{ tab }}
+        {...{ tab, tabs }}
       />
     );
   });
