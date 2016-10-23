@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 // Components
 import InputBox from 'components/forms/inputBox.jsx';
-import EmailPreferenceCheckbox from 'components/forms/emailPreferenceCheckbox.jsx';
+import Checkbox from 'components/forms/checkbox.jsx';
 import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
 import { updateBrandAccountInfo } from 'redux/modules/models/brand.js';
 
@@ -37,7 +37,7 @@ class UndecoratedAccountInfo extends Component {
             />
           </div>
           <div className='notification-checkbox'>
-            <EmailPreferenceCheckbox
+            <Checkbox
               name="email_subscription"
               label='Notify me of new features/product annoucements'
             />

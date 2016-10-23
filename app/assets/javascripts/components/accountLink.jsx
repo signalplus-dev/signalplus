@@ -5,7 +5,7 @@ const ACCOUNT_PATHNAME = '/dashboard/account';
 
 export default function AccountLink() {
   return (
-    <Link href={ACCOUNT_PATHNAME}>
+    <Link to={ACCOUNT_PATHNAME}>
       Account
     </Link>
   );
