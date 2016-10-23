@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
-  post '/users/refresh_token' => 'users#refresh_token'
 
   root 'users#index'
   get 'users/index'
@@ -24,6 +23,7 @@ Rails.application.routes.draw do
     namespace :v1, defaults: { format: 'json' } do
       # Testing endpoint for authentication
       get '/test' => 'base#test' if Rails.env.test?
+      post '/token' => 'base#token'
 
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         sessions: 'api/v1/sessions',

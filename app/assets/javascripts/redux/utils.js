@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
-import restInterface from 'util/restInterface.js';
 import _ from 'lodash';
+import { requestHeaders, clearTA } from 'util/authentication.js';
+import Endpoints from 'util/endpoints.js'
 
 /**
  * Creates a Redux API initiating action
@@ -11,6 +12,7 @@ export const createRequestAction = ({
   endpoint = '',
   method = 'GET',
   headers,
+  credentials,
   token,
   body,
   types = [ 'REQUEST', 'REQUEST_SUCCESS', 'REQUEST_FAIL' ],
@@ -20,9 +22,10 @@ export const createRequestAction = ({
   [CALL_API]: {
     endpoint,
     method,
+    credentials,
     headers: () => {
       if (headers) return headers;
-      return restInterface.requestHeaders();
+      return requestHeaders();
     },
     body,
     types,
@@ -41,3 +44,23 @@ export function getDataFor(pathToModel, fetchCallback) {
     return dispatch(fetchCallback());
   }
 }
+
+const LOG_OUT_REQUEST = 'signalplus/app/LOG_OUT_REQUEST';
+const LOG_OUT_REQUEST_SUCCESS = 'signalplus/app/LOG_OUT_REQUEST_SUCCESS';
+const LOG_OUT_REQUEST_FAIL = 'signalplus/app/LOG_OUT_REQUEST_FAIL';
+
+const apiLogOutRequest = () => {
+  return createRequestAction({
+    endpoint: Endpoints.TOKEN_SIGN_OUT,
+    method: 'DELETE',
+    types: [
+      LOG_OUT_REQUEST,
+      LOG_OUT_REQUEST_SUCCESS,
+      LOG_OUT_REQUEST_FAIL,
+    ],
+  });
+};
+
+export const logOut = () => (dispatch, getState) => {
+  return dispatch(apiLogOutRequest()).then(() => clearTA());
+};

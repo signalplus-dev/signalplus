@@ -16,4 +16,8 @@ module ApplicationHelper
       hash
     end
   end
+
+  def on_dashboard?
+    params[:controller] == 'dashboard' && params[:action] == 'index'
+  end
 end

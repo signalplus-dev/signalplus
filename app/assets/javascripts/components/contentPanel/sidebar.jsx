@@ -4,7 +4,7 @@ import { Link, browserHistory } from 'react-router';
 import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
-import { actions as appActions } from 'redux/modules/app.js';
+import { actions as appActions } from 'redux/modules/app/index.js';
 import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';
@@ -58,7 +58,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { menuItems, signal } = this.props; 
+    const { menuItems, signal } = this.props;
 
     return (
       <div className='col-xs-2 sidebar'>

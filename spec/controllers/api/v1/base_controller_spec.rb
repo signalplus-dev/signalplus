@@ -6,7 +6,6 @@ describe Api::V1::BaseController, type: :request do
   let(:base_headers) { { CONTENT_TYPE: 'application/json' }}
   let(:sign_in_data) { { email: user.email, password: password } }
 
-
   describe 'POST /api/v1/auth/sign_in' do
     context 'creating tokens' do
       it 'creates a devise api auth token' do
@@ -88,6 +87,24 @@ describe Api::V1::BaseController, type: :request do
         get '/api/v1/test', headers: base_headers
         expect(response).to be_unauthorized
       end
+    end
+  end
+end
+
+describe Api::V1::BaseController, type: :controller do
+  let(:password) { 'password' }
+  let(:user)     { create(:user, password: password, password_confirmation: password) }
+
+  describe 'POST token' do
+    before { sign_in(user) }
+
+    it 'allows a user to get a token with a CSRF token' do
+      post :token
+      expect(response).to be_ok
+      expect(response.headers).to have_key('access-token')
+      expect(response.headers).to have_key('client')
+      expect(response.headers).to have_key('uid')
+      expect(response.headers).to have_key('expiry')
     end
   end
 end

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import logOut from 'util/logOut.js';
-import endpoints from 'util/endpoints.js';
+import { connect } from 'react-redux';
+import { logOut } from 'redux/utils.js';
+import Endpoints from 'util/endpoints.js';
 
 
 class LogOutLink extends Component {
@@ -16,7 +17,7 @@ class LogOutLink extends Component {
     if (!this.state.loggedOut) {
       event.preventDefault();
 
-      logOut()
+      this.props.dispatch(logOut())
         .then((response) => {
           this.setState({ loggedOut: true });
           this.refs.link.click();
@@ -34,10 +35,11 @@ class LogOutLink extends Component {
   render() {
     return (
       <a
-        ref="link"
-        href={endpoints.REGULAR_SIGN_OUT}
-        rel="nofollow"
+        id="js_logOutLink"
+        href={Endpoints.REGULAR_SIGN_OUT}
         data-method="delete"
+        ref="link"
+        rel="nofollow"
         onClick={this.handleClick}
       >
         Log Out
@@ -46,4 +48,4 @@ class LogOutLink extends Component {
   }
 }
 
-export default LogOutLink;
+export default connect()(LogOutLink);

@@ -8,13 +8,18 @@
     = render 'layouts/favicon'
     = csrf_meta_tags
     = action_cable_meta_tag
+
   %body
-    = render 'shared/header'
+    = render 'shared/header' unless on_dashboard?
+
     .div.container
       .div#flash_messages
 
-    .container-fluid.main
+    - if on_dashboard?
       = yield
+    - else
+      .container-fluid.main
+        = yield
 
     = render 'shared/footer'
 

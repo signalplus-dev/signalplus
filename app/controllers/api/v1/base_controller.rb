@@ -1,13 +1,22 @@
 class Api::V1::BaseController < ApplicationController
+  alias_method :non_api_authenticate_user!, :authenticate_user!
+  alias_method :non_api_current_user, :current_user
+
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :authenticate_user!
-  protect_from_forgery with: :null_session
+  before_action :authenticate_csrf_token!, only: [:token]
+  before_action :authenticate_user!, except: [:token]
+  protect_from_forgery with: :null_session, except: [:token]
+
   rescue_from ActiveRecord::ActiveRecordError, with: :handle_active_record_error
   rescue_from ApiErrors::StandardError, with: :show_error
 
   def test
     render json: 'ok'
+  end
+
+  def token
+    render_new_token(non_api_current_user)
   end
 
   private
@@ -60,5 +69,22 @@ class Api::V1::BaseController < ApplicationController
   def has_valid_subscription?
     subscription = @brand.subscription
     !!subscription && subscription.valid_and_paid_for?
+  end
+
+  def authenticate_csrf_token!
+    non_api_authenticate_user!
+  end
+
+  def render_new_token(user)
+    # extract client_id from auth header
+    client_id = request.headers['client']
+
+    # update token, generate updated auth headers for response
+    new_auth_header = user.create_new_auth_token(client_id)
+
+    # update response with the header that will be required by the next request
+    response.headers.merge!(new_auth_header)
+
+    render json: { success: true }
   end
 end

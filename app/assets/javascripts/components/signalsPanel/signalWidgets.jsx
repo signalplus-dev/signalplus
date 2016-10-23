@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import SignalIcon from 'components/links/signal_icon.jsx';
-import { actions as appActions } from 'redux/modules/app.js';
+import { actions as appActions } from 'redux/modules/app/index.js';
 import cn from 'classnames';
 
 function renderSignalWidgets(signals) {
