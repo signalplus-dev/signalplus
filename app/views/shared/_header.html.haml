@@ -12,10 +12,5 @@
     %ul.nav.navbar-nav.navbar-right
       %li= link_to 'SUPPORT', support_path
       %li.dropdown-open
-        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", :role => "button"}
-          MENU
-          %span.caret
-        %ul.dropdown-menu
-          - if current_user
-            %li= link_to 'Account', '#'
-            %li= react_component 'LogOutLink'
+        %a.dropdown-toggle{ href: '/' }
+          - current_user ? 'DASHBOARD' : 'LOG IN'

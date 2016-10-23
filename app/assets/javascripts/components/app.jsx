@@ -22,6 +22,7 @@ import Promote from 'components/contentPanel/views/promote.jsx';
 import Preview from 'components/contentPanel/views/preview.jsx';
 import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans.jsx';
 import Loader from 'components/loader.jsx';
+import Header from 'components/header.jsx';
 
 // Import blocking App actions
 import { actions as appActions } from 'redux/modules/app/index.js';
@@ -29,7 +30,14 @@ import { actions as appActions } from 'redux/modules/app/index.js';
 const store = configureStore();
 
 function App({ children }) {
-  return <div>{children}</div>;
+  return (
+    <div>
+      <Header />
+      <div className="container-fluid main">
+        {children}
+      </div>
+    </div>
+  );
 }
 
 function UnconnectedAppRouter({ authenticated }) {
