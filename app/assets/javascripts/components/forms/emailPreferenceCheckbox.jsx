@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Field } from 'redux-form';
 import { Checkbox } from 'react-bootstrap';
 
-class CheckBox extends PureComponent {
+class EmailPreferenceCheckbox extends PureComponent {
   render() {
     const {
       input,
@@ -28,11 +28,11 @@ class CheckBox extends PureComponent {
   }
 }
 
-export default function DecoratedCheckBox(props) {
+export default function DecoratedEmailPreferenceCheckbox(props) {
   return (
     <Field
       {...props}
-      component={CheckBox}
+      component={EmailPreferenceCheckbox}
     />
   );
 }
