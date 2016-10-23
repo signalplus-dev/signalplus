@@ -23,8 +23,7 @@ class UnconnectedTabClose extends PureComponent {
     const { tab, tabs, dispatch } = this.props;
     const newPath = _.get(_.slice(tabs, -2, -1), '[0].link', ACTIVE_SIGNAL_PATH);
 
-    dispatch(push(newPath))
-      .then(() => dispatch(appActions.removeTab(tab.id)));
+    dispatch(push(newPath)).then(() => dispatch(appActions.removeTab(tab.id)));
   }
 
   render() {

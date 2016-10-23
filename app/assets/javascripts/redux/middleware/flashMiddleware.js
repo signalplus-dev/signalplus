@@ -64,5 +64,5 @@ export default store => next => (action) => {
     store.dispatch(appActions.renderFlashMessage(flashMessagePayload));
   }
 
-  next(action);
+  return next(action);
 };
