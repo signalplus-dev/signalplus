@@ -3,15 +3,6 @@ import { Field } from 'redux-form';
 import { Checkbox } from 'react-bootstrap';
 
 class CheckBox extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.onCheck = this.onCheck.bind(this);
-  }
-
-  onCheck(e, checked) {
-    this.props.input.onChange(checked);
-  }
-
   render() {
     const {
       input,
