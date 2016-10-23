@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link, browserHistory } from 'react-router';
 import cn from 'classnames';
-import { actions as appActions } from 'redux/modules/app.js';
+import { actions as appActions } from 'redux/modules/app/index.js';
 
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active'

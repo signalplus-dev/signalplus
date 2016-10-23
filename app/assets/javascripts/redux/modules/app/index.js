@@ -1,12 +1,12 @@
 import { createAction, handleActions } from 'redux-actions';
+import { combineReducers } from 'redux';
 import { createChannelSubscriptions, subscribeToChannels } from 'redux/actionCableSubscriptions.js'
+import { AUTHENTICATED, authenticate } from 'redux/modules/app/authentication.js';
 import _ from 'lodash';
 
 /*
 * Action Type Constants
 */
-const AUTHENTICATED = 'signalplus/app/AUTHENTICATED';
-
 const ADD_TAB = 'signalplus/app/dashboard/tab/ADD_TAB';
 const REMOVE_TAB = 'signalplus/app/dashboard/tab/REMOVE_TAB';
 const REPLACE_TAB = 'signalplus/app/dashboard/tab/REPLACE_TAB';
@@ -53,7 +53,7 @@ function setNewTab(tabs, payload) {
 export const reducer = handleActions({
   [AUTHENTICATED]: (state, action) => ({
     ...state,
-    authenticated: true
+    authenticated: true,
   }),
 
   [SUBSCRIBED_TO_CHANNELS]: (state, action) => ({
@@ -93,7 +93,6 @@ export const reducer = handleActions({
 /*
 * Action Creators
 */
-const authenticated = createAction(AUTHENTICATED)
 const addTab = createAction(ADD_TAB);
 const removeTab = createAction(REMOVE_TAB);
 const replaceTab = createAction(REPLACE_TAB);
@@ -116,7 +115,7 @@ const subscribeToChannelsAction = () => (dispatch, getState) => {
 }
 
 export const actions = {
-  authenticated,
+  authenticate,
   addTab,
   removeTab,
   replaceTab,

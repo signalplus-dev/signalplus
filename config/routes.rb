@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     namespace :v1, defaults: { format: 'json' } do
       # Testing endpoint for authentication
       get '/test' => 'base#test' if Rails.env.test?
+      post '/token' => 'base#token'
 
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         sessions: 'api/v1/sessions',

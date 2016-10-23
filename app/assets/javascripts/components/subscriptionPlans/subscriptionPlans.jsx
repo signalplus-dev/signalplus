@@ -9,7 +9,7 @@ import cn from 'classnames';
 import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js'
 import { getBrandData } from 'redux/modules/models/brand.js'
 import { createSubscription, updateSubscription } from 'redux/modules/models/subscription.js'
-import restInterface from 'util/restInterface.js';
+import { clearTA } from 'util/authentication.js';
 
 import StripeButton from 'components/subscriptionPlans/stripeButton.jsx';
 
@@ -140,7 +140,7 @@ class SubscriptionPlans extends Component {
       });;
     } else {
       dispatch(createSubscription(formData)).then((response) => {
-        restInterface.clearTA();
+        clearTA();
         window.location = '/dashboard';
       });
     }

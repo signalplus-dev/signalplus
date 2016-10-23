@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logOut from 'util/logOut.js';
-import endpoints from 'util/endpoints.js';
+import { logOut } from 'redux/utils.js';
+import Endpoints from 'util/endpoints.js';
 
 
 class LogOutLink extends Component {
@@ -34,8 +34,9 @@ class LogOutLink extends Component {
   render() {
     return (
       <a
+        id="js_logOutLink"
         ref="link"
-        href={endpoints.REGULAR_SIGN_OUT}
+        href={Endpoints.REGULAR_SIGN_OUT}
         rel="nofollow"
         data-method="delete"
         onClick={this.handleClick}

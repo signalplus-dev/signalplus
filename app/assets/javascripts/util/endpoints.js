@@ -1,5 +1,5 @@
 const endpoints = {
-  SIGN_IN:                  '/api/v1/auth/sign_in',
+  TOKEN:                    '/api/v1/token',
   REFRESH_TOKEN:            '/users/refresh_token',
   TOKEN_SIGN_OUT:           '/api/v1/auth/sign_out',
   REGULAR_SIGN_OUT:         '/users/sign_out',

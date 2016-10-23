@@ -3,7 +3,7 @@ import { provideHooks } from 'redial';
 import { getBrandData } from 'redux/modules/models/brand.js';
 import { getListenSignalsData } from 'redux/modules/models/listenSignals.js';
 import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js';
-import { actions } from 'redux/modules/app.js';
+import { actions } from 'redux/modules/app/index.js';
 
 // Components
 import SubscriptionSummary from 'components/dashboard/subscriptionSummary.jsx';

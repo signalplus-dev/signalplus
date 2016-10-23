@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Provider, connect } from 'react-redux';
-import { provideHooks } from 'redial';
 import {
   Router,
   IndexRoute,
@@ -12,7 +11,6 @@ import {
 import { syncHistoryWithStore } from 'react-router-redux';
 import { RedialContext } from 'react-router-redial';
 import configureStore from 'redux/configureStore.js';
-import restInterface from 'util/restInterface.js';
 
 // Components
 import Dashboard from 'components/dashboard/dashboard.jsx';
@@ -26,7 +24,7 @@ import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans.js
 import Loader from 'components/loader.jsx';
 
 // Import blocking App actions
-import { actions as appActions } from 'redux/modules/app.js';
+import { actions as appActions } from 'redux/modules/app/index.js';
 
 const store = configureStore();
 
@@ -93,16 +91,8 @@ const AppRouter = connect(state => ({
 
 
 export default class Root extends Component {
-  componentWillMount() {
-    const { dispatch } = store;
-
-    if (!restInterface.hasToken() || restInterface.isTAExpired()) {
-      restInterface.refreshToken().then(response => {
-        dispatch(appActions.authenticated());
-      });
-    } else {
-      dispatch(appActions.authenticated());
-    }
+  componentDidMount() {
+    store.dispatch(appActions.authenticate());
   }
 
   render() {
