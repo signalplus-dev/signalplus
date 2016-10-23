@@ -65,12 +65,11 @@ function UnconnectedAppRouter({ authenticated }) {
       <Route path="/" component={App}>
         <IndexRedirect to="dashboard" />
         <Route path="dashboard" component={Dashboard}>
-          <IndexRedirect to="account" />
           <Route path="account" component={AccountPanel}>
             <IndexRoute component={AccountInfo} />
             <Route path="current_plan" component={AccountSubscriptionPlan} />
           </Route>
-
+          
           <IndexRedirect to="signals" />
           <Route path="signals">
             <IndexRedirect to="active" />

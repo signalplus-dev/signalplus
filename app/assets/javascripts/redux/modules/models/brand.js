@@ -10,9 +10,9 @@ export const BRAND_REQUEST = 'signalplus/brand/REQUEST';
 export const BRAND_REQUEST_SUCCESS = 'signalplus/brand/REQUEST_SUCCESS';
 export const BRAND_REQUEST_FAIL = 'signalplus/brand/REQUEST_FAIL';
 
-export const BRAND_INFO_POST_REQUST = 'signalplus/brand/account_info/REQUEST';
-export const BRAND_INFO_POST_REQUST_SUCCESS = 'signalplus/brand/account_info/REQUEST_SUCESS';
-export const BRAND_INFO_POST_REQUST_FAIL = 'signalplus/brand/account_info/REQUEST_FAIL';
+export const BRAND_INFO_POST_REQUEST = 'signalplus/brand/account_info/REQUEST';
+export const BRAND_INFO_POST_REQUEST_SUCCESS = 'signalplus/brand/account_info/REQUEST_SUCESS';
+export const BRAND_INFO_POST_REQUEST_FAIL = 'signalplus/brand/account_info/REQUEST_FAIL';
 
 
 /*
@@ -45,16 +45,16 @@ export const reducer = handleActions({
     loaded: false,
   }),
 
-  [BRAND_INFO_POST_REQUST]: (state,action) => ({
+  [BRAND_INFO_POST_REQUEST]: (state,action) => ({
     ...state,
   }),
 
-  [BRAND_INFO_POST_REQUST_SUCCESS]: (state, action) => ({
+  [BRAND_INFO_POST_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
     ...normalizeBrand(action.payload),
   }),
 
-  [BRAND_INFO_POST_REQUST_FAIL]: (state, action) => ({
+  [BRAND_INFO_POST_REQUEST_FAIL]: (state, action) => ({
     ...state,
     error: action.payload,
   }),
@@ -86,9 +86,9 @@ export const updateBrandAccountInfo = (payload) => {
     method: 'POST',
     body: JSON.stringify(payload),
     types: [
-      BRAND_INFO_POST_REQUST,
-      BRAND_INFO_POST_REQUST_SUCCESS,
-      BRAND_INFO_POST_REQUST_FAIL,
+      BRAND_INFO_POST_REQUEST,
+      BRAND_INFO_POST_REQUEST_SUCCESS,
+      BRAND_INFO_POST_REQUEST_FAIL,
     ],
   });
 }

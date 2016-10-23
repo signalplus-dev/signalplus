@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const ACCOUNT_PATHNAME = '/dashboard/account';
 
 export default function AccountLink() {
   return (
-    <a href={ACCOUNT_PATHNAME}>
+    <Link href={ACCOUNT_PATHNAME}>
       Account
-    </a>
+    </Link>
   );
 }
 

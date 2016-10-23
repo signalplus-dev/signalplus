@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Button } from 'react-bootstrap';
-import { actions as appActions } from 'redux/modules/app.js';
+import { actions as appActions } from 'redux/modules/app/index.js';
 
 // Components
 import CurrentPlanMenuItem from 'components/accountPanel/currentPlanMenuItem.jsx';
@@ -19,11 +19,6 @@ function MenuItem({ menu }) {
 }
 
 class Sidebar extends Component {
-  constructor(props) {
-    super(props)
-    console.log(props)
-  }
-
   closeAccount() {
     const { dispatch, tabId } = this.props;
   }

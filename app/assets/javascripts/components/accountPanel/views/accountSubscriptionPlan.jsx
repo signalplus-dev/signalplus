@@ -9,11 +9,6 @@ import AccountInvoice from 'components/accountPanel/views/accountInvoice.jsx';
 
 
 class AccountSubscriptionPlan extends Component {
-  constructor(props) {
-    super(props);
-    this.renderContent = this.renderContent.bind(this);
-  }
-
   renderContent() {
     const { subscription, subscriptionPlans } = this.props;
 

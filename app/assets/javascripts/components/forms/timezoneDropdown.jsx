@@ -14,7 +14,6 @@ class TimezoneDropdown extends PureComponent {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.findTimezoneLabel = this.findTimezoneLabel.bind(this);
   }
 
   onChange(e) {

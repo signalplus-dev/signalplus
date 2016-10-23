@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { actions as appActions } from 'redux/modules/app.js';
+import { actions as appActions } from 'redux/modules/app/index.js';
 
 // Components
 import Sidebar from 'components/accountPanel/sidebar.jsx';
