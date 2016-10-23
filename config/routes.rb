@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
-  post '/users/refresh_token' => 'users#refresh_token'
 
   root 'users#index'
   get 'users/index'

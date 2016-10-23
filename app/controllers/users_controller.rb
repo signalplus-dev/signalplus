@@ -27,19 +27,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def refresh_token
-    # extract client_id from auth header
-    client_id = request.headers['client']
-
-    # update token, generate updated auth headers for response
-    new_auth_header = current_user.create_new_auth_token(client_id)
-
-    # update response with the header that will be required by the next request
-    response.headers.merge!(new_auth_header)
-
-    render json: { success: true }
-  end
-
   # DELETE /users/:id.:format
   def destroy
     # authorize! :delete, @user
