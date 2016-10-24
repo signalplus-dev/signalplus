@@ -23,6 +23,25 @@
   margin-right: 20px;
 }
 
+.nav-dropdown {
+  text-align: center;
+  background-color: $main-purple;
+
+  a {
+    display: inline-block;
+    width: 150px;
+    height: 35px;
+    font-size: 18px;
+    color: $signal-white;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $main-pink;
+      background-color: $main-purple;
+    }
+  }
+}
 
 // Get rid of strange bootstrap last child margin
 @media (min-width: 768px) {

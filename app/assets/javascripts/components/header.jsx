@@ -1,5 +1,6 @@
 import React from 'react';
 import LogOutLink from 'components/logOutLink.jsx';
+import AccountLink from 'components/accountLink.jsx';
 
 export default function Header() {
   return (
@@ -30,7 +31,7 @@ export default function Header() {
               <span className="caret" />
             </a>
             <ul className="dropdown-menu">
-              <li><a>Account</a></li>
+              <li><AccountLink /></li>
               <li><LogOutLink /></li>
             </ul>
           </li>

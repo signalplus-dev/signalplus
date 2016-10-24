@@ -33,11 +33,13 @@
     height: 100px;
     background-color: $text-white;
     border: solid 1px $signal-border;
+    border-radius: 11px;
     padding: 10px;
   }
 }
 
-.content-panel {
+.content-panel,
+.account-pane, {
   padding-top: 30px;
 }
 
@@ -140,6 +142,7 @@
 
 .input-box {
   display: inline-block;
+  border-radius: 11px;
   @include textarea-input(450px);
 }
 
@@ -150,15 +153,15 @@
 }
 
 .required {
-  margin-top: 55px;
+  margin-top: 40px;
   margin-right: 10px;
   float: right;
   text-align: center;
-  width: 80px;
-  height: 20px;
   opacity: 0.7;
-  background-color: $text-white;
+  background-color: #ffffff;
   display: inline-block;
+  border-radius: 3px;
+  padding: 2px;
 }
 
 .preview-image {
@@ -241,4 +244,3 @@ img.arrow {
     color: $main-purple;
   }
 }
-

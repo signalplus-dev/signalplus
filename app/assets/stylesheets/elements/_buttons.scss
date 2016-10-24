@@ -10,6 +10,7 @@
   background-color: $button-blue;
   border: solid 1px $button-blue;
   border-radius: 10px;
+  font-weight: bold;
 
   &:hover,
   &:active,
@@ -25,6 +26,7 @@
   color: $text-white;
   background-color: $active-green;
   border: solid 1px $active-green;
+  font-weight: bold;
 
   &:hover,
   &:active,
@@ -41,7 +43,12 @@
   color: $button-blue;
   background-color: $text-white;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
-  border: solid 2px $button-blue;
+
+  &:hover,
+  &:focus {
+    background-color: $text-white;
+    color: $button-blue;
+  }
 }
 
 .btn-centered {
@@ -138,4 +145,13 @@
 .post-to-timeline-btn {
   float: left;
   margin-top: 40px;
+}
+
+.close-account-btn,
+.delete-btn {
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: $signal-border;
+  border: solid 1px $border-gray-alt;
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
 }
