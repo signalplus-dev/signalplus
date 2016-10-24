@@ -43,6 +43,12 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :webhooks do
+    namespace :stripe do
+      resources :invoices, only: [:create, :update]
+    end
+  end
+
   get 'subscription_plans' => 'dashboard#index', as: :subscription_plans
 
   # Catch all for any routes nested with `/dashboard`. Any non-existant routes will be handled by the React app.
