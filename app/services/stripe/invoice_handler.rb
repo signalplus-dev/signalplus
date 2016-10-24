@@ -1,25 +1,32 @@
-class InvoicePayment
+class InvoiceHandler
   def initialize(event: event)
     @invoice = event.data.object
+    @brand = get_brand
   end
 
-  # def process
-  #   charge.update_column(processed_at: Time.zone.now)
-  #   ChargeMailer.confirmation(charge).deliver_later
-  # end
+  def create_invoice
+    if @brand
+    	Invoice.create!(
+        invoice_id: @invoice.id,
+        brand: @brand,
+        data: @invoice,
+        amount: @amount,
+        paid: 
+        attempts: 
+      )
+    else 
+      # Need to raise an error here which one?
+      raise 'error'
+    end
+  end
 
-  def create!
-  	
-  	normalized_payload = normalize_invoice_payload
+  def update_invoice_status
   end
 
   private
 
-  def normalize_invoice_payload
-  	@invoice.map do
+  def get_brand
+    email = Stripe::Customer.retrieve(id: @invoice.customer).email
+    User.find_by_email(email).try(:brand)
   end
-
-  # def charge
-  #   @invoice ||= Charge.where(stripe_charge_id: @stripe_charge.id).first!
-  # end
 end
