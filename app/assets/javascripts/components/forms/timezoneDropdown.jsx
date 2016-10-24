@@ -4,25 +4,16 @@ import moment from 'moment-timezone';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import _ from 'lodash';
 
-const ACTIVE_TIMEZONE_LIST = [
-  'America/Los_Angeles', 
-  'America/Denver', 
-  'America/Chicago',
-  'America/New_York',
-]
-
-const getActiveTimezone = () => {
+const getTimezoneWithLabels = () => {
   const timezones = moment.tz.names();
-  const activeTimezones = {};
+  const timezonesWithLabels= {};
 
   timezones.map(function(tz) {
-    if (ACTIVE_TIMEZONE_LIST.includes(tz)) {
-      const label = " (GMT" + moment.tz(tz).format('Z')+") " + tz;
-      activeTimezones[label] = tz;
-    }
+    const label = " (GMT" + moment.tz(tz).format('Z')+") " + tz;
+    timezonesWithLabels[label] = tz;
   });
 
-  return activeTimezones;
+  return timezonesWithLabels;
 } 
 
 class TimezoneDropdown extends PureComponent {
@@ -35,8 +26,8 @@ class TimezoneDropdown extends PureComponent {
     this.props.input.onChange(e);
   }
 
-  findTimezoneLabel(activeTimezones, tz) {
-    return _.findKey(activeTimezones, (tzLabel) => (tzLabel.indexOf(tz)));
+  findTimezoneLabel(timezones, tz) {
+    return _.findKey(timezones, (tzLabel) => (tzLabel.indexOf(tz)));
   }
 
   render() {
@@ -49,17 +40,17 @@ class TimezoneDropdown extends PureComponent {
       meta,
       ...props,
     } = this.props;
-    const activeTimezones = getActiveTimezone();
+    const timezones = getTimezoneWithLabels();
 
     return (
       <div className='tz-dropdown'>
         <TimezonePicker
           {...props}
-          defaultValue={this.findTimezoneLabel(activeTimezones, input.value)}
+          defaultValue={this.findTimezoneLabel(timezones, input.value)}
           absolute={false}
           placeholder='Select timezone...'
           onChange={this.onChange}
-          timezones={activeTimezones}
+          timezones={timezones}
         />
       </div>
     );
