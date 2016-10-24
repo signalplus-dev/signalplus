@@ -26,6 +26,7 @@ import Preview from 'components/contentPanel/views/preview.jsx';
 import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans.jsx';
 import Loader from 'components/loader.jsx';
 import Header from 'components/header.jsx';
+import FlashMessage from 'components/flashMessage.jsx';
 
 // Import blocking App actions
 import { actions as appActions } from 'redux/modules/app/index.js';
@@ -37,6 +38,7 @@ function App({ children }) {
     <div>
       <Header />
       <div className="container-fluid main">
+        <FlashMessage />
         {children}
       </div>
     </div>

@@ -24,16 +24,16 @@
 @mixin btn-green {
   cursor: auto;
   color: $text-white;
-  background-color: $active-green;
-  border: solid 1px $active-green;
+  background-color: $another-green;
+  border: solid 1px $another-green;
   font-weight: bold;
 
   &:hover,
   &:active,
   &:focus {
     color: $text-white;
-    background-color: $active-green;
-    border-color: $active-green;
+    background-color: $another-green;
+    border-color: $another-green;
   }
 }
 

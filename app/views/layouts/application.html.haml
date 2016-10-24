@@ -12,8 +12,8 @@
   %body
     = render 'shared/header' unless on_dashboard?
 
-    .div.container
-      .div#flash_messages
+    -#.div.container
+    -#.div#flash_messages
 
     - if on_dashboard?
       = yield

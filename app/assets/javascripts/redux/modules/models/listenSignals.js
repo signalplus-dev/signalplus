@@ -16,17 +16,17 @@ export const LISTEN_SIGNALS_REQUEST = 'signalplus/listenSignals/REQUEST';
 export const LISTEN_SIGNALS_REQUEST_SUCCESS = 'signalplus/listenSignals/REQUEST_SUCCESS';
 export const LISTEN_SIGNALS_REQUEST_FAIL = 'signalplus/listenSignals/REQUEST_FAIL';
 
-export const LISTEN_SIGNAL_SHOW_REQUEST = 'signalplus/listenSignals/SHOW_REQUEST';
-export const LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS = 'signalplus/listenSignals/SHOW_REQUEST_SUCCESS';
-export const LISTEN_SIGNAL_SHOW_REQUEST_FAIL = 'signalplus/listenSignals/SHOW_REQUEST_FAIL';
+export const LISTEN_SIGNAL_SHOW_REQUEST = 'signalplus/listenSignals/show/REQUEST';
+export const LISTEN_SIGNAL_SHOW_REQUEST_SUCCESS = 'signalplus/listenSignals/show/REQUEST_SUCCESS';
+export const LISTEN_SIGNAL_SHOW_REQUEST_FAIL = 'signalplus/listenSignals/show/REQUEST_FAIL';
 
-export const LISTEN_SIGNALS_PUT_REQUEST = 'signalplus/listenSignals/put/REQUEST';
-export const LISTEN_SIGNALS_PUT_REQUEST_SUCCESS = 'signalplus/listenSignals/put/REQUEST_SUCCESS';
-export const LISTEN_SIGNALS_PUT_REQUEST_FAIL = 'signalplus/listenSignals/put/REQUEST_FAIL';
+export const LISTEN_SIGNALS_UPDATE_REQUEST = 'signalplus/listenSignals/update/REQUEST';
+export const LISTEN_SIGNALS_UPDATE_REQUEST_SUCCESS = 'signalplus/listenSignals/update/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_UPDATE_REQUEST_FAIL = 'signalplus/listenSignals/update/REQUEST_FAIL';
 
-export const LISTEN_SIGNALS_POST_REQUEST = 'signalplus/listenSignals/post/REQUEST';
-export const LISTEN_SIGNALS_POST_REQUEST_SUCCESS = 'signalplus/listenSignals/post/REQUEST_SUCCESS';
-export const LISTEN_SIGNALS_POST_REQUEST_FAIL = 'signalplus/listenSignals/post/REQUEST_FAIL';
+export const LISTEN_SIGNALS_CREATE_REQUEST = 'signalplus/listenSignals/create/REQUEST';
+export const LISTEN_SIGNALS_CREATE_REQUEST_SUCCESS = 'signalplus/listenSignals/create/REQUEST_SUCCESS';
+export const LISTEN_SIGNALS_CREATE_REQUEST_FAIL = 'signalplus/listenSignals/create/REQUEST_FAIL';
 
 export const LISTEN_SIGNALS_DELETE_REQUEST = 'signalplus/listenSignals/delete/REQUEST';
 export const LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS = 'signalplus/listenSignals/delete/REQUEST_SUCCESS';
@@ -129,22 +129,22 @@ export const reducer = handleActions({
 
   [LISTEN_SIGNAL_SHOW_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
-  [LISTEN_SIGNALS_POST_REQUEST]: handleSignalRequest,
+  [LISTEN_SIGNALS_CREATE_REQUEST]: handleSignalRequest,
 
-  [LISTEN_SIGNALS_POST_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
+  [LISTEN_SIGNALS_CREATE_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
   // TBD, need to use flash reducer here on failure
-  // [LISTEN_SIGNALS_POST_REQUEST_FAIL]: handlesListenSignalFailResponse,
+  // [LISTEN_SIGNALS_CREATE_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
-  [LISTEN_SIGNALS_PUT_REQUEST]: (state, action) => ({
+  [LISTEN_SIGNALS_UPDATE_REQUEST]: (state, action) => ({
     ...state,
     loading: true,
     loaded: false,
   }),
 
-  [LISTEN_SIGNALS_PUT_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
+  [LISTEN_SIGNALS_UPDATE_REQUEST_SUCCESS]: handlesListenSignalSucccesResponse,
 
-  [LISTEN_SIGNALS_PUT_REQUEST_FAIL]: handlesListenSignalFailResponse,
+  [LISTEN_SIGNALS_UPDATE_REQUEST_FAIL]: handlesListenSignalFailResponse,
 
   [LISTEN_SIGNALS_DELETE_REQUEST]: (state, action) => ({
     ...state,
@@ -230,9 +230,9 @@ export const addListenSignalData = (payload) => {
     method: 'POST',
     body: JSON.stringify(payload),
     types: [
-      LISTEN_SIGNALS_POST_REQUEST,
-      LISTEN_SIGNALS_POST_REQUEST_SUCCESS,
-      LISTEN_SIGNALS_POST_REQUEST_FAIL,
+      LISTEN_SIGNALS_CREATE_REQUEST,
+      LISTEN_SIGNALS_CREATE_REQUEST_SUCCESS,
+      LISTEN_SIGNALS_CREATE_REQUEST_FAIL,
     ],
   });
 };
@@ -243,9 +243,9 @@ export const updateListenSignalData = (payload, id) => {
     method: 'PUT',
     body: JSON.stringify(payload),
     types: [
-      { type: LISTEN_SIGNALS_PUT_REQUEST, meta: { id } },
-      { type: LISTEN_SIGNALS_PUT_REQUEST_SUCCESS, meta: { id } },
-      { type: LISTEN_SIGNALS_PUT_REQUEST_FAIL, meta: { id } },
+      { type: LISTEN_SIGNALS_UPDATE_REQUEST, meta: { id } },
+      { type: LISTEN_SIGNALS_UPDATE_REQUEST_SUCCESS, meta: { id } },
+      { type: LISTEN_SIGNALS_UPDATE_REQUEST_FAIL, meta: { id } },
     ],
   });
 };

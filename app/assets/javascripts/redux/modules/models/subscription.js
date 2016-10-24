@@ -10,17 +10,17 @@ import {
   BRAND_REQUEST_FAIL,
 } from 'redux/modules/models/brand.js';
 
-const SUBSCRIPTION_REQUEST = 'signalplus/subscription/SUBSCRIPTION_REQUEST';
-const SUBSCRIPTION_REQUEST_SUCCESS = 'signalplus/subscription/SUBSCRIPTION_REQUEST_SUCCESS';
-const SUBSCRIPTION_REQUEST_FAIL = 'signalplus/subscription/SUBSCRIPTION_REQUEST_FAIL';
+const SUBSCRIPTION_REQUEST = 'signalplus/subscription/REQUEST';
+const SUBSCRIPTION_REQUEST_SUCCESS = 'signalplus/subscription/REQUEST_SUCCESS';
+const SUBSCRIPTION_REQUEST_FAIL = 'signalplus/subscription/REQUEST_FAIL';
 
-const SUBSCRIPTION_CREATE_REQUEST = 'signalplus/subscription/SUBSCRIPTION_CREATE_REQUEST';
-const SUBSCRIPTION_CREATE_REQUEST_SUCCESS = 'signalplus/subscription/SUBSCRIPTION_CREATE_REQUEST_SUCCESS';
-const SUBSCRIPTION_CREATE_REQUEST_FAIL = 'signalplus/subscription/SUBSCRIPTION_CREATE_REQUEST_FAIL';
+const SUBSCRIPTION_CREATE_REQUEST = 'signalplus/subscription/create/REQUEST';
+const SUBSCRIPTION_CREATE_REQUEST_SUCCESS = 'signalplus/subscription/create/REQUEST_SUCCESS';
+const SUBSCRIPTION_CREATE_REQUEST_FAIL = 'signalplus/subscription/create/REQUEST_FAIL';
 
-const SUBSCRIPTION_UPDATE_REQUEST = 'signalplus/subscription/SUBSCRIPTION_UPDATE_REQUEST';
-const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/SUBSCRIPTION_UPDATE_REQUEST_SUCCESS';
-const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/SUBSCRIPTION_UPDATE_REQUEST_FAIL';
+const SUBSCRIPTION_UPDATE_REQUEST = 'signalplus/subscription/update/REQUEST';
+const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/update/REQUEST_SUCCESS';
+const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/update/REQUEST_FAIL';
 
 const SUBSCRIPTION_RESPONSE_COUNT_UPDATE = 'signalplus/subscription/SUBSCRIPTION_RESPONSE_COUNT_UPDATE';
 

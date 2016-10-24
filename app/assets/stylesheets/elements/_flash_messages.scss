@@ -1,0 +1,51 @@
+$opacity: 0.9;
+
+.flash-messages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  background-color: rgba($button-blue, $opacity);
+  color: white;
+  z-index: 1;
+  max-height: 200px;
+  transition:
+    max-height 330ms $default-easing-function,
+    padding 330ms $default-easing-function;
+
+  &.dismissed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  &.error {
+    background-color: rgba($signal-pink, $opacity);
+  }
+
+  &.success {
+    background-color: rgba($another-green, $opacity);
+  }
+
+  .bell {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .message {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 16px;
+  }
+
+  .close {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    opacity: 1;
+  }
+}
