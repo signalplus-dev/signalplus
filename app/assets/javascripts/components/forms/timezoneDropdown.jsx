@@ -11,18 +11,18 @@ const ACTIVE_TIMEZONE_LIST = [
   'America/New_York',
 ]
 
-const getActiveTz = () => {
+const getActiveTimezone = () => {
   const timezones = moment.tz.names();
-  const activeTz = {};
+  const activeTimezones = {};
 
   timezones.map(function(tz) {
     if (ACTIVE_TIMEZONE_LIST.includes(tz)) {
       const label = " (GMT" + moment.tz(tz).format('Z')+") " + tz;
-      activeTz[label] = tz;
+      activeTimezones[label] = tz;
     }
   });
 
-  return activeTz;
+  return activeTimezones;
 } 
 
 class TimezoneDropdown extends PureComponent {
@@ -49,7 +49,7 @@ class TimezoneDropdown extends PureComponent {
       meta,
       ...props,
     } = this.props;
-    const activeTimezones = getActiveTz();
+    const activeTimezones = getActiveTimezone();
 
     return (
       <div className='tz-dropdown'>
