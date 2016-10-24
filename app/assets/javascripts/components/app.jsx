@@ -15,7 +15,7 @@ import configureStore from 'redux/configureStore.js';
 // Components
 import Dashboard from 'components/dashboard/dashboard.jsx';
 import AccountPanel from 'components/accountPanel/accountPanel.jsx';
-import AccountInfo from 'components/accountPanel/views/AccountInfo.jsx';
+import AccountInfo from 'components/accountPanel/views/accountInfo.jsx';
 import AccountSubscriptionPlan from 'components/accountPanel/views/accountSubscriptionPlan.jsx';
 import SignalsPanel from 'components/signalsPanel/signalsPanel.jsx';
 import TemplatesPanel from 'components/templatesPanel.jsx';
@@ -71,7 +71,7 @@ function UnconnectedAppRouter({ authenticated }) {
             <IndexRoute component={AccountInfo} />
             <Route path="current_plan" component={AccountSubscriptionPlan} />
           </Route>
-          
+
           <IndexRedirect to="signals" />
           <Route path="signals">
             <IndexRedirect to="active" />
