@@ -7,10 +7,6 @@ import { actions as appActions } from 'redux/modules/app/index.js';
 import Sidebar from 'components/accountPanel/sidebar.jsx';
 
 class AccountPanel extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   createTabIfNotCreated() {
     if (this.shouldCreateTab()) {
       const tab = {
