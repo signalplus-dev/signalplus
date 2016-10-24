@@ -1,14 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Field } from 'redux-form';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
-import _ from 'lodash';
-
-const TIMEZONES = {
-  '(GMT-08:00) America/Los_Angeles': 'America/Los_Angeles',
-  '(GMT-07:00) America/Denver': 'America/Denver',
-  '(GMT-06:00) America/Chicago': 'America/Chicago',
-  '(GMT-05:00) America/New_York': 'America/New_York',
-};
 
 class TimezoneDropdown extends PureComponent {
   constructor(props) {
@@ -18,10 +10,6 @@ class TimezoneDropdown extends PureComponent {
 
   onChange(e) {
     this.props.input.onChange(e);
-  }
-
-  findTimezoneLabel(tz) {
-    return _.findKey(TIMEZONES, (tzLabel) => (tzLabel.indexOf(tz)));
   }
 
   render() {
@@ -39,11 +27,10 @@ class TimezoneDropdown extends PureComponent {
       <div className='tz-dropdown'>
         <TimezonePicker
           {...props}
-          defaultValue={this.findTimezoneLabel(input.value)}
+          value={input.value}
           absolute={false}
           placeholder='Select timezone...'
           onChange={this.onChange}
-          timezones={TIMEZONES}
         />
       </div>
     );

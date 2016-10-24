@@ -80,7 +80,6 @@ export function getBrandData() {
 }
 
 export const updateBrandAccountInfo = (payload) => {
-  console.log(payload)
   return createRequestAction({
     endpoint: Endpoints.BRAND_ACCOUNT_INFO,
     method: 'POST',
