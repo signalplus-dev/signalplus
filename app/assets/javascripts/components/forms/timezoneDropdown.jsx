@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import _ from 'lodash';
 
+<<<<<<< HEAD
 const getTimezoneWithLabels = () => {
   const timezones = moment.tz.names();
   const timezonesWithLabels= {};
@@ -14,6 +15,26 @@ const getTimezoneWithLabels = () => {
   });
 
   return timezonesWithLabels;
+=======
+const ACTIVE_TIMEZONE_LIST = [
+  'America/Los_Angeles', 
+  'America/Denver', 
+  'America/Chicago',
+  'America/New_York',
+]
+
+const getActiveTimezone = () => {
+  const timezones = moment.tz.names();
+  const activeTimezones = {};
+
+  timezones.map(function(tz) {
+    if (ACTIVE_TIMEZONE_LIST.includes(tz)) {
+      const label = " (GMT" + moment.tz(tz).format('Z')+") " + tz;
+      activeTimezones[label] = tz;
+    }
+  });
+
+  return activeTimezones;
 } 
 
 class TimezoneDropdown extends PureComponent {
