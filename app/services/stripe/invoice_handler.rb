@@ -18,9 +18,8 @@ class InvoiceHandler
   end
 
   def update_invoice_paid_timestamp!
-    invoice = Invoice.find(@invoice.id)
+    invoice = Invoice.find(stripe_invoice_id: @invoice.id)
     timestamp = Time.at(@invoice.date).to_formatted_s(:db)
-    raise ActiveRecord::RecordNotFound unless invoice.present?
 
     invoice.update!(paid_at: timestamp)
 
