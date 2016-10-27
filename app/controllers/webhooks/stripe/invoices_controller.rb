@@ -2,7 +2,6 @@ class Webhooks::Stripe::InvoicesController < Webhooks::BaseController
   skip_before_action :verify_authenticity_token, only: [:create, :charge_event]
   before_action :validate_event_type, only: [:create, :charge_event] 
 
-
   def create
     event = get_event(params)
     invoice_handler = InvoiceHandler.new(event)
@@ -19,7 +18,6 @@ class Webhooks::Stripe::InvoicesController < Webhooks::BaseController
     
     head :ok, status: 201
   end
-
 
   private
 

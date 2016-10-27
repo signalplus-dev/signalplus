@@ -1,4 +1,3 @@
-class Invoice < ApplicationRecord
-	belongs_to :brand
-
+class Invoice < ActiveRecord::Base
+  belongs_to :brand
 end
