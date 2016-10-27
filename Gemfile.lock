@@ -125,6 +125,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     daemons (1.2.4)
+    dante (0.2.0)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
@@ -374,6 +375,10 @@ GEM
       sprockets (>= 3.0.0)
     stripe (1.55.0)
       rest-client (>= 1.4, < 4.0)
+    stripe-ruby-mock (2.3.1)
+      dante (>= 0.2.0)
+      multi_json (~> 1.0)
+      stripe (~> 1.31)
     thin (1.7.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -471,6 +476,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   stripe
+  stripe-ruby-mock (~> 2.3.1)
   thin
   turbolinks
   twitter
@@ -484,4 +490,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.2
+   1.13.5

@@ -44,12 +44,13 @@ ActiveRecord::Schema.define(version: 20161024013821) do
 
   create_table "invoices", force: :cascade do |t|
     t.string   "stripe_invoice_id"
-    t.boolean  "paid"
     t.integer  "brand_id"
     t.integer  "subscription_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.datetime "paid_at"
     t.integer  "amount"
+    t.string   "data"
   end
 
   create_table "listen_signals", force: :cascade do |t|

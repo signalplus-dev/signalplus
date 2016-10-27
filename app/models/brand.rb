@@ -18,6 +18,7 @@ class Brand < ActiveRecord::Base
   has_many :response_groups, through: :listen_signals
   has_many :twitter_responses
   has_many :monthly_twitter_responses, -> { paid.for_this_month }, class_name: 'TwitterResponse'
+  has_many :invoices
 
   has_one :twitter_identity, -> { where(provider: Identity::Provider::TWITTER) }, class_name: 'Identity'
   has_one :twitter_admin, through: :twitter_identity, source: :user

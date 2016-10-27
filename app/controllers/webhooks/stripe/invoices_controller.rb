@@ -1,15 +1,29 @@
-class Webhooks::Stripe::InvoicesController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: :create, :update
+class Webhooks::Stripe::InvoicesController < Webhooks::BaseController
+  skip_before_action :verify_authenticity_token, only: [:create, :charge_event]
+  before_action :validate_event_type, only: [:create, :charge_event] 
+
 
   def create
-    event = Stripe::Event.retrieve(params[:id])
-    InvoiceHandler.create_invoice
+    event = get_event(params)
+    invoice_handler = InvoiceHandler.new(event)
+    invoice_handler.create_invoice!
 
-    render nothing: true, status: 201
-  rescue Stripe::APIConnectionError, Stripe::StripeError
-    render nothing: true, status: 400
+    head :ok, status: 201
   end
 
-  def update
+  def charge_event
+    binding.pry 
+    event = get_event(params)
+    invoice_handler = InvoiceHandler.new(event)
+    invoice_handler.update_invoice_paid_timestamp!
+    
+    head :ok, status: 201
+  end
+
+
+  private
+
+  def get_event(params)
+    Stripe::Event.retrieve(params[:id])
   end
 end

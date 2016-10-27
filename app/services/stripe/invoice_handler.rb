@@ -1,32 +1,37 @@
 class InvoiceHandler
-  def initialize(event: event)
+  def initialize(event)
     @invoice = event.data.object
-    @brand = get_brand
   end
 
-  def create_invoice
-    if @brand
+  def create_invoice!
+    begin
     	Invoice.create!(
-        invoice_id: @invoice.id,
-        brand: @brand,
-        data: @invoice,
-        amount: @amount,
-        paid: 
-        attempts: 
+        brand:              get_brand,
+        stripe_invoice_id:  @invoice.id,
+        amount:             @invoice.amount_due,
+        data:               @invoice,
+        paid_at:            Time.now.utc
       )
-    else 
-      # Need to raise an error here which one?
-      raise 'error'
+    rescue Stripe::InvalidRequestError => e
+      Rollbar.error(e)
     end
   end
 
-  def update_invoice_status
+  def update_invoice_paid_timestamp!
+    invoice = Invoice.find(@invoice.id)
+    timestamp = Time.at(@invoice.date).to_formatted_s(:db)
+    raise ActiveRecord::RecordNotFound unless invoice.present?
+
+    invoice.update!(paid_at: timestamp)
+
+  rescue ActiveRecord::RecordNotFound => e
+    Rollbar.error(e)
   end
 
   private
 
   def get_brand
-    email = Stripe::Customer.retrieve(id: @invoice.customer).email
-    User.find_by_email(email).try(:brand)
+    email = Stripe::Customer.retrieve(id: @invoice.customer).try(:email)
+    User.find_by_email(email).brand
   end
 end

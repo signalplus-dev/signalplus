@@ -45,7 +45,9 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     namespace :stripe do
-      resources :invoices, only: [:create, :update]
+      resources :invoices, only: :create do 
+        post '/charge' => 'invoices#charge_event', on: :collection
+      end
     end
   end
 

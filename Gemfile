@@ -86,4 +86,5 @@ group :test do
   gem "factory_girl_rails", "~> 4.0"
   gem 'vcr'
   gem 'webmock'
+  gem 'stripe-ruby-mock', '~> 2.3.1', :require => 'stripe_mock'
 end
