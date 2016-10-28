@@ -46,7 +46,7 @@ class AccountSubscriptionPlan extends Component {
 
         <div>
           <div className='plan-details-responses'>
-            <p className='plan-responses'>
+            <p className='plan-responses-number'>
               {number_of_messages}
             </p>
             <span>
@@ -63,7 +63,7 @@ class AccountSubscriptionPlan extends Component {
         <div className='plan-subheader billing'>
           Billing Activity
         </div>
-        <hr className='line'/>
+        <hr className='line-account-billing'/>
         <AccountInvoice/>
       </div>
     );

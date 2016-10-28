@@ -19,8 +19,9 @@ function MenuItem({ menu }) {
 }
 
 class Sidebar extends Component {
+  // TODO: Finish the close account action.
   closeAccount() {
-    const { dispatch, tabId } = this.props;
+    // Close account on click.
   }
 
   renderMenuItems() {
