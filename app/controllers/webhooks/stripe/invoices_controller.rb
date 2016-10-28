@@ -4,19 +4,20 @@ class Webhooks::Stripe::InvoicesController < Webhooks::BaseController
 
   def create
     event = get_event(params)
+    binding.pry
+
     invoice_handler = InvoiceHandler.new(event)
     invoice_handler.create_invoice!
 
-    head :ok, status: 201
+    head :ok, status: 202
   end
 
   def charge_event
-    binding.pry 
     event = get_event(params)
     invoice_handler = InvoiceHandler.new(event)
     invoice_handler.update_invoice_paid_timestamp!
     
-    head :ok, status: 201
+    head :ok, status: 202
   end
 
   private

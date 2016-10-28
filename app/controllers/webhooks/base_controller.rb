@@ -5,7 +5,7 @@ class Webhooks::BaseController < ApplicationController
   include StripeWebhookEvents
 
   def stripe_error
-    head :ok, status: 400
+    head status: 400
   end
 
   def validate_event_type
