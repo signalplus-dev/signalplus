@@ -67,3 +67,9 @@ const subscriptionPlans = new Schema('subscriptionPlans');
 export function normalizeSubscriptionPlansResponse(subscriptionPlansPayload) {
   return normalize(subscriptionPlansPayload, { subscription_plans: arrayOf(subscriptionPlans) });
 }
+
+// Schemas for the invoices
+const invoices = new Schema('invoices');
+export function normalizeInvoicesResponse(invoicesPayload) {
+  return normalize(invoicesPayload, { invoices: arrayOf(invoices) });
+}

@@ -4,8 +4,6 @@ class Webhooks::Stripe::InvoicesController < Webhooks::BaseController
 
   def create
     event = get_event(params)
-    binding.pry
-
     invoice_handler = InvoiceHandler.new(event)
     invoice_handler.create_invoice!
 
