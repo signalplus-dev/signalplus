@@ -5,7 +5,7 @@ import _ from 'lodash';
 // Component
 import Loader from 'components/loader.jsx';
 import InputBox from 'components/forms/inputBox.jsx';
-import AccountInvoice from 'components/accountPanel/views/accountInvoice.jsx';
+import AccountInvoices from 'components/accountPanel/views/accountInvoices.jsx';
 
 
 class AccountSubscriptionPlan extends Component {
@@ -64,7 +64,7 @@ class AccountSubscriptionPlan extends Component {
           Billing Activity
         </div>
         <hr className='line-account-billing'/>
-        <AccountInvoice/>
+        <AccountInvoices/>
       </div>
     );
   }
