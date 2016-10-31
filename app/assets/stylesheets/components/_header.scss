@@ -11,13 +11,41 @@
   border-color: none;
 }
 
-.navbar-static-top .navbar-nav > li > a {
-  font-family: $default-font-bold;
-  font-weight: 300;
-  color: $light-gray;
+.navbar-static-top .navbar-nav > li {
+    & + li {
+      margin-left: 10px;
+    }
 
-  &:hover, &:focus {
-    background-color: $main-pink;
+    > a {
+    font-family: $default-font-bold;
+    font-weight: bold;
+    color: $light-gray;
+    cursor: pointer;
+
+    > .caret {
+      border-top-width: 7px;
+      border-right-width: 6px;
+      border-left-width: 6px;
+      margin-left: 10px;
+    }
+
+    &:hover, &:focus {
+      background-color: $main-pink;
+    }
+
+    &.header-cta {
+      background-color: $main-pink;
+      color: $text-white;
+      border-radius: 6px;
+      padding: 8px 33px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      font-weight: bold;
+
+      &:hover {
+        background-color: lighten($main-pink, 10%);
+      }
+    }
   }
 }
 

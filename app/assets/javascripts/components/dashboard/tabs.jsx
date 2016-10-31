@@ -23,10 +23,19 @@ class UnconnectedTabClose extends PureComponent {
     event.preventDefault();
     event.stopPropagation();
 
-    const { tab, tabs, dispatch } = this.props;
-    const newPath = _.get(_.slice(tabs, -2, -1), '[0].link', ACTIVE_SIGNAL_PATH);
+    const { tab, tabs, dispatch, active } = this.props;
+    let promise;
 
-    dispatch(push(newPath)).then(() => dispatch(appActions.removeTab(tab.id)));
+    if (active) {
+      const indexOfTab = _.findIndex(tabs, el => el.id === tab.id)
+      const newTab = _.get(tabs, `[${indexOfTab + 1}]`) || _.get(tabs, `[${indexOfTab - 1}]`);
+      const newPath = _.get(newTab, 'link', ACTIVE_SIGNAL_PATH);
+      promise = dispatch(push(newPath));
+    } else {
+      promise = Promise.resolve();
+    }
+
+    promise.then(() => dispatch(appActions.removeTab(tab.id)));
   }
 
   render() {
@@ -47,7 +56,7 @@ function Tab({ tab, tabs, active }){
     <li>
       <Link activeClassName="active" to={tab.link} className={classNames}>
         {tab.label}
-        {tab.closeable ? <TabClose tab={tab} tabs={tabs} /> : undefined }
+        {tab.closeable ? <TabClose {...{ tab, tabs, active }} /> : undefined }
       </Link>
     </li>
   );

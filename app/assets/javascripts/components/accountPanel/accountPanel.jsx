@@ -17,7 +17,7 @@ class AccountPanel extends Component {
       };
 
       this.props.dispatch(appActions.addTab(tab));
-    };
+    }
   }
 
   findAccountTab() {
@@ -26,11 +26,17 @@ class AccountPanel extends Component {
   }
 
   shouldCreateTab() {
+    if (!this._mounted) return false;
     return (this.findAccountTab() ? false : true);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this._mounted = true;
     this.createTabIfNotCreated();
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   render() {

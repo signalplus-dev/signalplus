@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 import LogOutLink from 'components/logOutLink.jsx';
 import AccountLink from 'components/accountLink.jsx';
 
-export default function Header() {
+function Header({ brandUserName }) {
   return (
     <nav className="navbar navbar-static-top" role="navigation">
       {/* Brand and toggle get grouped for better mobile display */}
@@ -29,8 +31,8 @@ export default function Header() {
               <ul className="nav navbar-nav navbar-right">
                 <li><a href="/support">SUPPORT</a></li>
                 <li className="dropdown-open">
-                  <a className="dropdown-toggle" data-toggle="dropdown" role="button">
-                    MENU
+                  <a className="dropdown-toggle header-cta" data-toggle="dropdown" role="button">
+                    {`@${brandUserName}`}
                     <span className="caret" />
                   </a>
                   <ul className="dropdown-menu">
@@ -46,3 +48,7 @@ export default function Header() {
     </nav>
   );
 }
+
+export default connect(state => ({
+  brandUserName: _.get(state, 'models.brand.data.user_name'),
+}))(Header);
