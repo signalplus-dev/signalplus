@@ -6,8 +6,8 @@ describe Webhooks::Stripe::InvoicesController, type: :controller do
     context 'invalid stripe event type' do
       before { post :create, params: { type: 'invalid.type' }}
 
-      it 'returns 400 response status with nothing' do
-        expect(response.status).to eq(400)
+      it 'returns 200 response status with nothing' do
+        expect(response.status).to eq(200)
         expect(response.body).to be_blank
         expect(InvoiceHandler).not_to receive(:new)
       end
@@ -20,7 +20,7 @@ describe Webhooks::Stripe::InvoicesController, type: :controller do
 
       it 'returns 200 response status with nothing' do
         allow(controller).to receive(:get_event).and_return(event)
-        post :create, params: { type: StripeWebhookEvents::INVOICE_CREATED_EVENT }
+        post :create, params: { type: StripeWebhookEvents::VALUES[0] }
 
         expect(response.status).to eq(200)
         expect(response.body).to be_blank

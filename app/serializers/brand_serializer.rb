@@ -8,6 +8,8 @@
 #  updated_at          :datetime         not null
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
+#  tz                  :string
+#  deleted_at          :datetime
 #
 
 class BrandSerializer < ActiveModel::Serializer

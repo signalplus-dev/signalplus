@@ -23,6 +23,7 @@
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
 #  tokens                 :json
+#  email_subscription     :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base
