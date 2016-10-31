@@ -1,6 +1,4 @@
-class Webhooks::Stripe::InvoicesController < Webhooks::StripeWebhooksController
-  before_action :validate_event_type, only: [:create, :charge_event] 
-
+class Webhooks::Stripe::InvoicesController < Webhooks::Stripe::BaseController
   def create
     invoice_handler = InvoiceHandler.new(get_invoice_data(params))
     invoice_handler.create_invoice!

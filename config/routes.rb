@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   end
 
   namespace :webhooks do
-    namespace :stripe do
+    namespace :stripe, defaults: { format: 'json' } do
       resources :invoices, only: :create do 
         post '/charge' => 'invoices#charge_event', on: :collection
       end
