@@ -37,7 +37,7 @@ class AccountPanel extends Component {
     const tabId = _.get(this.findAccountTab(), 'id', {});
 
     return (
-      <div className="account-pane">
+      <div>
         <Sidebar tabId={tabId}/>
         <div className="content-pane">
           {this.props.children}

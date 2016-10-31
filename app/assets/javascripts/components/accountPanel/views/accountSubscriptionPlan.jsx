@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import commaNumber from 'comma-number';
 
 // Component
 import Loader from 'components/loader.jsx';
@@ -8,16 +9,17 @@ import InputBox from 'components/forms/inputBox.jsx';
 import AccountInvoices from 'components/accountPanel/views/accountInvoices.jsx';
 
 
+
 class AccountSubscriptionPlan extends Component {
   renderContent() {
     const { subscription, subscriptionPlans } = this.props;
 
-    if (!subscription.loaded && !subscriptionPlans.loaded) return <Loader/>;
+    if (!subscription.loaded || !subscriptionPlans.loaded) return <Loader/>;
 
-    const { 
-      amount, 
-      description, 
-      number_of_messages, 
+    const {
+      amount,
+      description,
+      number_of_messages,
       currency_symbol,
     } = subscriptionPlans.data[subscription.data.subscription_plan_id];
 
@@ -31,7 +33,7 @@ class AccountSubscriptionPlan extends Component {
             {amount/100}
           </h1>
           <span className='plan-duration'>
-            /MONTH
+            /MO
           </span>
         </div>
         <hr className='line-bold'/>
@@ -47,7 +49,7 @@ class AccountSubscriptionPlan extends Component {
         <div>
           <div className='plan-details-responses'>
             <p className='plan-responses-number'>
-              {number_of_messages}
+              {commaNumber(number_of_messages)}
             </p>
             <span>
               /MO
@@ -71,7 +73,7 @@ class AccountSubscriptionPlan extends Component {
 
   render() {
     return (
-      <div className='col-xs-9 content-box'>
+      <div className='col-xs-10 content-box'>
         {this.renderContent()}
       </div>
     )

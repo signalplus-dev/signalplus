@@ -55,29 +55,33 @@
   text-align: center;
 }
 
-.nav-tabs {
-  padding-left: 109px;
-}
-
 .nav-tabs > li > a {
   margin-right: 10px;
   color: $text-white;
   background-color: $dark-gray;
-  width: 150px;
+  min-width: 150px;
+  max-width: 300px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   height: 49px;
   text-align: center;
   border-radius: 0;
 
+  &.closeable {
+    text-align: left;
+    position: relative;
+    padding-right: 30px;
+  }
+
   p {
-    width: 108px;
-    height: 20px;
     font-family: $default-font-bold;
     font-size: 15px;
   }
 }
 
 .nav-tabs > li > a:hover {
-  border-style: none;
+  border-color: $light-gray;
 }
 
 .nav-tabs > li > a.active {
@@ -86,14 +90,42 @@
   &:focus {
     color: $text-black;
     background-color: $light-gray;
-    width: 150px;
-    height: 49px;
   }
 }
 
 .tab-close-btn {
-  background-color: transparent;
+  background-color: rgba($border-gray-alt, 0);
   border: none !important;
+  outline: none;
+  padding: 5px;
+  border-radius: 50%;
+  position: absolute;
+  right: 5px;
+  top: 12px;
+  transition: background-color 200ms $default-easing-function;
+
+  &:hover {
+    background-color: rgba($border-gray-alt, 0.5);
+  }
+
+  .close-svg {
+    display: block;
+
+    svg {
+      $x-size: 8px;
+      width: $x-size;
+      height: $x-size;
+      float: left;
+
+      > g {
+        stroke-width: 3;
+      }
+
+      g {
+        stroke: $text-black;
+      }
+    }
+  }
 }
 
 .btn-login {

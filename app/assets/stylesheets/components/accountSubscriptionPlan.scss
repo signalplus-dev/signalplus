@@ -1,61 +1,63 @@
-.plan-header {
-  color: $main-purple;
-}
+.account-subscription-plan {
+  .plan-header {
+    color: $main-purple;
+  }
 
-.plan-currency {
-  float: left;
-  font-size: $h5-font-size;
-  padding-left: 30px;
-}
+  .plan-currency {
+    float: left;
+    font-size: $h5-font-size;
+    padding-left: 30px;
+  }
 
-.plan-price {
-  font-size: $h1-font-size;
-  display: inline
-}
+  .plan-price {
+    font-size: $h1-font-size;
+    display: inline
+  }
 
-.line-bold {
-  border-top: 3px solid $main-purple !important;
-  width: 60%;
-  margin-top: 7px;
-  display: inline-block;
-  margin-left: 30px;
-}
+  .line-bold {
+    border-top: 3px solid $main-purple !important;
+    width: 60%;
+    margin-top: 7px;
+    display: inline-block;
+    margin-left: 30px;
+  }
 
-.line-account-billing {
-  margin-top: 10px;
-}
+  .line-account-billing {
+    margin-top: 10px;
+  }
 
-.plan-details-responses {
-  width: 240px;
-  display: inline-block;
-  float: left;
-  padding-left: 30px;
-}
+  .plan-details-responses {
+    width: 240px;
+    display: inline-block;
+    float: left;
+    padding-left: 30px;
+  }
 
-.plan-subheader {
-  margin-bottom: 0;
-  font-weight: bold;
-  display: inline-block;
-  width: 240px;
-  padding-left: 30px;
-}
+  .plan-subheader {
+    margin-bottom: 0;
+    font-weight: bold;
+    display: inline-block;
+    width: 240px;
+    padding-left: 30px;
+  }
 
-.plan-responses-number {
-  display: inline-block;
-  font-size: $h2-font-size;
-  margin-top: -10px;
-}
+  .plan-responses-number {
+    display: inline-block;
+    font-size: $h2-font-size;
+    margin-top: -10px;
+  }
 
-.plan-recommendation {
-  display: inline-block;
-  font-size: $h5-font-size;
-  font-weight: bold;
-  color: rgba(70, 81, 98, 0.7);
-  padding-left: 30px;
-}
+  .plan-recommendation {
+    display: inline-block;
+    font-size: $h5-font-size;
+    font-weight: bold;
+    color: rgba(70, 81, 98, 0.7);
+    padding-left: 30px;
+  }
 
-.billing {
-  margin-top: 40px;
-  display: block;
-  padding-left: 30px;
+  .billing {
+    margin-top: 40px;
+    display: block;
+    padding-left: 30px;
+  }
 }

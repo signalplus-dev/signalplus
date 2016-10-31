@@ -186,8 +186,16 @@ class SubscriptionPlans extends Component {
 
   render() {
     return (
-      <div className="plan-boxes">
-        {this.renderSubscriptionPlans()}
+      <div className="main">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-xs-12">
+              <div className="plan-boxes">
+                {this.renderSubscriptionPlans()}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

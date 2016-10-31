@@ -6,13 +6,13 @@ export default function Preview(props) {
   const { signal, brand } = props;
 
   const getResponse = (type) => {
-    const response = _.filter(signal.responses, { response_type: type }); 
+    const response = _.filter(signal.responses, { response_type: type });
     return response.message;
   }
 
   if (signal.id) {
     return (
-      <div className='col-xs-9 content-box'>
+      <div className='col-xs-10 content-box'>
         <div className='content-header'>
           <p className='signal-type-label'>REQUEST > RESPONSE</p>
         </div>

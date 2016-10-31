@@ -6,6 +6,9 @@ import { push } from 'react-router-redux';
 import cn from 'classnames';
 import { actions as appActions } from 'redux/modules/app/index.js';
 
+import SVGInline from 'react-svg-inline';
+import svg from 'icons/close.svg';
+
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active'
 
@@ -27,16 +30,23 @@ class UnconnectedTabClose extends PureComponent {
   }
 
   render() {
-    return <button className='tab-close-btn' onClick={this.closeTab}>x</button>;
+    return (
+      <button className='tab-close-btn' onClick={this.closeTab}>
+        <SVGInline cleanup svg={svg} className="close-svg clearfix" />
+      </button>
+    );
   }
 }
 
 const TabClose = connect()(UnconnectedTabClose);
 
 function Tab({ tab, tabs, active }){
+  const classNames = cn({ closeable: tab.closeable });
+
   return (
     <li>
-      <Link activeClassName="active" to={tab.link}>{tab.label}
+      <Link activeClassName="active" to={tab.link} className={classNames}>
+        {tab.label}
         {tab.closeable ? <TabClose tab={tab} tabs={tabs} /> : undefined }
       </Link>
     </li>
@@ -54,7 +64,15 @@ function Tabs({ tabs, currentRoute }) {
     );
   });
 
-  return <ul className='nav nav-tabs'>{tabList}</ul>;
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-xs-12">
+          <ul className="nav nav-tabs">{tabList}</ul>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default connect(state => ({

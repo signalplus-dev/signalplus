@@ -47,7 +47,7 @@ class Promote extends Component {
 
     if (signal.id) {
       return (
-        <div className='col-xs-9 content-box'>
+        <div className='col-xs-10 content-box'>
           <div className='content-header'>
             <p className='signal-type-label'> SEND TWEET </p>
           </div>
