@@ -3,6 +3,10 @@ require 'shared/stripe'
 
 describe Webhooks::Stripe::InvoicesController, type: :controller do
   describe 'POST create' do
+    before(:each) {
+      allow(controller).to receive(:authenticate).and_return(true)
+    }
+
     context 'invalid stripe event type' do
       before { post :create, params: { type: 'invalid.type' }}
 
@@ -19,13 +23,12 @@ describe Webhooks::Stripe::InvoicesController, type: :controller do
       after { StripeMock.stop }
 
       it 'returns 200 response status with nothing' do
-        allow(controller).to receive(:get_event).and_return(event)
+        allow(controller).to receive(:get_event_data).and_return(event.data.object)
         post :create, params: { type: StripeWebhookEvents::VALUES[0] }
 
         expect(response.status).to eq(200)
         expect(response.body).to be_blank
-        # Any idea why this doesn't receive?
-        # expect(InvoiceHandler).to receive(:new)
+        expect(InvoiceHandler).to receive(:new)
       end
     end
   end

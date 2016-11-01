@@ -20,10 +20,7 @@ class InvoiceHandler
     invoice = Invoice.find_by(stripe_invoice_id: @invoice_data.id)
     timestamp = Time.at(@invoice_data.date).to_formatted_s(:db)
 
-    invoice.update!(paid_at: timestamp)
-
-  rescue ActiveRecord::RecordNotFound => e
-    Rollbar.error(e)
+    invoice.update!(paid_at: timestamp) if invoice.present?
   end
 
   private

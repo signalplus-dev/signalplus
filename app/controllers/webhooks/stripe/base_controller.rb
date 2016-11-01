@@ -1,10 +1,10 @@
 class Webhooks::Stripe::BaseController < ApplicationController
   include StripeWebhookEvents
-  
+
   skip_before_action :verify_authenticity_token
   protect_from_forgery with: :null_session
 
-  before_action :validate_request
+  before_action :authenticate
   before_action :validate_event_type
   before_action :validate_event_environment if Rails.env.production?
 
@@ -27,13 +27,9 @@ class Webhooks::Stripe::BaseController < ApplicationController
     stripe_error unless params[:data][:object][:livemode]
   end
 
-  def validate_request
-    stripe_error unless authenticate == true
-  end
-
   def authenticate
     authenticate_or_request_with_http_basic('Stripe Webhook') do |username, password|
-      username == 'user' && password == 'password'
+      username == ENV['STRIPE_WEBHOOK_USER'] && password == ENV['STRIPE_WEBHOOK_PW']
     end
   end
 end

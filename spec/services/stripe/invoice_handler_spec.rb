@@ -8,9 +8,10 @@ describe InvoiceHandler do
   describe '#create_invoice!' do
     let(:brand) { create(:brand) }
     let(:user) { create(:user, brand: brand) }
-    let(:event) { StripeMock.mock_webhook_event('invoice.created') }
+    let(:invoice_data) { StripeMock.mock_webhook_event('invoice.created').data.object }
 
-    subject { described_class.new(event) }
+
+    subject { described_class.new(invoice_data) }
 
     it 'creates an invoice object with a valid email' do
       expect {
@@ -22,7 +23,7 @@ describe InvoiceHandler do
       }.to eq(1)
     end
 
-    it 'raises error with invalid email' do
+    it 'raises error with invalid customer' do
       expect {
         subject.create_invoice!
       }.not_to change {
@@ -34,14 +35,14 @@ describe InvoiceHandler do
   describe '#update_invoice_paid_timestamp!' do
     let(:brand) { create(:brand) }
     let(:invoice) { create(:invoice, :unpaid) }
-    let(:event) { StripeMock.mock_webhook_event('invoice.payment_succeeded') }
+    let(:invoice_data) { StripeMock.mock_webhook_event('invoice.payment_succeeded').data.object }
 
-    subject { described_class.new(event) }
+    subject { described_class.new(invoice_data) }
 
     it 'updates invoice paid_at attribute' do
-      allow(Invoice).to receive(:find).and_return(invoice)
+      allow(Invoice).to receive(:find_by).and_return(invoice)
 
-      timestamp = Time.at(event.data.object.date).to_formatted_s(:db)
+      timestamp = Time.at(invoice_data.date).to_formatted_s(:db)
       subject.update_invoice_paid_timestamp!
       expect(invoice.paid_at).to eq(timestamp)
     end
