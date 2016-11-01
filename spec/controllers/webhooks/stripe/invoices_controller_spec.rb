@@ -28,7 +28,6 @@ describe Webhooks::Stripe::InvoicesController, type: :controller do
 
         expect(response.status).to eq(200)
         expect(response.body).to be_blank
-        expect(InvoiceHandler).to receive(:new)
       end
     end
   end
