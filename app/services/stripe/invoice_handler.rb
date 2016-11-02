@@ -1,6 +1,6 @@
 class InvoiceHandler
 
-  # @param [JSON] Stripe Webhook Invoice Payload
+  # @param [Hash] Stripe Webhook Invoice Payload
   # @return [InvoiceHandler] 
   def initialize(invoice_data)
     @invoice_data= invoice_data
@@ -11,8 +11,7 @@ class InvoiceHandler
       brand:              get_brand,
       stripe_invoice_id:  @invoice_data.id,
       amount:             @invoice_data.amount_due,
-      data:               @invoice_data,
-      paid_at:            Time.now.utc
+      data:               @invoice_data
     )
   end
 
@@ -26,6 +25,7 @@ class InvoiceHandler
   private
 
   def get_brand
-    PaymentHandler.find_by(token: @invoice_data.customer).try(:brand)
+    brand_id = PaymentHandler.where(token: @invoice_data.customer).pluck(:brand_id).first
+    raise StandardError.new('Could not PaymentHandler for that customer')  unless brand_id
   end
 end

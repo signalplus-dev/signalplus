@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161029181742) do
+ActiveRecord::Schema.define(version: 20161102223126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20161029181742) do
 
   create_table "invoices", force: :cascade do |t|
     t.string   "stripe_invoice_id"
-    t.integer  "brand_id"
+    t.integer  "brand_id",          null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.datetime "paid_at"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20161029181742) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["brand_id"], name: "index_payment_handlers_on_brand_id", using: :btree
+    t.index ["token"], name: "index_payment_handlers_on_token", using: :btree
   end
 
   create_table "promotional_tweets", force: :cascade do |t|
