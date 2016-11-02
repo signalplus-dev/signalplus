@@ -8,7 +8,7 @@ class InvoiceHandler
 
   def create_invoice!
   	Invoice.create!(
-      brand:              get_brand,
+      brand_id:              get_brand,
       stripe_invoice_id:  @invoice_data.id,
       amount:             @invoice_data.amount_due,
       data:               @invoice_data
