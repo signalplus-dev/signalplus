@@ -26,7 +26,6 @@
 }
 
 @mixin textarea-input($width) {
-
   textarea {
     font-size: $base-font-size;
     width: $width !important;
@@ -36,11 +35,6 @@
     border-radius: 11px;
     padding: 10px;
   }
-}
-
-.content-panel,
-.account-pane, {
-  padding-top: 30px;
 }
 
 .content-box {
@@ -206,7 +200,7 @@ img.arrow {
 
 .promote-image {
   margin-top: 20px;
-  
+
   li {
     padding-right: 10px;
     list-style: none;

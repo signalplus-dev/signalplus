@@ -1,96 +1,98 @@
-.about 
-  .row
-    .col-xs-12.about-jumbotron
+.about
+  .about-jumbotron
+    .container-fluid
       .row
-        .col-xs-2
-        .col-xs-8
-          .about-header
-            .header
-              Turn your social account 
-              %br
-              into a tool for your audience
-            %p.sub-text
-              Create automated responses to any #hashtag
-            .about-subheader
-              %p.sub-text
-                See the power of SignalPlus automation…
-              %p.sub-header
-                =link_to('Tweet', '#', {class: 'btn btn'})
-                %span or
-                =link_to('Message', '#', {class: 'btn btn'})
-                %span @SignalPlus with #Power
-        .col-xs-2
+        .col-xs-12
+          .row
+            .col-xs-2
+            .col-xs-8
+              .about-header
+                .header
+                  Turn your social account
+                  %br
+                  into a tool for your audience
+                %p.sub-text
+                  Create automated responses to any #hashtag
+                .about-subheader
+                  %p.sub-text
+                    See the power of SignalPlus automation…
+                  %p.sub-header
+                    =link_to('Tweet', '#', {class: 'btn btn'})
+                    %span or
+                    =link_to('Message', '#', {class: 'btn btn'})
+                    %span @SignalPlus with #Power
 
-  .row
-    .col-xs-2
-    .col-xs-8.instruction
-      %h3.header How it Works
-      %p
-        SignalPlus turns your social brand account into a powerful tool for your audience.
-        %br
-        Send responses automatically whenever your audience sends you a message.
-        %br
-        We use the power of Twitter to send responses instantly!
-    .col-xs-2
+  .container-fluid
+    .row
+      .col-xs-2
+      .col-xs-8.instruction
+        %h3.header How it Works
+        %p
+          SignalPlus turns your social brand account into a powerful tool for your audience.
+          %br
+          Send responses automatically whenever your audience sends you a message.
+          %br
+          We use the power of Twitter to send responses instantly!
+      .col-xs-2
 
-  .row
-    .col-xs-1
-    .col-xs-11.center.about-steps
-      %ul
-        %li
-          = image_tag('static/step1.png', class: ' img-responsive first-step', size:'330x330')
-        %li
-          = image_tag('static/step2.png', class: 'img-responsive second-step', size:'330x330')
-        %li
-          = image_tag('static/step3.png', class: 'img-responsive third-step', size:'330x330')
+    .row
+      .col-xs-1
+      .col-xs-11.center.about-steps
+        %ul
+          %li
+            = image_tag('static/step1.png', class: ' img-responsive first-step', size:'330x330')
+          %li
+            = image_tag('static/step2.png', class: 'img-responsive second-step', size:'330x330')
+          %li
+            = image_tag('static/step3.png', class: 'img-responsive third-step', size:'330x330')
 
-  .row
-    .col-xs-2
-    .col-xs-5.center-content
-      .why-signal-box
-        %h3.header Why SignalPlus?
-        %h5.subheader
-          Save time and money with automatic responses
-        %p
-          Reduce effort from dedicated social media managers and customer service teams answering questions from your audience 
-        %h5.subheader
-          Add value to your social account
-        %p
-          Create a one to one connection with your audience that’s more powerful with instant response
-        %h5.subheader
-          Social that’s personalized and relevant
-        %p
-          Add value to your followers with content that’s relevant and personalized to the information they are looking for
+    .row
+      .col-xs-2
+      .col-xs-5.center-content
+        .why-signal-box
+          %h3.header Why SignalPlus?
+          %h5.subheader
+            Save time and money with automatic responses
+          %p
+            Reduce effort from dedicated social media managers and customer service teams answering questions from your audience
+          %h5.subheader
+            Add value to your social account
+          %p
+            Create a one to one connection with your audience that’s more powerful with instant response
+          %h5.subheader
+            Social that’s personalized and relevant
+          %p
+            Add value to your followers with content that’s relevant and personalized to the information they are looking for
 
-    .col-xs-4
-      .things-you-can-do-box
-        %h3.header Things you can do…
-        %p
-          Send a special offer every time a follower sends a custom hashtag
-        %p
-          Send a summary of your location or event each day a follower uses a custom hashtag
-        %p
-          Run a contest for your followers for a specific date range
-        %p
-          Send a reminder on a specific date to users when they use a custom hashtag
-    .col-xs-1
+      .col-xs-4
+        .things-you-can-do-box
+          %h3.header Things you can do…
+          %p
+            Send a special offer every time a follower sends a custom hashtag
+          %p
+            Send a summary of your location or event each day a follower uses a custom hashtag
+          %p
+            Run a contest for your followers for a specific date range
+          %p
+            Send a reminder on a specific date to users when they use a custom hashtag
+      .col-xs-1
 
-  .row.get-started-row
-    .col-xs-2
-    .col-xs-8
-      %h3.header Get Started Today!
-      %p
-        %span.try-out
-          Try SignalPlus for FREE for 7 days then choose the right plan for you.
-        %br
-        %span
-          We’re always adding new features and more platforms for the future.
-    .col-xs-2
+    .row.get-started-row
+      .col-xs-2
+      .col-xs-8
+        %h3.header Get Started Today!
+        %p
+          %span.try-out
+            Try SignalPlus for FREE for 7 days then choose the right plan for you.
+          %br
+          %span
+            We’re always adding new features and more platforms for the future.
+      .col-xs-2
 
-  .row
-    .col-xs-1
-    .col-xs-10
-      .plan-types
-        -@plan_types.each do |plan|
-          = render :partial => 'plan_box', :locals => { plan: plan }
-    .col-xs-1
+    .row
+      .col-xs-1
+      .col-xs-10
+        .plan-types
+          -@plan_types.each do |plan|
+            = render :partial => 'plan_box', :locals => { plan: plan }
+      .col-xs-1

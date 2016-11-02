@@ -20,6 +20,9 @@ function getIcon(type) {
   return iconTypes[type];
 }
 
+
+
+
 export default function SignalIcon({ className, src, type }) {
   const actualSrc = src || getIcon(type);
 

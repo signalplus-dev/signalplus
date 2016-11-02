@@ -17,7 +17,7 @@ class AccountPanel extends Component {
       };
 
       this.props.dispatch(appActions.addTab(tab));
-    };
+    }
   }
 
   findAccountTab() {
@@ -26,18 +26,24 @@ class AccountPanel extends Component {
   }
 
   shouldCreateTab() {
+    if (!this._mounted) return false;
     return (this.findAccountTab() ? false : true);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this._mounted = true;
     this.createTabIfNotCreated();
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   render() {
     const tabId = _.get(this.findAccountTab(), 'id', {});
 
     return (
-      <div className="account-pane">
+      <div>
         <Sidebar tabId={tabId}/>
         <div className="content-pane">
           {this.props.children}

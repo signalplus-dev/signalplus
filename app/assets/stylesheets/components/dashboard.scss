@@ -1,16 +1,9 @@
-.dash {
-  padding: 0;
-  overflow-x: scroll;
-}
-
 .dash-header {
-  padding-left: 109px;
   height: 100px;
 }
 
 .brand-pricing-plan {
   float: right;
-  margin-right: 120px;
   min-width: 244px;
   min-height: 97px;
   background-color: $light-gray;
@@ -69,7 +62,5 @@
 }
 
 .tab-content {
-  padding-left: 109px;
-  background-color: $light-gray;
+  padding-top: 30px;
 }
-

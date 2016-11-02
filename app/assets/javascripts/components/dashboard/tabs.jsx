@@ -6,6 +6,9 @@ import { push } from 'react-router-redux';
 import cn from 'classnames';
 import { actions as appActions } from 'redux/modules/app/index.js';
 
+import SVGInline from 'react-svg-inline';
+import svg from 'icons/close.svg';
+
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active'
 
@@ -20,24 +23,40 @@ class UnconnectedTabClose extends PureComponent {
     event.preventDefault();
     event.stopPropagation();
 
-    const { tab, tabs, dispatch } = this.props;
-    const newPath = _.get(_.slice(tabs, -2, -1), '[0].link', ACTIVE_SIGNAL_PATH);
+    const { tab, tabs, dispatch, active } = this.props;
+    let promise;
 
-    dispatch(push(newPath)).then(() => dispatch(appActions.removeTab(tab.id)));
+    if (active) {
+      const indexOfTab = _.findIndex(tabs, el => el.id === tab.id)
+      const newTab = _.get(tabs, `[${indexOfTab + 1}]`) || _.get(tabs, `[${indexOfTab - 1}]`);
+      const newPath = _.get(newTab, 'link', ACTIVE_SIGNAL_PATH);
+      promise = dispatch(push(newPath));
+    } else {
+      promise = Promise.resolve();
+    }
+
+    promise.then(() => dispatch(appActions.removeTab(tab.id)));
   }
 
   render() {
-    return <button className='tab-close-btn' onClick={this.closeTab}>x</button>;
+    return (
+      <button className='tab-close-btn' onClick={this.closeTab}>
+        <SVGInline cleanup svg={svg} className="close-svg clearfix" />
+      </button>
+    );
   }
 }
 
 const TabClose = connect()(UnconnectedTabClose);
 
 function Tab({ tab, tabs, active }){
+  const classNames = cn({ closeable: tab.closeable });
+
   return (
     <li>
-      <Link activeClassName="active" to={tab.link}>{tab.label}
-        {tab.closeable ? <TabClose tab={tab} tabs={tabs} /> : undefined }
+      <Link activeClassName="active" to={tab.link} className={classNames}>
+        {tab.label}
+        {tab.closeable ? <TabClose {...{ tab, tabs, active }} /> : undefined }
       </Link>
     </li>
   );
@@ -54,7 +73,15 @@ function Tabs({ tabs, currentRoute }) {
     );
   });
 
-  return <ul className='nav nav-tabs'>{tabList}</ul>;
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-xs-12">
+          <ul className="nav nav-tabs">{tabList}</ul>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default connect(state => ({

@@ -25,7 +25,7 @@ class UndecoratedAccountInfo extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.updateDetails)}>
-        <div className='col-xs-9 content-box'>
+        <div className='col-xs-10 content-box'>
           <div className='account-details'>
             <p className='account-input-label'>Email Address</p>
             <p className='email-sublabel'>We’ll notify you of changes to your account</p>

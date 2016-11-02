@@ -7,9 +7,16 @@ export default function Navigation({ children }) {
   return (
     <div>
       <Tabs />
-      <div className='tab-content clearfix'>
-        <div className="tab-pane dash-panel activeTab">
-          {children}
+
+      <div className="panel-content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-xs-12">
+              <div className='tab-content clearfix'>
+                {children}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

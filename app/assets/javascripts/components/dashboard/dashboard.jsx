@@ -11,7 +11,7 @@ import SubscriptionSummary from 'components/dashboard/subscriptionSummary.jsx';
 import BrandProfileBlock from 'components/dashboard/brandProfileBlock.jsx';
 import Navigation from 'components/dashboard/navigation.jsx';
 
-// Hooks to dispatch before renderig the dashboard
+// Hooks to dispatch before rendering the dashboard
 const hooks = {
   fetch: ({ dispatch }) => {
     Promise.all([
@@ -25,14 +25,17 @@ const hooks = {
 
 function Dashboard({ children, ...props }) {
   return (
-    <div className="dash row">
-      <div className="col-xs-12 dash-header">
-        <BrandProfileBlock />
-        <SubscriptionSummary />
+    <div className="main">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xs-12 dash-header">
+            <BrandProfileBlock />
+            <SubscriptionSummary />
+          </div>
+        </div>
       </div>
-      <div className="col-xs-12 dash">
-        <Navigation {...props}>{children}</Navigation>
-      </div>
+
+      <Navigation {...props}>{children}</Navigation>
     </div>
   );
 }

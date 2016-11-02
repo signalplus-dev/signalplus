@@ -37,10 +37,8 @@ function App({ children }) {
   return (
     <div>
       <Header />
-      <div className="container-fluid main">
-        <FlashMessage />
-        {children}
-      </div>
+      <FlashMessage />
+      {children}
     </div>
   );
 }

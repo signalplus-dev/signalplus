@@ -61,7 +61,10 @@ module ProjectSignal
     config.browserify_rails.commandline_options = [
       "-t [ babelify --presets [ es2015 react stage-0 ] ]",
       "-t [ envify #{env_vars} ]",
+      "-t [ partialify --onlyAllow svg ]",
     ]
+
+    config.browserify_rails.paths << /app\/assets\/images\/.+/
 
     unless Rails.env.production?
         # Work around sprockets+teaspoon mismatch:
