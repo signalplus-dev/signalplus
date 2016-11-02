@@ -13,7 +13,8 @@ const endpoints = {
   LISTEN_SIGNALS_INDEX:     '/api/v1/listen_signals',
   LISTEN_SIGNAL_TEMPLATES:  '/api/v1/listen_signals/templates',
   LISTEN_SIGNAL:            '/api/v1/listen_signals/:id',
-  PROMOTIONAL_SIGNAL_INDEX: '/api/v1/promotional_tweets/',
+  PROMOTIONAL_SIGNAL_INDEX: '/api/v1/promotional_tweets',
+  INVOICES:                 '/api/v1/invoices',
 };
 
 export function updateSubscriptionEndpoint(subscriptionId) {

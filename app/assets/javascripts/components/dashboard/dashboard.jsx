@@ -3,6 +3,7 @@ import { provideHooks } from 'redial';
 import { getBrandData } from 'redux/modules/models/brand.js';
 import { getListenSignalsData } from 'redux/modules/models/listenSignals.js';
 import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js';
+import { getInvoicesData } from 'redux/modules/models/invoices.js';
 import { actions } from 'redux/modules/app/index.js';
 
 // Components
@@ -17,6 +18,7 @@ const hooks = {
       dispatch(getBrandData()),
       dispatch(getListenSignalsData()),
       dispatch(getSubscriptionPlansData()),
+      dispatch(getInvoicesData()),
     ]).then(() => dispatch(actions.subscribeToChannelsAction()));
   },
 }

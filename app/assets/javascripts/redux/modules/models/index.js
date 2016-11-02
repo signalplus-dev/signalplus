@@ -6,6 +6,7 @@ import { reducer as listenSignals } from 'redux/modules/models/listenSignals.js'
 import { reducer as listenSignalTemplates } from 'redux/modules/models/listenSignalTemplates.js';
 import { reducer as responses } from 'redux/modules/models/responses.js';
 import { reducer as promotionalTweets } from 'redux/modules/models/promotionalTweets.js';
+import { reducer as invoices } from 'redux/modules/models/invoices.js';
 
 
 export default combineReducers({
@@ -16,4 +17,5 @@ export default combineReducers({
   listenSignalTemplates,
   responses,
   promotionalTweets,
+  invoices,
 });

@@ -75,6 +75,7 @@ group :development do
   gem 'web-console'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'ultrahook'
 end
 
 group :test do
@@ -86,4 +87,5 @@ group :test do
   gem "factory_girl_rails", "~> 4.0"
   gem 'vcr'
   gem 'webmock'
+  gem 'stripe-ruby-mock', '~> 2.3.1', :require => 'stripe_mock'
 end

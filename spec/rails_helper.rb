@@ -9,6 +9,7 @@ require 'factory_girl_rails'
 require 'sidekiq/testing'
 require 'vcr'
 require 'webmock/rspec'
+require 'stripe_mock'
 
 VCR.configure do |config|
   config.cassette_library_dir = "fixtures/vcr_cassettes"

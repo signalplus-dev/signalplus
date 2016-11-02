@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018011123) do
+ActiveRecord::Schema.define(version: 20161029181742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20161018011123) do
     t.bigint   "streaming_tweet_pid"
     t.boolean  "polling_tweets",      default: false
     t.string   "tz"
+    t.datetime "deleted_at"
     t.index ["polling_tweets"], name: "index_brands_on_polling_tweets", using: :btree
     t.index ["streaming_tweet_pid"], name: "index_brands_on_streaming_tweet_pid", using: :btree
   end
@@ -40,6 +41,16 @@ ActiveRecord::Schema.define(version: 20161018011123) do
     t.index ["brand_id"], name: "index_identities_on_brand_id", using: :btree
     t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true, using: :btree
     t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.string   "stripe_invoice_id"
+    t.integer  "brand_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.datetime "paid_at"
+    t.integer  "amount"
+    t.string   "data"
   end
 
   create_table "listen_signals", force: :cascade do |t|
