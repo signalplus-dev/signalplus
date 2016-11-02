@@ -15,7 +15,7 @@ describe InvoiceHandler do
 
     it 'creates an invoice object with a valid email' do
       expect {
-        allow_any_instance_of(InvoiceHandler).to receive(:get_brand).and_return(brand)
+        allow_any_instance_of(InvoiceHandler).to receive(:get_brand).and_return(brand.id)
 
         subject.create_invoice!
       }.to change {
