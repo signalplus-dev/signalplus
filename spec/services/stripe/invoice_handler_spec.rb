@@ -15,7 +15,7 @@ describe InvoiceHandler do
 
     it 'creates an invoice object with a valid email' do
       expect {
-        allow_any_instance_of(InvoiceHandler).to receive(:get_brand).and_return(brand)
+        allow_any_instance_of(InvoiceHandler).to receive(:get_brand).and_return(brand.id)
 
         subject.create_invoice!
       }.to change {
@@ -26,9 +26,7 @@ describe InvoiceHandler do
     it 'raises error with invalid customer' do
       expect {
         subject.create_invoice!
-      }.not_to change {
-        user.brand.invoices.count
-      }
+      }.to raise_error(StandardError)
     end
   end
 

@@ -11,6 +11,10 @@ class Webhooks::Stripe::BaseController < ApplicationController
   rescue_from Stripe::APIConnectionError, with: :stripe_error
   rescue_from Stripe::StripeError, with: :stripe_error
 
+
+  # TODO: 
+  # Return 4XX/5XX if Event Processing Fails
+  # Return 200 if not able to locate event from Stripe API
   def stripe_error
     head status: 200
   end

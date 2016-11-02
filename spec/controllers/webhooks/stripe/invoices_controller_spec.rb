@@ -18,12 +18,14 @@ describe Webhooks::Stripe::InvoicesController, type: :controller do
     end
 
     context 'valid stripe event type' do
+      let(:brand) { create(:brand) } 
       let(:event) { StripeMock.mock_webhook_event('invoice.created') }
       before { StripeMock.start }
       after { StripeMock.stop }
 
       it 'returns 200 response status with nothing' do
         allow(controller).to receive(:get_event_data).and_return(event.data.object)
+        allow_any_instance_of(InvoiceHandler).to receive(:get_brand).and_return(brand.id)
         post :create, params: { type: StripeWebhookEvents::VALUES[0] }
 
         expect(response.status).to eq(200)
