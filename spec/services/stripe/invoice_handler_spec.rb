@@ -26,9 +26,7 @@ describe InvoiceHandler do
     it 'raises error with invalid customer' do
       expect {
         subject.create_invoice!
-      }.not_to change {
-        user.brand.invoices.count
-      }
+      }.to raise_error(StandardError)
     end
   end
 

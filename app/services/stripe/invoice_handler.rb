@@ -26,6 +26,6 @@ class InvoiceHandler
 
   def get_brand
     brand_id = PaymentHandler.where(token: @invoice_data.customer).pluck(:brand_id).first
-    raise StandardError.new('Could not PaymentHandler for that customer')  unless brand_id
+    raise StandardError.new('Could not find PaymentHandler for that customer')  unless brand_id
   end
 end
