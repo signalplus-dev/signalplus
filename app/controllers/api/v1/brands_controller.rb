@@ -7,16 +7,15 @@ class Api::V1::BrandsController < Api::V1::BaseController
   end
 
   def update_account_info
-    twitter_admin_params = {
-      email: params[:twitter_admin_email],
-      email_subscription: params[:email_subscription]
-    }
-
-    ActiveRecord::Base.transaction do
-      @brand.twitter_admin.update!(twitter_admin_params)
-      @brand.update!(tz: params[:tz])
-    end
+    user = @brand.twitter_admin
+    user.update!(account_info_params)
 
     render json: @brand, serializer: BrandSerializer
+  end
+
+  private
+
+  def account_info_params
+    params.permit(:email, :email_subscription, :tz)
   end
 end

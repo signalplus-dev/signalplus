@@ -29,6 +29,8 @@
 class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
+  after_save :handle_subscription
+
   # Include default devise modules.
   devise :omniauthable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -60,7 +62,7 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
-        brand = Brand.create(name: auth.info.name)
+        brand = Brand.create!(name: auth.info.name)
 
         user = User.new(
           name:         auth.extra.raw_info.name,
@@ -68,9 +70,12 @@ class User < ActiveRecord::Base
           password:     Devise.friendly_token[0, 20],
           brand:        brand,
           confirmed_at: Time.current, # Needed for devise_token_auth gem
+          email_subscription: true
         )
-
         user.save!
+
+        # Subscribe user to Mailchimp newsletter
+        subscribe_to_newsletter(user)
       end
     end
 
@@ -92,5 +97,36 @@ class User < ActiveRecord::Base
 
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
+  end
+
+  def handle_subscription
+    if email_previously_changed? || email_subscription_changed?
+      unsubscribe_from_newsletter if email_subscription_was
+      subscribe_to_newsletter if email_subscription
+    end
+  end
+
+  def encrypted_email
+    Digest::MD5.hexdigest(email.downcase)
+  end
+
+  def previous_encrypted_email
+    Digest::MD5.hexdigest(email_was.downcase)
+  end
+
+  def encrypted_email
+    Digest::MD5.hexdigest(email.downcase)
+  end
+
+  def previous_encrypted_email
+    Digest::MD5.hexdigest(email_was.downcase)
+  end
+
+  def subscribe_to_newsletter
+    EmailSubscriptionWorker.perform_async(id)
+  end
+
+  def unsubscribe_from_newsletter
+    EmailRemoveSubscriptionWorker.perform_async(previous_encrypted_email)
   end
 end

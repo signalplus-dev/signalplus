@@ -51,6 +51,7 @@ gem 'puma'
 gem 'websocket-rails', git: 'https://github.com/ricardo-quinones/websocket-rails.git'
 gem 'rmagick'
 gem 'thin'
+gem 'gibbon'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
