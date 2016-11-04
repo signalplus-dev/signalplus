@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Link, browserHistory } from 'react-router';
+import { Link, withRouter  } from 'react-router';
 import { push } from 'react-router-redux';
 import cn from 'classnames';
 import { actions as appActions } from 'redux/modules/app/index.js';
@@ -62,12 +62,12 @@ function Tab({ tab, tabs, active }){
   );
 }
 
-function Tabs({ tabs, currentRoute }) {
+function Tabs({ tabs, currentRoute, router }) {
   const tabList = _.map(tabs, tab => {
     return (
       <Tab
         key={tab.id}
-        active={tab.link === currentRoute}
+        active={router.isActive({ path: tab.link })}
         {...{ tab, tabs }}
       />
     );
@@ -84,7 +84,7 @@ function Tabs({ tabs, currentRoute }) {
   );
 }
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
   tabs: state.app.dashboard.tabs,
   currentRoute: state.routing.locationBeforeTransitions.pathname,
-}))(Tabs);
+}))(Tabs));
