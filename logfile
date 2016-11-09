@@ -5,3 +5,21 @@ LOG:  autovacuum launcher started
 FATAL:  database "ops_development" does not exist
 FATAL:  database "ops_development" does not exist
 FATAL:  database "project-signal_development" does not exist
+FATAL:  database "ops_development" does not exist
+FATAL:  database "eddy" does not exist
+FATAL:  database "eddy" does not exist
+ERROR:  database "project-signal_development" already exists
+STATEMENT:  CREATE DATABASE "project-signal_development" ENCODING = 'unicode'
+ERROR:  database "project-signal_test" already exists
+STATEMENT:  CREATE DATABASE "project-signal_test" ENCODING = 'unicode'
+FATAL:  database "ops_development" does not exist
+FATAL:  database "ops_development" does not exist
+FATAL:  database "eddy" does not exist
+ERROR:  syntax error at or near "createdb" at character 1
+STATEMENT:  createdb
+	;
+ERROR:  syntax error at or near "createdb" at character 1
+STATEMENT:  createdb;
+FATAL:  database "eddy" does not exist
+FATAL:  database "ops_development" does not exist
+FATAL:  database "ops_development" does not exist

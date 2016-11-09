@@ -8,12 +8,12 @@ import Invoice from 'components/accountPanel/views/invoice.jsx';
 
 class AccountInvoices extends Component {
   renderInvoices(tz, invoices) {
-    return _.map(invoices, (invoice) => {
-      if (invoice) {
-        return <Invoice key={invoice.id} tz={tz} invoice={invoice}/>
-      }
-
+    if (_.isEmpty(invoices)) {
       return <div className='invoice-absent'>There is no invoice at the moment</div>
+    }
+
+    return _.map(invoices, (invoice) => {
+      return <Invoice key={invoice.id} tz={tz} invoice={invoice}/>
     });
   }
 

@@ -14,5 +14,19 @@
 
 class Invoice < ActiveRecord::Base
   belongs_to :brand
-  
+
+
+  def normalize_data
+    invoice = self.data['data']['object']
+    return unless invoice.present?
+
+    {
+      amount_due: invoice['amount_due'],
+      paid: invoice['paid'],
+      total: invoice['total'],
+      line_items: invoice['lines']['data'].map do |l|
+         { amount: l['amount'], period: l['period'] }
+      end
+    }
+  end
 end
