@@ -46,7 +46,7 @@ export default class Invoice extends Component {
           overlayClassName='invoice-modal'
           className='invoice-modal-content'
         >
-          <h2 ref="subtitle">Hello</h2>
+          <h2 ref="subtitle">Invoice Statement for </h2>
           <button onClick={this.closeModal}>close</button>
           <div>I am a modal</div>
         </Modal>

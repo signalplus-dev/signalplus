@@ -7,6 +7,11 @@
   padding-left: 30px;
   font-weight: bold;
   background-color: $light-gray;
+
+  &:hover,
+  &:focus {
+    color: $main-purple;
+  }
 }   
 
 .invoice-modal {
@@ -20,11 +25,11 @@
 
 .invoice-modal-content {
   position: absolute;
-  top: 80px;
-  left: 80px;
+  top: 150px;
+  bottom: 100px;
+  left: 150px;
+  right: 150px;
   height: 600px;
-  right: 80px;
-  bottom: 60px;
   border: 1px solid $light-gray;
   background: $signal-white;
   overflow: scroll;
