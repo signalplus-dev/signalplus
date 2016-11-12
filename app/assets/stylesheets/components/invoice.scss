@@ -29,6 +29,8 @@
 
 .invoice-modal-content {
   position: absolute;
+  overflow-x: hidden;
+  overflow-y: scroll;
   top: 150px;
   bottom: 100px;
   left: 150px;
@@ -36,8 +38,42 @@
   height: 600px;
   border: 1px solid $light-gray;
   background: $signal-white;
-  overflow: scroll;
   border-radius: 4px;
   outline: none;
   padding: 40px;
+}
+
+.invoice-label {
+  color: $dark-gray;
+}
+
+.invoice-text {
+  color: $text-black;
+}
+
+.invoice-heading {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  font-weight: bold;
+}
+
+.invoice-logo-svg {
+  height: 40px;
+}
+
+.invoice-dates {
+  float: right;
+  margin-top: 20px;
+}
+
+.invoice-customer-info {
+  margin-bottom: 50px;
+}
+
+.invoice-summary {
+  margin-top: 50px;
+}
+
+.invoice-footer {
+  margin-top: 100px;
 }
