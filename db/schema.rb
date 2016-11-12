@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161107015702) do
+ActiveRecord::Schema.define(version: 20161112230103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,12 +44,12 @@ ActiveRecord::Schema.define(version: 20161107015702) do
 
   create_table "invoices", force: :cascade do |t|
     t.string   "stripe_invoice_id"
-    t.integer  "brand_id",                         null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "brand_id",                       null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.datetime "paid_at"
     t.integer  "amount"
-    t.jsonb    "data",              default: "{}", null: false
+    t.jsonb    "data",              default: {}, null: false
   end
 
   create_table "listen_signals", force: :cascade do |t|
