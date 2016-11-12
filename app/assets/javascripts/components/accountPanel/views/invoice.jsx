@@ -4,9 +4,9 @@ import Modal from 'react-modal';
 import moment from 'moment';
 
 // Components
-// import InvoiceTemplate from 'components/accountPanel/views/invoiceTemplate.jsx';
 import SVGInline from 'react-svg-inline';
 import svgClose from 'icons/close.svg';
+// NEED A DIFFERNT SVG LOGO THIS ONE DOES NOT RENDER CORRECTLY
 import svgLogo from 'logo/signalplus-pink.svg';
 
 
