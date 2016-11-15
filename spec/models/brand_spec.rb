@@ -9,7 +9,6 @@
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
 #  tz                  :string
-#  deleted_at          :datetime
 #
 
 require 'rails_helper'
