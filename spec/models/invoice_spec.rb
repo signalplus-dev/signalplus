@@ -5,7 +5,7 @@ describe Invoice do
 
     context 'with json data' do
       let(:invoice_json_data) { File.read('spec/factories/invoice_data.json') }
-      let(:invoice) { create(:invoice, data: JSON.parse(invoice_json_data)) } 
+      let(:invoice) { create(:invoice, data: JSON.parse(invoice_json_data)['data']['object']) } 
 
       it 'returns normalized_data' do
         normalized_data = invoice.normalize_data
@@ -23,15 +23,5 @@ describe Invoice do
         })
       end
     end
-
-    context 'without json data' do
-      let(:invoice) { create(:invoice) } 
-
-      it 'returns early if data does not exist' do
-        normalized_data = invoice.normalize_data
-        expect(normalized_data).to be(nil)
-      end
-    end
-
   end
 end
