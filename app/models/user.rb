@@ -43,7 +43,6 @@ class User < ActiveRecord::Base
     brand = nil
     # Get the identity and user if they exist
     identity = Identity.find_for_oauth(auth)
-    
     # If a signed_in_resource is provided it always overrides the existing user
     # to prevent the identity being locked with accidentally created accounts.
     # Note that this may leave zombie accounts (with no associated identity) which
