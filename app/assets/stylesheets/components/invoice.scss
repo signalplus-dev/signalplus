@@ -31,9 +31,10 @@
   position: absolute;
   overflow-x: hidden;
   overflow-y: scroll;
+  width: 800px;
   top: 150px;
   bottom: 100px;
-  left: 150px;
+  left: 20%;
   right: 150px;
   height: 600px;
   border: 1px solid $light-gray;

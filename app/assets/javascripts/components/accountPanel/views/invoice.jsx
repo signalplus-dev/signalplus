@@ -6,8 +6,6 @@ import moment from 'moment';
 // Components
 import SVGInline from 'react-svg-inline';
 import svgClose from 'icons/close.svg';
-// NEED A DIFFERNT SVG LOGO THIS ONE DOES NOT RENDER CORRECTLY
-import svgLogo from 'logo/signalplus-pink.svg';
 
 
 export default class Invoice extends Component {
@@ -89,7 +87,7 @@ export default class Invoice extends Component {
           </button>
 
           <div className='invoice-header'>
-            <SVGInline cleanup svg={svgLogo} className="invoice-logo" />
+            <img src={window.__IMAGE_ASSETS__.logoSignalplusInvoicePng} alt="SignalPlus +" height="40" />
             <span className='invoice-dates'>
               {invoiceDateStart}-{invoiceDateEnd}
             </span>
