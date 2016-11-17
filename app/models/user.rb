@@ -70,12 +70,9 @@ class User < ActiveRecord::Base
           password:     Devise.friendly_token[0, 20],
           brand:        brand,
           confirmed_at: Time.current, # Needed for devise_token_auth gem
-          email_subscription: true
+          email_subscription: false,
         )
         user.save!
-
-        # Subscribe user to Mailchimp newsletter
-        subscribe_to_newsletter(user)
       end
     end
 
