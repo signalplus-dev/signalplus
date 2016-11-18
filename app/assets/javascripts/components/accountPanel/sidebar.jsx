@@ -21,7 +21,7 @@ function MenuItem({ menu }) {
 class Sidebar extends Component {
   // TODO: Finish the close account action.
   closeAccount() {
-    // Close account on click.
+
   }
 
   renderMenuItems() {
@@ -45,13 +45,13 @@ class Sidebar extends Component {
 
     return _.map(menuItems, (menu) => {
       if (menu.label === 'Current Plan') {
-        return <CurrentPlanMenuItem 
-                  key={menu.label} 
-                  menu={menu} 
+        return <CurrentPlanMenuItem
+                  key={menu.label}
+                  menu={menu}
                   subscription={this.props.subscription}
                 />
       }
-      
+
       return <MenuItem key={menu.label} menu={menu}/>
     });
   }
