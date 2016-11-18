@@ -34,75 +34,131 @@ describe User do
   let(:subscription_worker)   { EmailSubscriptionWorker }
   let(:unsubscription_worker) { EmailRemoveSubscriptionWorker }
 
-  context 'with an unsubscribed user' do
-    let(:new_email)  { 'updated_email@signal.com' }
-    let(:user)       { create(:user, email_subscription: false) }
+  context 'subscribing' do
+    context 'previously subscribed' do
+      let(:user) { create(:user, email_subscription: true) }
 
-
-    it 'runs callback' do
-      expect(EmailSubscriptionWorker).to receive(:perform_async).with(user.id)
-
-      user.run_callbacks(:save)
-
-    end
-
-    context 'unsubscribe from newsletter' do
-      it 'updates user email info without calling workers' do
-        expect(user).not_to receive(:unsubscribe_from_newsletter)
+      it 'does not resubscribe to newsletter' do
+        expect(user).not_to receive(:unsubscribe_previous_email_from_newsletter)
         expect(user).not_to receive(:subscribe_to_newsletter)
-        expect(user).to receive(:handle_subscription)
 
-        user.update!(email: new_email, email_subscription: false)
+        user.update!(email_subscription: true)
 
-        expect(user.email).to eq(new_email)
-        expect(user.email_subscription).to be_falsey
+        expect(user.email_subscription).to be_truthy
+      end
+
+      context 'with email update' do
+        let(:new_email) { 'changed_email@test.com' }
+
+        it 'unsubscribes previous email' do
+          expect(user).to receive(:unsubscribe_previous_email_from_newsletter)
+
+          user.update!(email: new_email, email_subscription: true)
+
+          expect(user.email_subscription).to be_truthy
+        end
+
+        it 'subscribes new email' do
+          expect(user).to receive(:subscribe_to_newsletter)
+
+          user.update!(email: new_email, email_subscription: true)
+
+          expect(user.email_subscription).to be_truthy
+        end
       end
     end
 
-    context 'subscribe to newsletter' do
-      it 'updates user email info while subscribing user' do
-        expect(user).not_to receive(:unsubscribe_from_newsletter)
+    context 'previously unsubscribed' do
+      let(:user) { create(:user, email_subscription: false) }
+
+      it 'subscribes to newsletter' do
+        expect(user).not_to receive(:unsubscribe_previous_email_from_newsletter)
         expect(user).to receive(:subscribe_to_newsletter)
-        expect(user).to receive(:handle_subscription)
-        expect(EmailSubscriptionWorker).to receive(:perform_async)
 
-        user.update!(email: new_email, email_subscription: true)
+        user.update!(email_subscription: true)
 
-        expect(user.email).to eq(new_email)
         expect(user.email_subscription).to be_truthy
+      end
+
+      context 'with email update' do
+        let(:new_email) { 'changed_email@test.com' }
+
+        it 'does not unsubscribes previous email again' do
+          expect(user).not_to receive(:unsubscribe_previous_email_from_newsletter)
+
+          user.update!(email: new_email, email_subscription: true)
+
+          expect(user.email_subscription).to be_truthy
+        end
+
+        it 'subscribes new email' do
+          expect(user).to receive(:subscribe_to_newsletter)
+
+          user.update!(email: new_email, email_subscription: true)
+
+          expect(user.email_subscription).to be_truthy
+        end
       end
     end
   end
 
-  # context 'subscribes to newsletter' do
-  #   it 'update user email info' do
-  #     expect(user).to receive(:subscribe_to_newsletter)
-  #     expect(subscription_worker).to receive(:perform_async).once.with(user.id)
-  #     expect(unsubscription_worker).to receive(:perform_async).once.with(user.previous_encrypted_email)
+  context 'unsubscribing' do
+    context 'previously subscribed' do
+      let(:user) { create(:user, email_subscription: true) }
 
-  #     user.update!(email: new_email, email_subscription: true)
+      it 'unsubsribes to newsletter' do
+        expect(user).not_to receive(:subscribe_to_newsletter)
+        expect(user).to receive(:unsubscribe_from_newsletter)
 
-  #     expect(user.email).to eq(new_email)
-  #     expect(user.email_subscription).to be_truthy
-  #   end
+        user.update!(email_subscription: false)
 
-  #   it 'unsubscribes old email address' do
-  #     expect_any_instance_of(email_service).to receive(:unsubscribe)
+        expect(user.email_subscription).to be_falsey
+      end
 
-  #     user.update_email_info!(new_email, true)
-  #   end
+      context 'with email update' do
+        let(:new_email) { 'changed_email@test.com' }
 
-  #   it 'subscribes new email address' do
+        it 'unsubscribes previous email' do
+          expect(user).to receive(:unsubscribe_previous_email_from_newsletter)
 
-  #     expect(user).to receive(:subscribe_to_newsletter)
-  #     expect(subscription_worker).not_to receive(:perform_async).with(user.previous_encrypted_email)
+          user.update!(email: new_email, email_subscription: false)
 
-  #     user.update!(email_subscription: false)
+          expect(user.email_subscription).to be_falsey
+        end
 
-  #     expect_any_instance_of(email_service).to receive(:subscribe)
+        it 'does not subscribe with new email' do
+          expect(user).not_to receive(:subscribe_to_newsletter)
 
-  #     user.update_email_info!(new_email, true)
-  #   end
-  # end
+          user.update!(email: new_email, email_subscription: false)
 
+          expect(user.email_subscription).to be_falsey
+        end
+      end
+    end
+
+    context 'previously unsubscribed' do
+      let(:user) { create(:user, email_subscription: false) }
+
+      it 'does not unsubscribe again' do
+        expect(user).not_to receive(:unsubscribe_previous_email_from_newsletter)
+        expect(user).not_to receive(:subscribe_to_newsletter)
+
+        user.update!(email_subscription: false)
+
+        expect(user.email_subscription).to be_falsey
+      end
+
+      context 'with email update' do
+        let(:new_email) { 'changed_email@test.com' }
+
+        it 'does not unsubscribes previous email again' do
+          expect(user).not_to receive(:unsubscribe_previous_email_from_newsletter)
+
+          user.update!(email: new_email, email_subscription: false)
+
+          expect(user.email_subscription).to be_falsey
+        end
+      end
+    end
+  end
 end

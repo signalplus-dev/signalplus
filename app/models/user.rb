@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
           password:     Devise.friendly_token[0, 20],
           brand:        brand,
           confirmed_at: Time.current, # Needed for devise_token_auth gem
-          email_subscription: false,
+          email_subscription: false
         )
         user.save!
       end
@@ -97,9 +97,11 @@ class User < ActiveRecord::Base
   end
 
   def handle_subscription
-    if email_previously_changed? || email_subscription_changed?
-      unsubscribe_from_newsletter if email_subscription_was
+    if changes.key?(:email) && email_subscription_was
+      unsubscribe_previous_email_from_newsletter
       subscribe_to_newsletter if email_subscription
+    else
+      email_subscription && !email_subscription_was ? subscribe_to_newsletter : unsubscribe_from_newsletter
     end
   end
 
@@ -124,6 +126,10 @@ class User < ActiveRecord::Base
   end
 
   def unsubscribe_from_newsletter
+    EmailRemoveSubscriptionWorker.perform_async(encrypted_email)
+  end
+
+  def unsubscribe_previous_email_from_newsletter
     EmailRemoveSubscriptionWorker.perform_async(previous_encrypted_email)
   end
 end
