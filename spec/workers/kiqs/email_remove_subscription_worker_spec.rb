@@ -5,7 +5,7 @@ describe EmailRemoveSubscriptionWorker do
   let(:worker)           { described_class.new }
   let(:user)             { create(:user, brand: brand) }
   let(:list_id)          { '111' }
-  let(:encrypted_email) { user.email }
+  let(:encrypted_email)  { user.email }
   let(:mock_client)      { object_spy('mock_client') }
 
   before {
