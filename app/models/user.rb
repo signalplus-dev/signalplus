@@ -29,7 +29,7 @@
 class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
-  after_save :handle_subscription
+  after_save :handle_subscription, if: :email_verified?
 
   # Include default devise modules.
   devise :omniauthable, :database_authenticatable, :registerable,
@@ -96,12 +96,18 @@ class User < ActiveRecord::Base
     self.email && self.email !~ TEMP_EMAIL_REGEX
   end
 
+  def email_previously_verified?
+    self.email_was && self.email_was !~ TEMP_EMAIL_REGEX
+  end
+
   def handle_subscription
     if changes.key?(:email) && email_subscription_was
-      unsubscribe_previous_email_from_newsletter
+      unsubscribe_previous_email_from_newsletter if email_previously_verified?
       subscribe_to_newsletter if email_subscription
-    else
-      email_subscription && !email_subscription_was ? subscribe_to_newsletter : unsubscribe_from_newsletter
+    elsif email_subscription && !email_subscription_was
+      subscribe_to_newsletter
+    elsif !email_subscription && changes.key?(:email_subscription)
+       unsubscribe_from_newsletter
     end
   end
 

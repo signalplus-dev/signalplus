@@ -22,6 +22,10 @@ FactoryGirl.define do
     name "signal"
     password "123456789"
     confirmed_at Time.current
+
+    trait :temp_email do
+      email "#{User::TEMP_EMAIL_PREFIX}.com"
+    end
   end
 
   factory :identity do

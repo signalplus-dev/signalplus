@@ -70,6 +70,7 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'pry-byebug', '~> 1.3.3'
   gem 'spring'
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -77,7 +78,6 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'ultrahook'
-  gem 'dotenv-rails'
 end
 
 group :test do
