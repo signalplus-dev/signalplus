@@ -29,6 +29,8 @@
 class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
+  has_paper_trail only: [:email], on: [:update]
+
   after_save :handle_subscription, if: :email_verified?
 
   # Include default devise modules.
