@@ -19,8 +19,8 @@ class Subscription < ActiveRecord::Base
 
   has_paper_trail only: [:subscription_plan_id, :canceled_at], on: [:update]
 
-  NUMBER_OF_DAYS_OF_TRIAL = 14
-  MAX_NUMBER_OF_MESSAGES_FOR_TRIAL = 50
+  NUMBER_OF_DAYS_OF_TRIAL = ENV['NUMBER_OF_DAYS_OF_TRIAL'].to_i
+  MAX_NUMBER_OF_MESSAGES_FOR_TRIAL = ENV['MAX_NUMBER_OF_MESSAGES_FOR_TRIAL'].to_i
 
   class << self
     # Subscribes a brand to to a subscription plan. Handles error outside of this method

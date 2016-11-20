@@ -12,6 +12,8 @@ WHITE_LIST_OF_KEYS_AVAILABLE_FOR_NODE = [
   'DOMAIN',
   'RAILS_ENV',
   'ACTION_CABLE_URL',
+  'NUMBER_OF_DAYS_OF_TRIAL',
+  'MAX_NUMBER_OF_MESSAGES_FOR_TRIAL',
 ]
 
 module ProjectSignal
@@ -50,6 +52,9 @@ module ProjectSignal
         end
       end
     end
+
+    ENV['NUMBER_OF_DAYS_OF_TRIAL'] = ENV['NUMBER_OF_DAYS_OF_TRIAL'] || '14'
+    ENV['MAX_NUMBER_OF_MESSAGES_FOR_TRIAL'] = ENV['MAX_NUMBER_OF_MESSAGES_FOR_TRIAL'] || '50'
 
     # Configure Browserify to use babelify to compile ES6
     env_vars = ENV.to_hash.slice(*WHITE_LIST_OF_KEYS_AVAILABLE_FOR_NODE).map do |key, value|
