@@ -29,11 +29,12 @@ class Subscription < ActiveRecord::Base
     #
     # @param brand             [Brand] A brand object
     # @param subscription_plan [SubscriptionPlan] A subscription plan object
+    # @param email             [String] email of the customer
     # @param stripe_token      [String] The Stripe token response necessary to create the Stripe
     #                                   Customer object and their Stripe subscription
-    def subscribe!(brand, subscription_plan, stripe_token)
+    def subscribe!(brand, subscription_plan, email, stripe_token)
       trial_end = NUMBER_OF_DAYS_OF_TRIAL.days.from_now
-      customer = create_customer!(brand, subscription_plan, stripe_token, trial_end.to_i)
+      customer = create_customer!(subscription_plan, email, stripe_token, trial_end.to_i)
 
       if customer
         create_payment_handler!(brand, customer)
@@ -47,14 +48,15 @@ class Subscription < ActiveRecord::Base
     #
     # @param brand             [Brand]
     # @param subscription_plan [SubscriptionPlan]
+    # @param email             [String]
     # @param stripe_token      [String]
     # @param trial_end         [Fixnum] Unix timestamp for the trial is supposed to end
     # @return                  [Stripe::Customer]
-    def create_customer!(brand, subscription_plan, stripe_token, trial_end)
+    def create_customer!(subscription_plan, email, stripe_token, trial_end)
       Stripe::Customer.create(
         source:    stripe_token,
         plan:      subscription_plan.provider_id,
-        email:     brand.twitter_admin.email,
+        email:     email,
         trial_end: trial_end,
       )
     end

@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: UTF-8
-      string: source=tok_19I2R6J5yqT11PpP2CYelLLo&plan=basic&email=test%40signal.me&trial_end=1480885275
+      string: source=tok_19I51MJ5yqT11PpPmPjxzJUT&plan=basic&email=test%40signal.me&trial_end=1480895212
     headers:
       Accept:
       - "*/*"
@@ -18,7 +18,7 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       Idempotency-Key:
-      - 358a595d-645a-4a45-a295-ab77ee5eb9cd
+      - b504ee4b-535c-4768-b78c-646cbf990523
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
         Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 20 Nov 2016 21:01:17 GMT
+      - Sun, 20 Nov 2016 23:46:53 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -53,11 +53,11 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Idempotency-Key:
-      - 358a595d-645a-4a45-a295-ab77ee5eb9cd
+      - b504ee4b-535c-4768-b78c-646cbf990523
       Original-Request:
-      - req_9bEubEzLeFpJ9J
+      - req_9bHauU5AX8Zgdv
       Request-Id:
-      - req_9bEubEzLeFpJ9J
+      - req_9bHauU5AX8Zgdv
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -66,12 +66,12 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "cus_9bEuPWNAuVQOmk",
+          "id": "cus_9bHakiZ39OyU1S",
           "object": "customer",
           "account_balance": 0,
-          "created": 1479675677,
+          "created": 1479685613,
           "currency": "usd",
-          "default_source": "card_19I2R6J5yqT11PpPePkIZQlY",
+          "default_source": "card_19I51MJ5yqT11PpPpbQl3Llq",
           "delinquent": false,
           "description": null,
           "discount": null,
@@ -83,7 +83,7 @@ http_interactions:
             "object": "list",
             "data": [
               {
-                "id": "card_19I2R6J5yqT11PpPePkIZQlY",
+                "id": "card_19I51MJ5yqT11PpPpbQl3Llq",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -95,7 +95,7 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_9bEuPWNAuVQOmk",
+                "customer": "cus_9bHakiZ39OyU1S",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
                 "exp_month": 7,
@@ -110,21 +110,21 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_9bEuPWNAuVQOmk/sources"
+            "url": "/v1/customers/cus_9bHakiZ39OyU1S/sources"
           },
           "subscriptions": {
             "object": "list",
             "data": [
               {
-                "id": "sub_9bEuot1cvCrYHe",
+                "id": "sub_9bHa8ccbkfcwqO",
                 "object": "subscription",
                 "application_fee_percent": null,
                 "cancel_at_period_end": false,
                 "canceled_at": null,
-                "created": 1479675677,
-                "current_period_end": 1480885275,
-                "current_period_start": 1479675677,
-                "customer": "cus_9bEuPWNAuVQOmk",
+                "created": 1479685613,
+                "current_period_end": 1480895212,
+                "current_period_start": 1479685613,
+                "customer": "cus_9bHakiZ39OyU1S",
                 "discount": null,
                 "ended_at": null,
                 "livemode": false,
@@ -144,18 +144,18 @@ http_interactions:
                   "trial_period_days": null
                 },
                 "quantity": 1,
-                "start": 1479675677,
+                "start": 1479685613,
                 "status": "trialing",
                 "tax_percent": null,
-                "trial_end": 1480885275,
-                "trial_start": 1479675677
+                "trial_end": 1480895212,
+                "trial_start": 1479685613
               }
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_9bEuPWNAuVQOmk/subscriptions"
+            "url": "/v1/customers/cus_9bHakiZ39OyU1S/subscriptions"
           }
         }
     http_version: 
-  recorded_at: Sun, 20 Nov 2016 21:01:17 GMT
+  recorded_at: Sun, 20 Nov 2016 23:46:53 GMT
 recorded_with: VCR 3.0.3

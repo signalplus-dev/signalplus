@@ -37,7 +37,7 @@ shared_context 'stripe setup' do
     customer = nil
     trial_end = 14.days.from_now.to_i
     VCR.use_cassette('stripe_customer') do
-      customer = Subscription.send(:create_customer!, brand, basic_plan, stripe_token, trial_end)
+      customer = Subscription.send(:create_customer!, basic_plan, user.email, stripe_token, trial_end)
     end
 
     customer

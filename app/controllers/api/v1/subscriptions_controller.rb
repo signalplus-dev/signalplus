@@ -9,6 +9,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
     subscription = Subscription.subscribe!(
       @brand,
       subscription_plan,
+      params[:email],
       params[:stripe_token]
     )
 

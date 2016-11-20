@@ -24,7 +24,7 @@ describe Subscription do
   describe '.subscribe' do
     it 'creates a payment handler' do
       expect {
-        described_class.subscribe!(brand, basic_plan, stripe_token)
+        described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
       }.to change {
         PaymentHandler.count
       }.from(0).to(1)
@@ -32,7 +32,7 @@ describe Subscription do
 
     it 'creates a subscription' do
       expect {
-        described_class.subscribe!(brand, basic_plan, stripe_token)
+        described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
       }.to change {
         described_class.count
       }.from(0).to(1)
@@ -41,7 +41,7 @@ describe Subscription do
 
   context 'a brand already subscribed to a plan' do
     before do
-      described_class.subscribe!(brand, basic_plan, stripe_token)
+      described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
       allow(subscription).to receive(:stripe_subscription).and_return(stripe_subscription)
     end
 
