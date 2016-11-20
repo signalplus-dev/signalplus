@@ -32,7 +32,7 @@ class Brand < ActiveRecord::Base
 
   after_create :create_trackers
 
-  validates_inclusion_of :tz, in: VALID_TIMEZONES
+  validate :time_zone_is_valid
 
   class << self
     # @param brand_id [Fixnum]
@@ -187,5 +187,12 @@ class Brand < ActiveRecord::Base
   def create_trackers
     TwitterTracker.create(brand_id: id)
     TwitterDirectMessageTracker.create(brand_id: id)
+  end
+
+  def time_zone_is_valid
+    time_zone = ActiveSupport::TimeZone.new(tz)
+    raise StandardError.new('Not a valid time zone') if time_zone.nil?
+  rescue StandardError
+    errors.add(:tz, 'is not valid')
   end
 end
