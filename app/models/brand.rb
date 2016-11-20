@@ -174,7 +174,7 @@ class Brand < ActiveRecord::Base
 
   # @return [Boolean]
   def surpassed_trial_message_count?
-    monthly_response_count >= Subscription::MAX_NUMBER_OF_MESSAGES_FOR_TRIAL
+    monthly_response_count > Subscription::MAX_NUMBER_OF_MESSAGES_FOR_TRIAL
   end
 
   # @return [Boolean]

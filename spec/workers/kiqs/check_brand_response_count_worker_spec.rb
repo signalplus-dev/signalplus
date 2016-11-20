@@ -20,9 +20,9 @@ describe CheckBrandResponseCountWorker do
   end
 
   context 'with exactly the amount of trial messages' do
-    it 'ends the trial' do
+    it 'does not end the trial' do
       allow(brand).to receive(:monthly_response_count).and_return(50)
-      expect(subscription).to receive(:end_trial!)
+      expect(subscription).to_not receive(:end_trial!)
       worker.perform(brand.id)
     end
   end
