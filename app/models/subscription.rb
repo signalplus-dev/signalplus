@@ -11,6 +11,8 @@
 #  updated_at           :datetime         not null
 #  canceled_at          :datetime
 #  trial_end            :datetime         not null
+#  trial                :boolean          default(TRUE)
+#  lock_version         :integer
 #
 
 class Subscription < ActiveRecord::Base
@@ -89,13 +91,19 @@ class Subscription < ActiveRecord::Base
   def update_plan!(subscription_plan)
     stripe_subscription.plan = subscription_plan.provider_id
     update_stripe_subscription!
-    update(subscription_plan_id: subscription_plan.id)
+    update!(subscription_plan_id: subscription_plan.id)
   end
 
   # Cancels the subscription plan
   def cancel_plan!
     cancel_stripe_subscription!
-    update(canceled_at: Time.current)
+    update!(canceled_at: Time.current)
+  end
+
+  # Forcefully ends the trial subscription
+  def end_trial!
+    end_stripe_trial_subscription!
+    update!(trial: false)
   end
 
   # @return [Stripe::Subscription]
@@ -147,6 +155,11 @@ class Subscription < ActiveRecord::Base
 
   # Used to stub out in tests for mocking of the Stripe API response
   def update_stripe_subscription!
+    stripe_subscription.save
+  end
+
+  def end_stripe_trial_subscription!
+    stripe_subscription.trial_end = "now"
     stripe_subscription.save
   end
 

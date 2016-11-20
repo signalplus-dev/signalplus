@@ -8,7 +8,7 @@
 #  updated_at          :datetime         not null
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
-#  tz                  :string
+#  tz                  :string           default("America/New_York"), not null
 #
 
 require 'rails_helper'

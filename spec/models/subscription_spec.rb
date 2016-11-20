@@ -11,6 +11,8 @@
 #  updated_at           :datetime         not null
 #  canceled_at          :datetime
 #  trial_end            :datetime         not null
+#  trial                :boolean          default(TRUE)
+#  lock_version         :integer
 #
 
 require 'rails_helper'
@@ -75,6 +77,31 @@ describe Subscription do
             subscription.versions.count
           }.from(0).to(1)
         end
+      end
+    end
+
+    describe '.end_trial!' do
+      let(:end_stripe_trial_subscription!) do
+        stripe_response = nil
+
+        VCR.use_cassette('end_stripe_trial_subscription') do
+          subscription.stripe_subscription.trial_end = 'now'
+          stripe_response = subscription.stripe_subscription.save
+        end
+
+        stripe_response
+      end
+
+      before do
+        allow(subscription).to receive(:end_stripe_trial_subscription!).and_return(end_stripe_trial_subscription!)
+      end
+
+      it 'ends the trial' do
+        expect {
+          subscription.end_trial!
+        }.to change {
+          subscription.reload.trial?
+        }.from(true).to(false)
       end
     end
 

@@ -18,7 +18,7 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       Idempotency-Key:
-      - c79f299d-5ea8-452e-9ee3-bb07b438f236
+      - 61d9ba05-8eb9-4e04-adfb-8d673b5d5502
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
         Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 20 Nov 2016 19:32:50 GMT
+      - Sun, 20 Nov 2016 21:01:16 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -53,11 +53,11 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Idempotency-Key:
-      - c79f299d-5ea8-452e-9ee3-bb07b438f236
+      - 61d9ba05-8eb9-4e04-adfb-8d673b5d5502
       Original-Request:
-      - req_9bDUwAQDZVedgN
+      - req_9bEuHxRCg7vUq4
       Request-Id:
-      - req_9bDUwAQDZVedgN
+      - req_9bEuHxRCg7vUq4
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -66,10 +66,10 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_19I13WJ5yqT11PpP5Q3njHho",
+          "id": "tok_19I2R6J5yqT11PpP2CYelLLo",
           "object": "token",
           "card": {
-            "id": "card_19I13WJ5yqT11PpPZhokDhvG",
+            "id": "card_19I2R6J5yqT11PpPePkIZQlY",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -93,11 +93,11 @@ http_interactions:
             "tokenization_method": null
           },
           "client_ip": "69.200.233.205",
-          "created": 1479670370,
+          "created": 1479675676,
           "livemode": false,
           "type": "card",
           "used": false
         }
     http_version: 
-  recorded_at: Sun, 20 Nov 2016 19:32:50 GMT
+  recorded_at: Sun, 20 Nov 2016 21:01:16 GMT
 recorded_with: VCR 3.0.3

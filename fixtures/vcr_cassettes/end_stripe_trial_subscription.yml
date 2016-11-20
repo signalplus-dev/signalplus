@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/subscriptions/sub_9bEuot1cvCrYHe
     body:
       encoding: UTF-8
-      string: plan=advanced
+      string: trial_end=now
     headers:
       Accept:
       - "*/*"
@@ -18,7 +18,7 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       Idempotency-Key:
-      - 935d55af-98e0-4412-ad51-c8345afe0043
+      - 9b440f77-2bc9-48cc-aae4-c4af9a45aa48
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
         Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
@@ -53,11 +53,11 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Idempotency-Key:
-      - 935d55af-98e0-4412-ad51-c8345afe0043
+      - 9b440f77-2bc9-48cc-aae4-c4af9a45aa48
       Original-Request:
-      - req_9bEvpThSnvKYf5
+      - req_9bEvIZnlS53NmF
       Request-Id:
-      - req_9bEvpThSnvKYf5
+      - req_9bEvIZnlS53NmF
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -94,7 +94,7 @@ http_interactions:
             "trial_period_days": null
           },
           "quantity": 1,
-          "start": 1479675680,
+          "start": 1479675681,
           "status": "active",
           "tax_percent": null,
           "trial_end": null,

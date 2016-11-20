@@ -11,6 +11,8 @@
 #  updated_at           :datetime         not null
 #  canceled_at          :datetime
 #  trial_end            :datetime         not null
+#  trial                :boolean          default(TRUE)
+#  lock_version         :integer
 #
 
 FactoryGirl.define do
@@ -18,5 +20,6 @@ FactoryGirl.define do
     provider 'Stripe'
     token 'sub_8q6Cc93nR3NR59'
     association :subscription_plan, factory: :subscription_plan
+    trial_end 14.days.from_now
   end
 end
