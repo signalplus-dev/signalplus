@@ -111,7 +111,10 @@ class Brand < ActiveRecord::Base
 
   def streaming_tweets!(pid)
     update!(streaming_tweet_pid: pid)
-    Streamers::Twitter.new(self).stream!
+
+    Time.use_zone(tz) do
+      Streamers::Twitter.new(self).stream!
+    end
   end
 
   def turn_off_twitter_streaming!
