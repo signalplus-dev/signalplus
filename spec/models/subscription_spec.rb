@@ -10,6 +10,9 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  canceled_at          :datetime
+#  trial_end            :datetime         not null
+#  trial                :boolean          default(TRUE)
+#  lock_version         :integer
 #
 
 require 'rails_helper'
@@ -42,7 +45,7 @@ describe Subscription do
       allow(subscription).to receive(:stripe_subscription).and_return(stripe_subscription)
     end
 
-    describe '#update!' do
+    describe '#update_plan!' do
       let(:update_stripe_subscription!) do
         stripe_response = nil
 
@@ -60,7 +63,7 @@ describe Subscription do
 
       it 'changes the subscription_plan' do
         expect {
-          subscription.update!(advanced_plan)
+          subscription.update_plan!(advanced_plan)
         }.to change {
           subscription.subscription_plan
         }.from(basic_plan).to(advanced_plan)
@@ -69,7 +72,7 @@ describe Subscription do
       it 'logs the changes' do
         with_versioning do
           expect {
-            subscription.update!(advanced_plan)
+            subscription.update_plan!(advanced_plan)
           }.to change {
             subscription.versions.count
           }.from(0).to(1)
@@ -77,7 +80,32 @@ describe Subscription do
       end
     end
 
-    describe '.cancel!' do
+    describe '.end_trial!' do
+      let(:end_stripe_trial_subscription!) do
+        stripe_response = nil
+
+        VCR.use_cassette('end_stripe_trial_subscription') do
+          subscription.stripe_subscription.trial_end = 'now'
+          stripe_response = subscription.stripe_subscription.save
+        end
+
+        stripe_response
+      end
+
+      before do
+        allow(subscription).to receive(:end_stripe_trial_subscription!).and_return(end_stripe_trial_subscription!)
+      end
+
+      it 'ends the trial' do
+        expect {
+          subscription.end_trial!
+        }.to change {
+          subscription.reload.trial?
+        }.from(true).to(false)
+      end
+    end
+
+    describe '.cancel_plan!' do
       let(:cancel_stripe_subscription!) do
         stripe_response = nil
 
@@ -94,7 +122,7 @@ describe Subscription do
 
       it 'cancels the subscription' do
         expect {
-          subscription.cancel!
+          subscription.cancel_plan!
         }.to change {
           subscription.canceled?
         }.from(false).to(true)
@@ -103,7 +131,7 @@ describe Subscription do
       it 'logs the changes' do
         with_versioning do
           expect {
-            subscription.cancel!
+            subscription.cancel_plan!
           }.to change {
             subscription.versions.count
           }.from(0).to(1)

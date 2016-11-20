@@ -10,6 +10,9 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  canceled_at          :datetime
+#  trial_end            :datetime         not null
+#  trial                :boolean          default(TRUE)
+#  lock_version         :integer
 #
 
 class Subscription < ActiveRecord::Base
@@ -17,6 +20,9 @@ class Subscription < ActiveRecord::Base
   belongs_to :subscription_plan
 
   has_paper_trail only: [:subscription_plan_id, :canceled_at], on: [:update]
+
+  NUMBER_OF_DAYS_OF_TRIAL = ENV['NUMBER_OF_DAYS_OF_TRIAL'].to_i
+  MAX_NUMBER_OF_MESSAGES_FOR_TRIAL = ENV['MAX_NUMBER_OF_MESSAGES_FOR_TRIAL'].to_i
 
   class << self
     # Subscribes a brand to to a subscription plan. Handles error outside of this method
@@ -26,21 +32,30 @@ class Subscription < ActiveRecord::Base
     # @param stripe_token      [String] The Stripe token response necessary to create the Stripe
     #                                   Customer object and their Stripe subscription
     def subscribe!(brand, subscription_plan, stripe_token)
-      customer = create_customer!(brand, subscription_plan, stripe_token)
+      trial_end = NUMBER_OF_DAYS_OF_TRIAL.days.from_now
+      customer = create_customer!(brand, subscription_plan, stripe_token, trial_end.to_i)
 
       if customer
         create_payment_handler!(brand, customer)
-        create_subscription!(brand, subscription_plan, customer)
+        create_subscription!(brand, subscription_plan, customer, trial_end)
       end
     end
 
     private
 
-    def create_customer!(brand, subscription_plan, stripe_token)
+    # Creates the Stripe customer and subscribes them to a trial subscription
+    #
+    # @param brand             [Brand]
+    # @param subscription_plan [SubscriptionPlan]
+    # @param stripe_token      [String]
+    # @param trial_end         [Fixnum] Unix timestamp for the trial is supposed to end
+    # @return                  [Stripe::Customer]
+    def create_customer!(brand, subscription_plan, stripe_token, trial_end)
       Stripe::Customer.create(
-        source: stripe_token,
-        plan:   subscription_plan.provider_id,
-        email:  brand.twitter_admin.email,
+        source:    stripe_token,
+        plan:      subscription_plan.provider_id,
+        email:     brand.twitter_admin.email,
+        trial_end: trial_end,
       )
     end
 
@@ -48,16 +63,24 @@ class Subscription < ActiveRecord::Base
       PaymentHandler.create!(
         brand_id: brand.id,
         provider: 'Stripe',
-        token:    customer.id
+        token:    customer.id,
       )
     end
 
-    def create_subscription!(brand, subscription_plan, customer)
+    # Creates the Subscription within our DB
+    #
+    # @param brand             [Brand]
+    # @param subscription_plan [SubscriptionPlan]
+    # @param customer          [Stripe::Customer]
+    # @param trial_end         [ActiveSupport::TimeWithZone]
+    # @return                  [Subscription]
+    def create_subscription!(brand, subscription_plan, customer, trial_end)
       create!(
         brand_id:             brand.id,
         subscription_plan_id: subscription_plan.id,
         provider:             'Stripe',
-        token:                customer.subscriptions.first.id
+        token:                customer.subscriptions.first.id,
+        trial_end:            trial_end,
       )
     end
   end
@@ -65,16 +88,22 @@ class Subscription < ActiveRecord::Base
   # Updates the subscription's subscription plan
   #
   # @param subscription_plan [SubscriptionPlan] A subscription plan object
-  def update!(subscription_plan)
+  def update_plan!(subscription_plan)
     stripe_subscription.plan = subscription_plan.provider_id
     update_stripe_subscription!
-    update(subscription_plan_id: subscription_plan.id)
+    update!(subscription_plan_id: subscription_plan.id)
   end
 
   # Cancels the subscription plan
-  def cancel!
+  def cancel_plan!
     cancel_stripe_subscription!
-    update(canceled_at: Time.current)
+    update!(canceled_at: Time.current)
+  end
+
+  # Forcefully ends the trial subscription
+  def end_trial!
+    end_stripe_trial_subscription!
+    update!(trial: false)
   end
 
   # @return [Stripe::Subscription]
@@ -126,6 +155,11 @@ class Subscription < ActiveRecord::Base
 
   # Used to stub out in tests for mocking of the Stripe API response
   def update_stripe_subscription!
+    stripe_subscription.save
+  end
+
+  def end_stripe_trial_subscription!
+    stripe_subscription.trial_end = "now"
     stripe_subscription.save
   end
 

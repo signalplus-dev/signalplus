@@ -5,7 +5,10 @@ class TwitterResponseWorker
 
   def perform(brand_id, response_as_json)
     brand = Brand.find_with_trackers(brand_id)
-    reply = Responders::Twitter::Reply.build(brand: brand, as_json: response_as_json)
-    reply.respond!
+
+    Time.use_zone(brand.tz) do
+      reply = Responders::Twitter::Reply.build(brand: brand, as_json: response_as_json)
+      reply.respond!
+    end
   end
 end

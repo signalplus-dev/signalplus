@@ -43,7 +43,7 @@ describe Api::V1::UsersController, type: :controller do
         }
       end
 
-      let(:brand_update_params) { { tz: 'America/New_York' } }
+      let(:brand_update_params) { { tz: 'America/Chicago' } }
 
       context 'with user info to update' do
         it 'responds with a 200' do
@@ -81,7 +81,7 @@ describe Api::V1::UsersController, type: :controller do
             post :update, params: params
           }.to change {
             brand.reload.tz
-          }.from(nil).to('America/New_York')
+          }.from('America/New_York').to('America/Chicago')
         end
       end
     end

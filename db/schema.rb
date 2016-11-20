@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161112230103) do
+ActiveRecord::Schema.define(version: 20161120212811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "brands", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.bigint   "streaming_tweet_pid"
     t.boolean  "polling_tweets",      default: false
-    t.string   "tz"
+    t.string   "tz",                  default: "America/New_York", null: false
     t.index ["polling_tweets"], name: "index_brands_on_polling_tweets", using: :btree
     t.index ["streaming_tweet_pid"], name: "index_brands_on_streaming_tweet_pid", using: :btree
   end
@@ -56,11 +56,11 @@ ActiveRecord::Schema.define(version: 20161112230103) do
     t.integer  "brand_id"
     t.integer  "identity_id"
     t.text     "name"
-    t.datetime "expiration_date"
     t.boolean  "active",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.string   "signal_type"
+    t.datetime "expiration_date"
     t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
     t.index ["deleted_at"], name: "index_listen_signals_on_deleted_at", using: :btree
@@ -128,9 +128,12 @@ ActiveRecord::Schema.define(version: 20161112230103) do
     t.integer  "subscription_plan_id"
     t.string   "provider"
     t.string   "token"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.datetime "canceled_at"
+    t.datetime "trial_end",                           null: false
+    t.boolean  "trial",                default: true
+    t.integer  "lock_version"
     t.index ["brand_id"], name: "index_subscriptions_on_brand_id", unique: true, using: :btree
     t.index ["canceled_at"], name: "index_subscriptions_on_canceled_at", using: :btree
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree

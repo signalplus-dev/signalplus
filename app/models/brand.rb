@@ -8,10 +8,12 @@
 #  updated_at          :datetime         not null
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
-#  tz                  :string
+#  tz                  :string           default("America/New_York"), not null
 #
 
 class Brand < ActiveRecord::Base
+  VALID_TIMEZONES = ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.name }
+
   has_many :users
   has_many :identities
   has_many :admin_users, through: :identities, source: :user
@@ -29,6 +31,8 @@ class Brand < ActiveRecord::Base
   has_one :subscription
 
   after_create :create_trackers
+
+  validate :time_zone_is_valid
 
   class << self
     # @param brand_id [Fixnum]
@@ -86,8 +90,9 @@ class Brand < ActiveRecord::Base
     twitter_identity.uid.to_i
   end
 
+  # @return [String]
   def tweet_url(tweet_id)
-    "https://twitter.com/#{self.user_name}/status/#{tweet_id}"
+    "https://twitter.com/#{user_name}/status/#{tweet_id}"
   end
 
   # @return [String]
@@ -106,37 +111,47 @@ class Brand < ActiveRecord::Base
 
   def streaming_tweets!(pid)
     update!(streaming_tweet_pid: pid)
-    Streamers::Twitter.new(self).stream!
+
+    Time.use_zone(tz) do
+      Streamers::Twitter.new(self).stream!
+    end
   end
 
   def turn_off_twitter_streaming!
     update!(streaming_tweet_pid: nil)
   end
 
+  # @return [Boolean]
   def currently_streaming_twitter?
     !stop_twitter_streaming?
   end
 
+  # @return [Boolean]
   def stop_twitter_streaming?
     streaming_tweet_pid.nil?
   end
 
+  # @return [Boolean]
   def turn_on_twitter_streaming?
     !currently_streaming_twitter? && has_active_signals?
   end
 
+  # @return [Boolean]
   def turn_off_twitter_streaming?
     currently_streaming_twitter? && !has_active_signals?
   end
 
+  # @return [Boolean]
   def has_active_signals?
     @has_active_signals ||= listen_signals.active.exists?
   end
 
+  # @return [Boolean]
   def subscription?
     subscription.present?
   end
 
+  # @return [String]
   def process_name
     "twitter_stream_#{id}"
   end
@@ -145,6 +160,7 @@ class Brand < ActiveRecord::Base
     `killall #{process_name}`
   end
 
+  # @return [Fixnum]
   def monthly_response_count
     monthly_twitter_responses.count
   end
@@ -156,10 +172,27 @@ class Brand < ActiveRecord::Base
     )
   end
 
+  # @return [Boolean]
+  def surpassed_trial_message_count?
+    monthly_response_count > Subscription::MAX_NUMBER_OF_MESSAGES_FOR_TRIAL
+  end
+
+  # @return [Boolean]
+  def in_trial?
+    !!subscription.try(:trial?)
+  end
+
   private
 
   def create_trackers
     TwitterTracker.create(brand_id: id)
     TwitterDirectMessageTracker.create(brand_id: id)
+  end
+
+  def time_zone_is_valid
+    time_zone = ActiveSupport::TimeZone.new(tz)
+    raise StandardError.new('Not a valid time zone') if time_zone.nil?
+  rescue StandardError
+    errors.add(:tz, 'is not valid')
   end
 end

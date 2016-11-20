@@ -6,6 +6,7 @@ class Api::V1::BaseController < ApplicationController
 
   before_action :authenticate_csrf_token!, only: [:token]
   before_action :authenticate_user!, except: [:token]
+  around_action :set_time_zone, except: [:token, :test]
   protect_from_forgery with: :null_session, except: [:token]
 
   rescue_from ActiveRecord::ActiveRecordError, with: :handle_active_record_error
@@ -86,5 +87,20 @@ class Api::V1::BaseController < ApplicationController
     response.headers.merge!(new_auth_header)
 
     render json: { success: true }
+  end
+
+  def set_time_zone(&block)
+    # Check if there is a time zone in the params
+    time_zone = params[:brand].try(:[], :tz).to_s
+    # Check if the brand of the user has set a time zone
+    time_zone = valid_time_zone?(time_zone) ? time_zone : current_user.brand.try(:tz).to_s
+    # Default to the current time zone if none are valid
+    time_zone = valid_time_zone?(time_zone) ? time_zone : Time.zone.name
+    Time.use_zone(time_zone, &block)
+  end
+
+  # @return [Boolean]
+  def valid_time_zone?(time_zone)
+    !ActiveSupport::TimeZone.new(time_zone).nil?
   end
 end

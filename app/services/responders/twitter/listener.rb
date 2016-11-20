@@ -4,6 +4,15 @@ module Responders
       class << self
         def process_messages(brand_id)
           brand  = Brand.find_with_trackers(brand_id)
+
+          Time.use_zone(brand.tz) do
+            process_messages_in_time_zone(brand)
+          end
+        end
+
+        private
+
+        def process_messages_in_time_zone(brand)
           client = brand.twitter_rest_client
 
           tweet_tracker = brand.tweet_tracker
@@ -24,8 +33,6 @@ module Responders
 
           reply_to_messages(filter.grouped_replies, brand)
         end
-
-        private
 
         # @param grouped_replies [Hash]
         # @param brand             [Brand]

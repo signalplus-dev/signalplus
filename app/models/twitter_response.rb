@@ -22,6 +22,7 @@ class TwitterResponse < ActiveRecord::Base
   belongs_to :brand
 
   after_commit :increment_response_count!, if: :should_increment_response_count?
+  after_commit :check_response_count, if: -> { !!brand && brand_in_trial? }
 
   module ResponseType
     TWEET          = 'Tweet'
@@ -59,7 +60,15 @@ class TwitterResponse < ActiveRecord::Base
     response.paid?
   end
 
+  def check_response_count
+    CheckBrandResponseCountWorker.perform_async(id)
+  end
+
   def increment_response_count!
     brand.broadcast_monthly_response_count!
+  end
+
+  def brand_in_trial?
+    brand.in_trial?
   end
 end

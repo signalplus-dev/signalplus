@@ -23,7 +23,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 
   def update
     subscription_plan = SubscriptionPlan.find(params[:subscription_plan_id])
-    @subscription.update!(subscription_plan)
+    @subscription.update_plan!(subscription_plan)
 
     render json: @subscription, serializer: SubscriptionSerializer
   end

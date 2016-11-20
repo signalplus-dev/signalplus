@@ -8,7 +8,7 @@
 #  updated_at          :datetime         not null
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
-#  tz                  :string
+#  tz                  :string           default("America/New_York"), not null
 #
 
 require 'rails_helper'
@@ -17,11 +17,6 @@ describe Brand do
   let(:user)     { create(:user) }
   let(:identity) { create(:identity) }
   let(:brand)    { build(:brand) }
-
-  describe '.get_token_info' do
-    it 'associates brand' do
-    end
-  end
 
   context 'callbacks' do
     describe '#create_trackers' do
@@ -65,6 +60,27 @@ describe Brand do
         listen_signal.destroy
         expect(brand.monthly_twitter_responses.count).to eq(1)
       end
+    end
+  end
+
+  describe '#tz' do
+    it 'only accepts valid time zones' do
+      brand.tz = 'ljdlja'
+      expect(brand).to be_invalid
+      brand.tz = nil
+      expect(brand).to be_invalid
+      brand.tz = 3
+      expect(brand).to be_invalid
+      brand.tz = brand
+      expect(brand).to be_invalid
+      brand.tz = 'America/Chicago'
+      expect(brand).to be_valid
+    end
+
+    it 'adds an error message' do
+      brand.tz = 'ljdlja'
+      brand.valid?
+      expect(brand.errors.full_messages).to include('Tz is not valid')
     end
   end
 end
