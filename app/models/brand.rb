@@ -12,10 +12,12 @@
 #
 
 class Brand < ActiveRecord::Base
+  acts_as_paranoid
+
   has_many :users
   has_many :identities
   has_many :admin_users, through: :identities, source: :user
-  has_many :listen_signals
+  has_many :listen_signals, dependent: :destroy
   has_many :response_groups, through: :listen_signals
   has_many :twitter_responses
   has_many :monthly_twitter_responses, -> { paid.for_this_month }, class_name: 'TwitterResponse'
