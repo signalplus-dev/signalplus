@@ -6,16 +6,21 @@ class Api::V1::BrandsController < Api::V1::BaseController
     render json: @brand, serializer: BrandSerializer
   end
 
-  def update_account_info
-    user = @brand.twitter_admin
-    user.update!(account_info_params)
+  # def update_account_info
+  #   user = @brand.twitter_admin
+  #   @brand.update!(brand_update_params)
+  #   user.update!(user_update_params)
 
-    render json: @brand, serializer: BrandSerializer
-  end
+  #   render json: @brand, serializer: BrandSerializer
+  # end
 
-  private
+  # private
 
-  def account_info_params
-    params.permit(:email, :email_subscription, :tz)
-  end
+  # def user_update_params
+  #   params.permit(:email, :email_subscription)
+  # end
+
+  # def brand_update_params
+  #   params.permit(:tz)
+  # end
 end

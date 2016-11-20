@@ -10,6 +10,8 @@ const endpoints = {
   BRAND:                    '/api/v1/brands/me',
   BRAND_ACCOUNT_INFO:       '/api/v1/brands/account_info',
   BRAND_ACCOUNT_PLANS:      '/api/v1/brands/account_plans',
+  USER:                     '/api/v1/users/me',
+  USER_UPDATE:              '/api/v1/users/:id',
   LISTEN_SIGNALS_INDEX:     '/api/v1/listen_signals',
   LISTEN_SIGNAL_TEMPLATES:  '/api/v1/listen_signals/templates',
   LISTEN_SIGNAL:            '/api/v1/listen_signals/:id',
@@ -25,6 +27,8 @@ export function listenSignalEndpoint(listenSignalId) {
  return endpoints.LISTEN_SIGNAL.replace(/:id/g, listenSignalId);
 }
 
-
+export function userUpdateEndpoint(userId) {
+ return endpoints.USER_UPDATE.replace(/:id/g, userId);
+}
 
 export default endpoints;

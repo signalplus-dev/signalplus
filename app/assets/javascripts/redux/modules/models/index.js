@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as brand } from 'redux/modules/models/brand.js';
+import { reducer as user } from 'redux/modules/models/user.js';
 import { reducer as subscription } from 'redux/modules/models/subscription.js';
 import { reducer as subscriptionPlans } from 'redux/modules/models/subscriptionPlans.js';
 import { reducer as listenSignals } from 'redux/modules/models/listenSignals.js';
@@ -8,9 +9,9 @@ import { reducer as responses } from 'redux/modules/models/responses.js';
 import { reducer as promotionalTweets } from 'redux/modules/models/promotionalTweets.js';
 import { reducer as invoices } from 'redux/modules/models/invoices.js';
 
-
 export default combineReducers({
   brand,
+  user,
   subscription,
   subscriptionPlans,
   listenSignals,

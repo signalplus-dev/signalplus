@@ -1,6 +1,17 @@
 import _ from 'lodash';
 import { normalize, Schema, arrayOf } from 'normalizr';
 
+// API Response normalizers
+const normalizeResourceResponse = normalizeFn => (action, state, res) => {
+  const contentType = res.headers.get('Content-Type');
+  // Make sure res.json() does not raise an error
+  if (contentType && contentType.indexOf('json') !== -1) {
+    return res.json().then(normalizeFn);
+  }
+
+  return Promise.reject('Not a JSON request');
+};
+
 /**
   * Extracts brand info from the brand payload response without the subscription info
   *
@@ -73,3 +84,17 @@ const invoices = new Schema('invoices');
 export function normalizeInvoicesResponse(invoicesPayload) {
   return normalize(invoicesPayload, { invoices: arrayOf(invoices) });
 }
+
+// Normalize the user response
+const user = new Schema('user');
+const brand = new Schema('brand');
+
+user.define({
+  brand: brand,
+});
+
+function normalizeUser(userPayload) {
+  return normalize(userPayload, { user });
+}
+
+export const normalizeUserResponse = normalizeResourceResponse(json => normalizeUser(json));

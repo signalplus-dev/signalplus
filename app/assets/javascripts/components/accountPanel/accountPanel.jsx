@@ -56,4 +56,3 @@ class AccountPanel extends Component {
 export default connect((state) => ({
   tabs: state.app.dashboard.tabs,
 }))(AccountPanel);
-

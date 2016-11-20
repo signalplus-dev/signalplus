@@ -36,7 +36,11 @@ Rails.application.routes.draw do
       resources :listen_signals, only: [:index, :show, :create, :update, :destroy] do
         get :templates, on: :collection
       end
-      resources :brands do
+      resources :users, only: [] do
+        get '/me' => 'users#show', on: :collection
+        post :update, on: :member
+      end
+      resources :brands, only: [] do
         get '/me' => 'brands#show', on: :collection
         get '/account_plans' => 'brands#account_plans', on: :collection
         post '/account_info' => 'brands#update_account_info', on: :collection
@@ -46,7 +50,7 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     namespace :stripe, defaults: { format: 'json' } do
-      resources :invoices, only: :create do 
+      resources :invoices, only: :create do
         post '/charge' => 'invoices#charge_event', on: :collection
       end
     end

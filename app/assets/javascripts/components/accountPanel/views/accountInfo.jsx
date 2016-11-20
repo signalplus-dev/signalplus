@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
+import { provideHooks } from 'redial';
 import _ from 'lodash';
 
 // Components
 import InputBox from 'components/forms/inputBox.jsx';
 import Checkbox from 'components/forms/checkbox.jsx';
 import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
-import { updateBrandAccountInfo } from 'redux/modules/models/brand.js';
+import { updateUserInfo } from 'redux/modules/models/user.js';
+import { getUserData } from 'redux/modules/models/user.js'
+
+const hooks = {
+  fetch: ({ dispatch }) => (dispatch(getUserData())),
+};
 
 
 class UndecoratedAccountInfo extends Component {
@@ -16,8 +22,10 @@ class UndecoratedAccountInfo extends Component {
     this.updateDetails = this.updateDetails.bind(this);
   }
 
-  updateDetails({ ...form }){
-    this.props.dispatch(updateBrandAccountInfo(form));
+  updateDetails(form) {
+    const { tz, ...user } = form;
+    const { dispatch } = this.props;
+    dispatch(updateUserInfo({ user, brand: { tz } }));
   }
 
   render() {
@@ -30,7 +38,7 @@ class UndecoratedAccountInfo extends Component {
             <p className='account-input-label'>Email Address</p>
             <p className='email-sublabel'>We’ll notify you of changes to your account</p>
             <InputBox
-              name="twitter_admin_email"
+              name="email"
               placeholder="ie. john@signalplus.com"
               className='account-input-box'
               componentClass="input"
@@ -66,14 +74,15 @@ const AccountInfo = reduxForm({
   enableReinitialize: true,
 })(UndecoratedAccountInfo)
 
-export default connect((state) => {
+const ConnectedAccountInfo = connect((state) => {
   return {
     initialValues: {
-      twitter_admin_email: state.models.brand.data.twitter_admin_email,
-      email_subscription: state.models.brand.data.email_subscription,
-      tz: state.models.brand.data.tz,
+      email: _.get(state, 'models.user.data.email'),
+      email_subscription: _.get(state, 'models.user.data.email_subscription'),
+      tz: _.get(state, 'models.brand.data.tz'),
     },
   };
 })(AccountInfo);
 
+export default provideHooks(hooks)(ConnectedAccountInfo);
 
