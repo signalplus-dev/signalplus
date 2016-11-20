@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.stripe.com/v1/subscriptions/sub_8q6Cc93nR3NR59
+    uri: https://api.stripe.com/v1/subscriptions/sub_9bDUVgFmseqnEa
     body:
       encoding: US-ASCII
       string: ''
@@ -12,15 +12,15 @@ http_interactions:
       Accept-Encoding:
       - gzip, deflate
       User-Agent:
-      - Stripe/v1 RubyBindings/1.48.0
+      - Stripe/v1 RubyBindings/1.55.0
       Authorization:
       - Bearer sk_test_1edJffGpWL6BsWNjzicAe9R2
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.48.0","lang":"ruby","lang_version":"2.2.3 p173 (2015-08-18)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
-        Ricardos-MacBook-Pro.local 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13
-        19:56:56 PST 2015; root:xnu-3248.20.55~2/RELEASE_X86_64 x86_64","hostname":"Ricardos-MacBook-Pro.local"}'
+      - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
+        2015; root:xnu-3248.20.55~2/RELEASE_X86_64 x86_64","hostname":"Ricardos-MBP"}'
       Host:
       - api.stripe.com
   response:
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 24 Jul 2016 19:35:36 GMT
+      - Sun, 20 Nov 2016 19:32:54 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '801'
+      - '815'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_8sdf1TyzVlhoyM
+      - req_9bDUIxY3LSbf4e
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -58,15 +58,15 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "sub_8q6Cc93nR3NR59",
+          "id": "sub_9bDUVgFmseqnEa",
           "object": "subscription",
           "application_fee_percent": null,
           "cancel_at_period_end": false,
           "canceled_at": null,
-          "created": 1468803199,
-          "current_period_end": 1471481599,
-          "current_period_start": 1468803199,
-          "customer": "cus_8q6CEjen9UhRNn",
+          "created": 1479670371,
+          "current_period_end": 1480879969,
+          "current_period_start": 1479670371,
+          "customer": "cus_9bDUwKvYRunQhf",
           "discount": null,
           "ended_at": null,
           "livemode": false,
@@ -86,12 +86,12 @@ http_interactions:
             "trial_period_days": null
           },
           "quantity": 1,
-          "start": 1468803199,
-          "status": "active",
+          "start": 1479670371,
+          "status": "trialing",
           "tax_percent": null,
-          "trial_end": null,
-          "trial_start": null
+          "trial_end": 1480879969,
+          "trial_start": 1479670371
         }
     http_version: 
-  recorded_at: Sun, 24 Jul 2016 19:35:36 GMT
+  recorded_at: Sun, 20 Nov 2016 19:32:54 GMT
 recorded_with: VCR 3.0.3

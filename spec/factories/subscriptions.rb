@@ -10,6 +10,7 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  canceled_at          :datetime
+#  trial_end            :datetime         not null
 #
 
 FactoryGirl.define do
