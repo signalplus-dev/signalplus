@@ -8,8 +8,6 @@ const endpoints = {
   SUBSCRIPTIONS:            '/api/v1/subscriptions',
   SUBSCRIPTION_PLANS:       '/api/v1/subscription_plans',
   BRAND:                    '/api/v1/brands/me',
-  BRAND_ACCOUNT_INFO:       '/api/v1/brands/account_info',
-  BRAND_ACCOUNT_PLANS:      '/api/v1/brands/account_plans',
   USER:                     '/api/v1/users/me',
   USER_UPDATE:              '/api/v1/users/:id',
   LISTEN_SIGNALS_INDEX:     '/api/v1/listen_signals',

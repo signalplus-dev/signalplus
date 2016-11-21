@@ -12,10 +12,6 @@ export const BRAND_REQUEST = 'signalplus/brand/REQUEST';
 export const BRAND_REQUEST_SUCCESS = 'signalplus/brand/REQUEST_SUCCESS';
 export const BRAND_REQUEST_FAIL = 'signalplus/brand/REQUEST_FAIL';
 
-export const BRAND_INFO_POST_REQUEST = 'signalplus/brand/account_info/REQUEST';
-export const BRAND_INFO_POST_REQUEST_SUCCESS = 'signalplus/brand/account_info/REQUEST_SUCESS';
-export const BRAND_INFO_POST_REQUEST_FAIL = 'signalplus/brand/account_info/REQUEST_FAIL';
-
 function extractBrandInfoFromUserResponse(payload) {
   const brandData = _.get(payload, 'entities.brand');
   return _.omit(_.first(_.values(brandData)), 'subscription');
@@ -51,20 +47,6 @@ export const reducer = handleActions({
     loaded: false,
   }),
 
-  [BRAND_INFO_POST_REQUEST]: (state,action) => ({
-    ...state,
-  }),
-
-  [BRAND_INFO_POST_REQUEST_SUCCESS]: (state, action) => ({
-    ...state,
-    ...normalizeBrand(action.payload),
-  }),
-
-  [BRAND_INFO_POST_REQUEST_FAIL]: (state, action) => ({
-    ...state,
-    error: action.payload,
-  }),
-
   [USER_UPDATE_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
     data: {
@@ -91,17 +73,4 @@ export function getBrandData() {
     'brand',
     fetchBrandData
   );
-}
-
-export const updateBrandAccountInfo = (payload) => {
-  return createRequestAction({
-    endpoint: Endpoints.BRAND_ACCOUNT_INFO,
-    method: 'POST',
-    body: JSON.stringify(payload),
-    types: [
-      BRAND_INFO_POST_REQUEST,
-      BRAND_INFO_POST_REQUEST_SUCCESS,
-      BRAND_INFO_POST_REQUEST_FAIL,
-    ],
-  });
 }
