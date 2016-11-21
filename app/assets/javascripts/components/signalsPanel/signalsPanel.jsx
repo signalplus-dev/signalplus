@@ -7,10 +7,15 @@ import CreateNewWidget from 'components/signalsPanel/createNewWidget.jsx';
 
 class SignalsPanel extends Component {
   renderPanelTitle() {
-    const signalCount = _.keys(this.props.signals).length;
+    const signalCounts = _.countBy(this.props.signals, (signal) => (signal.active));
+    const activeCount = signalCounts.true || 0;
+    const inactiveCount = signalCounts.false || 0;
 
-    if (signalCount) {
-      return `Signals - ${signalCount} Active`;
+    if (activeCount > 0 || inactiveCount > 0) {
+      const signalCounts = [];
+      if (activeCount > 0) signalCounts.push(`${activeCount} Active`);
+      if (inactiveCount > 0) signalCounts.push(`${inactiveCount} Inactive`);
+      return 'Signals - '.concat(signalCounts.join(', '));
     } else {
       return 'All Signals';
     }
