@@ -9,13 +9,11 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
 
-  root 'users#index'
+  # if routing the root path, update for your controller
+  root to: 'pages#show', id: 'home'
+
   get 'users/index'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
-
-  get 'about'   => 'dashboard#about'
-  get 'guide'   => 'dashboard#guide'
-  get 'support' => 'dashboard#support'
 
   resources :dashboard, only: [:index]
 
@@ -60,4 +58,7 @@ Rails.application.routes.draw do
 
   # Catch all for any routes nested with `/dashboard`. Any non-existant routes will be handled by the React app.
   get 'dashboard/*other' => 'dashboard#index'
+
+  # Catch all for High Voltage static page thingy
+  get "/*id" => 'pages#show', as: :page, format: false
 end

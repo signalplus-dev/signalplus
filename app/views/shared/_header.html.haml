@@ -11,5 +11,7 @@
     / Collection of nav links and other content for toggling
     #navbarCollapse.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
-        %li= link_to 'SUPPORT', support_path
-        %li= link_to current_user ? 'DASHBOARD' : 'LOG IN', root_path, class: 'header-cta'
+        %li= link_to 'SUPPORT', page_path(id: 'support')
+        - path = current_user ? dashboard_index_path : new_user_session_path
+        - link_text = current_user ? 'DASHBOARD' : 'LOG IN'
+        %li= link_to link_text, path, class: 'header-cta'

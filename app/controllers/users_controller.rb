@@ -3,10 +3,6 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!
 
-  def index
-    redirect_to dashboard_index_path if current_user
-  end
-
   # GET /users/:id/edit
   def edit
     # authorize! :update, @user

@@ -52,6 +52,7 @@ gem 'websocket-rails', git: 'https://github.com/ricardo-quinones/websocket-rails
 gem 'rmagick'
 gem 'thin'
 gem 'gibbon'
+gem 'high_voltage', '~> 3.0.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

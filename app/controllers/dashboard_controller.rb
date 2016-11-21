@@ -6,15 +6,7 @@ class DashboardController < ApplicationController
   def index
   end
 
-  def support
-  end
-
   def contact
-  end
-
-  def about
-    # Need to provide subsription plan details
-    @plan_types = [1,2,3,4]
   end
 
   private
@@ -34,7 +26,7 @@ class DashboardController < ApplicationController
 
   def check_current_user
     if !current_user
-      redirect_to root_path
+      redirect_to new_user_session_path
       return
     end
 

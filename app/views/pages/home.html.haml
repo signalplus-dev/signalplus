@@ -89,10 +89,4 @@
             We’re always adding new features and more platforms for the future.
       .col-xs-2
 
-    .row
-      .col-xs-1
-      .col-xs-10
-        .plan-types
-          -@plan_types.each do |plan|
-            = render :partial => 'plan_box', :locals => { plan: plan }
-      .col-xs-1
+= react_component 'SubscriptionPlans', @subscription_plans_props

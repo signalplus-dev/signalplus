@@ -118,7 +118,7 @@ class SelectButton extends Component {
   }
 }
 
-class SubscriptionPlans extends Component {
+export class SubscriptionPlans extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -146,17 +146,27 @@ class SubscriptionPlans extends Component {
     }
   }
 
-  hasExistingSubscription() {
-    return !!_.get(this.props.subscription, 'subscription_plan_id');
+  renderSelectButton(subscriptionPlan) {
+    const { inDashboard, hasExistingSubscription } = this.props;
+
+    if (inDashboard) {
+      return (
+        <SelectButton
+          selected={subscriptionPlan.selected}
+          subscriptionPlanId={subscriptionPlan.id}
+          clickHandler={this.handleClick}
+          hasExistingSubscription={hasExistingSubscription}
+        />
+      );
+    }
+
+    return undefined;
   }
 
   renderSubscriptionPlans() {
-    const { subscriptionPlans, subscription } = this.props;
+    const { subscriptionPlans } = this.props;
 
-    return _.map(subscriptionPlans, subscriptionPlan => {
-      const subscriptionPlanId = _.get(subscription, 'subscription_plan_id');
-      const selected = subscriptionPlanId === subscriptionPlan.id;
-
+    return _.map(subscriptionPlans, (subscriptionPlan) => {
       return (
         <div className="plan-box" key={`subscriptionPlan_id_${subscriptionPlan.id}`}>
           <div className="box-header">{subscriptionPlan.name}</div>
@@ -171,13 +181,7 @@ class SubscriptionPlans extends Component {
                 {renderDetailText(subscriptionPlan)}
               </div>
             </div>
-
-            <SelectButton
-              selected={selected}
-              subscriptionPlanId={subscriptionPlan.id}
-              clickHandler={this.handleClick}
-              hasExistingSubscription={this.hasExistingSubscription()}
-            />
+            {this.renderSelectButton(subscriptionPlan)}
           </div>
         </div>
       );
@@ -201,9 +205,21 @@ class SubscriptionPlans extends Component {
   }
 }
 
-const ConnectedSubscriptionPlans = connect(state => ({
-  subscription: state.models.subscription.data,
-  subscriptionPlans: state.models.subscriptionPlans.data,
-}))(SubscriptionPlans);
+const ConnectedSubscriptionPlans = connect(state => {
+  const subscriptionPlanId = state.models.subscription.data.subscription_plan_id;
+  const subscriptionPlans = state.models.subscriptionPlans.data;
+
+  return {
+    inDashboard: true,
+    hasExistingSubscription: !!subscriptionPlanId,
+    subscriptionPlans: _.reduce(subscriptionPlans, (memo, subscriptionPlan) => ([
+      ...memo,
+      {
+        ...subscriptionPlan,
+        selected: subscriptionPlan.id === subscriptionPlanId,
+      },
+    ]), []),
+  };
+})(SubscriptionPlans);
 
 export default provideHooks(hooks)(ConnectedSubscriptionPlans)
