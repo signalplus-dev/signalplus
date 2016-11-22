@@ -12,12 +12,14 @@
 #
 
 class Brand < ActiveRecord::Base
+  acts_as_paranoid
+
   VALID_TIMEZONES = ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.name }
 
-  has_many :users
+  has_many :users, dependent: :destroy
   has_many :identities
   has_many :admin_users, through: :identities, source: :user
-  has_many :listen_signals
+  has_many :listen_signals, dependent: :destroy
   has_many :response_groups, through: :listen_signals
   has_many :twitter_responses
   has_many :monthly_twitter_responses, -> { paid.for_this_month }, class_name: 'TwitterResponse'
@@ -180,6 +182,20 @@ class Brand < ActiveRecord::Base
   # @return [Boolean]
   def in_trial?
     !!subscription.try(:trial?)
+  end
+
+  def delete_account
+    ActiveRecord::Base.transaction do
+      unsubscribe_users_from_newsletter
+      subscription.cancel_plan!
+      destroy!
+    end
+  end
+
+  def unsubscribe_users_from_newsletter
+    users.each do |user|
+      user.update!(email_subscription: false) if user.email_subscription
+    end
   end
 
   private

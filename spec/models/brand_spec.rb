@@ -83,4 +83,52 @@ describe Brand do
       expect(brand.errors.full_messages).to include('Tz is not valid')
     end
   end
+
+  context 'soft deleting brand' do
+    let(:brand)           { create(:brand) }
+    let!(:subscription)   { create(:subscription) }
+    let!(:response_group) { create(:default_group_responses) }
+    let!(:listen_signal) { create(:listen_signal, :offer, response_group: response_group) }
+    let!(:non_admin_user) { create(:user, email: 'nonadmin@signal.com', brand: brand) }
+
+    context 'associated objects' do
+      it 'soft deletes brand' do
+        brand.destroy!
+        expect(brand.deleted_at).not_to be_nil
+      end
+
+      it 'soft deletes brand listen signals' do
+        brand.destroy!
+        expect(listen_signal.reload.deleted_at).not_to be_nil
+      end
+
+      it 'soft deletes brand response group' do
+        brand.destroy!
+        expect(response_group.reload.deleted_at).not_to be_nil
+      end
+
+      it 'soft deletes brand subscription' do
+        brand.destroy!
+        expect(subscription.reload.deleted_at).not_to be_nil
+      end
+
+      it 'soft deletes brand users' do
+        brand.destroy!
+        # expect(brand.users.reload.deleted_at).not_to be_nil
+        expect(non_admin_user.reload.deleted_at).not_to be_nil
+      end
+    end
+
+    describe '#unsubscribe_users_from_newsletter' do
+      let(:brand)              { create(:brand) }
+      let!(:subscribed_user)   { create(:user, :subscribed, brand: brand) }
+      let!(:unsubscribed_user) { create(:user, :unsubscribed, brand: brand, email: 'xxx@gmail.com') }
+
+      it 'unsubscribes subscribed users' do
+        brand.unsubscribe_users_from_newsletter
+        expect(subscribed_user.reload.email_subscription).to be_falsey
+        expect(subscribed_user.reload.email_subscription).to be_falsey
+      end
+    end
+  end
 end
