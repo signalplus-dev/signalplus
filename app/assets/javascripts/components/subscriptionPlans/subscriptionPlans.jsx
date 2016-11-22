@@ -129,9 +129,9 @@ export class SubscriptionPlans extends Component {
 
   handleClick(formData) {
     this.setState({ submitting: true });
-    const { dispatch } = this.props;
+    const { dispatch, hasExistingSubscription } = this.props;
     let promise;
-    if (this.hasExistingSubscription()) {
+    if (hasExistingSubscription) {
       dispatch(updateSubscription({
         ...formData,
         id: this.props.subscription.id,
