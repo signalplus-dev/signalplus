@@ -94,8 +94,7 @@ describe Brand do
 
       it 'soft deletes listen signals' do
         expect {
-          binding.pry
-          brand.destroy!
+          brand.destroy
         }.to change {
           ListenSignal.deleted.count
         }.from(0).to(1)
@@ -103,7 +102,7 @@ describe Brand do
 
       it 'soft deletes response groups' do
         expect {
-          brand.destroy!
+          brand.destroy
         }.to change {
           ResponseGroup.deleted.count
         }.from(0).to(1)
@@ -111,7 +110,7 @@ describe Brand do
 
       it 'soft deletes subscription' do
         expect {
-          brand.destroy!
+          brand.destroy
         }.to change {
           Subscription.deleted.count
         }.from(0).to(1)
@@ -119,15 +118,25 @@ describe Brand do
 
       it 'soft deletes users' do
         expect {
-          brand.destroy!
+          brand.destroy
         }.to change {
           User.deleted.count
         }.from(0).to(2)
       end
 
+      context 'without subscription' do
+        it 'does not raise error' do
+          expect {
+            brand.subscription = nil
+            brand.save!
+            brand.destroy
+          }.to_not raise_error
+        end
+      end
+
       describe '#restore_brand' do
         it 'restores brand with associated objects' do
-          brand.destroy!
+          brand.destroy
           brand.restore_brand
           expect(brand.subscription).to_not be_nil
           expect(brand.listen_signals).to_not be_empty
@@ -147,8 +156,6 @@ describe Brand do
       end
     end
   end
-
-
 
   describe '#unsubscribe_users_from_newsletter' do
     let!(:subscribed_user)   { create(:user, :subscribed, brand: brand) }

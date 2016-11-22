@@ -48,4 +48,19 @@ describe Api::V1::BrandsController, type: :controller do
       end
     end
   end
+
+  describe 'POST destroy' do
+    it 'signs out current user' do
+      # expect {
+      #   post :destroy, params: { id: brand.id }
+      # }.to change {
+      #   subject.current_user
+      # }.from(brand.users.first).to(nil)
+    end
+
+    it 'redirects to homepage' do
+      post :destroy, params: { id: brand.id }
+      expect(response).to redirect_to(root_url)
+    end
+  end
 end

@@ -38,7 +38,7 @@ Rails.application.routes.draw do
         get '/me' => 'users#show', on: :collection
         post :update, on: :member
       end
-      resources :brands, only: [] do
+      resources :brands, only: [:destroy] do
         get '/me' => 'brands#show', on: :collection
         get '/account_plans' => 'brands#account_plans', on: :collection
         post '/account_info' => 'brands#update_account_info', on: :collection

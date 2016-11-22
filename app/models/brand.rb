@@ -187,8 +187,8 @@ class Brand < ActiveRecord::Base
   def delete_account
     ActiveRecord::Base.transaction do
       unsubscribe_users_from_newsletter
-      subscription.cancel_plan!
-      destroy!
+      subscription.cancel_plan! if subscription.present?
+      destroy
     end
   end
 
