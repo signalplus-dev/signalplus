@@ -85,9 +85,7 @@ describe Brand do
   end
 
   context '#destroy!' do
-
     context 'with associated objects' do
-      let(:brand)           { create(:brand) }
       let!(:user1)          { create(:user, email: 'random@email.com', brand: brand) }
       let!(:user2)          { create(:user, email: 'random2@email.com', brand: brand) }
       let!(:subscription)   { create(:subscription, brand: brand) }
@@ -126,17 +124,27 @@ describe Brand do
         }.from(0).to(2)
       end
     end
+  end
 
-    describe '#unsubscribe_users_from_newsletter' do
-      let(:brand)              { create(:brand) }
-      let!(:subscribed_user)   { create(:user, :subscribed, brand: brand) }
-      let!(:unsubscribed_user) { create(:user, :unsubscribed, brand: brand, email: 'xxx@gmail.com') }
+  describe '#delete_account' do
+    let(:subscription)   { create(:subscription, brand: brand) }
 
-      it 'unsubscribes subscribed users' do
-        brand.unsubscribe_users_from_newsletter
-        expect(subscribed_user.reload.email_subscription).to be_falsey
-        expect(subscribed_user.reload.email_subscription).to be_falsey
-      end
+    it 'soft deletes brand' do
+      expect(brand).to receive(:unsubscribe_users_from_newsletter)
+      expect(brand.subscription).to receive(:cancel_plan!)
+      brand.delete_account
+      expect(brand.deleted_at).to_not be_nil
+    end
+  end
+
+  describe '#unsubscribe_users_from_newsletter' do
+    let!(:subscribed_user)   { create(:user, :subscribed, brand: brand) }
+    let!(:unsubscribed_user) { create(:user, :unsubscribed, brand: brand, email: 'xxx@gmail.com') }
+
+    it 'unsubscribes subscribed users' do
+      brand.unsubscribe_users_from_newsletter
+      expect(subscribed_user.reload.email_subscription).to be_falsey
+      expect(subscribed_user.reload.email_subscription).to be_falsey
     end
   end
 end
