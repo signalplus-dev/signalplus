@@ -30,7 +30,7 @@ class Brand < ActiveRecord::Base
   has_one :tweet_tracker,      class_name: 'TwitterTracker'
   has_one :twitter_dm_tracker, class_name: 'TwitterDirectMessageTracker'
   has_one :payment_handler
-  has_one :subscription
+  has_one :subscription, dependent: :destroy
 
   after_create :create_trackers
 

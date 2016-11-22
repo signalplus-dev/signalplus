@@ -201,6 +201,7 @@ ActiveRecord::Schema.define(version: 20161120235204) do
     t.datetime "confirmation_sent_at"
     t.json     "tokens"
     t.boolean  "email_subscription",     default: false
+    t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_users_on_brand_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

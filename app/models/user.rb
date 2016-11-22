@@ -29,6 +29,7 @@
 class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
+  acts_as_paranoid
   has_paper_trail only: [:email], on: [:update]
 
   after_save :handle_subscription, if: :email_verified?

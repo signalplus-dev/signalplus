@@ -84,38 +84,46 @@ describe Brand do
     end
   end
 
-  context 'soft deleting brand' do
-    let(:brand)           { create(:brand) }
-    let!(:subscription)   { create(:subscription) }
-    let!(:response_group) { create(:default_group_responses) }
-    let!(:listen_signal) { create(:listen_signal, :offer, response_group: response_group) }
-    let!(:non_admin_user) { create(:user, email: 'nonadmin@signal.com', brand: brand) }
+  context '#destroy!' do
 
-    context 'associated objects' do
-      it 'soft deletes brand' do
-        brand.destroy!
-        expect(brand.deleted_at).not_to be_nil
+    context 'with associated objects' do
+      let(:brand)           { create(:brand) }
+      let!(:user1)          { create(:user, email: 'random@email.com', brand: brand) }
+      let!(:user2)          { create(:user, email: 'random2@email.com', brand: brand) }
+      let!(:subscription)   { create(:subscription, brand: brand) }
+      let!(:listen_signal)  { create(:listen_signal, :offer, brand: brand) }
+      let!(:response_group) { create(:default_group_responses, listen_signal: listen_signal) }
+
+      it 'soft deletes listen signals' do
+        expect {
+          brand.destroy!
+        }.to change {
+          ListenSignal.deleted.count
+        }.from(0).to(1)
       end
 
-      it 'soft deletes brand listen signals' do
-        brand.destroy!
-        expect(listen_signal.reload.deleted_at).not_to be_nil
+      it 'soft deletes response groups' do
+        expect {
+          brand.destroy!
+        }.to change {
+          ResponseGroup.deleted.count
+        }.from(0).to(1)
       end
 
-      it 'soft deletes brand response group' do
-        brand.destroy!
-        expect(response_group.reload.deleted_at).not_to be_nil
+      it 'soft deletes subscription' do
+        expect {
+          brand.destroy!
+        }.to change {
+          Subscription.deleted.count
+        }.from(0).to(1)
       end
 
-      it 'soft deletes brand subscription' do
-        brand.destroy!
-        expect(subscription.reload.deleted_at).not_to be_nil
-      end
-
-      it 'soft deletes brand users' do
-        brand.destroy!
-        # expect(brand.users.reload.deleted_at).not_to be_nil
-        expect(non_admin_user.reload.deleted_at).not_to be_nil
+      it 'soft deletes users' do
+        expect {
+          brand.destroy!
+        }.to change {
+          User.deleted.count
+        }.from(0).to(2)
       end
     end
 
