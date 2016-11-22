@@ -84,8 +84,8 @@ describe Brand do
     end
   end
 
-  context '#destroy!' do
-    context 'with associated objects' do
+  context 'with associated objects' do
+    context 'soft delete' do
       let!(:user1)          { create(:user, email: 'random@email.com', brand: brand) }
       let!(:user2)          { create(:user, email: 'random2@email.com', brand: brand) }
       let!(:subscription)   { create(:subscription, brand: brand) }
@@ -94,6 +94,7 @@ describe Brand do
 
       it 'soft deletes listen signals' do
         expect {
+          binding.pry
           brand.destroy!
         }.to change {
           ListenSignal.deleted.count
@@ -123,19 +124,31 @@ describe Brand do
           User.deleted.count
         }.from(0).to(2)
       end
+
+      describe '#restore_brand' do
+        it 'restores brand with associated objects' do
+          brand.destroy!
+          brand.restore_brand
+          expect(brand.subscription).to_not be_nil
+          expect(brand.listen_signals).to_not be_empty
+          expect(brand.users).to_not be_empty
+          expect(brand.response_groups).to_not be_empty
+          expect(brand.deleted_at).to be_nil
+        end
+      end
+
+      describe '#delete_account' do
+        it 'soft deletes brand' do
+          expect(brand).to receive(:unsubscribe_users_from_newsletter)
+          expect(brand.subscription).to receive(:cancel_plan!)
+          brand.delete_account
+          expect(brand.deleted_at).to_not be_nil
+        end
+      end
     end
   end
 
-  describe '#delete_account' do
-    let(:subscription)   { create(:subscription, brand: brand) }
 
-    it 'soft deletes brand' do
-      expect(brand).to receive(:unsubscribe_users_from_newsletter)
-      expect(brand.subscription).to receive(:cancel_plan!)
-      brand.delete_account
-      expect(brand.deleted_at).to_not be_nil
-    end
-  end
 
   describe '#unsubscribe_users_from_newsletter' do
     let!(:subscribed_user)   { create(:user, :subscribed, brand: brand) }

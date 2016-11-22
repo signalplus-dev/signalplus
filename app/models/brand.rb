@@ -198,6 +198,10 @@ class Brand < ActiveRecord::Base
     end
   end
 
+  def restore_brand
+    restore(recursive: true)
+  end
+
   private
 
   def create_trackers
