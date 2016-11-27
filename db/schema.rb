@@ -205,8 +205,8 @@ ActiveRecord::Schema.define(version: 20161120235204) do
     t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_users_on_brand_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["provider", "uid", "deleted_at"], name: "index_users_on_provider_and_uid_and_deleted_at", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
   create_table "versions", force: :cascade do |t|
