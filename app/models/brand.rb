@@ -17,7 +17,7 @@ class Brand < ActiveRecord::Base
   VALID_TIMEZONES = ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.name }
 
   has_many :users, dependent: :destroy
-  has_many :identities
+  has_many :identities, dependent: :destroy
   has_many :admin_users, through: :identities, source: :user
   has_many :listen_signals, dependent: :destroy
   has_many :response_groups, through: :listen_signals
@@ -196,10 +196,6 @@ class Brand < ActiveRecord::Base
     users.each do |user|
       user.update!(email_subscription: false) if user.email_subscription
     end
-  end
-
-  def restore_brand
-    restore(recursive: true)
   end
 
   private

@@ -38,8 +38,9 @@ ActiveRecord::Schema.define(version: 20161120235204) do
     t.string   "encrypted_secret"
     t.string   "user_name"
     t.string   "profile_image_url"
+    t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_identities_on_brand_id", using: :btree
-    t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true, using: :btree
+    t.index ["provider", "uid", "deleted_at"], name: "index_identities_on_provider_and_uid_and_deleted_at", using: :btree
     t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
   end
 

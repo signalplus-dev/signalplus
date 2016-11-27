@@ -91,6 +91,7 @@ describe Brand do
       let!(:subscription)   { create(:subscription, brand: brand) }
       let!(:listen_signal)  { create(:listen_signal, :offer, brand: brand) }
       let!(:response_group) { create(:default_group_responses, listen_signal: listen_signal) }
+      let!(:identity)       { create(:identity, uid: 'wtf', user: user1, brand: brand)}
 
       it 'soft deletes listen signals' do
         expect {
@@ -124,6 +125,14 @@ describe Brand do
         }.from(0).to(2)
       end
 
+      it 'soft deletes identities' do
+        expect {
+          brand.destroy
+        }.to change {
+          Identity.deleted.count
+        }.from(0).to(1)
+      end
+
       context 'without subscription' do
         it 'does not raise error' do
           expect {
@@ -131,18 +140,6 @@ describe Brand do
             brand.save!
             brand.destroy
           }.to_not raise_error
-        end
-      end
-
-      describe '#restore_brand' do
-        it 'restores brand with associated objects' do
-          brand.destroy
-          brand.restore_brand
-          expect(brand.subscription).to_not be_nil
-          expect(brand.listen_signals).to_not be_empty
-          expect(brand.users).to_not be_empty
-          expect(brand.response_groups).to_not be_empty
-          expect(brand.deleted_at).to be_nil
         end
       end
 
