@@ -63,7 +63,6 @@ class User < ActiveRecord::Base
         # user to verify it on the next step via UsersController.finish_signup
         email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
         email = auth.info.email if email_is_verified
-        user = User.with_deleted.where(:email => email).first if email
 
         # Create the user if it's a new registration
         if user.nil?
