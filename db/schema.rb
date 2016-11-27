@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120212811) do
+ActiveRecord::Schema.define(version: 20161120235204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20161120212811) do
     t.bigint   "streaming_tweet_pid"
     t.boolean  "polling_tweets",      default: false
     t.string   "tz",                  default: "America/New_York", null: false
+    t.datetime "deleted_at"
     t.index ["polling_tweets"], name: "index_brands_on_polling_tweets", using: :btree
     t.index ["streaming_tweet_pid"], name: "index_brands_on_streaming_tweet_pid", using: :btree
   end
@@ -37,8 +38,9 @@ ActiveRecord::Schema.define(version: 20161120212811) do
     t.string   "encrypted_secret"
     t.string   "user_name"
     t.string   "profile_image_url"
+    t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_identities_on_brand_id", using: :btree
-    t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true, using: :btree
+    t.index ["provider", "uid", "deleted_at"], name: "index_identities_on_provider_and_uid_and_deleted_at", using: :btree
     t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
   end
 
@@ -56,11 +58,11 @@ ActiveRecord::Schema.define(version: 20161120212811) do
     t.integer  "brand_id"
     t.integer  "identity_id"
     t.text     "name"
+    t.datetime "expiration_date"
     t.boolean  "active",          default: false, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.string   "signal_type"
-    t.datetime "expiration_date"
     t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_listen_signals_on_brand_id", using: :btree
     t.index ["deleted_at"], name: "index_listen_signals_on_deleted_at", using: :btree
@@ -134,6 +136,7 @@ ActiveRecord::Schema.define(version: 20161120212811) do
     t.datetime "trial_end",                           null: false
     t.boolean  "trial",                default: true
     t.integer  "lock_version"
+    t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_subscriptions_on_brand_id", unique: true, using: :btree
     t.index ["canceled_at"], name: "index_subscriptions_on_canceled_at", using: :btree
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree
@@ -199,10 +202,11 @@ ActiveRecord::Schema.define(version: 20161120212811) do
     t.datetime "confirmation_sent_at"
     t.json     "tokens"
     t.boolean  "email_subscription",     default: false
+    t.datetime "deleted_at"
     t.index ["brand_id"], name: "index_users_on_brand_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["provider", "uid", "deleted_at"], name: "index_users_on_provider_and_uid_and_deleted_at", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
   create_table "versions", force: :cascade do |t|

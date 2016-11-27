@@ -13,9 +13,12 @@
 #  trial_end            :datetime         not null
 #  trial                :boolean          default(TRUE)
 #  lock_version         :integer
+#  deleted_at           :datetime
 #
 
 class Subscription < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :brand
   belongs_to :subscription_plan
 
@@ -166,6 +169,6 @@ class Subscription < ActiveRecord::Base
   end
 
   def cancel_stripe_subscription!
-    stripe_subscription.delete
+    stripe_subscription.delete(at_period_end: true)
   end
 end

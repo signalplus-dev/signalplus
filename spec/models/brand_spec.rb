@@ -9,6 +9,7 @@
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
 #  tz                  :string           default("America/New_York"), not null
+#  deleted_at          :datetime
 #
 
 require 'rails_helper'
@@ -81,6 +82,87 @@ describe Brand do
       brand.tz = 'ljdlja'
       brand.valid?
       expect(brand.errors.full_messages).to include('Tz is not valid')
+    end
+  end
+
+  context 'with associated objects' do
+    context 'soft delete' do
+      let!(:user1)          { create(:user, email: 'random@email.com', brand: brand) }
+      let!(:user2)          { create(:user, email: 'random2@email.com', brand: brand) }
+      let!(:subscription)   { create(:subscription, brand: brand) }
+      let!(:listen_signal)  { create(:listen_signal, :offer, brand: brand) }
+      let!(:response_group) { create(:default_group_responses, listen_signal: listen_signal) }
+      let!(:identity)       { create(:identity, uid: 'test2', user: user1, brand: brand)}
+
+      it 'soft deletes listen signals' do
+        expect {
+          brand.destroy
+        }.to change {
+          ListenSignal.deleted.count
+        }.from(0).to(1)
+      end
+
+      it 'soft deletes response groups' do
+        expect {
+          brand.destroy
+        }.to change {
+          ResponseGroup.deleted.count
+        }.from(0).to(1)
+      end
+
+      it 'soft deletes subscription' do
+        expect {
+          brand.destroy
+        }.to change {
+          Subscription.deleted.count
+        }.from(0).to(1)
+      end
+
+      it 'soft deletes users' do
+        expect {
+          brand.destroy
+        }.to change {
+          User.deleted.count
+        }.from(0).to(2)
+      end
+
+      it 'soft deletes identities' do
+        expect {
+          brand.destroy
+        }.to change {
+          Identity.deleted.count
+        }.from(0).to(1)
+      end
+
+      context 'without subscription' do
+        it 'does not raise error' do
+          expect {
+            brand.subscription = nil
+            brand.save!
+            brand.destroy
+          }.to_not raise_error
+        end
+      end
+
+      describe '#delete_account' do
+        it 'soft deletes brand' do
+          expect(brand).to receive(:unsubscribe_users_from_newsletter)
+          expect(brand.subscription).to receive(:cancel_plan!)
+          brand.delete_account
+          expect(brand.deleted_at).to_not be_nil
+        end
+      end
+    end
+  end
+
+  describe '#unsubscribe_users_from_newsletter' do
+    let!(:subscribed_user)   { create(:user, :subscribed, brand: brand) }
+    let!(:unsubscribed_user) { create(:user, :unsubscribed, brand: brand, email: 'xxx@gmail.com') }
+
+    it 'unsubscribes subscribed users' do
+      brand.unsubscribe_users_from_newsletter
+      expect(subscribed_user.reload.email_subscription).to be_falsey
+      expect(subscribed_user.reload.email_subscription).to be_falsey
     end
   end
 end

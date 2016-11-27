@@ -9,31 +9,11 @@
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
 #  tz                  :string           default("America/New_York"), not null
+#  deleted_at          :datetime
 #
 
 FactoryGirl.define do
   factory :brand do
     name 'Nike'
-  end
-
-  factory :user do
-    brand
-    email 'test@signal.me'
-    name "signal"
-    password "123456789"
-    confirmed_at Time.current
-
-    trait :temp_email do
-      email "#{User::TEMP_EMAIL_PREFIX}.com"
-    end
-  end
-
-  factory :identity do
-    brand
-    user
-    provider 'twitter'
-    uid 'random text'
-    encrypted_token Identity.encrypt('token_key')
-    encrypted_secret Identity.encrypt('shared_key')
   end
 end
