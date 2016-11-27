@@ -91,5 +91,4 @@ group :test do
   gem 'vcr'
   gem 'webmock'
   gem 'stripe-ruby-mock', '~> 2.3.1', :require => 'stripe_mock'
-  gem 'faker'
 end

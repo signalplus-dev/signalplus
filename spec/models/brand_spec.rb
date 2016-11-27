@@ -91,7 +91,7 @@ describe Brand do
       let!(:subscription)   { create(:subscription, brand: brand) }
       let!(:listen_signal)  { create(:listen_signal, :offer, brand: brand) }
       let!(:response_group) { create(:default_group_responses, listen_signal: listen_signal) }
-      let!(:identity)       { create(:identity, uid: 'wtf', user: user1, brand: brand)}
+      let!(:identity)       { create(:identity, uid: 'test2', user: user1, brand: brand)}
 
       it 'soft deletes listen signals' do
         expect {
