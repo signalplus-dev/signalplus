@@ -13,6 +13,7 @@
 #  trial_end            :datetime         not null
 #  trial                :boolean          default(TRUE)
 #  lock_version         :integer
+#  deleted_at           :datetime
 #
 
 class Subscription < ActiveRecord::Base

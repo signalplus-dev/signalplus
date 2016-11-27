@@ -13,6 +13,7 @@
 #  encrypted_secret  :string
 #  user_name         :string
 #  profile_image_url :string
+#  deleted_at        :datetime
 #
 
 class Identity < ActiveRecord::Base

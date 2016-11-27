@@ -9,6 +9,7 @@
 #  streaming_tweet_pid :integer
 #  polling_tweets      :boolean          default(FALSE)
 #  tz                  :string           default("America/New_York"), not null
+#  deleted_at          :datetime
 #
 
 class Brand < ActiveRecord::Base

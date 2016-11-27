@@ -24,6 +24,7 @@
 #  confirmation_sent_at   :datetime
 #  tokens                 :json
 #  email_subscription     :boolean          default(FALSE)
+#  deleted_at             :datetime
 #
 
 class UserSerializer < ActiveModel::Serializer
