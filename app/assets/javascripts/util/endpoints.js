@@ -7,6 +7,7 @@ const endpoints = {
   SUBSCRIPTION:             '/api/v1/subscriptions/:id',
   SUBSCRIPTIONS:            '/api/v1/subscriptions',
   SUBSCRIPTION_PLANS:       '/api/v1/subscription_plans',
+  SUBSCRIPTION_CANCEL:      '/api/v1/subscriptions/:id/cancel',
   BRAND:                    '/api/v1/brands/me',
   USER:                     '/api/v1/users/me',
   USER_UPDATE:              '/api/v1/users/:id',

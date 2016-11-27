@@ -22,6 +22,10 @@ const SUBSCRIPTION_UPDATE_REQUEST = 'signalplus/subscription/update/REQUEST';
 const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/update/REQUEST_SUCCESS';
 const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/update/REQUEST_FAIL';
 
+const SUBSCRIPTION_CANCEL_REQUEST = 'signalplus/subscription/cancel/REQUEST';
+const SUBSCRIPTION_CANCEL_REQUEST_SUCCESS = 'signalplus/subscription/cancel/REQUEST_SUCCESS';
+const SUBSCRIPTION_CANCEL_REQUEST_FAIL = 'signalplus/subscription/cancel/REQUEST_FAIL';
+
 const SUBSCRIPTION_RESPONSE_COUNT_UPDATE = 'signalplus/subscription/SUBSCRIPTION_RESPONSE_COUNT_UPDATE';
 
 const MONTHLY_RESPONSE_COUNT_UPDATE = getChannelActionType(subscribedChannels.MONTHLY_RESPONSE_COUNT_CHANNEL);
@@ -122,6 +126,18 @@ export function updateSubscription({ id, ...formData }) {
       SUBSCRIPTION_UPDATE_REQUEST_FAIL,
     ],
   });
+}
+
+export function cancelSubscription({ id }) {
+  return createRequestAction({
+    endpoint: Endpoints.SUBSCRIPTION_CANCEL.replace(/:id/g, id),
+    method: 'POST',
+    types: [
+      SUBSCRIPTION_CANCEL_REQUEST,
+      SUBSCRIPTION_CANCEL_REQUEST_SUCCESS,
+      SUBSCRIPTION_CANCEL_REQUEST_FAIL,
+    ],
+  })
 }
 
 export const updateResponseCount = createAction(SUBSCRIPTION_RESPONSE_COUNT_UPDATE);

@@ -204,3 +204,7 @@
   top: -30px;
 }
 
+.cancel-btn {
+  @include btn;
+  color: $button-red;
+}

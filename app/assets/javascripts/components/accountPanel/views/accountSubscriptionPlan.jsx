@@ -11,6 +11,10 @@ import AccountInvoices from 'components/accountPanel/views/accountInvoices.jsx';
 
 
 class AccountSubscriptionPlan extends Component {
+  cancelSubscription() {
+    this.props.dispatch();
+  }
+
   renderContent() {
     const { subscription, subscriptionPlans } = this.props;
 
@@ -67,6 +71,16 @@ class AccountSubscriptionPlan extends Component {
         </div>
         <hr className='line-account-billing'/>
         <AccountInvoices/>
+
+        <hr className='line-account-cancel'/>
+
+        <div className='plan-cancel'>
+          <button className='btn cancel-btn'>CANCEL YOUR PLAN</button>
+          <p>
+            Select to cancel your current plan.  <br/>
+            We’ll confirm your plan cancellation.
+          </p>
+        </div>
       </div>
     );
   }

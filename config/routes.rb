@@ -28,7 +28,9 @@ Rails.application.routes.draw do
       }
 
       resources :promotional_tweets, only: [:index, :create]
-      resources :subscriptions, only: [:create, :update]
+      resources :subscriptions, only: [:create, :update] do
+        post '/cancel' => 'subscriptions#cancel'
+      end
       resources :subscription_plans, only: [:index]
       resources :invoices, only: [:index]
       resources :listen_signals, only: [:index, :show, :create, :update, :destroy] do

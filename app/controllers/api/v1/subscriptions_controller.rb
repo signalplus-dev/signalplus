@@ -29,6 +29,13 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
     render json: @subscription, serializer: SubscriptionSerializer
   end
 
+  def cancel
+    subscription_plan = SubscriptionPlan.find(params[:subscription_plan_id])
+    @subscription.cancel_plan!
+
+
+  end
+
   private
 
   def set_subscription
