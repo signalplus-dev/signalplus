@@ -6,12 +6,10 @@
   bottom: 0;
   background-color: $main-purple;
   font-weight: bold;
-  overflow-y: scroll;
 
-  .confirm-modal-content {
-    padding-top: 25%;
+  .row.confirm-modal-content {
+    padding-top: 150px;
     color: rgba($text-white, 0.7);
-
 
     .modal-logo {
       img {
