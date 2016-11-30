@@ -22,7 +22,7 @@ class AccountSubscriptionPlan extends Component {
     dispatch(appActions.showModal({
       modalType: 'CANCEL_SUBSCRIPTION',
       modalProps: {
-        subscriptionId: subscription.data.id,
+        subscription: subscription.data,
       }
     }));
   }

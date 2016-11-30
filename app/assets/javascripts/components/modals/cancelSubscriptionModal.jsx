@@ -6,10 +6,14 @@ import ConfirmModal from 'components/modals/confirmModal.jsx';
 
 
 class CancelSubscriptionModal extends Component {
-  handleConfirm() {
-    const { dispatch, subscriptionId } = this.props;
+  constructor(props) {
+    super(props);
+    this.handleConfirm = this.handleConfirm.bind(this);
+  }
 
-    dispatch(cancelSubscription(subscriptionId));
+  handleConfirm() {
+    const { dispatch, subscription } = this.props;
+    dispatch(cancelSubscription(subscription));
   }
 
   render() {

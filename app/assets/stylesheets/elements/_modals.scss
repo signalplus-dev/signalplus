@@ -6,6 +6,7 @@
   bottom: 0;
   background-color: $main-purple;
   font-weight: bold;
+  overflow-y: scroll;
 
   .confirm-modal-content {
     padding-top: 25%;

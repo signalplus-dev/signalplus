@@ -8,11 +8,7 @@ import SignalIcon from 'components/links/signal_icon.jsx';
 class ConfirmModal extends Component {
   constructor(props) {
     super(props);
-
-    console.log('getting called here')
     this.closeModal = this.closeModal.bind(this);
-
-    this.state = { isOpen: props.display}
   }
 
   componentWillMount() {
@@ -24,7 +20,7 @@ class ConfirmModal extends Component {
   }
 
   render() {
-    const { display, header, body } = this.props;
+    const { display, header, body, onConfirm } = this.props;
 
     return (
       <Modal
@@ -41,7 +37,7 @@ class ConfirmModal extends Component {
             <div className='modal-subtext'>{body}</div>
 
             <span className='confirm-actions'>
-              <button onClick={this.props.onConfirm} className='confirm-btn-yes'>Yes</button>
+              <button onClick={onConfirm} className='confirm-btn-yes'>Yes</button>
               <button onClick={this.closeModal} className='confirm-btn-no'>No</button>
             </span>
           </div>
