@@ -8,10 +8,13 @@
 }
 
 .about-jumbotron {
-  margin-top: -40px;
-  min-height: 591px;
-  background-image: url(asset-path('static/home-back.png'));
+  margin-top: -20px;
+  min-height: 600px;
+  background-image: url(asset-path('static/main-back.png'));
+  background-color: $main-purple;
   background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
   margin-bottom: 40px;
 }
 
