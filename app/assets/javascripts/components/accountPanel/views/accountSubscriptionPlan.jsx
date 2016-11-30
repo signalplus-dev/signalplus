@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import commaNumber from 'comma-number';
-// import { cancelSubscription } from 'redux/modules/models/subscription.js';
 import { actions as appActions } from 'redux/modules/app/index.js';
 
 // Component
@@ -77,15 +76,14 @@ class AccountSubscriptionPlan extends Component {
             </p>
           </div>
         </div>
-
         <div className='plan-subheader billing'>
           Billing Activity
         </div>
         <hr className='line-account-billing'/>
+
         <AccountInvoices/>
 
         <hr className='line-account-cancel'/>
-
         <div className='plan-cancel'>
           <button onClick={this.confirmCancelSubscription} className='btn cancel-btn' >
             CANCEL YOUR PLAN
