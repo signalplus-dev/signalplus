@@ -18,6 +18,10 @@ const endpoints = {
   INVOICES:                 '/api/v1/invoices',
 };
 
+export function cancelSubscriptionEndpoint(subscriptionId) {
+  return endpoints.SUBSCRIPTION_CANCEL.replace(/:id/g, subscriptionId);
+}
+
 export function updateSubscriptionEndpoint(subscriptionId) {
   return endpoints.SUBSCRIPTION.replace(/:id/g, subscriptionId);
 }

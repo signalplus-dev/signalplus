@@ -2,17 +2,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import commaNumber from 'comma-number';
+// import { cancelSubscription } from 'redux/modules/models/subscription.js';
+import { actions as appActions } from 'redux/modules/app/index.js';
 
 // Component
 import Loader from 'components/loader.jsx';
 import InputBox from 'components/forms/inputBox.jsx';
 import AccountInvoices from 'components/accountPanel/views/accountInvoices.jsx';
 
-
-
 class AccountSubscriptionPlan extends Component {
-  cancelSubscription() {
-    this.props.dispatch();
+  constructor(props){
+    super(props);
+    this.confirmCancelSubscription = this.confirmCancelSubscription.bind(this);
+  }
+
+  confirmCancelSubscription() {
+    const { dispatch, subscription } = this.props;
+
+    dispatch(appActions.showModal({
+      modalType: 'CANCEL_SUBSCRIPTION',
+      modalProps: {
+        subscriptionId: subscription.data.id,
+      }
+    }));
   }
 
   renderContent() {
@@ -75,8 +87,10 @@ class AccountSubscriptionPlan extends Component {
         <hr className='line-account-cancel'/>
 
         <div className='plan-cancel'>
-          <button className='btn cancel-btn'>CANCEL YOUR PLAN</button>
-          <p>
+          <button onClick={this.confirmCancelSubscription} className='btn cancel-btn' >
+            CANCEL YOUR PLAN
+          </button>
+          <p className='plan-cancel-subtext'>
             Select to cancel your current plan.  <br/>
             We’ll confirm your plan cancellation.
           </p>

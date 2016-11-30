@@ -1,0 +1,32 @@
+.confirm-dialog-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $main-purple;
+  font-weight: bold;
+
+  .confirm-modal-content {
+    padding-top: 25%;
+    color: rgba($text-white, 0.7);
+
+
+    .modal-logo {
+      img {
+        height: 50px;
+      }
+    }
+
+    .modal-text {
+      font-size: $h5-font-size;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .modal-subtext {
+      font-size: $base-caption-font-size;
+      margin-bottom: 20px;
+    }
+  }
+}

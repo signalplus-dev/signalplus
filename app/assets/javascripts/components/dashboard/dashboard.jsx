@@ -10,6 +10,7 @@ import { actions } from 'redux/modules/app/index.js';
 import SubscriptionSummary from 'components/dashboard/subscriptionSummary.jsx';
 import BrandProfileBlock from 'components/dashboard/brandProfileBlock.jsx';
 import Navigation from 'components/dashboard/navigation.jsx';
+import ModalRoot from 'components/modals/index.jsx';
 
 // Hooks to dispatch before rendering the dashboard
 const hooks = {
@@ -28,6 +29,7 @@ function Dashboard({ children, ...props }) {
     <div className="main">
       <div className="container-fluid">
         <div className="row">
+          <ModalRoot />
           <div className="col-xs-12 dash-header">
             <BrandProfileBlock />
             <SubscriptionSummary />

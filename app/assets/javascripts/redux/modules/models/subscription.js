@@ -1,6 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import { createRequestAction } from 'redux/utils.js';
-import Endpoints, { updateSubscriptionEndpoint } from 'util/endpoints.js';
+import Endpoints, { updateSubscriptionEndpoint, cancelSubscriptionEndpoint } from 'util/endpoints.js';
 import { normalizeSubscription } from 'util/normalize.js';
 import { getChannelActionType, subscribedChannels } from 'redux/actionCableSubscriptions.js';
 import _ from 'lodash';
@@ -130,7 +130,7 @@ export function updateSubscription({ id, ...formData }) {
 
 export function cancelSubscription({ id }) {
   return createRequestAction({
-    endpoint: Endpoints.SUBSCRIPTION_CANCEL.replace(/:id/g, id),
+    endpoint: cancelSubscriptionEndpoint(id),
     method: 'POST',
     types: [
       SUBSCRIPTION_CANCEL_REQUEST,
