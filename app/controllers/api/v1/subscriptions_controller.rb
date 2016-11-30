@@ -2,7 +2,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   before_action :get_brand
   before_action :ensure_user_can_perform_action
   before_action :set_subscription, only: [:update, :cancel]
-  before_action :ensure_subscription_belongs_to_brand, only: [:update, :cancel]
+  before_action :ensure_subscription_belongs_to_brand, only: [:update]
 
   def create
     subscription_plan = SubscriptionPlan.find(params[:subscription_plan_id])

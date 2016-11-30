@@ -9,10 +9,16 @@ class ConfirmModal extends Component {
   constructor(props) {
     super(props);
     this.closeModal = this.closeModal.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
   }
 
   componentWillMount() {
     Modal.setAppElement('body');
+  }
+
+  onConfirm() {
+    this.props.onConfirm();
+    this.closeModal();
   }
 
   closeModal() {
@@ -37,7 +43,7 @@ class ConfirmModal extends Component {
             <div className='modal-subtext'>{body}</div>
 
             <span className='confirm-actions'>
-              <button onClick={onConfirm} className='confirm-btn-yes'>Yes</button>
+              <button onClick={this.onConfirm} className='confirm-btn-yes'>Yes</button>
               <button onClick={this.closeModal} className='confirm-btn-no'>No</button>
             </span>
           </div>
