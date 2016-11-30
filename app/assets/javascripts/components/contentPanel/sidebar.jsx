@@ -22,7 +22,6 @@ export function MenuItem({ menu }) {
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    // this.deleteSignal = this.deleteSignal.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
   }
 
