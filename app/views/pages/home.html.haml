@@ -1,10 +1,11 @@
 .about
   .about-jumbotron
+
     .container-fluid
       .row
         .col-xs-12
           .row
-            .col-xs-7
+            .col-xs-8
               .about-header
                 .header
                   Turn your social account
@@ -21,9 +22,12 @@
                     =link_to('Message', '#', {class: 'btn btn'})
                     %span @SignalPlus with #Power
 
+              .about-header
+                .background
+                  .ima
+
   .container-fluid
     .row
-      .col-xs-2
       .col-xs-8.instruction
         %h3.header How it Works
         %p
@@ -35,19 +39,17 @@
       .col-xs-2
 
     .row
-      .col-xs-1
       .col-xs-11.center.about-steps
         %ul
           %li
-            = image_tag('static/step-1.png', class: ' img-responsive first-step', size:'330x330')
+            = image_tag('static/step1.png', class: ' img-responsive first-step', size:'330x330')
           %li
-            = image_tag('static/step-2.png', class: 'img-responsive second-step', size:'330x330')
+            = image_tag('static/step2.png', class: 'img-responsive second-step', size:'330x330')
           %li
-            = image_tag('static/step-3.png', class: 'img-responsive third-step', size:'330x330')
+            = image_tag('static/step3.png', class: 'img-responsive third-step', size:'330x330')
 
     .row
-      .col-xs-2
-      .col-xs-5.center-content
+      .col-xs-6.center-content
         .why-signal-box
           %h3.header Why SignalPlus?
           %h5.subheader
@@ -63,7 +65,7 @@
           %p
             Add value to your followers with content that’s relevant and personalized to the information they are looking for
 
-      .col-xs-4
+      .col-xs-5
         .things-you-can-do-box
           %h3.header Things you can do…
           %p
@@ -77,7 +79,6 @@
       .col-xs-1
 
     .row.get-started-row
-      .col-xs-2
       .col-xs-8
         %h3.header Get Started Today!
         %p
