@@ -28,6 +28,9 @@ class FlashMessage extends PureComponent {
         <SignalIcon className="bell" type="bell" />
         <div className="message">
           {flashMessage.message}
+          {flashMessage.link &&
+            <a href={flashMessage.link}>HERE.</a>
+          }
         </div>
 
         <a className="close" onClick={this.handleDismiss}>

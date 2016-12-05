@@ -7,6 +7,10 @@ import {
   LISTEN_SIGNALS_CREATE_REQUEST_FAIL,
   LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS,
 } from 'redux/modules/models/listenSignals.js';
+import {
+  PROMOTION_SIGNAL_POST_REQUEST_SUCCESS,
+  PROMOTION_SIGNAL_POST_REQUEST_FAIL,
+} from 'redux/modules/models/promotionalTweets.js';
 
 export const FLASH_MESSAGE_INFO = 'info';
 const FLASH_MESSAGE_SUCCESS = 'success';
@@ -54,6 +58,22 @@ const flashMessages = {
     };
   },
 
+  [PROMOTION_SIGNAL_POST_REQUEST_SUCCESS]: (payload, meta) => {
+    const tweetUrl = _.get(payload, 'promotional_tweet.tweet_url');
+
+    return {
+      type: FLASH_MESSAGE_SUCCESS,
+      message: `You can check out your promotional tweet `,
+      link: tweetUrl,
+    };
+  },
+
+  [PROMOTION_SIGNAL_POST_REQUEST_FAIL]: () => {
+    return {
+      type: FLASH_MESSAGE_ERROR,
+      message: 'Sorry, we had trouble posting your promotional tweet.',
+    };
+  },
 };
 
 export default store => next => (action) => {

@@ -133,3 +133,4 @@ export default connect((state, ownProps) => {
     },
   };
 })(SignalForm);
+
