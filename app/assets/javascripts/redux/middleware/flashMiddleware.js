@@ -13,8 +13,8 @@ import {
 } from 'redux/modules/models/promotionalTweets.js';
 
 export const FLASH_MESSAGE_INFO = 'info';
-const FLASH_MESSAGE_SUCCESS = 'success';
-const FLASH_MESSAGE_ERROR = 'error';
+export const FLASH_MESSAGE_SUCCESS = 'success';
+export const FLASH_MESSAGE_ERROR = 'error';
 
 const flashMessages = {
   [LISTEN_SIGNALS_REQUEST_FAIL]: () => {
