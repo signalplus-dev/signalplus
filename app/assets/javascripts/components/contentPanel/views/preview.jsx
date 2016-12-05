@@ -6,7 +6,7 @@ export default function Preview(props) {
   const { signal, brand } = props;
 
   const getResponse = (type) => {
-    const response = _.filter(signal.responses, { response_type: type });
+    const response = _.find(signal.responses, { response_type: type });
     return response.message;
   }
 
