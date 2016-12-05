@@ -17,16 +17,20 @@ const hooks = {
 
 function renderTemplates(templates) {
   return _.map(templates, (text, type) => {
-    return (
-      <Link to={`/dashboard/signals/new/${type}`} key={type} className='panel signal-panel panel-new'>
-        <SignalIcon type={type} className='panel-icon'/>
-        <div className={`panel-header ${type}`}>
-          <div className='header-text uctext'>{type}</div>
-          <div className='subheader'>SIGNAL</div>
-        </div>
-        <div className='panel-body'>{text}</div>
-      </Link>
-    );
+
+    // Disable all signals except for offer
+    if (type == 'offer') {
+      return (
+        <Link to={`/dashboard/signals/new/${type}`} key={type} className='panel signal-panel panel-new'>
+          <SignalIcon type={type} className='panel-icon'/>
+          <div className={`panel-header ${type}`}>
+            <div className='header-text uctext'>{type}</div>
+            <div className='subheader'>SIGNAL</div>
+          </div>
+          <div className='panel-body'>{text}</div>
+        </Link>
+      );
+    }
   });
 }
 
