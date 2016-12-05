@@ -15,11 +15,10 @@ class TimezoneDropdown extends PureComponent {
   render() {
     const {
       input,
-      touched,
       valid,
       visited,
       active,
-      meta,
+      meta: { error },
       ...props,
     } = this.props;
 
@@ -31,7 +30,10 @@ class TimezoneDropdown extends PureComponent {
           absolute={false}
           placeholder='Select timezone...'
           onChange={this.onChange}
-        />
+        /> <br/>
+        { error &&
+          <span className='input-form-error'>{error}</span>
+        }
       </div>
     );
   }

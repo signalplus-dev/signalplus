@@ -4,11 +4,10 @@ import { FormControl } from 'react-bootstrap';
 
 function InputBox({
   input,
-  touched,
   valid,
   visited,
   active,
-  meta,
+  meta: { touched, error} ,
   ...props,
   }) {
   const { textArea, ...otherInputProps } = input;
@@ -16,6 +15,9 @@ function InputBox({
   return (
     <div className='input-box'>
       <FormControl {...props} {...otherInputProps} />
+      { touched && error &&
+        <span className='input-form-error'>{error}</span>
+      }
     </div>
   );
 }

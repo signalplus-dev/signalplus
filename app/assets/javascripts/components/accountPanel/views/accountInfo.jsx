@@ -10,6 +10,8 @@ import Checkbox from 'components/forms/checkbox.jsx';
 import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
 import { updateUserInfo } from 'redux/modules/models/user.js';
 import { getUserData } from 'redux/modules/models/user.js'
+import { accountInputValidation as validate } from 'components/forms/validations.jsx';
+
 
 const hooks = {
   fetch: ({ dispatch }) => (dispatch(getUserData())),
@@ -72,6 +74,7 @@ class UndecoratedAccountInfo extends Component {
 const AccountInfo = reduxForm({
   form: 'accountInfo',
   enableReinitialize: true,
+  validate,
 })(UndecoratedAccountInfo)
 
 const ConnectedAccountInfo = connect((state) => {

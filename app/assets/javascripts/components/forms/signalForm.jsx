@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { actions as appActions } from 'redux/modules/app/index.js';
 import { addListenSignalData, updateListenSignalData } from 'redux/modules/models/listenSignals.js';
 import { createTab } from 'components/contentPanel/contentPanel.jsx';
-
+import { signalInputValidation as validate } from 'components/forms/validations.jsx';
 
 const genericSignalFormName = 'listenSignalForm';
 
@@ -18,6 +18,7 @@ class UndecoratedSignalForm extends Component {
 
   updateSignal({id, ...form}) {
     const { dispatch, tabId } = this.props;
+
     if (id) {
       dispatch(updateListenSignalData(form, id));
     } else {
@@ -48,13 +49,13 @@ class UndecoratedSignalForm extends Component {
 class SignalForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = { transitioning: false };
   }
 
   createForm(formName) {
     this.form = reduxForm({
       form: formName,
+      validate,
     })(UndecoratedSignalForm);
   }
 

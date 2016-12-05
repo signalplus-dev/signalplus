@@ -1,52 +1,43 @@
-
 import React from 'react'
 
-
-export default signalValidation = (values) => {
+export function signalInputValidation({ name, default_response, repeat_response }) {
   const errors = {};
 
-  if (!values.name) {
-    errors.name = 'Hashtag required'
-  } else if (values.name.indexOf(' ') >= 0) {
-    errors.name = 'Your hashtag cannot contain a space!'
-  } else if (values.name.indexOf('#') >= 0) {
-    errors.name = 'Please input your hashtag without #'
+  if (!name) {
+    errors.name = 'Hashtag required.'
+  } else if (name.indexOf(' ') >= 0) {
+    errors.name = 'Your hashtag cannot contain a space.'
+  } else if (name.indexOf('#') >= 0) {
+    errors.name = 'Please put your hashtag name without #.'
   }
-  if (!values.default_response) {
-    errors.email = 'Required'
-  } else if (values.default_response.length > 140) {
-    errors.default_response = 'Your tweet cannot be longer than 140 characters'
+
+  if (!default_response) {
+    errors.default_response = 'Default response required.'
+  } else if (default_response.length > 140) {
+    errors.default_response = 'Your tweet response cannot exceed 140 characters.'
   }
-  if (!values.repeat_response) {
-    errors.repeat_response = 'Required'
-  } else if (values.repeat_response.length > 140) {
-    errors.repeat_response = 'tweet cannot be longer than 140 characters'
+
+  if (!repeat_response) {
+    errors.repeat_response = 'Repeat respose reqired.'
+  } else if (repeat_response.length > 140) {
+    errors.repeat_response = 'Your tweet response cannot exceed 140 characters.'
   }
 
   return errors
 }
 
+export function accountInputValidation({ email, tz }) {
+  const errors = {};
 
-// export default signalValidation = (values) => {
-//   const errors = {};
+  if (!email) {
+    errors.email = 'Email Required'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+    errors.email = 'Invalid email address'
+  }
 
-//   if (!values.name) {
-//     errors.name = 'Hashtag required'
-//   } else if (values.name.indexOf(' ') >= 0) {
-//     errors.name = 'Your hashtag cannot contain a space!'
-//   } else if (values.name.indexOf('#') >= 0) {
-//     errors.name = 'Please input your hashtag without #'
-//   }
-//   if (!values.default_response) {
-//     errors.email = 'Required'
-//   } else if (values.default_response.length > 140) {
-//     errors.default_response = 'Your tweet cannot be longer than 140 characters'
-//   }
-//   if (!values.repeat_response) {
-//     errors.repeat_response = 'Required'
-//   } else if (values.repeat_response.length > 140) {
-//     errors.repeat_response = 'tweet cannot be longer than 140 characters'
-//   }
+  if (!tz) {
+    errors.tz = 'Timezone required.'
+  }
 
-//   return errors
-// }
+  return errors
+}

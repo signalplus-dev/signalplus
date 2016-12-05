@@ -12,13 +12,13 @@
 
 .account-input-box {
   margin-top: -20px;
-  margin-left: 20px;
   width: 250px;
   border-radius: 11px;
 }
 
 .email-sublabel{
   @include account-input-sublabel(200px);
+  margin-right: 50px;
 }
 
 .tz-sublabel{
