@@ -244,3 +244,14 @@
 .fullWidth {
   width: 100%;
 }
+
+.delete-custom-response-btn {
+  position: relative;
+  top: -40px;
+  right: -30px;
+  text-decoration: underline;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

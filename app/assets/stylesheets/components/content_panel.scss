@@ -13,14 +13,14 @@
     font-size: $base-font-size;
     font-weight: 600;
     display: block;
-    margin: 0px !important;
-    width: 200px;
+    margin: 5px 0 0 5px !important;
+    width: 240px;
   }
 
   p {
     float: left;
     font-size: $base-caption-font-size;
-    margin: 0 !important;
+    margin: 0 0 0 5px !important;
     padding-top: 6px;
   }
 }
@@ -138,6 +138,7 @@
 .input-box {
   display: inline-block;
   border-radius: 11px;
+  margin-left: 30px;
   @include textarea-input(450px);
 }
 
@@ -148,13 +149,11 @@
 }
 
 .required {
-  margin-top: 40px;
-  margin-right: 10px;
-  float: right;
-  text-align: center;
+  position: relative;
+  top: -40px;
+  right: -30px;
   opacity: 0.7;
-  background-color: #ffffff;
-  display: inline-block;
+  background-color: $text-white;
   border-radius: 3px;
   padding: 2px;
 }
@@ -240,7 +239,18 @@ img.arrow {
   }
 }
 
+<<<<<<< 6921b6422ffad124fcf715f1a835449f76b51b88
 .input-form-error {
   color: $text-red;
   font-size: $base-caption-font-size;
+=======
+.custom-response-box-label {
+  p {
+    float: none;
+    position: relative;
+    width: 90px;
+    display: inline-block;
+    top: 5px;
+  }
+>>>>>>> custom respones calendar styling
 }

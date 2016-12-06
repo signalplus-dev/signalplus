@@ -109,6 +109,7 @@ class SignalForm extends Component {
 export const RESPONSE_TYPES = {
   DEFAULT: 'default',
   REPEAT: 'repeat',
+  CUSTOM: 'custom',
 };
 
 const EDITABLE_SIGNAL_FIELDS = [

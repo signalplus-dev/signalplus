@@ -6,6 +6,16 @@ import AddBtn from 'components/buttons/add_btn';
 import SignalIcon from 'components/links/signal_icon';
 
 export default class Edit extends Component {
+  constructor(props) {
+    super(props);
+    this.addCustomResponse = this.addCustomResponse.bind(this);
+    this.removeCustomResponse = this.removeCustomResponse.bind(this);
+
+    this.state = {
+      customResponse: false,
+    }
+  }
+
   displaySignalName() {
     const { signal, brand } = this.props;
     const signalName = signal.id ? signal.name : signal.signal_type;
@@ -20,6 +30,40 @@ export default class Edit extends Component {
       return 'Send your users a special offer everytime they send a custom hashtag'
     } else if (type == 'custom') {
       return 'Respond to your users with a custom message every time they send a custom hashtag'
+
+  addCustomResponse() {
+    this.setState({ customResponse: true });
+  }
+
+  removeCustomResponse() {
+    this.setState({ customResponse: false });
+  }
+
+  // TODO Change custom response placeholder
+  renderCustomResponse() {
+    if (this.state.customResponse) {
+      return (
+        <div className='response-edit-box'>
+          <div className='response-text'>
+            <h5>Response</h5>
+            <span className='custom-response-box-label'>
+              <p>Expires on:</p>
+              <Calendar
+                name='expiration_date'
+                date='2016-02-03'
+              />
+            </span>
+          </div>
+          <InputBox
+            name="custom_response"
+            placeholder="TODO: Type your custom response here"
+            componentClass="textarea"
+          />
+          <a onClick={this.removeCustomResponse} className='delete-custom-response-btn'>
+            delete
+          </a>
+        </div>
+      );
     }
   }
 
@@ -48,16 +92,19 @@ export default class Edit extends Component {
 
           <div className='edit-btns'>
             <button
+              type='button'
+              onClick={this.addCustomResponse}
+              className='btn btn-primary add-btn'
+            >
+              + ADD RESPONSE
+            </button>
+            <button
               type='submit'
               className='btn btn-primary save-btn'
             >
               SAVE
             </button>
           </div>
-          <AddBtn
-            type='add'
-            expirationDate={signal.expirationDate}
-          />
         </div>
 
         <div className='tip-box'>
@@ -91,6 +138,8 @@ export default class Edit extends Component {
           />
           <span className='required'>REQUIRED</span>
         </div>
+
+        {this.renderCustomResponse()}
       </div>
     );
   }

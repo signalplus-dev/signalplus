@@ -1,25 +1,43 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
+import { Field } from 'redux-form';
 import { DateField } from 'react-date-picker'
 
-export default class Calendar extends Component {
+class Calendar extends PureComponent {
   constructor(props) {
     super(props)
-    this.handleChange = this.handleChange.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {date: this.props.date};
   }
 
-  handleChange(e) {
+  onChange(e) {
     const key = 'expirationDate'
     this.setState({date: e});
   }
 
   render() {
+    const {
+      input,
+      touched,
+      valid,
+      meta,
+      ...props,
+    } = this.props;
+
     return (
-      <DateField 
-        dateFormat="YYYY-MM-DD" 
+      <DateField
+        dateFormat="YYYY-MM-DD"
         defaultValue={this.state.date}
-        onChange={this.handleChange}
+        onChange={this.onChange}
       />
     );
   }
+}
+
+export default function DecoratedCalendar(props) {
+  return (
+    <Field
+      {...props}
+      component={Calendar}
+    />
+  );
 }
