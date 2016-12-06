@@ -18,8 +18,8 @@ const hooks = {
 function renderTemplates(templates) {
   return _.map(templates, (text, type) => {
 
-    // Disable all signals except for offer
-    if (type == 'offer') {
+    // Disable all signals except for offer and custom
+    if (type == 'offer' || type == 'custom') {
       return (
         <Link to={`/dashboard/signals/new/${type}`} key={type} className='panel signal-panel panel-new'>
           <SignalIcon type={type} className='panel-icon'/>
@@ -41,6 +41,14 @@ function TemplatesPane({ templates }) {
       <p>Select a template to start </p>
       <div className='create-new'>
         {renderTemplates(templates)}
+
+        <div className='panel signal-panel coming-soon'>
+          <SignalIcon type='comingSoon' className='panel-icon'/>
+          <div className='panel-header'>
+            <div className='header-text uctext'>Coming Soon</div>
+          </div>
+          <div className='panel-body'>We’re adding new signal templates all the time. Stay tuned for more!</div>
+        </div>
       </div>
     </div>
   );
