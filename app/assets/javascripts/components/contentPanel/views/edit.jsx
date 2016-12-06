@@ -15,6 +15,15 @@ export default class Edit extends Component {
     );
   }
 
+  renderSubheader(type) {
+    console.log(type);
+    if (type == 'offer') {
+      return 'Send your users a special offer everytime they send a custom hashtag'
+    } else if (type == 'custom') {
+      return 'Respond to your users with a custom message every time they send a custom hashtag'
+    }
+  }
+
   render() {
     const { signal } = this.props;
     const responses = _.get(signal, 'responses', [{},{}]);
@@ -27,7 +36,7 @@ export default class Edit extends Component {
           <p className='signal-type-label'>TYPE</p>
           <h3 className='signal-type-header uctext'>{signal.signal_type} Signal</h3>
           <p className='signal-description'>
-            Send your users a special offer everytime they send a custom hashtag
+            {this.renderSubheader(signal.signal_type)}
           </p>
         </div>
 
