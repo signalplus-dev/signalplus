@@ -45,13 +45,13 @@ class Sidebar extends Component {
 
     return _.map(menuItems, (menu) => {
       if (menu.label === 'Current Plan') {
-        return <CurrentPlanMenuItem 
-                  key={menu.label} 
-                  menu={menu} 
+        return <CurrentPlanMenuItem
+                  key={menu.label}
+                  menu={menu}
                   subscription={this.props.subscription}
                 />
       }
-      
+
       return <MenuItem key={menu.label} menu={menu}/>
     });
   }
@@ -63,7 +63,7 @@ class Sidebar extends Component {
           {this.renderMenuItems()}
         </ul>
         <div className='sidebar-btns'>
-          <Button className='close-account-btn' onClick={this.closeAccount}>
+          <Button className='close-account-btn hide' onClick={this.closeAccount}>
             CLOSE ACCOUNT
           </Button>
         </div>
