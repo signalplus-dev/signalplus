@@ -31,6 +31,7 @@
   .sub-header {
     font-weight: bold;
     font-size: 32px;
+    margin-bottom: 75px;
   }
 
   .sub-text {
@@ -103,6 +104,14 @@
 
 .why-signal-box {
   font-weight: 300;
+  width: 560px;
+  display: inline-block;
+  margin-top: 72px;
+  margin-right: 20px;
+
+  .header {
+    margin-bottom: 30px;
+  }
 
   .subheader {
     color: $main-purple;
@@ -112,11 +121,21 @@
 }
 
 .things-you-can-do-box {
+  width: 425px;
+  display: inline-block;
   padding: 20px;
   color: $text-white;
   border-radius: 8px;
   background-color: $main-purple;
   border: solid 2px $main-purple;
+
+  .header {
+    margin-bottom: 30px;
+  }
+
+  p {
+    margin-bottom: 27px;
+  }
 }
 
 .header {
@@ -126,9 +145,16 @@
 }
 
 .try-out {
-  font-weight: 600;
+  width: 550px;
+  display: inline-block;
+  margin-right: 30px;
 }
 
 .get-started-row {
   margin-top: 82px;
+  margin-bottom: 40px;
+}
+
+.about-subscription-plans {
+  margin-top: -50px;
 }

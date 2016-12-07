@@ -24,18 +24,15 @@
                     TRY IT FREE TODAY
   .container-fluid
     .row
-      .col-xs-8.instruction
-        %h3.header How it Works
-        %p
-          SignalPlus turns your social brand account into a powerful tool for your audience.
-          %br
-          Send responses automatically whenever your audience sends you a message.
-          %br
-          We use the power of Twitter to send responses instantly!
-      .col-xs-2
-
+      %h3.header How it Works
+      %p
+        SignalPlus turns your social brand account into a powerful tool for your audience.
+        %br
+        Send responses automatically whenever your audience sends you a message.
+        %br
+        We use the power of Twitter to send responses instantly!
     .row
-      .col-xs-11.center.about-steps
+      .center.about-steps
         %ul
           %li
             = image_tag('static/step1.png', class: ' img-responsive first-step', size:'330x330')
@@ -43,46 +40,47 @@
             = image_tag('static/step2.png', class: 'img-responsive second-step', size:'330x330')
           %li
             = image_tag('static/step3.png', class: 'img-responsive third-step', size:'330x330')
-
     .row
-      .col-xs-6.center-content
-        .why-signal-box
-          %h3.header Why SignalPlus?
-          %h5.subheader
-            Save time and money with automatic responses
-          %p
-            Reduce effort from dedicated social media managers and customer service teams answering questions from your audience
-          %h5.subheader
-            Add value to your social account
-          %p
-            Create a one to one connection with your audience that’s more powerful with instant response
-          %h5.subheader
-            Social that’s personalized and relevant
-          %p
-            Add value to your followers with content that’s relevant and personalized to the information they are looking for
-
-      .col-xs-5
-        .things-you-can-do-box
-          %h3.header Things you can do…
-          %p
-            Send a special offer every time a follower sends a custom hashtag
-          %p
-            Send a summary of your location or event each day a follower uses a custom hashtag
-          %p
-            Run a contest for your followers for a specific date range
-          %p
-            Send a reminder on a specific date to users when they use a custom hashtag
-      .col-xs-1
+      .why-signal-box
+        %h3.header Why SignalPlus?
+        %h5.subheader
+          Save time and money with automatic responses
+        %p
+          Reduce effort from dedicated social media managers and customer service teams answering questions from your audience
+        %h5.subheader
+          Add value to your social account
+        %p
+          Create a one to one connection with your audience that’s more powerful with instant response
+        %h5.subheader
+          Social that’s personalized and relevant
+        %p
+          Add value to your followers with content that’s relevant and personalized to the information they are looking for
+      .things-you-can-do-box
+        %h3.header Things you can do…
+        %p
+          Send a special offer every time a follower sends a custom hashtag
+        %p
+          Send a summary of your location or event each day a follower uses a custom hashtag
+        %p
+          Run a contest for your followers for a specific date range
+        %p
+          Send a reminder on a specific date to users when they use a custom hashtag
 
     .row.get-started-row
-      .col-xs-8
-        %h3.header Get Started Today!
-        %p
-          %span.try-out
-            Try SignalPlus for FREE for 7 days then choose the right plan for you.
-          %br
-          %span
-            We’re always adding new features and more platforms for the future.
-      .col-xs-2
+      %h3.header Get Started Today!
+      %p
+        %span.try-out
+          %strong
+            Try SignalPlus for FREE for 14 days or 50 reponses then choose the right plan for you.
+          We’re always adding new features and more platforms for the future.
+        %span
+          %button.btn.sign-up-for-free
+            SIGN UP FOR FREE
 
-= react_component 'SubscriptionPlans', @subscription_plans_props
+    .row.our-plans
+      %h3.header Our Plans
+      %p
+        We offer 3 plans suited to your brand’s audience size:
+
+    .about-subscription-plans
+      = react_component 'SubscriptionPlans', @subscription_plans_props
