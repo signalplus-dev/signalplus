@@ -16,7 +16,6 @@ export default class Edit extends Component {
   }
 
   renderSubheader(type) {
-    console.log(type);
     if (type == 'offer') {
       return 'Send your users a special offer everytime they send a custom hashtag'
     } else if (type == 'custom') {
