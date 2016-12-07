@@ -7,12 +7,19 @@
   }
 }
 
-.about-jumbotron {
-  margin-top: -40px;
-  min-height: 591px;
-  background-image: url(asset-path('static/home-back.png'));
+.about-main {
+  background: url(asset-path('static/base-background.png')) no-repeat;
   background-size: contain;
+  background-color: $main-purple;
+}
+
+.about-jumbotron {
+  margin-top: -20px;
+  min-height: 700px;
   margin-bottom: 40px;
+  background: url(asset-path('static/splus-home.gif')) 63% no-repeat,
+              url(asset-path('static/main-background.png')) 100% no-repeat;
+  background-size: contain;
 }
 
 .about-header {
@@ -22,8 +29,9 @@
   }
 
   .sub-header {
-    font-wight: bold;
+    font-weight: bold;
     font-size: 32px;
+    margin-bottom: 75px;
   }
 
   .sub-text {
@@ -31,7 +39,7 @@
     font-size: 21px;
   }
 
-  padding-top: 175px;
+  padding-top: 117px;
   color: $text-white;
   text-decoration: none;
 }
@@ -43,7 +51,8 @@
     background-color: $main-pink;
     font-weight: bold;
     font-size: 32px;
-    padding: 2px 10px !important;
+    padding: 2px 2px !important;
+    border-radius: 6px;
     color: $text-white;
     text-decoration: none;
 
@@ -95,6 +104,14 @@
 
 .why-signal-box {
   font-weight: 300;
+  width: 560px;
+  display: inline-block;
+  margin-top: 72px;
+  margin-right: 20px;
+
+  .header {
+    margin-bottom: 30px;
+  }
 
   .subheader {
     color: $main-purple;
@@ -104,24 +121,40 @@
 }
 
 .things-you-can-do-box {
+  width: 425px;
+  display: inline-block;
   padding: 20px;
   color: $text-white;
   border-radius: 8px;
   background-color: $main-purple;
   border: solid 2px $main-purple;
+
+  .header {
+    margin-bottom: 30px;
+  }
+
+  p {
+    margin-bottom: 27px;
+  }
 }
 
 .header {
   font-size: 38px;
   font-weight: 400;
   margin-top: 0;
-  margin-bottom: 20px;
 }
 
 .try-out {
-  font-weight: 600;
+  width: 550px;
+  display: inline-block;
+  margin-right: 30px;
 }
 
 .get-started-row {
   margin-top: 82px;
+  margin-bottom: 40px;
+}
+
+.about-subscription-plans {
+  margin-top: -50px;
 }
