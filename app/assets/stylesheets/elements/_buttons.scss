@@ -187,3 +187,11 @@
   border: solid 1px $border-gray-alt;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
 }
+
+.try-it-free-btn {
+  @include btn-blue;
+  font-size: $h5-font-size;
+  height: 60px;
+  width: 278px;
+  margin-top: 75px;
+}

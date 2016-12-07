@@ -7,15 +7,19 @@
   }
 }
 
+.about-main {
+  background: url(asset-path('static/base-background.png')) no-repeat;
+  background-size: contain;
+  background-color: $main-purple;
+}
+
 .about-jumbotron {
   margin-top: -20px;
-  min-height: 600px;
-  background-image: url(asset-path('static/main-back.png'));
-  background-color: $main-purple;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: right;
+  min-height: 700px;
   margin-bottom: 40px;
+  background: url(asset-path('static/splus-home.gif')) 63% no-repeat,
+              url(asset-path('static/main-background.png')) 100% no-repeat;
+  background-size: contain;
 }
 
 .about-header {
@@ -25,7 +29,7 @@
   }
 
   .sub-header {
-    font-wight: bold;
+    font-weight: bold;
     font-size: 32px;
   }
 
@@ -34,7 +38,7 @@
     font-size: 21px;
   }
 
-  padding-top: 175px;
+  padding-top: 117px;
   color: $text-white;
   text-decoration: none;
 }
@@ -46,7 +50,8 @@
     background-color: $main-pink;
     font-weight: bold;
     font-size: 32px;
-    padding: 2px 10px !important;
+    padding: 2px 2px !important;
+    border-radius: 6px;
     color: $text-white;
     text-decoration: none;
 
@@ -118,7 +123,6 @@
   font-size: 38px;
   font-weight: 400;
   margin-top: 0;
-  margin-bottom: 20px;
 }
 
 .try-out {
