@@ -154,10 +154,28 @@
   background-color: $signal-green;
 }
 
+.custom {
+  background-color: $signal-dark-gray;
+}
+
 .welcome {
   background-color: $signal-gray;
   .panel-header, .panel-body{
     color: $text-black;
+  }
+}
+
+.coming-soon {
+  pointer-events: none;
+  background-color: $signal-gray;
+  color: $text-black;
+
+  .panel-header {
+    color: $text-black;
+  }
+
+  .panel-body {
+    margin-top: -25px;
   }
 }
 

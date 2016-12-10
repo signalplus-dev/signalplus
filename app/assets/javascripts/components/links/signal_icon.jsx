@@ -10,11 +10,13 @@ function getIcon(type) {
     reminder:    window.__IMAGE_ASSETS__.iconsReminderSvg,
     welcome:     window.__IMAGE_ASSETS__.iconsSignalplusSmallPinkSvg,
     create:      window.__IMAGE_ASSETS__.iconsSignalplusSmallSvg,
+    custom:      window.__IMAGE_ASSETS__.iconsSignalplusSmallPinkSvg,
     tip:         window.__IMAGE_ASSETS__.iconsTipIconSvg,
     public:      window.__IMAGE_ASSETS__.iconsPublicIconSvg,
     explanation: window.__IMAGE_ASSETS__.iconsExplanationPng,
     twitter:     window.__IMAGE_ASSETS__.socialTwitterBlueSvg,
     arrow:       window.__IMAGE_ASSETS__.iconsBlueArrowPng,
+    comingSoon:  window.__IMAGE_ASSETS__.logoSignalplusIconPng,
   };
 
   return iconTypes[type];

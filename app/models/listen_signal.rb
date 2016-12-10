@@ -29,10 +29,11 @@ class ListenSignal < ActiveRecord::Base
   after_destroy :toggle_twitter_streamer
 
   module Types
-    OFFER    = :offer
-    TODAY    = :today
-    CONTEST  = :contest
-    REMINDER = :reminder
+    OFFER       = :offer
+    TODAY       = :today
+    CONTEST     = :contest
+    REMINDER    = :reminder
+    CUSTOM      = :custom
 
     def self.values
       constants.map{ |t| const_get(t) }
