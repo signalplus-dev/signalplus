@@ -5,8 +5,7 @@ import URL from 'url';
 import Loader from 'components/loader.jsx';
 
 function BrandProfileBlock({ brand }) {
-
-  if (!brand.loaded) return <Loader />;
+  if (!brand.loaded) return <Loader textOnly={true}/>;
   const brandInfo = _.get(brand, 'data', {});
   const profileImageUrl = URL.parse(brandInfo.profile_image_url || '')
   const profileImageSrc = `//${profileImageUrl.host || ''}${profileImageUrl.path || ''}`
