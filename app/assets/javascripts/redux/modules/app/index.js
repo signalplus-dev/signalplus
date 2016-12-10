@@ -45,6 +45,7 @@ const initialState = {
     type: FLASH_MESSAGE_INFO,
     message: '',
     dismissed: true,
+    link: '',
   },
 };
 

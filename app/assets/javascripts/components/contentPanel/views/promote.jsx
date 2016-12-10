@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { actions as appActions } from 'redux/modules/app/index.js';
 import PromoteImage from 'components/contentPanel/promoteImage.jsx';
 import SignalIcon from 'components/links/signal_icon.jsx';
 import { addPromotionalTweetData } from 'redux/modules/models/promotionalTweets.js';
+import { FLASH_MESSAGE_ERROR } from 'redux/middleware/flashMiddleware.js';
 import {
   Button,
   FormControl,
@@ -12,9 +14,9 @@ import {
 class Promote extends Component {
   constructor(props) {
     super(props);
-    this.handleChange     = this.handleChange.bind(this);
-    this.handleSubmit     = this.handleSubmit.bind(this);
-    this.handleImageState = this.handleImageState.bind(this);
+    this.handleChange       = this.handleChange.bind(this);
+    this.handleSubmit       = this.handleSubmit.bind(this);
+    this.handleImageState   = this.handleImageState.bind(this);
 
     this.state = {
       listen_signal_id: this.props.params.id,
@@ -38,8 +40,31 @@ class Promote extends Component {
   handleSubmit() {
     const { dispatch } = this.props;
     const params = _.omit(this.state, 'image');
+    const error = this.validateInput(params.message);
 
-    dispatch(addPromotionalTweetData(params));
+    if (error) {
+      dispatch(appActions.renderFlashMessage({
+        type: FLASH_MESSAGE_ERROR,
+        message: error,
+      }));
+    } else {
+      dispatch(addPromotionalTweetData(params));
+    }
+  }
+
+  validateInput(message) {
+    if (message.length == 0) {
+      return 'Promotional tweet message is required.';
+    } else if (message.length > 140) {
+      return 'Promotional tweet message cannot exceed 140 characters.';
+    }
+  }
+
+  showError() {
+    dispatch(appActions.renderFlashMessage({
+      type: FLASH_MESSAGE_ERROR,
+      message: msg
+    }));
   }
 
   render() {
@@ -67,7 +92,11 @@ class Promote extends Component {
               <p>140 Character Limit</p>
             </div>
             <div className='promote-input-box'>
-              <FormControl onChange={this.handleChange} componentClass="textarea" placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}/>
+              <FormControl
+                onChange={this.handleChange}
+                componentClass="textarea"
+                placeholder={'Searching for deals any time? Tweet or message #Deals to @Brand'}
+              />
             </div>
             <div className='subheader'>
               <h5>Promotional Image</h5>
