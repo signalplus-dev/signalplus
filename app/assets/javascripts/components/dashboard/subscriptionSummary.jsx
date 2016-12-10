@@ -19,7 +19,7 @@ class SubscriptionSummary extends Component {
   renderContent() {
     const { subscription, isTopSubscription } = this.props;
 
-    if (!subscription.loaded) return <Loader />;
+    if (!subscription.loaded) return <Loader textOnly={true}/>;
 
     // Should never be the case, should have the free trial or the
     // expired free trial.
