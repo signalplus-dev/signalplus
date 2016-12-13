@@ -6,7 +6,18 @@ import _ from 'lodash';
 import { actions as appActions } from 'redux/modules/app/index.js';
 import { addListenSignalData, updateListenSignalData } from 'redux/modules/models/listenSignals.js';
 import { createTab } from 'components/contentPanel/contentPanel.jsx';
-import { signalInputValidation as validate } from 'components/forms/validations.jsx';
+import {
+  createValidator,
+  signalNameValidator,
+  defaultResponseValidator,
+  repeatResponseValidator,
+} from 'components/forms/validations.jsx';
+
+const validate = createValidator({
+  name: signalNameValidator,
+  default_response: defaultResponseValidator,
+  repeat_response: repeatResponseValidator,
+})
 
 const genericSignalFormName = 'listenSignalForm';
 
