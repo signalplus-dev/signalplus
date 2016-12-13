@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
-import { requestHeaders, clearTA } from 'util/authentication.js';
+import { requestHeaders, clearTA, HEADER_UID_KEY } from 'util/authentication.js';
 import Endpoints from 'util/endpoints.js'
 
 /**
@@ -23,9 +23,17 @@ export const createRequestAction = ({
     endpoint,
     method,
     credentials,
-    headers: () => {
+    headers: (state) => {
       if (headers) return headers;
-      return requestHeaders();
+
+      // Use the updated email if available
+      const { uid, ...authHeaders } = requestHeaders();
+      const email = _.get(state, 'models.user.data.email');
+
+      return {
+        ...authHeaders,
+        [HEADER_UID_KEY]: email || uid,
+      };
     },
     body,
     types,

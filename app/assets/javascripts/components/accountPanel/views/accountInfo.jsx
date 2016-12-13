@@ -10,7 +10,11 @@ import Checkbox from 'components/forms/checkbox.jsx';
 import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
 import { updateUserInfo } from 'redux/modules/models/user.js';
 import { getUserData } from 'redux/modules/models/user.js'
-import { accountInputValidation as validate } from 'components/forms/validations.jsx';
+import {
+  createValidator,
+  emailValidator,
+  timezoneValidator,
+} from 'components/forms/validations.jsx';
 
 
 const hooks = {
@@ -70,6 +74,11 @@ class UndecoratedAccountInfo extends Component {
     );
   }
 }
+
+const validate = createValidator({
+  email: emailValidator,
+  tz: timezoneValidator,
+});
 
 const AccountInfo = reduxForm({
   form: 'accountInfo',

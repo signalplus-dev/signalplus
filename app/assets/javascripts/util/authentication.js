@@ -5,7 +5,7 @@ import { TA_KEY } from 'util/cookieKeys.js';
 const HEADER_AT_KEY = 'access-token';
 const HEADER_CL_KEY = 'client';
 const HEADER_EXPIRY_KEY = 'expiry';
-const HEADER_UID_KEY = 'uid';
+export const HEADER_UID_KEY = 'uid';
 let cl;
 
 export function getTA() {
