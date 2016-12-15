@@ -12,7 +12,7 @@ export default class Edit extends Component {
     this.removeCustomResponse = this.removeCustomResponse.bind(this);
 
     this.state = {
-      customResponse: false,
+      customResponseIndex: _.filter(props.signal.responses, { 'response_type': 'custom' }).length,
     }
   }
 
@@ -30,17 +30,20 @@ export default class Edit extends Component {
       return 'Send your users a special offer everytime they send a custom hashtag'
     } else if (type == 'custom') {
       return 'Respond to your users with a custom message every time they send a custom hashtag'
+    }
+  }
 
   addCustomResponse() {
-    this.setState({ customResponse: true });
+    this.setState({ customResponseIndex: this.state.customResponseIndex + 1 })
+
   }
 
   removeCustomResponse() {
-    this.setState({ customResponse: false });
+
   }
 
-  // TODO Change custom response placeholder
   renderCustomResponse() {
+
     if (this.state.customResponse) {
       return (
         <div className='response-edit-box'>
@@ -56,7 +59,7 @@ export default class Edit extends Component {
           </div>
           <InputBox
             name="custom_response"
-            placeholder="TODO: Type your custom response here"
+            placeholder="Type your response here, add website links too"
             componentClass="textarea"
           />
           <a onClick={this.removeCustomResponse} className='delete-custom-response-btn'>
@@ -121,7 +124,7 @@ export default class Edit extends Component {
           </div>
           <InputBox
             name="default_response"
-            placeholder="Type your response here"
+            placeholder="Type your response here, add website links too"
             componentClass="textarea"
           />
           <span className='required'>REQUIRED</span>
@@ -133,7 +136,7 @@ export default class Edit extends Component {
           </div>
           <InputBox
             name="repeat_response"
-            placeholder="Type your response here"
+            placeholder="Type your response here, add website links too"
             componentClass="textarea"
           />
           <span className='required'>REQUIRED</span>
