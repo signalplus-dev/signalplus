@@ -7,17 +7,17 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
 
   def update
     @listen_signal = ListenSignal.find(params[:id])
-    signal_params = signal_params(params)
+    signal_params = update_signal_params
     @listen_signal.update_attributes!(signal_params)
 
     default_response = update_response(@listen_signal.default_response, params[:default_response])
     repeat_response = update_response(@listen_signal.repeat_response, params[:repeat_response])
 
-    render json: @listen_signal, each_serializer: ListenSignalSerializer
+    render json: @listen_signal, serializer: ListenSignalSerializer
   end
 
   def create
-    signal_params            = signal_params(params)
+    signal_params            = create_signal_params
     signal_params[:brand]    = @brand
     signal_params[:identity] = @brand.twitter_identity
     default_response_msg     = params[:default_response]
@@ -28,7 +28,7 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
       create_grouped_response(default_response_msg, repeat_response_msg)
     end
 
-    render json: @listen_signal, each_serializer: ListenSignalSerializer
+    render json: @listen_signal, serializer: ListenSignalSerializer
   end
 
   def destroy
@@ -51,8 +51,12 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
 
   private
 
-  def signal_params(params)
+  def create_signal_params
     params.permit(:name, :active, :signal_type, :expiration_date)
+  end
+
+  def update_signal_params
+    params.permit(:active, :signal_type, :expiration_date)
   end
 
   def get_listen_signal

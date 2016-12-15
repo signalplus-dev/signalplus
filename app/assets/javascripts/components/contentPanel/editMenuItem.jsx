@@ -4,6 +4,21 @@ import InputBox from 'components/forms/inputBox.jsx';
 import ActivateSignalRadioButton from 'components/forms/activateSignalRadioButton.jsx';
 import _ from 'lodash';
 
+function renderInputBox(signal) {
+  return (
+    <InputBox
+      name="name"
+      placeholder={`Ex. ${_.upperFirst(signal.signal_type)}`}
+      componentClass="input"
+      className="signalNameInput uctext"
+    />
+  );
+}
+
+function renderSignalName(signal) {
+  return <div>{`#${signal.name}`}</div>;
+}
+
 export default function EditMenuItem({ menu, signal }) {
   return (
     <li className="uctext">
@@ -14,12 +29,7 @@ export default function EditMenuItem({ menu, signal }) {
       >
         <label className="signalLabel">
           <span className="caption">SIGNAL NAME</span>
-          <InputBox
-            name="name"
-            placeholder={`Ex. ${_.upperFirst(signal.signal_type)}`}
-            componentClass="input"
-            className="signalNameInput uctext"
-          />
+          {signal.id ? renderSignalName(signal) : renderInputBox(signal)}
         </label>
         <ActivateSignalRadioButton/>
       </Link>
