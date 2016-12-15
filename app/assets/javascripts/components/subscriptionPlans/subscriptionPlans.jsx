@@ -134,7 +134,7 @@ export class SubscriptionPlans extends Component {
     if (hasExistingSubscription) {
       dispatch(updateSubscription({
         ...formData,
-        id: this.props.subscription.id,
+        id: this.props.subscriptionId,
       })).then((response) => {
         browserHistory.push('/dashboard');
       });;
@@ -206,17 +206,19 @@ export class SubscriptionPlans extends Component {
 }
 
 const ConnectedSubscriptionPlans = connect(state => {
-  const subscriptionPlanId = state.models.subscription.data.subscription_plan_id;
+  const subscription = state.models.subscription.data;
+  const { id, subscription_plan_id } = subscription;
   const subscriptionPlans = state.models.subscriptionPlans.data;
 
   return {
     inDashboard: true,
-    hasExistingSubscription: !!subscriptionPlanId,
+    hasExistingSubscription: !!subscription_plan_id,
+    subscriptionId: id,
     subscriptionPlans: _.reduce(subscriptionPlans, (memo, subscriptionPlan) => ([
       ...memo,
       {
         ...subscriptionPlan,
-        selected: subscriptionPlan.id === subscriptionPlanId,
+        selected: subscriptionPlan.id === subscription_plan_id,
       },
     ]), []),
   };

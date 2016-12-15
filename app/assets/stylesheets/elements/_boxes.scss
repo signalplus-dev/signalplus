@@ -85,8 +85,7 @@
   }
 
   .btn {
-    width: 100%;
-    max-width: 125px;
+    min-width: 125px;
     position: absolute;
     bottom: $box-bottom-padding;
     left: 50%;
