@@ -8,7 +8,7 @@ import Invoice from 'components/accountPanel/views/invoice.jsx'
 class AccountInvoices extends Component {
   renderInvoices(brand, invoices) {
     if (_.isEmpty(invoices)) {
-      return <div className='invoice-absent'>There is no invoice at the moment</div>
+      return <div className='invoice-absent'>There are no invoices at the moment</div>
     }
 
     return _.map(invoices, (invoice) => {
