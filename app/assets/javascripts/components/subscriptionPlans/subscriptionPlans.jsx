@@ -83,7 +83,7 @@ class SelectButton extends Component {
   }
 
   renderSelectedButton() {
-    return <button className="btn selected-btn">SELECTED</button>;
+    return <button className="btn selected-btn">CURRENT PLAN</button>;
   }
 
   renderActualButton(hasExistingSubscription) {
