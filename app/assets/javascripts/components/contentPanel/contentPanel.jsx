@@ -12,6 +12,8 @@ import SignalForm from 'components/forms/signalForm.jsx';
 const EXISTING_SIGNAL_PATHNAME_REGEX = /^\/dashboard\/signals\/\d+/;
 const MATCHING_LOCATION_BASE_PATHNAME_REGEX = /\/dashboard\/signals\/(\d+|new\/[^\/]+)/
 
+const genericSignalFormName = 'listenSignalForm';
+
 function isExistingSignal(pathname) {
   return EXISTING_SIGNAL_PATHNAME_REGEX.test(pathname);
 }
@@ -21,7 +23,7 @@ function tabId(signal) {
   return !id ? `new_${type}` : `existing_${id}`;
 }
 
-export function createTab(signal) {
+export function createTab(signal, formName) {
   const { signal_type: type, id, name } = signal;
   const isNew = !id
 
@@ -30,6 +32,7 @@ export function createTab(signal) {
     label: isNew ? `New ${_.upperFirst(type)} Signal` : `#${_.upperFirst(name)}`,
     link: isNew ? `/dashboard/signals/new/${type}` : `/dashboard/signals/${id}`,
     closeable: true,
+    formName,
   };
 }
 
@@ -45,7 +48,7 @@ class ContentPanel extends Component {
   }
 
   tabAlreadyCreated(signal, tabs) {
-    const newTab = createTab(signal);
+    const newTab = createTab(signal, this.formName());
     return _.some(tabs, (tab) => (_.isEqual(tab, newTab)));
   }
 
@@ -62,7 +65,7 @@ class ContentPanel extends Component {
 
   createTabIfNotCreated(signal, tabs) {
     if (this.shouldCreateTab(signal, tabs)) {
-      this.props.dispatch(appActions.addTab(createTab(signal)));
+      this.props.dispatch(appActions.addTab(createTab(signal, this.formName())));
       this.setState({ tabCreated: true });
     }
   }
@@ -117,12 +120,17 @@ class ContentPanel extends Component {
     });
   }
 
+  formName() {
+    const { signal } = this.props;
+    return `${genericSignalFormName}_${signal.id || signal.signal_type}`;
+  }
+
   render() {
     const { signal, children } = this.props;
     const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
-      <SignalForm signal={signal} tabId={tabId(signal)}>
+      <SignalForm signal={signal} tabId={tabId(signal)} formName={this.formName()}>
         <Sidebar menuItems={this.menuItems()} signal={signal} tabId={tabId(signal)}/>
         <div className="content-pane">
           {childrenToRender}

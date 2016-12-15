@@ -17,9 +17,7 @@ const validate = createValidator({
   name: signalNameValidator,
   default_response: defaultResponseValidator,
   repeat_response: repeatResponseValidator,
-})
-
-const genericSignalFormName = 'listenSignalForm';
+});
 
 class UndecoratedSignalForm extends Component {
   constructor(props) {
@@ -28,7 +26,7 @@ class UndecoratedSignalForm extends Component {
   }
 
   updateSignal({id, ...form}) {
-    const { dispatch, tabId } = this.props;
+    const { dispatch, tabId, formName } = this.props;
 
     if (id) {
       dispatch(updateListenSignalData(form, id));
@@ -67,6 +65,7 @@ class SignalForm extends Component {
     this.form = reduxForm({
       form: formName,
       validate,
+      destroyOnUnmount: false,
     })(UndecoratedSignalForm);
   }
 
@@ -134,14 +133,11 @@ function normalizeSignalForEdit(signal) {
 };
 
 export default connect((state, ownProps) => {
-  const formName = `${genericSignalFormName}_${ownProps.signal.id || ownProps.signal.signal_type}`;
-
   return {
-    formName,
     currentRoute: state.routing.locationBeforeTransitions.pathname,
     initialValues: {
       ...normalizeSignalForEdit(ownProps.signal),
-      ..._.get(state, `app.dashboard.tabs.['${formName}']`, {}),
+      ..._.get(state, `app.dashboard.tabs.['${ownProps.formName}']`, {}),
     },
   };
 })(SignalForm);

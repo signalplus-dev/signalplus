@@ -5,6 +5,7 @@ import { Link, withRouter  } from 'react-router';
 import { push } from 'react-router-redux';
 import cn from 'classnames';
 import { actions as appActions } from 'redux/modules/app/index.js';
+import { destroy } from 'redux-form';
 
 import SVGInline from 'react-svg-inline';
 import svg from 'icons/close.svg';
@@ -35,7 +36,9 @@ class UnconnectedTabClose extends PureComponent {
       promise = Promise.resolve();
     }
 
-    promise.then(() => dispatch(appActions.removeTab(tab.id)));
+    promise
+      .then(() => dispatch(appActions.removeTab(tab.id)))
+      .then(() => { if (tab.formName) return dispatch(destroy(tab.formName)); });
   }
 
   render() {
