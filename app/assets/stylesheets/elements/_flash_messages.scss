@@ -1,8 +1,8 @@
 $opacity: 0.9;
 
 .flash-messages {
-  position: absolute;
-  top: 55px;
+  position: fixed;
+  top: $header-height;
   left: 0;
   right: 0;
   padding: 15px;
