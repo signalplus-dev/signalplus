@@ -83,6 +83,7 @@ const validate = createValidator({
 const AccountInfo = reduxForm({
   form: 'accountInfo',
   enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
   validate,
 })(UndecoratedAccountInfo)
 
