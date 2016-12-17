@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
+import { arrayPush } from 'redux-form';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import Calendar from 'components/forms/calendar';
 import InputBox from 'components/forms/inputBox';
 import AddBtn from 'components/buttons/add_btn';
 import SignalIcon from 'components/links/signal_icon';
 
+
 export default class Edit extends Component {
   constructor(props) {
     super(props);
-    this.addCustomResponse = this.addCustomResponse.bind(this);
-    this.removeCustomResponse = this.removeCustomResponse.bind(this);
-
-    this.state = {
-      customResponseIndex: _.filter(props.signal.responses, { 'response_type': 'custom' }).length,
-    }
+    // this.addCustomResponse = this.addCustomResponse.bind(this);
+    // this.removeCustomResponse = this.removeCustomResponse.bind(this);
   }
 
   displaySignalName() {
@@ -33,42 +32,14 @@ export default class Edit extends Component {
     }
   }
 
-  addCustomResponse() {
-    this.setState({ customResponseIndex: this.state.customResponseIndex + 1 })
+  // addCustomResponse() {
+  //   this.setState({ customResponseIndex: this.state.customResponseIndex + 1 })
 
-  }
+  // }
 
-  removeCustomResponse() {
+  // removeCustomResponse() {
 
-  }
-
-  renderCustomResponse() {
-
-    if (this.state.customResponse) {
-      return (
-        <div className='response-edit-box'>
-          <div className='response-text'>
-            <h5>Response</h5>
-            <span className='custom-response-box-label'>
-              <p>Expires on:</p>
-              <Calendar
-                name='expiration_date'
-                date='2016-02-03'
-              />
-            </span>
-          </div>
-          <InputBox
-            name="custom_response"
-            placeholder="Type your response here, add website links too"
-            componentClass="textarea"
-          />
-          <a onClick={this.removeCustomResponse} className='delete-custom-response-btn'>
-            delete
-          </a>
-        </div>
-      );
-    }
-  }
+  // }
 
   render() {
     const { signal } = this.props;
@@ -142,7 +113,26 @@ export default class Edit extends Component {
           <span className='required'>REQUIRED</span>
         </div>
 
-        {this.renderCustomResponse()}
+        <div className='response-edit-box'>
+          <div className='response-text'>
+            <h5>Response</h5>
+            <span className='custom-response-box-label'>
+              <p>Expires on:</p>
+              <Calendar
+                name='expiration_date'
+                date='2016-02-03'
+              />
+            </span>
+          </div>
+          <InputBox
+            name="custom_response"
+            placeholder="Type your response here, add website links too"
+            componentClass="textarea"
+          />
+          <a onClick={this.removeCustomResponse} className='delete-custom-response-btn'>
+            delete
+          </a>
+        </div>
       </div>
     );
   }
