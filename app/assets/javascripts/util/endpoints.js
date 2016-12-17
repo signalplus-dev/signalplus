@@ -7,6 +7,7 @@ const endpoints = {
   SUBSCRIPTION:             '/api/v1/subscriptions/:id',
   SUBSCRIPTIONS:            '/api/v1/subscriptions',
   SUBSCRIPTION_PLANS:       '/api/v1/subscription_plans',
+  SUBSCRIPTION_CANCEL:      '/api/v1/subscriptions/:id/cancel',
   BRAND:                    '/api/v1/brands/me',
   USER:                     '/api/v1/users/me',
   USER_UPDATE:              '/api/v1/users/:id',
@@ -16,6 +17,10 @@ const endpoints = {
   PROMOTIONAL_SIGNAL_INDEX: '/api/v1/promotional_tweets',
   INVOICES:                 '/api/v1/invoices',
 };
+
+export function cancelSubscriptionEndpoint(subscriptionId) {
+  return endpoints.SUBSCRIPTION_CANCEL.replace(/:id/g, subscriptionId);
+}
 
 export function updateSubscriptionEndpoint(subscriptionId) {
   return endpoints.SUBSCRIPTION.replace(/:id/g, subscriptionId);

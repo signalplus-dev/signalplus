@@ -1,7 +1,7 @@
 class Api::V1::SubscriptionsController < Api::V1::BaseController
   before_action :get_brand
   before_action :ensure_user_can_perform_action
-  before_action :set_subscription, only: [:update]
+  before_action :set_subscription, only: [:update, :cancel]
   before_action :ensure_subscription_belongs_to_brand, only: [:update]
 
   def create
@@ -25,6 +25,12 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   def update
     subscription_plan = SubscriptionPlan.find(params[:subscription_plan_id])
     @subscription.update_plan!(subscription_plan)
+
+    render json: @subscription, serializer: SubscriptionSerializer
+  end
+
+  def cancel
+    @subscription.cancel_plan!
 
     render json: @subscription, serializer: SubscriptionSerializer
   end

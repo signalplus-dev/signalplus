@@ -1,6 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import { createRequestAction } from 'redux/utils.js';
-import Endpoints, { updateSubscriptionEndpoint } from 'util/endpoints.js';
+import Endpoints, { updateSubscriptionEndpoint, cancelSubscriptionEndpoint } from 'util/endpoints.js';
 import { normalizeSubscription } from 'util/normalize.js';
 import { getChannelActionType, subscribedChannels } from 'redux/actionCableSubscriptions.js';
 import _ from 'lodash';
@@ -21,6 +21,10 @@ const SUBSCRIPTION_CREATE_REQUEST_FAIL = 'signalplus/subscription/create/REQUEST
 const SUBSCRIPTION_UPDATE_REQUEST = 'signalplus/subscription/update/REQUEST';
 const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/update/REQUEST_SUCCESS';
 const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/update/REQUEST_FAIL';
+
+const SUBSCRIPTION_CANCEL_REQUEST = 'signalplus/subscription/cancel/REQUEST';
+const SUBSCRIPTION_CANCEL_REQUEST_SUCCESS = 'signalplus/subscription/cancel/REQUEST_SUCCESS';
+const SUBSCRIPTION_CANCEL_REQUEST_FAIL = 'signalplus/subscription/cancel/REQUEST_FAIL';
 
 const SUBSCRIPTION_RESPONSE_COUNT_UPDATE = 'signalplus/subscription/SUBSCRIPTION_RESPONSE_COUNT_UPDATE';
 
@@ -122,6 +126,18 @@ export function updateSubscription({ id, ...formData }) {
       SUBSCRIPTION_UPDATE_REQUEST_FAIL,
     ],
   });
+}
+
+export function cancelSubscription({ id }) {
+  return createRequestAction({
+    endpoint: cancelSubscriptionEndpoint(id),
+    method: 'POST',
+    types: [
+      SUBSCRIPTION_CANCEL_REQUEST,
+      SUBSCRIPTION_CANCEL_REQUEST_SUCCESS,
+      SUBSCRIPTION_CANCEL_REQUEST_FAIL,
+    ],
+  })
 }
 
 export const updateResponseCount = createAction(SUBSCRIPTION_RESPONSE_COUNT_UPDATE);

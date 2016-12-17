@@ -37,6 +37,22 @@
   }
 }
 
+@mixin btn-gray {
+  color: $text-black;
+  background-color: $modal-gray;
+  border: solid 1px $modal-gray;
+  font-weight: bold;
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: $text-white;
+    background-color: rgba($modal-gray, .7);
+    border-color: rgba($modal-gray, .7);
+  }
+}
+
 @mixin btn-outline {
   font-weight: 300;
   border-radius: 10px;
@@ -202,5 +218,26 @@
   width: 278px;
   position: relative;
   top: -30px;
+}
+
+.cancel-btn {
+  @include btn;
+  color: $button-red;
+}
+
+
+.confirm-btn-yes {
+  @include btn;
+  @include btn-blue;
+  width: 60px;
+  padding: 5px;
+}
+
+.confirm-btn-no {
+  @include btn;
+  @include btn-gray;
+  width: 60px;
+  padding: 5px;
+  margin-left: 20px;
 }
 

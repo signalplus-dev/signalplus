@@ -11,7 +11,7 @@
 
   .plan-price {
     font-size: $h1-font-size;
-    display: inline
+    display: inline;
   }
 
   .line-bold {
@@ -24,6 +24,10 @@
 
   .line-account-billing {
     margin-top: 10px;
+  }
+
+  .line-account-cancel {
+    margin-top: 40px;
   }
 
   .plan-details-responses {
@@ -59,5 +63,14 @@
     margin-top: 40px;
     display: block;
     padding-left: 30px;
+  }
+
+  .plan-cancel {
+    padding-left: 30px;
+  }
+
+  .plan-cancel-subtext {
+    font-size: $base-caption-font-size;
+    margin-top: 20px;
   }
 }

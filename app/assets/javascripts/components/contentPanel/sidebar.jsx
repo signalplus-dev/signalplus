@@ -22,7 +22,7 @@ export function MenuItem({ menu }) {
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    this.deleteSignal = this.deleteSignal.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
   }
 
   renderMenuItems(menuItems, signal) {
@@ -35,21 +35,23 @@ class Sidebar extends Component {
     });
   }
 
-  deleteSignal() {
-    const { dispatch, signal, tabId } = this.props;
-    if (signal.id) {
-      dispatch(deleteListenSignalData(signal));
-      dispatch(appActions.removeTab(tabId)).then(() => {
-        browserHistory.push(ACTIVE_SIGNAL_PATH);
-      });
-    };
+  confirmDelete() {
+    const { dispatch, signal, tabId} = this.props;
+
+    dispatch(appActions.showModal({
+      modalType: 'DELETE_SIGNAL',
+      modalProps: {
+        signal: signal,
+        tabId: tabId,
+      }
+    }));
   }
 
   showDelete() {
     if (this.props.signal.id) {
       return (
         <div className='sidebar-btns'>
-          <Button className='delete-btn' onClick={this.deleteSignal}>
+          <Button className='delete-btn' onClick={this.confirmDelete}>
             DELETE SIGNAL
           </Button>
         </div>

@@ -12,7 +12,7 @@ export default function CurrentPlanMenuItem({ menu, subscription }) {
       >
       {menu.label}
       <p className="subscription-name">
-        {subscription.name}    
+        {subscription.name}
       </p>
       <p className="subscription-month">{moment().format('MMM YYYY')}</p><br/>
       </Link>
