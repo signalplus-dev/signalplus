@@ -96,6 +96,11 @@
         transform: translateX(-100%);
       }
     }
+
+    &.newSignal {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
 

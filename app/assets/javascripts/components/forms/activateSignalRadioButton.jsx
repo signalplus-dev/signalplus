@@ -22,13 +22,15 @@ class ActivateSignalRadioButton extends PureComponent {
       visited,
       active,
       meta,
+      persisted,
       ...props,
     } = this.props;
 
-    const labelClasses = cn(
-      'toggleSignal',
-      { activeSignal: input.checked }
-    );
+    const labelClasses = cn({
+      toggleSignal: true,
+      newSignal: !persisted,
+      activeSignal: input.checked,
+    });
 
     return (
       <label
@@ -42,6 +44,7 @@ class ActivateSignalRadioButton extends PureComponent {
           ref="checkbox"
           type="checkbox"
           className="activeSignalRadio"
+          disabled={!persisted}
         />
         <div className="toggleKnob"></div>
       </label>
