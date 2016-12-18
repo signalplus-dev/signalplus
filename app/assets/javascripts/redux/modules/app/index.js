@@ -134,8 +134,7 @@ export const reducer = handleActions({
   [HIDE_MODAL]: (state, action) => ({
     ...state,
     modal: {
-      modalType: null,
-      modalProps: {},
+      ...state.modal,
       display: false,
     },
   }),
