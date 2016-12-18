@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { arrayPush } from 'redux-form';
+import { arrayPush, FieldArray } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Calendar from 'components/forms/calendar';
 import InputBox from 'components/forms/inputBox';
-import AddBtn from 'components/buttons/add_btn';
 import SignalIcon from 'components/links/signal_icon';
+import CustomResponseForm from 'components/forms/customResponseForm';
+import { getFormNameFromSignal } from 'components/forms/util';
 
 
-export default class Edit extends Component {
+class Edit extends Component {
   constructor(props) {
     super(props);
-    // this.addCustomResponse = this.addCustomResponse.bind(this);
-    // this.removeCustomResponse = this.removeCustomResponse.bind(this);
+    this.addCustomResponse = this.addCustomResponse.bind(this);
   }
 
   displaySignalName() {
@@ -32,14 +31,12 @@ export default class Edit extends Component {
     }
   }
 
-  // addCustomResponse() {
-  //   this.setState({ customResponseIndex: this.state.customResponseIndex + 1 })
+  addCustomResponse() {
+    const { dispatch, signal } = this.props;
+    const form = getFormNameFromSignal(signal);
 
-  // }
-
-  // removeCustomResponse() {
-
-  // }
+    dispatch(arrayPush(form, 'responses', { text: 's', expiration_date: 's' }));
+  }
 
   render() {
     const { signal } = this.props;
@@ -113,27 +110,13 @@ export default class Edit extends Component {
           <span className='required'>REQUIRED</span>
         </div>
 
-        <div className='response-edit-box'>
-          <div className='response-text'>
-            <h5>Response</h5>
-            <span className='custom-response-box-label'>
-              <p>Expires on:</p>
-              <Calendar
-                name='expiration_date'
-                date='2016-02-03'
-              />
-            </span>
-          </div>
-          <InputBox
-            name="custom_response"
-            placeholder="Type your response here, add website links too"
-            componentClass="textarea"
-          />
-          <a onClick={this.removeCustomResponse} className='delete-custom-response-btn'>
-            delete
-          </a>
-        </div>
+        <FieldArray
+          name='responses'
+          component={CustomResponseForm}
+        />
       </div>
     );
   }
 }
+
+export default connect()(Edit);

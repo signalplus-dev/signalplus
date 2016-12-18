@@ -11,7 +11,12 @@ import {
   signalNameValidator,
   defaultResponseValidator,
   repeatResponseValidator,
+<<<<<<< c5eec8e1c49e247ea6c8d26534c792aed9f6bc58
 } from 'components/forms/validations';
+=======
+  customResponseValidator,
+} from 'components/forms/validations.jsx';
+>>>>>>> vlidations
 
 const validate = createValidator({
   name: signalNameValidator,
@@ -65,6 +70,7 @@ class SignalForm extends Component {
     this.form = reduxForm({
       form,
       validate,
+      customResponseValidator,
       destroyOnUnmount: false,
     })(UndecoratedSignalForm);
   }
