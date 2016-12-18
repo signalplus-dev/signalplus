@@ -7,9 +7,10 @@ import {
   Route,
   Redirect,
   browserHistory,
+  applyRouterMiddleware,
 } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux';
-import { RedialContext } from 'react-router-redial';
+import { useRedial } from 'react-router-redial';
 import configureStore from 'redux/configureStore.js';
 
 // Components
@@ -49,19 +50,19 @@ function UnconnectedAppRouter({ authenticated }) {
   if (!authenticated) {
     return <App><Loader /></App>;
   }
+  const { dispatch, getState } = store;
 
   return (
     <Router
       history={syncHistoryWithStore(browserHistory, store)}
-      render={props => (
-        <RedialContext
-          {...props}
-          locals={{ dispatch: store.dispatch }}
-          blocking={['fetch']}
-          defer={['defer', 'done']}
-          parallel={true}
-          initialLoading={() => <div>Loading…</div>}
-        />
+      render={applyRouterMiddleware(
+        useRedial({
+          locals: { dispatch, getState },
+          beforeTransition: ['fetch'],
+          afterTransition: ['defer', 'done'],
+          parallel: true,
+          initialLoading: () => <div>Loading…</div>,
+        })
       )}
     >
       <Route path="/" component={App}>

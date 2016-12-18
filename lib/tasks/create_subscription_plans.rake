@@ -42,3 +42,7 @@ task create_subscription_plans: :environment do
     )
   end
 end
+
+Rake::Task["db:setup"].enhance do
+  Rake::Task[:create_subscription_plans].invoke
+end

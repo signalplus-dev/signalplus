@@ -4,7 +4,7 @@ import _ from 'lodash';
 import LogOutLink from 'components/logOutLink.jsx';
 import AccountLink from 'components/accountLink.jsx';
 
-function Header({ brandUserName }) {
+function Header({ brandUserName, showMenu }) {
   return (
     <nav className="navbar navbar-static-top" role="navigation">
       {/* Brand and toggle get grouped for better mobile display */}
@@ -36,7 +36,7 @@ function Header({ brandUserName }) {
                     <span className="caret" />
                   </a>
                   <ul className="dropdown-menu">
-                    <li><AccountLink /></li>
+                    {showMenu && <li><AccountLink /></li>}
                     <li><LogOutLink /></li>
                   </ul>
                 </li>
@@ -49,6 +49,11 @@ function Header({ brandUserName }) {
   );
 }
 
-export default connect(state => ({
-  brandUserName: _.get(state, 'models.brand.data.user_name'),
-}))(Header);
+export default connect(state => {
+  const hasSubscription = !!_.get(state, 'models.subscription.data.id');
+
+  return {
+    brandUserName: _.get(state, 'models.brand.data.user_name'),
+    showMenu: hasSubscription,
+  };
+})(Header);
