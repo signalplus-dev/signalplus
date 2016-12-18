@@ -12,12 +12,12 @@ class Calendar extends PureComponent {
       ...props,
     } = this.props;
 
-    const inputValue = moment(input.value) || moment();
+    const date = input.value ? moment(input.value) : moment().add(7, 'day');
 
     return (
       <DateField
         dateFormat="YYYY-MM-DD"
-        defaultValue={inputValue.format('YYYY-MM-DD')}
+        defaultValue={date.format('YYYY-MM-DD')}
         onChange={input.onChange}
       />
     );
