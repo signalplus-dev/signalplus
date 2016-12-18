@@ -6,6 +6,7 @@ import _ from 'lodash';
 import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
 import { actions as appActions } from 'redux/modules/app/index.js';
 import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
+import { DELETE_SIGNAL } from 'components/modals/modalConstants';
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';
 
@@ -39,7 +40,7 @@ class Sidebar extends Component {
     const { dispatch, signal, tabId} = this.props;
 
     dispatch(appActions.showModal({
-      modalType: 'DELETE_SIGNAL',
+      modalType: DELETE_SIGNAL,
       modalProps: {
         signal: signal,
         tabId: tabId,

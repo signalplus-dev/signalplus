@@ -1,17 +1,29 @@
 class Api::V1::ListenSignalsController < Api::V1::BaseController
   before_action :get_brand, only: [:index, :show, :create, :update, :destroy]
-  before_action :get_listen_signal, only: [:show, :destroy]
+  before_action :get_listen_signal, only: [:show, :destroy, :update, :signal]
   before_action :ensure_user_can_get_signal_info, only: [:index, :show, :destroy]
   before_action :ensure_user_can_get_listen_signal, only: [:show, :destroy]
   before_action :has_valid_subscription?, only: [:update, :create]
 
-  def update
-    @listen_signal = ListenSignal.find(params[:id])
-    signal_params = update_signal_params
-    @listen_signal.update_attributes!(signal_params)
+  def index
+    render json: @brand.listen_signals, each_serializer: ListenSignalSerializer
+  end
 
-    default_response = update_response(@listen_signal.default_response, params[:default_response])
-    repeat_response = update_response(@listen_signal.repeat_response, params[:repeat_response])
+  def show
+    render json: @listen_signal, serializer: ListenSignalSerializer
+  end
+
+  def templates
+    render json: listen_signal_template_types
+  end
+
+  def update
+    request_method = request.env['REQUEST_METHOD']
+    if request_method == 'PUT'
+      put_update
+    elsif request_method == 'PATCH'
+      patch_update
+    end
 
     render json: @listen_signal, serializer: ListenSignalSerializer
   end
@@ -37,18 +49,6 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     head :no_content
   end
 
-  def index
-    render json: @brand.listen_signals, each_serializer: ListenSignalSerializer
-  end
-
-  def show
-    render json: @listen_signal, serializer: ListenSignalSerializer
-  end
-
-  def templates
-    render json: listen_signal_template_types
-  end
-
   private
 
   def create_signal_params
@@ -56,7 +56,11 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   end
 
   def update_signal_params
-    params.permit(:active, :signal_type, :expiration_date)
+    params.permit(:signal_type, :expiration_date)
+  end
+
+  def patch_signal_params
+    params.permit(:active)
   end
 
   def get_listen_signal
@@ -90,6 +94,18 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
         ListenSignal::Types::REMINDER => 'Send a reminder on a specific date to users when they use a custom hashtag',
         ListenSignal::Types::CUSTOM => 'Create your own custom response whenever a follower sends a custom hashtag'      }
     }
+  end
+
+  def put_update
+    signal_params = update_signal_params
+    @listen_signal.update!(signal_params)
+
+    update_response(@listen_signal.default_response, params[:default_response])
+    update_response(@listen_signal.repeat_response, params[:repeat_response])
+  end
+
+  def patch_update
+    @listen_signal.update!(patch_signal_params)
   end
 
   def create_response_group

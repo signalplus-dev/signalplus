@@ -1,5 +1,31 @@
+$transition-timing: 330ms;
+
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.confirm-dialog-modal-overlay {
+  position: relative;
+  z-index: 1000;
+  animation: fadeIn $transition-timing $default-easing-function;
+}
+
+.ReactModal {
+  &__Overlay {
+    transition: opacity $transition-timing $default-easing-function;
+
+    // Disables tap highlight
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+    &--before-close {
+      opacity: 0;
+    }
+  }
+}
+
 .confirm-dialog-modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

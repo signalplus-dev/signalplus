@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// Components
-import DeleteSignalModal from 'components/modals/deleteSignalModal.jsx';
-import CancelSubscriptionModal from 'components/modals/cancelSubscriptionModal.jsx';
-
-const MODAL_COMPONENTS = {
-  'DELETE_SIGNAL': DeleteSignalModal,
-  'CANCEL_SUBSCRIPTION': CancelSubscriptionModal,
-}
+import { MODAL_COMPONENTS } from 'components/modals/modalConstants';
 
 const ModalRoot = ({ modal: { modalType, modalProps, display }}) => {
   if (!modalType) {

@@ -52,6 +52,7 @@ const initialState = {
   modal: {
     modalType: null,
     modalProps: {},
+    display: false,
   }
 };
 
