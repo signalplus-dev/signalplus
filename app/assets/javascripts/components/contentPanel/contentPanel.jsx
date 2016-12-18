@@ -48,7 +48,7 @@ class ContentPanel extends Component {
   }
 
   tabAlreadyCreated(signal, tabs) {
-    const newTab = createTab(signal, this.formName());
+    const newTab = createTab(signal, this.formName(signal));
     return _.some(tabs, (tab) => (_.isEqual(tab, newTab)));
   }
 
@@ -65,7 +65,7 @@ class ContentPanel extends Component {
 
   createTabIfNotCreated(signal, tabs) {
     if (this.shouldCreateTab(signal, tabs)) {
-      this.props.dispatch(appActions.addTab(createTab(signal, this.formName())));
+      this.props.dispatch(appActions.addTab(createTab(signal, this.formName(signal))));
       this.setState({ tabCreated: true });
     }
   }
@@ -77,7 +77,7 @@ class ContentPanel extends Component {
   }
 
   componentWillReceiveProps({ signal, tabs }) {
-    this.createTabIfNotCreated(signal, tabs)
+    this.createTabIfNotCreated(signal, tabs);
   }
 
   componentWillUnmount() {
@@ -120,8 +120,7 @@ class ContentPanel extends Component {
     });
   }
 
-  formName() {
-    const { signal } = this.props;
+  formName(signal) {
     return `${genericSignalFormName}_${signal.id || signal.signal_type}`;
   }
 
@@ -130,7 +129,7 @@ class ContentPanel extends Component {
     const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
-      <SignalForm signal={signal} tabId={tabId(signal)} formName={this.formName()}>
+      <SignalForm signal={signal} tabId={tabId(signal)} formName={this.formName(signal)}>
         <Sidebar menuItems={this.menuItems()} signal={signal} tabId={tabId(signal)}/>
         <div className="content-pane">
           {childrenToRender}
