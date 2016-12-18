@@ -18,14 +18,16 @@ class ActivateSignalRadioButton extends PureComponent {
 
     const { dispatch, signal } = this.props;
 
-    dispatch(appActions.showModal({
-      modalType: TOGGLE_SIGNAL,
-      modalProps: {
-        signalName: signal.name,
-        activate: !signal.active,
-        onConfirm: this.toggleSignalState,
-      },
-    }));
+    if (signal.id) {
+      dispatch(appActions.showModal({
+        modalType: TOGGLE_SIGNAL,
+        modalProps: {
+          signalName: signal.name,
+          activate: !signal.active,
+          onConfirm: this.toggleSignalState,
+        },
+      }));
+    }
   }
 
   toggleSignalState() {

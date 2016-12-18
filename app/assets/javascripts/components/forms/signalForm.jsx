@@ -94,10 +94,9 @@ class SignalForm extends Component {
   }
 
   render() {
-    const { signal, initialValues, ...props } = this.props;
     const Form = this.form;
     return (
-      <Form {...{ ...props, signal, initialValues }} />
+      <Form {...this.props} />
     );
   }
 }
