@@ -1,6 +1,6 @@
 class Api::V1::ListenSignalsController < Api::V1::BaseController
   before_action :get_brand, only: [:index, :show, :create, :update, :destroy]
-  before_action :get_listen_signal, only: [:show, :destroy, :update, :signal]
+  before_action :get_listen_signal, only: [:show, :destroy, :update]
   before_action :ensure_user_can_get_signal_info, only: [:index, :show, :destroy]
   before_action :ensure_user_can_get_listen_signal, only: [:show, :destroy]
   before_action :has_valid_subscription?, only: [:update, :create]
