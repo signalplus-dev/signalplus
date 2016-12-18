@@ -56,17 +56,28 @@ class Sidebar extends Component {
     });
   }
 
+  renderButtons() {
+    // Don't display the "CLOSE ACCOUNT" button for now
+    if (false) {
+      return (
+        <div className='sidebar-btns'>
+          <Button className='close-account-btn' onClick={this.closeAccount}>
+            CLOSE ACCOUNT
+          </Button>
+        </div>
+      );
+    }
+
+    return undefined;
+  }
+
   render() {
     return (
       <div className='col-xs-2 sidebar'>
         <ul className='sidebar-menus'>
           {this.renderMenuItems()}
         </ul>
-        <div className='sidebar-btns'>
-          <Button className='close-account-btn hide' onClick={this.closeAccount}>
-            CLOSE ACCOUNT
-          </Button>
-        </div>
+        {this.renderButtons()}
       </div>
     );
   }
