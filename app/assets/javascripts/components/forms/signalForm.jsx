@@ -74,7 +74,9 @@ class SignalForm extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    this.createForm(nextProps.formName);
+    if (nextProps.formName !== this.props.formName) {
+      this.createForm(nextProps.formName);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
