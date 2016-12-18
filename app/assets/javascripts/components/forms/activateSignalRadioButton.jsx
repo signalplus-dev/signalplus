@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Field } from 'redux-form';
 import cn from 'classnames';
 import { TOGGLE_SIGNAL } from 'components/modals/modalConstants';
-import { actions as appActions } from 'redux/modules/app/index.js';
+import { actions as appActions } from 'redux/modules/app/index';
 import { updateListenSignalData } from 'redux/modules/models/listenSignals';
 
 class ActivateSignalRadioButton extends PureComponent {
@@ -37,21 +36,12 @@ class ActivateSignalRadioButton extends PureComponent {
   }
 
   render () {
-    const {
-      input,
-      touched,
-      valid,
-      visited,
-      active,
-      meta,
-      signal,
-      ...props,
-    } = this.props;
+    const { signal } = this.props;
 
     const labelClasses = cn({
       toggleSignal: true,
       newSignal: !signal.id,
-      activeSignal: input.checked,
+      activeSignal: signal.active,
     });
 
     return (
@@ -61,7 +51,6 @@ class ActivateSignalRadioButton extends PureComponent {
         className={labelClasses}
       >
         <input
-          {...input}
           id="activeSignalRadio"
           ref="checkbox"
           type="checkbox"
@@ -74,15 +63,4 @@ class ActivateSignalRadioButton extends PureComponent {
   }
 }
 
-const ConnectedActivateSignalRadioButton = connect()(ActivateSignalRadioButton);
-
-export default function DecoratedRadioButton(props) {
-  return (
-    <Field
-      {...props}
-      name="active"
-      type="checkbox"
-      component={ConnectedActivateSignalRadioButton}
-    />
-  );
-}
+export default connect()(ActivateSignalRadioButton);
