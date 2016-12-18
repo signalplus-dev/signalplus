@@ -70,11 +70,16 @@ class SignalForm extends Component {
   }
 
   componentWillMount() {
-    this.createForm(this.props.formName);
+    const { signal } = this.props;
+    if (signal.id || signal.signal_type) {
+      this.createForm(this.props.formName);
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
-    this.createForm(nextProps.formName);
+    if (nextProps.formName !== this.props.formName) {
+      this.createForm(nextProps.formName);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -92,11 +97,12 @@ class SignalForm extends Component {
   }
 
   render() {
-    const { signal, initialValues, ...props } = this.props;
     const Form = this.form;
-    return (
-      <Form {...{ ...props, signal, initialValues }} />
-    );
+    if (Form) {
+      return <Form {...this.props} />;
+    }
+
+    return null;
   }
 }
 

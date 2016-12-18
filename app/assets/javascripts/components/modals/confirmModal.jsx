@@ -32,7 +32,9 @@ class ConfirmModal extends Component {
       <Modal
         isOpen={display}
         onRequestClose={this.closeModal}
-        className='confirm-dialog-modal'
+        className="confirm-dialog-modal"
+        overlayClassName="confirm-dialog-modal-overlay"
+        closeTimeoutMS={330}
       >
         <div className='row confirm-modal-content'>
           <div className='col-xs-4 col-xs-offset-4'>

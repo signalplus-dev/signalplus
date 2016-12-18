@@ -237,10 +237,10 @@ export const addListenSignalData = (payload) => {
   });
 };
 
-export const updateListenSignalData = (payload, id) => {
+export const updateListenSignalData = (payload, id, requestMethod = 'PUT') => {
   return createRequestAction({
     endpoint: listenSignalEndpoint(id),
-    method: 'PUT',
+    method: requestMethod,
     body: JSON.stringify(payload),
     types: [
       { type: LISTEN_SIGNALS_UPDATE_REQUEST, meta: { id } },

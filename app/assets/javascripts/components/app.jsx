@@ -27,6 +27,7 @@ import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans.js
 import Loader from 'components/loader.jsx';
 import Header from 'components/header.jsx';
 import FlashMessage from 'components/flashMessage.jsx';
+import ModalRoot from 'components/modals/index.jsx';
 
 // Import blocking App actions
 import { actions as appActions } from 'redux/modules/app/index.js';
@@ -38,6 +39,7 @@ function App({ children }) {
     <div>
       <Header />
       <FlashMessage />
+      <ModalRoot />
       {children}
     </div>
   );

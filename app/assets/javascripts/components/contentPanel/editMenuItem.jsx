@@ -31,7 +31,7 @@ export default function EditMenuItem({ menu, signal }) {
           <span className="caption">SIGNAL NAME</span>
           {signal.id ? renderSignalName(signal) : renderInputBox(signal)}
         </label>
-        <ActivateSignalRadioButton persisted={!!signal.id}/>
+        <ActivateSignalRadioButton signal={signal}/>
       </Link>
     </li>
   );

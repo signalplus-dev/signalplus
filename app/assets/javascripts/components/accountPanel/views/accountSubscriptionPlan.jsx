@@ -9,6 +9,8 @@ import Loader from 'components/loader.jsx';
 import InputBox from 'components/forms/inputBox.jsx';
 import AccountInvoices from 'components/accountPanel/views/accountInvoices.jsx';
 
+import { CANCEL_SUBSCRIPTION } from 'components/modals/modalConstants';
+
 class AccountSubscriptionPlan extends Component {
   constructor(props){
     super(props);
@@ -19,7 +21,7 @@ class AccountSubscriptionPlan extends Component {
     const { dispatch, subscription } = this.props;
 
     dispatch(appActions.showModal({
-      modalType: 'CANCEL_SUBSCRIPTION',
+      modalType: CANCEL_SUBSCRIPTION,
       modalProps: {
         subscription: subscription.data,
       }
