@@ -49,11 +49,7 @@ class ContentPanel extends Component {
   }
 
   tabAlreadyCreated(signal, tabs) {
-<<<<<<< 4db409d2cc73674a91fe1cb499d027f076487ff6
-    const newTab = createTab(signal, this.formName(signal));
-=======
     const newTab = createTab(signal, getFormNameFromSignal(signal));
->>>>>>> fix history
     return _.some(tabs, (tab) => (_.isEqual(tab, newTab)));
   }
 
@@ -134,11 +130,7 @@ class ContentPanel extends Component {
     const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
-<<<<<<< 4db409d2cc73674a91fe1cb499d027f076487ff6
-      <SignalForm signal={signal} tabId={tabId(signal)} formName={this.formName(signal)}>
-=======
       <SignalForm signal={signal} tabId={tabId(signal)} formName={getFormNameFromSignal(signal)}>
->>>>>>> fix history
         <Sidebar menuItems={this.menuItems()} signal={signal} tabId={tabId(signal)}/>
         <div className="content-pane">
           {childrenToRender}
