@@ -24,20 +24,20 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     elsif request_method == 'PATCH'
       patch_update
     end
-
-    render json: @listen_signal, serializer: ListenSignalSerializer
   end
 
   def create
     signal_params            = create_signal_params
+    response_params          = create_response_params
     signal_params[:brand]    = @brand
     signal_params[:identity] = @brand.twitter_identity
-    default_response_msg     = params[:default_response]
-    repeat_response_msg      = params[:repeat_response]
+    default_response_msg     = response_params[:default_response]
+    repeat_response_msg      = response_params[:repeat_response]
+    timed_responses          = response_params[:responses]
 
     ActiveRecord::Base.transaction do
       @listen_signal = ListenSignal.create!(signal_params)
-      create_grouped_response(default_response_msg, repeat_response_msg)
+      create_grouped_response(default_response_msg, repeat_response_msg, timed_responses)
     end
 
     render json: @listen_signal, serializer: ListenSignalSerializer
@@ -52,7 +52,11 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   private
 
   def create_signal_params
-    params.permit(:name, :active, :signal_type, :expiration_date)
+    params.permit(:name, :active, :signal_type)
+  end
+
+  def create_response_params
+    params.permit(:default_response, :repeat_response, { responses: [:id, :message, :expiration_date] })
   end
 
   def update_signal_params
@@ -96,16 +100,30 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     }
   end
 
-  def put_update
-    signal_params = update_signal_params
-    @listen_signal.update!(signal_params)
-
-    update_response(@listen_signal.default_response, params[:default_response])
-    update_response(@listen_signal.repeat_response, params[:repeat_response])
-  end
-
   def patch_update
     @listen_signal.update!(patch_signal_params)
+  end
+
+  def put_update
+    signal_params = update_signal_params
+    response_params = create_response_params
+
+    ActiveRecord::Base.transaction do
+      @listen_signal.update_attributes!(signal_params)
+      update_response(@listen_signal.default_response, response_params[:default_response])
+      update_response(@listen_signal.repeat_response, response_params[:repeat_response])
+      handle_timed_responses(response_params[:responses], @listen_signal.response_group)
+    end
+  end
+
+  def create_grouped_response(default_response_msg, repeat_response_msg, timed_responses)
+    response_group = create_response_group
+    create_response(default_response_msg, Response::Type::DEFAULT, response_group)
+    create_response(repeat_response_msg, Response::Type::REPEAT, response_group)
+
+    timed_responses.map do|response|
+      create_timed_response(response[:message], response[:expiration_date], response_group)
+    end
   end
 
   def create_response_group
@@ -116,10 +134,38 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     Response.create_response(message, type, response_group)
   end
 
-  def create_grouped_response(default_response_msg, repeat_response_msg)
-    response_group = create_response_group
-    create_response(default_response_msg, Response::Type::DEFAULT, response_group)
-    create_response(repeat_response_msg, Response::Type::REPEAT, response_group)
+  def create_timed_response(message, expiration_date, response_group)
+    Response.create_timed_response(message, Response::Type::TIMED, expiration_date, response_group)
+  end
+
+  def handle_timed_responses(responses, response_group)
+    handle_responses_for_delete(responses, response_group)
+    handle_responses_for_update(responses, response_group)
+  end
+
+  def handle_responses_for_delete(responses, response_group)
+    all_timed_responses_ids = response_group.timed_responses.pluck(:id)
+    updatable_response_ids = responses.collect{ |r| r[:id] }
+    deletable_response_ids = all_timed_responses_ids - updatable_response_ids
+
+    deletable_response_ids.map do |id|
+      response = Response.find(id)
+      response.destroy
+    end
+  end
+
+  def handle_responses_for_update(responses, response_group)
+    responses.map do |response|
+      if response.key?(:id)
+        response = Response.find(response[:id])
+        response.update_attributes!({
+          message: response[:message],
+          expiration_date: response[:expiration_date]
+        })
+      else
+        create_timed_response(response[:message], response[:expiration_date], response_group)
+      end
+    end
   end
 
   def update_response(response, message, exp_date=nil)

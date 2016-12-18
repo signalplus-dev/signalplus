@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import InputBox from 'components/forms/inputBox';
 import SignalIcon from 'components/links/signal_icon';
-import CustomResponseForm from 'components/forms/customResponseForm';
+import TimedResponseForm from 'components/forms/timedResponseForm';
 import { getFormNameFromSignal } from 'components/forms/util';
 
 
@@ -35,12 +35,11 @@ class Edit extends Component {
     const { dispatch, signal } = this.props;
     const form = getFormNameFromSignal(signal);
 
-    dispatch(arrayPush(form, 'responses', { text: 's', expiration_date: 's' }));
+    dispatch(arrayPush(form, 'responses', { text: '', expiration_date: '' }));
   }
 
   render() {
     const { signal } = this.props;
-    const responses = _.get(signal, 'responses', [{},{}]);
 
     return (
       <div className='col-xs-10 content-box'>
@@ -112,7 +111,7 @@ class Edit extends Component {
 
         <FieldArray
           name='responses'
-          component={CustomResponseForm}
+          component={TimedResponseForm}
         />
       </div>
     );

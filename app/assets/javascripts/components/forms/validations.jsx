@@ -21,13 +21,13 @@ export function repeatResponseValidator(repeatResponse) {
   return responseTextValidator(repeatResponse, 'Repeat');
 }
 
-export function customResponseValidator(responses) {
+export function timedResponseValidator(responses) {
   const responseArrayErrors = [];
 
   if (responses.length) {
     responses.forEach((response, index) => {
       const responseErrors = {};
-      responseErrors.text = responseTextValidator(response.text, 'Custom');
+      responseErrors.message = responseTextValidator(response.message, 'Timed');
       responseErrors.expiration_date = expirationDateValidator(response.expiration_date);
       responseArrayErrors[index] = responseErrors;
     });

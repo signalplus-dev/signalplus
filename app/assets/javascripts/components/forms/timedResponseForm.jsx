@@ -9,21 +9,20 @@ function renderFields({ fields, meta: { touched, error } }) {
       <div className='response-edit-box' key={index}>
         <div className='response-text'>
           <h5>Response</h5>
-          <span className='custom-response-box-label'>
+          <span className='timed-response-box-label'>
             <p>Expires on:</p>
             <Calendar
               name={`${response}.expiration_date`}
-              date='2016-02-03'
             />
           </span>
         </div>
         <InputBox
-          name={`${response}.text`}
+          name={`${response}.message`}
           placeholder="Type your response here, add website links too"
           componentClass="textarea"
         />
         { touched && error && <span className='input-form-error'>{error}</span> }
-        <a onClick={()=> fields.remove(index)} className='delete-custom-response-btn'>
+        <a onClick={()=> fields.remove(index)} className='delete-timed-response-btn'>
           delete
         </a>
       </div>
@@ -31,6 +30,6 @@ function renderFields({ fields, meta: { touched, error } }) {
   });
 }
 
-export default function CustomResponseForm({ ...props }) {
+export default function TimedResponseForm({ ...props }) {
   return <div>{renderFields(props)}</div>;
 }

@@ -11,13 +11,11 @@ import {
   signalNameValidator,
   defaultResponseValidator,
   repeatResponseValidator,
-<<<<<<< c5eec8e1c49e247ea6c8d26534c792aed9f6bc58
+  timedResponseValidator,
 } from 'components/forms/validations';
-=======
-  customResponseValidator,
-} from 'components/forms/validations.jsx';
->>>>>>> vlidations
 
+
+// TODO make timedResponses work with createValidator
 const validate = createValidator({
   name: signalNameValidator,
   default_response: defaultResponseValidator,
@@ -70,7 +68,6 @@ class SignalForm extends Component {
     this.form = reduxForm({
       form,
       validate,
-      customResponseValidator,
       destroyOnUnmount: false,
     })(UndecoratedSignalForm);
   }
@@ -115,7 +112,7 @@ class SignalForm extends Component {
 export const RESPONSE_TYPES = {
   DEFAULT: 'default',
   REPEAT: 'repeat',
-  CUSTOM: 'custom',
+  TIMED: 'timed',
 };
 
 const EDITABLE_SIGNAL_FIELDS = [
@@ -123,7 +120,6 @@ const EDITABLE_SIGNAL_FIELDS = [
   'name',
   'active',
   'signal_type',
-  'expiration_date',
 ];
 
 const findType = (type) => (response) => {

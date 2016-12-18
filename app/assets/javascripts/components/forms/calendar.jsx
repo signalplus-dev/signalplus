@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Field } from 'redux-form';
 import { DateField } from 'react-date-picker'
+import moment from 'moment';
 
 class Calendar extends PureComponent {
   render() {
@@ -11,14 +12,14 @@ class Calendar extends PureComponent {
       ...props,
     } = this.props;
 
+    const inputValue = moment(input.value) || moment();
+
     return (
-      <div>
-        <DateField
-          dateFormat="YYYY-MM-DD"
-          defaultValue={input.value}
-          onChange={input.onChange}
-        />
-      </div>
+      <DateField
+        dateFormat="YYYY-MM-DD"
+        defaultValue={inputValue.format('YYYY-MM-DD')}
+        onChange={input.onChange}
+      />
     );
   }
 }
