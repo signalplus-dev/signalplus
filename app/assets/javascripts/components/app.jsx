@@ -62,9 +62,9 @@ const dashboardRedirects = (getState) => (nextState, replace, callback) => {
   const brand = state.models.brand.data;
 
   if (!subscription.id) {
-    replace('/subscription_plans');
+    return replace('/subscription_plans');
   } else if (!brand.accepted_terms_of_use) {
-    replace('/finish_setup');
+    return replace('/finish_setup');
   }
 
   callback();
