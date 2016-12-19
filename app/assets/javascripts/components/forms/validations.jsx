@@ -21,6 +21,7 @@ export function repeatResponseValidator(repeatResponse) {
   return responseTextValidator(repeatResponse, 'Repeat');
 }
 
+// TODO: Validate time only for new calendars
 export function timedResponseValidator(responses) {
   const responseArrayErrors = [];
 

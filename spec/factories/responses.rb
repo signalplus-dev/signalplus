@@ -43,5 +43,11 @@ FactoryGirl.define do
       response_type 'repeat'
       priority Response::DEFAULT_PRIORITY[Response::Type::REPEAT]
     end
+
+    trait :timed do
+      message 'this is the timed response'
+      response_type 'timed'
+      expiration_date 2.days.from_now
+    end
   end
 end

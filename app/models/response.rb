@@ -50,10 +50,10 @@ class Response < ActiveRecord::Base
     end
   end
 
-  def self.create_timed_response(message, type, exp_date, response_group)
+  def self.create_timed_response(message, exp_date, response_group)
     Response.create do |r|
       r.message = message
-      r.response_type = type
+      r.response_type = Type::TIMED
       r.response_group_id = response_group.id
       r.expiration_date = exp_date
     end

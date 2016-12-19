@@ -51,7 +51,7 @@ class ResponseGroup < ActiveRecord::Base
     responses.find(&:expired?)
   end
 
-  # @return [Response]
+  # @return [Array<Response>]
   def timed_responses
     responses.find_all(&:timed?)
   end

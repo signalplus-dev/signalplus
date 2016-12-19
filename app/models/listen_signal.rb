@@ -56,6 +56,10 @@ class ListenSignal < ActiveRecord::Base
     responses.where(response_type: Response::Type::REPEAT).first
   end
 
+  def timed_responses
+    responses.where(response_type: Response::Type::TIMED)
+  end
+
   def response(to)
     expired? ? response_group.expired_response : response_group.next_response(to)
   end
