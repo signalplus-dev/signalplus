@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { provideHooks } from 'redial';
-import { getBrandData } from 'redux/modules/models/brand.js';
 import { getListenSignalsData } from 'redux/modules/models/listenSignals.js';
 import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js';
 import { getInvoicesData } from 'redux/modules/models/invoices.js';
@@ -14,14 +13,8 @@ import Navigation from 'components/dashboard/navigation.jsx';
 
 // Hooks to dispatch before rendering the dashboard
 const hooks = {
-  fetch: ({ dispatch, getState, setProps }) => {
+  fetch: ({ dispatch }) => {
     Promise.all([
-      dispatch(getBrandData()).then(() => {
-        const subscription = getState().models.subscription.data;
-        if (!subscription.id) {
-          setProps({ redirect: '/subscription_plans' });
-        }
-      }),
       dispatch(getListenSignalsData()),
       dispatch(getSubscriptionPlansData()),
       dispatch(getInvoicesData()),
@@ -30,15 +23,6 @@ const hooks = {
 }
 
 class Dashboard extends PureComponent {
-  componentWillMount() {
-    const { redirect, abort } = this.props;
-
-    if (redirect) {
-      browserHistory.push(redirect);
-      abort();
-    }
-  }
-
   render() {
     const { children, ...props } = this.props;
 

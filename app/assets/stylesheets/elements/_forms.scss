@@ -1,0 +1,24 @@
+.checkbox {
+  display: flex;
+
+  > input {
+    margin-right: 10px;
+  }
+
+  > div {
+    flex: 1;
+  }
+
+  .labelDescription {
+    font-size: $base-caption-font-size;
+    font-weight: normal;
+  }
+
+  &.finishSetupCheckbox {
+    > input {
+      position: static;
+      margin-left: 0;
+    }
+  }
+}
+

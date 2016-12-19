@@ -27,6 +27,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def brand_update_params
-    params.dig(:brand).try(:permit, :tz)
+    params.dig(:brand).try(:permit, :tz, :accepted_terms_of_use)
   end
 end

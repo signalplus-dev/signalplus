@@ -144,4 +144,9 @@ class User < ActiveRecord::Base
   def unsubscribe_previous_email_from_newsletter
     EmailRemoveSubscriptionWorker.perform_async(previous_encrypted_email)
   end
+
+  # @return [Boolean]
+  def accepted_terms_of_use?
+    brand ? brand.accepted_terms_of_use? : false
+  end
 end

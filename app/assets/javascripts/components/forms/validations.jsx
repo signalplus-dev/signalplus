@@ -50,6 +50,14 @@ export function emailValidator(email) {
   return null;
 }
 
+export function required(value) {
+  if (!value) {
+    return 'Required'
+  }
+
+  return null;
+}
+
 export function createValidator(fields) {
   return (values = {}, props) => {
     const actualValues = values || {};

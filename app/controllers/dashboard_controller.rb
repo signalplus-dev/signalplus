@@ -33,5 +33,13 @@ class DashboardController < ApplicationController
     if !current_user.subscription? && !request.path[/^\/subscription_plans/]
       redirect_to subscription_plans_path
     end
+
+    if !current_user.accepted_terms_of_use? && !request.path[/^\/finish_setup/]
+      redirect_to finish_setup_path
+    end
+
+    if current_user.accepted_terms_of_use? && request.path[/^\/finish_setup/]
+      redirect_to dashboard_index_path
+    end
   end
 end

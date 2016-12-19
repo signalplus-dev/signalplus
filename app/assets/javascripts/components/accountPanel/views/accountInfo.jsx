@@ -8,8 +8,7 @@ import _ from 'lodash';
 import InputBox from 'components/forms/inputBox.jsx';
 import Checkbox from 'components/forms/checkbox.jsx';
 import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
-import { updateUserInfo } from 'redux/modules/models/user.js';
-import { getUserData } from 'redux/modules/models/user.js'
+import { updateUserInfo, getUserData } from 'redux/modules/models/user';
 import {
   createValidator,
   emailValidator,
@@ -50,7 +49,7 @@ class UndecoratedAccountInfo extends Component {
               componentClass="input"
             />
           </div>
-          <div className='notification-checkbox'>
+          <div className='notification-checkbox checkbox'>
             <Checkbox
               name="email_subscription"
               label='Notify me of new features/product annoucements'

@@ -61,9 +61,9 @@ class SignalForm extends Component {
     this.state = { transitioning: false };
   }
 
-  createForm(formName) {
+  createForm(form) {
     this.form = reduxForm({
-      form: formName,
+      form,
       validate,
       destroyOnUnmount: false,
     })(UndecoratedSignalForm);

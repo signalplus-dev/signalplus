@@ -16,10 +16,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: (25 / 18);
   min-width: 1024px;
+  display: flex;
+  flex-direction: column;
 
   .uctext {
     text-transform: capitalize;
   }
+}
+
+.app {
+  flex: 1;
 }
 
 .main {
