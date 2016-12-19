@@ -189,6 +189,7 @@ class Subscription < ApplicationRecord
         kickoff_invoice_adjustment_worker(old_plan, new_plan)
       end
 
+      UserMailer.plan_change(brand)
       self
     end
   rescue Stripe::InvalidRequestError => e
@@ -204,6 +205,7 @@ class Subscription < ApplicationRecord
       canceled_at: Time.at(stripe_subscription.canceled_at),
       will_be_deactivated_at: Time.at(stripe_subscription.current_period_end),
     )
+    UserMailer.cancel_plan(brand)
   end
 
   # Forcefully ends the trial subscription
