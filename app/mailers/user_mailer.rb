@@ -12,7 +12,8 @@ class UserMailer < BaseMandrillMailer
     send_mail(email, subject, body)
   end
 
-  def plan_change(brand, email, subscription_plan)
+  # TODO Verify subscription start date = updated date
+  def plan_change(brand)
     email = brand.twitter_admin.email
 
     subject = 'Update on your plan'
@@ -26,12 +27,13 @@ class UserMailer < BaseMandrillMailer
     send_mail(email, subject, body)
   end
 
-  def cancel_plan(brand, email, subscription_plan)
+  #TODO Grab the last day of the subscription when canceling and pass it down
+  def cancel_plan(brand)
     email = brand.twitter_admin.email
 
     subject = 'Confirmation on your plan'
     merge_vars = {
-      'BRAND_HASHTAG': brand.name
+      'BRAND_HASHTAG': brand.name,
       'CANCELED_PLAN_NAME': brand.subscription_plan.name
       # 'CANCELED_PLAN_END_DATE': subscription_plan.name,
     }
