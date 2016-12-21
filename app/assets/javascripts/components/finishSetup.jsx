@@ -1,13 +1,18 @@
 import React, { PureComponent } from 'react';
 import { reduxForm } from 'redux-form';
 import { browserHistory } from 'react-router';
+import { provideHooks } from 'redial';
 
 import Checkbox from 'components/forms/checkbox';
 import TimezoneDropdown from 'components/forms/timezoneDropdown';
 
 import { required, timezoneValidator, createValidator } from 'components/forms/validations';
-import { updateUserInfo } from 'redux/modules/models/user';
+import { updateUserInfo, getUserData } from 'redux/modules/models/user';
 import jstz from 'jstimezonedetect';
+
+const hooks = {
+  fetch: ({ dispatch }) => (dispatch(getUserData())),
+};
 
 const form = 'finishSetup';
 
@@ -87,7 +92,7 @@ const validate = createValidator({
   tz: timezoneValidator,
 });
 
-export default reduxForm({
+const Form = reduxForm({
   form,
   validate,
   initialValues: {
@@ -96,3 +101,5 @@ export default reduxForm({
     tz: jstz.determine().name(),
   },
 })(FinishSetup);
+
+export default provideHooks(hooks)(Form);
