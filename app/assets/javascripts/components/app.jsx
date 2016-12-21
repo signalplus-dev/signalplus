@@ -24,7 +24,7 @@ import ContentPanel from 'components/contentPanel/contentPanel';
 import Edit from 'components/contentPanel/views/edit';
 import Promote from 'components/contentPanel/views/promote';
 import Preview from 'components/contentPanel/views/preview';
-import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans';
+import SubscriptionPlansPage from 'components/subscriptionPlansPage';
 import FinishSetup from 'components/finishSetup';
 import Loader from 'components/loader';
 import Header from 'components/header';
@@ -133,7 +133,7 @@ function UnconnectedAppRouter({ authenticated }) {
           {/* Keep at bottom; this is a catch all for any routes that don't exist */}
           <Redirect from="*" to="signals"/>
         </Route>
-        <Route path="subscription_plans" component={SubscriptionPlans} />
+        <Route path="subscription_plans" component={SubscriptionPlansPage} />
         <Route
           path="finish_setup"
           component={FinishSetup}
