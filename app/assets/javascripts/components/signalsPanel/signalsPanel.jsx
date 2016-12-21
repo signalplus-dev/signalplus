@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import WelcomeWidget from 'components/signalsPanel/welcomeWidget.jsx';
-import SignalWidgets from 'components/signalsPanel/signalWidgets.jsx';
-import CreateNewWidget from 'components/signalsPanel/createNewWidget.jsx';
+import WelcomeWidget from 'components/signalsPanel/welcomeWidget';
+import SignalWidgets from 'components/signalsPanel/signalWidgets';
+import CreateNewWidget from 'components/signalsPanel/createNewWidget';
 
 class SignalsPanel extends Component {
   renderPanelTitle() {

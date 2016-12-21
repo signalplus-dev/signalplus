@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { actions as appActions } from 'redux/modules/app/index.js';
-import PromoteImage from 'components/contentPanel/promoteImage.jsx';
-import SignalIcon from 'components/links/signal_icon.jsx';
-import { addPromotionalTweetData } from 'redux/modules/models/promotionalTweets.js';
-import { FLASH_MESSAGE_ERROR } from 'redux/middleware/flashMiddleware.js';
+import { actions as appActions } from 'redux/modules/app/index';
+import PromoteImage from 'components/contentPanel/promoteImage';
+import SignalIcon from 'components/links/signal_icon';
+import { addPromotionalTweetData } from 'redux/modules/models/promotionalTweets';
+import { FLASH_MESSAGE_ERROR } from 'redux/middleware/flashMiddleware';
 import {
   Button,
   FormControl,

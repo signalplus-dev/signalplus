@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction, getDataFor } from 'redux/utils.js';
-import { normalizeInvoicesResponse } from 'util/normalize.js';
-import Endpoints from 'util/endpoints.js';
+import { createRequestAction, getDataFor } from 'redux/utils';
+import { normalizeInvoicesResponse } from 'util/normalize';
+import Endpoints from 'util/endpoints';
 
 /*
 * Action Type Constants

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import Calendar from 'components/forms/calendar.jsx';
-import InputBox from 'components/forms/inputBox.jsx';
-import AddBtn from 'components/buttons/add_btn.jsx';
-import SignalIcon from 'components/links/signal_icon.jsx';
+import Calendar from 'components/forms/calendar';
+import InputBox from 'components/forms/inputBox';
+import AddBtn from 'components/buttons/add_btn';
+import SignalIcon from 'components/links/signal_icon';
 
 export default class Edit extends Component {
   displaySignalName() {

@@ -1,8 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 import { createChannelSubscriptions, subscribeToChannels } from 'redux/actionCableSubscriptions.js'
-import { AUTHENTICATED, authenticate } from 'redux/modules/app/authentication.js';
-import { FLASH_MESSAGE_INFO } from 'redux/middleware/flashMiddleware.js';
+import { AUTHENTICATED, authenticate } from 'redux/modules/app/authentication';
+import { FLASH_MESSAGE_INFO } from 'redux/middleware/flashMiddleware';
 import _ from 'lodash';
 
 /*

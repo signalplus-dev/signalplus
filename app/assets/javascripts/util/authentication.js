@@ -1,6 +1,6 @@
 import cookies from 'cookie-monster';
 import _ from 'lodash';
-import { TA_KEY } from 'util/cookieKeys.js';
+import { TA_KEY } from 'util/cookieKeys';
 
 const HEADER_AT_KEY = 'access-token';
 const HEADER_CL_KEY = 'client';

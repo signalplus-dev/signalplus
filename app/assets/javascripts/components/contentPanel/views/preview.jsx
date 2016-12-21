@@ -1,5 +1,5 @@
 import React from 'react'
-import SignalIcon from 'components/links/signal_icon.jsx';
+import SignalIcon from 'components/links/signal_icon';
 import _ from 'lodash';
 
 export default function Preview(props) {

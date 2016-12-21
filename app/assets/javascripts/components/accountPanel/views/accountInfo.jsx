@@ -5,15 +5,15 @@ import { provideHooks } from 'redial';
 import _ from 'lodash';
 
 // Components
-import InputBox from 'components/forms/inputBox.jsx';
-import Checkbox from 'components/forms/checkbox.jsx';
-import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
+import InputBox from 'components/forms/inputBox';
+import Checkbox from 'components/forms/checkbox';
+import TimezoneDropdown from 'components/forms/timezoneDropdown';
 import { updateUserInfo, getUserData } from 'redux/modules/models/user';
 import {
   createValidator,
   emailValidator,
   timezoneValidator,
-} from 'components/forms/validations.jsx';
+} from 'components/forms/validations';
 
 
 const hooks = {

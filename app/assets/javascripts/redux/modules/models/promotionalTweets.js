@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction} from 'redux/utils.js';
-import Endpoints from 'util/endpoints.js';
+import { createRequestAction} from 'redux/utils';
+import Endpoints from 'util/endpoints';
 import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
-} from 'util/normalize.js';
+} from 'util/normalize';
 
 // Something weird going on with imports so just going to bring these constants in
 const LISTEN_SIGNALS_REQUEST = 'signalplus/listenSignals/REQUEST';

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import commaNumber from 'comma-number';
 import { isTopSubscriptionSelector } from 'selectors/selectors.js'
-import Loader from 'components/loader.jsx';
+import Loader from 'components/loader';
 
 function renderUpgradeLink() {
   return (

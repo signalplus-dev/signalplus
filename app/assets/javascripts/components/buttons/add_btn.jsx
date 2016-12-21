@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
-import Calendar from 'components/forms/calendar.jsx';
+import Calendar from 'components/forms/calendar';
 
 export default class AddBtn extends Component {
   constructor(props) {

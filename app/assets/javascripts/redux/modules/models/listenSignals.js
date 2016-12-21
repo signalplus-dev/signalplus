@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction, getDataFor } from 'redux/utils.js';
-import Endpoints, { listenSignalEndpoint } from 'util/endpoints.js';
+import { createRequestAction, getDataFor } from 'redux/utils';
+import Endpoints, { listenSignalEndpoint } from 'util/endpoints';
 import {
   normalizeListenSignalsResponse,
   normalizeListenSignalResponse,
-} from 'util/normalize.js';
-import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from 'redux/modules/models/promotionalTweets.js';
+} from 'util/normalize';
+import { PROMOTION_SIGNAL_POST_REQUEST_SUCCESS } from 'redux/modules/models/promotionalTweets';
 
 
 /*

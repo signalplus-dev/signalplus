@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actions as appActions } from 'redux/modules/app/index.js';
+import { actions as appActions } from 'redux/modules/app/index';
 import Modal from 'react-modal';
-import SignalIcon from 'components/links/signal_icon.jsx';
+import SignalIcon from 'components/links/signal_icon';
 
 
 class ConfirmModal extends Component {

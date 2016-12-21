@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { logOut } from 'redux/utils.js';
-import Endpoints from 'util/endpoints.js';
+import { logOut } from 'redux/utils';
+import Endpoints from 'util/endpoints';
 
 
 class LogOutLink extends Component {

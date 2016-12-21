@@ -1,16 +1,16 @@
 import _ from 'lodash';
-import { actions as appActions } from 'redux/modules/app/index.js';
+import { actions as appActions } from 'redux/modules/app/index';
 import {
   LISTEN_SIGNALS_REQUEST_FAIL,
   LISTEN_SIGNALS_UPDATE_REQUEST_SUCCESS,
   LISTEN_SIGNALS_CREATE_REQUEST_SUCCESS,
   LISTEN_SIGNALS_CREATE_REQUEST_FAIL,
   LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS,
-} from 'redux/modules/models/listenSignals.js';
+} from 'redux/modules/models/listenSignals';
 import {
   PROMOTION_SIGNAL_POST_REQUEST_SUCCESS,
   PROMOTION_SIGNAL_POST_REQUEST_FAIL,
-} from 'redux/modules/models/promotionalTweets.js';
+} from 'redux/modules/models/promotionalTweets';
 
 export const FLASH_MESSAGE_INFO = 'info';
 export const FLASH_MESSAGE_SUCCESS = 'success';

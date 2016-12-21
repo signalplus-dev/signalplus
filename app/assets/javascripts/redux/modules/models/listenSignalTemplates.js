@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { handleActions } from 'redux-actions';
-import { createRequestAction, getDataFor } from 'redux/utils.js';
-import Endpoints from 'util/endpoints.js';
+import { createRequestAction, getDataFor } from 'redux/utils';
+import Endpoints from 'util/endpoints';
 
 /*
 * Action Type Constants

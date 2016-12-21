@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actions as appActions } from 'redux/modules/app/index.js';
-import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
+import { actions as appActions } from 'redux/modules/app/index';
+import { deleteListenSignalData } from 'redux/modules/models/listenSignals';
 import { browserHistory } from 'react-router';
 
 // Components
-import ConfirmModal from 'components/modals/confirmModal.jsx';
+import ConfirmModal from 'components/modals/confirmModal';
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';
 

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import commaNumber from 'comma-number';
-import { actions as appActions } from 'redux/modules/app/index.js';
+import { actions as appActions } from 'redux/modules/app/index';
 
 // Component
-import Loader from 'components/loader.jsx';
-import InputBox from 'components/forms/inputBox.jsx';
-import AccountInvoices from 'components/accountPanel/views/accountInvoices.jsx';
+import Loader from 'components/loader';
+import InputBox from 'components/forms/inputBox';
+import AccountInvoices from 'components/accountPanel/views/accountInvoices';
 
 import { CANCEL_SUBSCRIPTION } from 'components/modals/modalConstants';
 

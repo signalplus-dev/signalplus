@@ -1,7 +1,7 @@
 // Components
-import DeleteSignalModal from 'components/modals/deleteSignalModal.jsx';
-import CancelSubscriptionModal from 'components/modals/cancelSubscriptionModal.jsx';
-import ToggleSignalModal from 'components/modals/toggleSignalModal.jsx';
+import DeleteSignalModal from 'components/modals/deleteSignalModal';
+import CancelSubscriptionModal from 'components/modals/cancelSubscriptionModal';
+import ToggleSignalModal from 'components/modals/toggleSignalModal';
 
 export const DELETE_SIGNAL = 'DELETE_SIGNAL';
 export const CANCEL_SUBSCRIPTION = 'CANCEL_SUBSCRIPTION';

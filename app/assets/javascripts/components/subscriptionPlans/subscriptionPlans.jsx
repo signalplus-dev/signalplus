@@ -9,9 +9,9 @@ import cn from 'classnames';
 import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js'
 import { getBrandData } from 'redux/modules/models/brand.js'
 import { createSubscription, updateSubscription } from 'redux/modules/models/subscription.js'
-import { clearTA } from 'util/authentication.js';
+import { clearTA } from 'util/authentication';
 
-import StripeButton from 'components/subscriptionPlans/stripeButton.jsx';
+import StripeButton from 'components/subscriptionPlans/stripeButton';
 
 const hooks = {
   fetch: ({ dispatch }) => {

@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { browserHistory } from 'react-router';
 import _ from 'lodash';
-import { actions as appActions } from 'redux/modules/app/index.js';
-import { addListenSignalData, updateListenSignalData } from 'redux/modules/models/listenSignals.js';
-import { createTab } from 'components/contentPanel/contentPanel.jsx';
+import { actions as appActions } from 'redux/modules/app/index';
+import { addListenSignalData, updateListenSignalData } from 'redux/modules/models/listenSignals';
+import { createTab } from 'components/contentPanel/contentPanel';
 import {
   createValidator,
   signalNameValidator,
   defaultResponseValidator,
   repeatResponseValidator,
-} from 'components/forms/validations.jsx';
+} from 'components/forms/validations';
 
 const validate = createValidator({
   name: signalNameValidator,

@@ -7,7 +7,7 @@ import { getListenSignalTemplatesData } from 'redux/modules/models/listenSignalT
 
 
 // Components
-import SignalIcon from 'components/links/signal_icon.jsx';
+import SignalIcon from 'components/links/signal_icon';
 
 const hooks = {
   fetch: ({ dispatch }) => {

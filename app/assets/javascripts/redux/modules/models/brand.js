@@ -1,8 +1,8 @@
 import { handleActions } from 'redux-actions';
-import { createRequestAction, getDataFor } from 'redux/utils.js';
+import { createRequestAction, getDataFor } from 'redux/utils';
 import _ from 'lodash';
-import Endpoints from 'util/endpoints.js';
-import { normalizeBrand } from 'util/normalize.js';
+import Endpoints from 'util/endpoints';
+import { normalizeBrand } from 'util/normalize';
 import { USER_UPDATE_REQUEST_SUCCESS } from 'redux/modules/models/user.js'
 
 /*

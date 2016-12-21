@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import LogOutLink from 'components/logOutLink.jsx';
-import AccountLink from 'components/accountLink.jsx';
+import LogOutLink from 'components/logOutLink';
+import AccountLink from 'components/accountLink';
 
 function Header({ brandUserName, showAccountLink }) {
   return (

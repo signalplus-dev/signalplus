@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import InputBox from 'components/forms/inputBox.jsx';
-import ActivateSignalRadioButton from 'components/forms/activateSignalRadioButton.jsx';
+import InputBox from 'components/forms/inputBox';
+import ActivateSignalRadioButton from 'components/forms/activateSignalRadioButton';
 import _ from 'lodash';
 
 function renderInputBox(signal) {

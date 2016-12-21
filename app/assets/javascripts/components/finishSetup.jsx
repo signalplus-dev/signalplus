@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import { reduxForm } from 'redux-form';
 import { browserHistory } from 'react-router';
 
-import Checkbox from 'components/forms/checkbox.jsx';
-import TimezoneDropdown from 'components/forms/timezoneDropdown.jsx';
+import Checkbox from 'components/forms/checkbox';
+import TimezoneDropdown from 'components/forms/timezoneDropdown';
 
-import { required, timezoneValidator, createValidator } from 'components/forms/validations.jsx';
+import { required, timezoneValidator, createValidator } from 'components/forms/validations';
 import { updateUserInfo } from 'redux/modules/models/user';
 import jstz from 'jstimezonedetect';
 

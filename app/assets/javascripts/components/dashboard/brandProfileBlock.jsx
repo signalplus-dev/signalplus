@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import URL from 'url';
-import Loader from 'components/loader.jsx';
+import Loader from 'components/loader';
 
 function BrandProfileBlock({ brand }) {
   if (!brand.loaded) return <Loader textOnly={true}/>;

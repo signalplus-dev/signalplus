@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Link, withRouter  } from 'react-router';
 import { push } from 'react-router-redux';
 import cn from 'classnames';
-import { actions as appActions } from 'redux/modules/app/index.js';
+import { actions as appActions } from 'redux/modules/app/index';
 import { destroy } from 'redux-form';
 
 import SVGInline from 'react-svg-inline';

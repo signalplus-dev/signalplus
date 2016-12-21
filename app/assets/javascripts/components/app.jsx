@@ -11,25 +11,25 @@ import {
 } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useRedial } from 'react-router-redial';
-import configureStore from 'redux/configureStore.js';
+import configureStore from 'redux/configureStore';
 
 // Components
-import Dashboard from 'components/dashboard/dashboard.jsx';
-import AccountPanel from 'components/accountPanel/accountPanel.jsx';
-import AccountInfo from 'components/accountPanel/views/accountInfo.jsx';
-import AccountSubscriptionPlan from 'components/accountPanel/views/accountSubscriptionPlan.jsx';
-import SignalsPanel from 'components/signalsPanel/signalsPanel.jsx';
-import TemplatesPanel from 'components/templatesPanel.jsx';
-import ContentPanel from 'components/contentPanel/contentPanel.jsx';
-import Edit from 'components/contentPanel/views/edit.jsx';
-import Promote from 'components/contentPanel/views/promote.jsx';
-import Preview from 'components/contentPanel/views/preview.jsx';
-import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans.jsx';
-import FinishSetup from 'components/finishSetup.jsx';
-import Loader from 'components/loader.jsx';
-import Header from 'components/header.jsx';
-import FlashMessage from 'components/flashMessage.jsx';
-import ModalRoot from 'components/modals/index.jsx';
+import Dashboard from 'components/dashboard/dashboard';
+import AccountPanel from 'components/accountPanel/accountPanel';
+import AccountInfo from 'components/accountPanel/views/accountInfo';
+import AccountSubscriptionPlan from 'components/accountPanel/views/accountSubscriptionPlan';
+import SignalsPanel from 'components/signalsPanel/signalsPanel';
+import TemplatesPanel from 'components/templatesPanel';
+import ContentPanel from 'components/contentPanel/contentPanel';
+import Edit from 'components/contentPanel/views/edit';
+import Promote from 'components/contentPanel/views/promote';
+import Preview from 'components/contentPanel/views/preview';
+import SubscriptionPlans from 'components/subscriptionPlans/subscriptionPlans';
+import FinishSetup from 'components/finishSetup';
+import Loader from 'components/loader';
+import Header from 'components/header';
+import FlashMessage from 'components/flashMessage';
+import ModalRoot from 'components/modals/index';
 import { getBrandData } from 'redux/modules/models/brand';
 
 // Import blocking App actions

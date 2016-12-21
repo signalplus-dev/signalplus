@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
-import { requestHeaders, clearTA, HEADER_UID_KEY } from 'util/authentication.js';
+import { requestHeaders, clearTA, HEADER_UID_KEY } from 'util/authentication';
 import Endpoints from 'util/endpoints.js'
 
 /**

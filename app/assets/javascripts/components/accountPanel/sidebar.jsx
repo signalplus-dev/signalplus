@@ -3,10 +3,10 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Button } from 'react-bootstrap';
-import { actions as appActions } from 'redux/modules/app/index.js';
+import { actions as appActions } from 'redux/modules/app/index';
 
 // Components
-import CurrentPlanMenuItem from 'components/accountPanel/currentPlanMenuItem.jsx';
+import CurrentPlanMenuItem from 'components/accountPanel/currentPlanMenuItem';
 
 function MenuItem({ menu }) {
   return (

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import { Button } from 'react-bootstrap';
 import _ from 'lodash';
-import EditMenuItem from 'components/contentPanel/editMenuItem.jsx';
-import { actions as appActions } from 'redux/modules/app/index.js';
-import { deleteListenSignalData } from 'redux/modules/models/listenSignals.js';
+import EditMenuItem from 'components/contentPanel/editMenuItem';
+import { actions as appActions } from 'redux/modules/app/index';
+import { deleteListenSignalData } from 'redux/modules/models/listenSignals';
 import { DELETE_SIGNAL } from 'components/modals/modalConstants';
 
 const ACTIVE_SIGNAL_PATH = '/dashboard/signals/active';

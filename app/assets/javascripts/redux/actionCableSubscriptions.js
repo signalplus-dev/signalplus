@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import getActionCable from 'util/actionCable.js';
+import getActionCable from 'util/actionCable';
 import _ from 'lodash';
 
 const BASE_DISPATCH_ACTION_TYPE = '@@actionCable/RECEIVE_CHANNEL_DATA';

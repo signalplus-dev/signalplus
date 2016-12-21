@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { cancelSubscription } from 'redux/modules/models/subscription.js';
+import { cancelSubscription } from 'redux/modules/models/subscription';
 
-import ConfirmModal from 'components/modals/confirmModal.jsx';
+import ConfirmModal from 'components/modals/confirmModal';
 
 
 class CancelSubscriptionModal extends Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ConfirmModal from 'components/modals/confirmModal.jsx';
+import ConfirmModal from 'components/modals/confirmModal';
 
 export default function ToggleSignalModal({
    display,

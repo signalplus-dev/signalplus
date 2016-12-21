@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import { provideHooks } from 'redial';
-import { getListenSignalsData } from 'redux/modules/models/listenSignals.js';
-import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans.js';
-import { getInvoicesData } from 'redux/modules/models/invoices.js';
-import { actions } from 'redux/modules/app/index.js';
+import { getListenSignalsData } from 'redux/modules/models/listenSignals';
+import { getSubscriptionPlansData } from 'redux/modules/models/subscriptionPlans';
+import { getInvoicesData } from 'redux/modules/models/invoices';
+import { actions } from 'redux/modules/app/index';
 import { browserHistory } from 'react-router';
 
 // Components
-import SubscriptionSummary from 'components/dashboard/subscriptionSummary.jsx';
-import BrandProfileBlock from 'components/dashboard/brandProfileBlock.jsx';
-import Navigation from 'components/dashboard/navigation.jsx';
+import SubscriptionSummary from 'components/dashboard/subscriptionSummary';
+import BrandProfileBlock from 'components/dashboard/brandProfileBlock';
+import Navigation from 'components/dashboard/navigation';
 
 // Hooks to dispatch before rendering the dashboard
 const hooks = {

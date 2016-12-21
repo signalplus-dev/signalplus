@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { actions as appActions } from 'redux/modules/app/index.js';
+import { actions as appActions } from 'redux/modules/app/index';
 
 // Components
-import Sidebar from 'components/accountPanel/sidebar.jsx';
+import Sidebar from 'components/accountPanel/sidebar';
 
 class AccountPanel extends Component {
   createTabIfNotCreated() {

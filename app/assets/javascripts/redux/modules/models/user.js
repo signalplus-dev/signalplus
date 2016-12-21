@@ -1,8 +1,8 @@
 import { handleActions } from 'redux-actions';
-import { createRequestAction, getDataFor } from 'redux/utils.js';
+import { createRequestAction, getDataFor } from 'redux/utils';
 import _ from 'lodash';
-import Endpoints, { userUpdateEndpoint } from 'util/endpoints.js';
-import { normalizeUserResponse } from 'util/normalize.js';
+import Endpoints, { userUpdateEndpoint } from 'util/endpoints';
+import { normalizeUserResponse } from 'util/normalize';
 
 /*
 * Action Type Constants

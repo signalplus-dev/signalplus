@@ -1,14 +1,14 @@
 import { handleActions, createAction } from 'redux-actions';
-import { createRequestAction } from 'redux/utils.js';
-import Endpoints, { updateSubscriptionEndpoint, cancelSubscriptionEndpoint } from 'util/endpoints.js';
-import { normalizeSubscription } from 'util/normalize.js';
-import { getChannelActionType, subscribedChannels } from 'redux/actionCableSubscriptions.js';
+import { createRequestAction } from 'redux/utils';
+import Endpoints, { updateSubscriptionEndpoint, cancelSubscriptionEndpoint } from 'util/endpoints';
+import { normalizeSubscription } from 'util/normalize';
+import { getChannelActionType, subscribedChannels } from 'redux/actionCableSubscriptions';
 import _ from 'lodash';
 import {
   BRAND_REQUEST,
   BRAND_REQUEST_SUCCESS,
   BRAND_REQUEST_FAIL,
-} from 'redux/modules/models/brand.js';
+} from 'redux/modules/models/brand';
 
 const SUBSCRIPTION_REQUEST = 'signalplus/subscription/REQUEST';
 const SUBSCRIPTION_REQUEST_SUCCESS = 'signalplus/subscription/REQUEST_SUCCESS';

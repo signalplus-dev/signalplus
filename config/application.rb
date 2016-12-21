@@ -61,9 +61,10 @@ module ProjectSignal
       "--#{key} #{value}"
     end.join(' ')
     config.browserify_rails.commandline_options = [
-      "-t [ babelify --presets [ es2015 react stage-0 ] ]",
+      '--extension=.jsx',
+      '-t [ babelify --presets [ es2015 react stage-0 ] ]',
       "-t [ envify #{env_vars} ]",
-      "-t [ partialify --onlyAllow svg ]",
+      '-t [ partialify --onlyAllow svg ]',
     ]
 
     config.browserify_rails.paths << /app\/assets\/images\/.+/

@@ -1,12 +1,12 @@
 import { createAction, handleActions } from 'redux-actions';
-import { createRequestAction } from 'redux/utils.js';
-import Endpoints from  'util/endpoints.js';
+import { createRequestAction } from 'redux/utils';
+import Endpoints from  'util/endpoints';
 import {
   baseHeaders,
   hasToken,
   getAT,
   setTA,
-} from 'util/authentication.js';
+} from 'util/authentication';
 
 const HEADER_CSRF_KEY = 'X-CSRF-TOKEN';
 
