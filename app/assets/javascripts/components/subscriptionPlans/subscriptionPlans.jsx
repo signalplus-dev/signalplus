@@ -193,7 +193,20 @@ export class SubscriptionPlans extends Component {
       <div className="main">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-12">
+            <div className="col-xs-12 page">
+              <div className="pageHeader">
+                <h1>Select a Plan</h1>
+                <p>
+                  Select the amount of responses for your account. You can change your plan at anytime.
+                  <br />
+                  <strong>
+                    {
+                      `SignalPlus is free for ${process.env.NUMBER_OF_DAYS_OF_TRIAL} days ` +
+                      `or ${process.env.MAX_NUMBER_OF_MESSAGES_FOR_TRIAL} responses (cancel anytime).`
+                    }
+                  </strong>
+                </p>
+              </div>
               <div className="plan-boxes">
                 {this.renderSubscriptionPlans()}
               </div>

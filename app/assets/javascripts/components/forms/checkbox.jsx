@@ -1,19 +1,31 @@
 import React from 'react';
 import { Field } from 'redux-form';
+import cn from 'classnames';
 
 function Checkbox({
   input,
-  touched,
   valid,
   visited,
   active,
-  meta,
+  meta: { error, touched },
+  label,
+  labelDescription,
+  className,
   ...props,
 }) {
+  const classes = cn({
+    checkbox: true,
+    [className]: className,
+  });
+
   return (
-    <label>
+    <label className={classes}>
       <input {...input} type='checkbox' />
-      {props.label}
+      <div>
+        <div>{label}</div>
+        <div className="labelDescription">{labelDescription}</div>
+        {touched && error && <span className='input-form-error'>{error}</span>}
+      </div>
     </label>
   );
 }

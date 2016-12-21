@@ -30,8 +30,29 @@ class DashboardController < ApplicationController
       return
     end
 
-    if !current_user.subscription? && !request.path[/^\/subscription_plans/]
+    if !current_user.subscription? && !subscription_plans_path?
       redirect_to subscription_plans_path
+      return
     end
+
+    if !current_user.accepted_terms_of_use? && !subscription_plans_path? && !finish_setup_path?
+      redirect_to finish_setup_path
+      return
+    end
+
+    if current_user.accepted_terms_of_use? && finish_setup_path?
+      redirect_to dashboard_index_path
+      return
+    end
+  end
+
+  # @return [Boolean]
+  def subscription_plans_path?
+    request.path[/^\/subscription_plans/]
+  end
+
+  # @return [Boolean]
+  def finish_setup_path?
+    request.path[/^\/finish_setup/]
   end
 end

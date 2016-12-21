@@ -1,5 +1,4 @@
 .timezone-picker {
-  display: inline-block;
   font: $default-font;
   font-size: 14px;
   position: relative;
@@ -12,20 +11,21 @@
   font: inherit;
   font-size: 14px;
   box-sizing: border-box;
-  outline: 0; 
-  background:#fff; 
+  outline: 0;
+  background:#fff;
   border: 1px solid #e6ebec;
   border-radius: 11px;
   border-color: $signal-border;
+  max-width: 100%;
 }
 
 .timezone-picker-list {
   top: 100%;
-  left: 0; 
+  left: 0;
   right: 0;
-  max-height: 200px; 
-  overflow-y: auto; 
-  margin: 0; 
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
   padding: 0;
   border: 1px solid #e6ebec;
   margin-top: -1px;
@@ -34,7 +34,7 @@
   display: none;
 }
 
-.timezone-picker-list-abs { 
+.timezone-picker-list-abs {
   position: absolute;
   background-color: #fff;
   z-index: 2000;
@@ -51,12 +51,12 @@
   cursor:pointer;
 }
 
-.timezone-picker-open, 
+.timezone-picker-open,
 .timezone-picker-list {
   display: block;
 }
 
-.timezone-picker-selected, 
+.timezone-picker-selected,
 .timezone-picker-textfield input {
   color:#474747;
 }

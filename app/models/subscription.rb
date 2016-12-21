@@ -12,8 +12,8 @@
 #  canceled_at          :datetime
 #  trial_end            :datetime         not null
 #  trial                :boolean          default(TRUE)
-#  lock_version         :integer
 #  deleted_at           :datetime
+#  lock_version         :integer          default(0)
 #
 
 class Subscription < ActiveRecord::Base

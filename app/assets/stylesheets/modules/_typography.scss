@@ -1,7 +1,12 @@
 @import 'variables';
 
 .caption {
-  font-size: 12px;
+  font-size: $caption-font-size;
+}
+
+.bigCaption {
+  font-size: $base-caption-font-size;
+  font-weight: normal;
 }
 
 p, .p {

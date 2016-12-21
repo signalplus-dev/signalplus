@@ -10,19 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215083642) do
+ActiveRecord::Schema.define(version: 20161219004128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "brands", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.bigint   "streaming_tweet_pid"
-    t.boolean  "polling_tweets",      default: false
-    t.string   "tz",                  default: "America/New_York", null: false
+    t.boolean  "polling_tweets",        default: false
+    t.string   "tz",                    default: "America/New_York", null: false
     t.datetime "deleted_at"
+    t.boolean  "accepted_terms_of_use", default: false
     t.index ["polling_tweets"], name: "index_brands_on_polling_tweets", using: :btree
     t.index ["streaming_tweet_pid"], name: "index_brands_on_streaming_tweet_pid", using: :btree
   end

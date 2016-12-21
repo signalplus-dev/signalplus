@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   end
 
   get 'subscription_plans' => 'dashboard#index', as: :subscription_plans
+  get 'finish_setup' => 'dashboard#index', as: :finish_setup
 
   # Catch all for any routes nested with `/dashboard`. Any non-existant routes will be handled by the React app.
   get 'dashboard/*other' => 'dashboard#index'
