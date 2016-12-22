@@ -27,7 +27,7 @@ function renderTemplates(templates) {
             <div className='header-text uctext'>{type}</div>
             <div className='subheader'>SIGNAL</div>
           </div>
-          <div className='panel-body'>{text}</div>
+          <div className='panel-text'>{text}</div>
         </Link>
       );
     }
@@ -43,11 +43,11 @@ function TemplatesPane({ templates }) {
         {renderTemplates(templates)}
 
         <div className='panel signal-panel coming-soon'>
-          <SignalIcon type='comingSoon' className='panel-icon'/>
+          <SignalIcon type='welcome' className='panel-icon'/>
           <div className='panel-header'>
             <div className='header-text uctext'>Coming Soon</div>
           </div>
-          <div className='panel-body'>We’re adding new signal templates all the time. Stay tuned for more!</div>
+          <div className='panel-text'>We’re adding new signal templates all the time. Stay tuned for more!</div>
         </div>
       </div>
     </div>

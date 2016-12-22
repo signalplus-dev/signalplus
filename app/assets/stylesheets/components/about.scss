@@ -15,10 +15,9 @@
 
 .about-jumbotron {
   margin-top: -20px;
-  min-height: 700px;
   margin-bottom: 40px;
   background: url(asset-path('static/splus-home.gif')) 63% no-repeat,
-              url(asset-path('static/main-background.png')) 100% no-repeat;
+              url(asset-path('static/main-background.png')) 90% no-repeat;
   background-size: contain;
 }
 
@@ -26,6 +25,7 @@
   .header {
     font-weight: bold;
     font-size: 42px;
+    line-height: 1;
   }
 
   .sub-header {
@@ -106,7 +106,7 @@
   font-weight: 300;
   width: 560px;
   display: inline-block;
-  margin-top: 72px;
+  margin-top: 100px;
   margin-right: 20px;
 
   .header {
@@ -123,6 +123,7 @@
 .things-you-can-do-box {
   width: 425px;
   display: inline-block;
+  margin-left: 65px;
   padding: 20px;
   color: $text-white;
   border-radius: 8px;
@@ -157,4 +158,12 @@
 
 .about-subscription-plans {
   margin-top: -50px;
+}
+
+.our-plans-subscription-boxes {
+  margin-top: 30px;
+
+  .plan-box {
+    height: 350px;
+  }
 }
