@@ -42,7 +42,7 @@
 }
 
 .panel-icon {
-  height: 44px;
+  height: 50px;
   margin-left: 14px;
   margin-bottom: 14px;
 }
@@ -117,6 +117,14 @@
   }
 }
 
+.panel-text {
+  padding-top: 4px;
+  padding-left: 18px;
+  color: $text-black;
+  line-height: 1.2;
+
+}
+
 .create-new {
   .panel-header {
     margin-left: 0px;
@@ -126,14 +134,14 @@
       height: 42px;
     }
   }
-  .panel-body {
-    color: $text-black;
-  }
 
   .subheader {
     width: 43px;
     height: 13px;
     font-size: 12px;
+    position: relative;
+    left: 3px;
+    top: -3px;
   }
 }
 
@@ -159,22 +167,28 @@
 
 .welcome {
   background-color: $signal-gray;
+  box-shadow: none;
+
   .panel-header, .panel-body{
     color: $text-black;
+  }
+
+  .panel-body {
+    margin-top: -15px;
   }
 }
 
 .coming-soon {
   pointer-events: none;
   background-color: $signal-gray;
-  color: $text-black;
+  box-shadow: none;
 
   .panel-header {
     color: $text-black;
   }
 
-  .panel-body {
-    margin-top: -25px;
+  .panel-text {
+    margin-top: -15px;
   }
 }
 

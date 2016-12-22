@@ -10,7 +10,7 @@ export default function CreateNewWidget() {
         <div className='panel-header header-new'>
           Create New
         </div>
-        <div className='panel-body body-new'>
+        <div className='panel-text body-new'>
           Click here to create a new signal for your audience
         </div>
       </div>
