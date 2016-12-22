@@ -1,10 +1,46 @@
+@mixin static-panel($text-margin-top) {
+  pointer-events: none;
+  background-color: $signal-gray;
+  box-shadow: none;
+
+  .panel-header {
+    color: $text-black;
+  }
+
+  .panel-text {
+    color: $text-black;
+    margin-top: $text-margin-top;
+  }
+}
+
+@mixin clickable-panel {
+  &:hover {
+    display: inline-block;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none;
+  }
+}
+
 // Signal Panel styles
 .signal-header {
   margin-top: 28px;
-  font-size: 24px;
+  font-size: $h5-font-size;
+}
+
+.panel-new {
+  border: solid 2px $signal-border;
+  outline: dotted $signal-border 2px;
+  outline-offset: -7px;
+
+  .header-new, .body-new {
+    color: $text-black;
+  }
 }
 
 .signal-panel {
+  @include clickable-panel;
   position: relative;
   float: left;
   margin-top: 28px;
@@ -20,17 +56,14 @@
   cursor: pointer;
 
   &:hover {
+    color: $text-white;
     display: inline-block;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
     backface-visibility: hidden;
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none;
   }
-  &:hover,
-  &:focus,
-  &:active {
-    // transform: scale(1.1);
-  }
+
 
   &.inactiveSignal {
     background-color: $dark-gray;
@@ -53,16 +86,16 @@
   color: $text-white;
 }
 
-.panel-body {
-  padding-left: 17px;
-  font-size: 16px;
-  color: $text-white;
+.panel-text {
+  padding-left: 18px;
+  line-height: 1.2;
 }
 
 .panel-status {
   position: absolute;
   bottom: 10px;
   color: $text-white;
+  font-weight: bold;
 }
 
 .signal-status {
@@ -84,65 +117,27 @@
   }
 
   .status{
-    padding-left:20px;
+    padding-left: 18px;
+    font-size: $base-caption-font-size;
+    font-weight: bold;
   }
 }
 
 .signal-type {
-  left: 200px;
-  bottom: 0px;
+  left: 194px;
+  bottom: 10px;
   position: absolute;
   text-align: right;
-  font-size: 16px;
+  font-size: $base-caption-font-size;
+  font-weight: bold;
   height: 42px;
   width: 44px;
-
-  p {
-    margin: 0 !important;
-    font-size: 10px;
-  }
-
-  .type {
-    font-size: 12px;
-  }
 }
 
-.panel-new {
-  border: solid 2px $signal-border;
-  outline: dotted $signal-border 2px;
-  outline-offset: -7px;
-
-  .header-new, .body-new {
-    color: $text-black;
-  }
-}
-
-.panel-text {
-  padding-top: 4px;
-  padding-left: 18px;
-  color: $text-black;
-  line-height: 1.2;
-
-}
-
-.create-new {
-  .panel-header {
-    margin-left: 0px;
-    padding-left: 17px;
-    height: 60px;
-    .header-text {
-      height: 42px;
-    }
-  }
-
-  .subheader {
-    width: 43px;
-    height: 13px;
-    font-size: 12px;
-    position: relative;
-    left: 3px;
-    top: -3px;
-  }
+.panel-type-label {
+  margin: 0 !important;
+  font-size: $base-caption-font-size !important;
+  font-weight: 400;
 }
 
 .offer {
@@ -165,31 +160,39 @@
   background-color: $signal-dark-gray;
 }
 
-.welcome {
-  background-color: $signal-gray;
-  box-shadow: none;
-
-  .panel-header, .panel-body{
-    color: $text-black;
-  }
-
-  .panel-body {
-    margin-top: -15px;
-  }
-}
-
-.coming-soon {
-  pointer-events: none;
-  background-color: $signal-gray;
-  box-shadow: none;
+.create-new {
+  @include clickable-panel;
 
   .panel-header {
-    color: $text-black;
+    margin-left: 0px;
+    padding-left: 17px;
+    height: 60px;
+    .header-text {
+      height: 42px;
+    }
+  }
+
+  .subheader {
+    width: 43px;
+    height: 13px;
+    font-size: 12px;
+    position: relative;
+    left: 3px;
+    top: -3px;
   }
 
   .panel-text {
-    margin-top: -15px;
+    color: $text-black;
+    padding-top: 6px;
   }
+}
+
+.welcome {
+  @include static-panel(0);
+}
+
+.coming-soon {
+  @include static-panel(-25px);
 }
 
 .inactiveTab {
@@ -200,6 +203,3 @@
   display: block !important;
 }
 
-.panel-content {
-  background-color: $light-gray;
-}

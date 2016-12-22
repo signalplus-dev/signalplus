@@ -10,7 +10,12 @@
 
     .signalNameInput {
       cursor: auto;
+      font-size: $base-caption-font-size;
     }
+  }
+
+  ::-webkit-input-placeholder {
+    opacity: 0.5 !important;
   }
 
   .signalLabel {
@@ -18,6 +23,7 @@
 
     > .caption {
       font-size: $caption-font-size;
+      font-weight: normal;
     }
   }
 

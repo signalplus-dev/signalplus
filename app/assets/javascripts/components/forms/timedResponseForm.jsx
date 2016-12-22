@@ -18,7 +18,7 @@ function renderFields({ fields, meta: { touched, error } }) {
         </div>
         <InputBox
           name={`${response}.message`}
-          placeholder="Type your response here, add website links too"
+          placeholder="Type in a response here, add website links too"
           componentClass="textarea"
         />
         { touched && error && <span className='input-form-error'>{error}</span> }
