@@ -50,6 +50,43 @@ describe ResponseGroup do
     end
   end
 
+  describe '#find_next_response' do
+    let(:response_group) { create(:default_group_responses) }
+
+
+    context 'only default and repeat responses' do
+      context 'no responses' do
+        subject { response_group.reload.find_next_response(-1) }
+        its(:response_type) { is_expected.to eq(Response::Type::DEFAULT) }
+      end
+
+      context 'having sent out a priority 0 response' do
+        subject { response_group.reload.find_next_response(0) }
+        its(:response_type) { is_expected.to eq(Response::Type::REPEAT) }
+      end
+    end
+
+    context 'with responses that expiration dates' do
+      let!(:expired_response) do
+        Response.create_timed_response(
+          'I am a response with an expiration date',
+          2.days.from_now,
+          response_group
+        )
+      end
+
+      context 'no responses' do
+        subject { response_group.reload.find_next_response(-1) }
+        its(:response_type) { is_expected.to eq(Response::Type::TIMED) }
+      end
+
+      context 'having sent out a priority 0 response' do
+        subject { response_group.reload.find_next_response(0) }
+        its(:response_type) { is_expected.to eq(Response::Type::REPEAT) }
+      end
+    end
+  end
+
   # describe '#default_response' do
   #   let(:identity) { create(:identity) }
   #   let(:listen_signal) { create(:listen_signal, brand: identity.brand, identity: identity) }

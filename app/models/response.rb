@@ -38,6 +38,14 @@ class Response < ActiveRecord::Base
     Type::REPEAT  => 1000,
   }
 
+  def self.not_expired
+    where(
+      'coalesce("responses"."expiration_date", ?) > ?',
+      Date.current + 1.day,
+      Date.current
+    )
+  end
+
   def self.provider
     response_group.listen_signal.provider
   end
@@ -90,6 +98,12 @@ class Response < ActiveRecord::Base
     response_type == Type::EXPIRED
   end
 
+  # @return [Boolean]
+  def passed_expiration_date?
+    return false unless expiration_date
+    expiration_date < Date.current
+  end
+
   # below are dummy methods to ensure that tests for sending tweets/dms with images
   # still pass
   # @return [Boolean]
@@ -105,5 +119,16 @@ class Response < ActiveRecord::Base
   # @return [String]
   def image_name
     'puppy.gif'
+  end
+
+  # @return [Array]
+  def for_sorting(last_response_priority)
+    [
+      passed_expiration_date? ? 1 : -1,
+      priority > last_response_priority ? -1 : 1,
+      priority,
+      expiration_date ? -1 : 1,
+      expiration_date,
+    ]
   end
 end

@@ -17,7 +17,6 @@ FactoryGirl.define do
   factory :response do
     message 'check out this zebra!'
     response_type 'direct_message'
-    expiration_date 2.days.from_now
     response_group
 
     trait :default do
