@@ -127,6 +127,11 @@
   p {
     width: 180px;
   }
+
+
+  ::-webkit-input-placeholder {
+    opacity: 0.5 !important;
+  }
 }
 
 .promote-box {
