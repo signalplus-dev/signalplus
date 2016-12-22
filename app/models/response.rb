@@ -34,6 +34,7 @@ class Response < ActiveRecord::Base
 
   DEFAULT_PRIORITY = {
     Type::DEFAULT => 0,
+    Type::TIMED   => 0,
     Type::REPEAT  => 1000,
   }
 
@@ -56,6 +57,7 @@ class Response < ActiveRecord::Base
       r.response_type = Type::TIMED
       r.response_group_id = response_group.id
       r.expiration_date = exp_date
+      r.priority = DEFAULT_PRIORITY[Type::TIMED]
     end
   end
 
