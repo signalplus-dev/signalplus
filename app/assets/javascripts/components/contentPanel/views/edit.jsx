@@ -91,7 +91,7 @@ class Edit extends Component {
           </div>
           <InputBox
             name="default_response"
-            placeholder="Type your response here, add website links too"
+            placeholder="Type in a response here, add website links too"
             componentClass="textarea"
           />
           <span className='required'>REQUIRED</span>
@@ -99,11 +99,14 @@ class Edit extends Component {
 
         <div className='response-edit-box'>
           <div className='response-text'>
-            <h5>Not Available/ Repeat Requests</h5>
+            <h5>
+              Not Available/<br/>
+              Repeat Requests
+            </h5>
           </div>
           <InputBox
             name="repeat_response"
-            placeholder="Type your response here, add website links too"
+            placeholder="Type in a response here, add website links too"
             componentClass="textarea"
           />
           <span className='required'>REQUIRED</span>

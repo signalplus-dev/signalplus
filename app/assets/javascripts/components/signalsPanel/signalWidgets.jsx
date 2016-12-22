@@ -30,7 +30,7 @@ function renderSignalWidgets(signals) {
         </div>
 
         <div className='signal-type'>
-          <p>TYPE</p>
+          <p className='panel-type-label'>TYPE</p>
           <span className='uctext type'>{signal_type}</span>
         </div>
       </Link>

@@ -8,7 +8,7 @@ function renderInputBox(signal) {
   return (
     <InputBox
       name="name"
-      placeholder={`Ex. ${_.upperFirst(signal.signal_type)}`}
+      placeholder="#Name"
       componentClass="input"
       className="signalNameInput uctext"
     />
@@ -29,6 +29,7 @@ export default function EditMenuItem({ menu, signal }) {
       >
         <label className="signalLabel">
           <span className="caption">SIGNAL NAME</span>
+          <p className="caption">Enter a signal name to listen for</p>
           {signal.id ? renderSignalName(signal) : renderInputBox(signal)}
         </label>
         <ActivateSignalRadioButton signal={signal}/>
