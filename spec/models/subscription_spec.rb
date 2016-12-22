@@ -53,6 +53,12 @@ describe Subscription do
       end
     end
 
+    it 'sends welcome email' do
+      expect(UserMailer).to receive(:welcome).with(brand)
+      described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
+    end
+  end
+
     describe '.resubscribe!' do
       before do
         allow(described_class)
@@ -234,6 +240,11 @@ describe Subscription do
             }.from(0).to(1)
           end
         end
+      end
+
+      it 'sends cancel plan email' do
+        expect(UserMailer).to receive(:cancel_plan).with(brand)
+        subscription.cancel_plan!
       end
     end
 
