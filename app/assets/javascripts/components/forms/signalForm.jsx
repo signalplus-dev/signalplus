@@ -11,8 +11,11 @@ import {
   signalNameValidator,
   defaultResponseValidator,
   repeatResponseValidator,
+  timedResponseValidator,
 } from 'components/forms/validations';
 
+
+// TODO make timedResponses work with createValidator
 const validate = createValidator({
   name: signalNameValidator,
   default_response: defaultResponseValidator,
@@ -109,6 +112,7 @@ class SignalForm extends Component {
 export const RESPONSE_TYPES = {
   DEFAULT: 'default',
   REPEAT: 'repeat',
+  TIMED: 'timed',
 };
 
 const EDITABLE_SIGNAL_FIELDS = [
@@ -116,7 +120,6 @@ const EDITABLE_SIGNAL_FIELDS = [
   'name',
   'active',
   'signal_type',
-  'expiration_date',
 ];
 
 const findType = (type) => (response) => {

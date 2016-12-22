@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import { arrayPush, FieldArray } from 'redux-form';
+import { connect } from 'react-redux';
 import _ from 'lodash';
-import Calendar from 'components/forms/calendar';
 import InputBox from 'components/forms/inputBox';
-import AddBtn from 'components/buttons/add_btn';
 import SignalIcon from 'components/links/signal_icon';
+import TimedResponseForm from 'components/forms/timedResponseForm';
+import { getFormNameFromSignal } from 'components/forms/util';
 
-export default class Edit extends Component {
+
+class Edit extends Component {
+  constructor(props) {
+    super(props);
+    this.addCustomResponse = this.addCustomResponse.bind(this);
+  }
+
   displaySignalName() {
     const { signal, brand } = this.props;
     const signalName = signal.id ? signal.name : signal.signal_type;
@@ -23,9 +31,15 @@ export default class Edit extends Component {
     }
   }
 
+  addCustomResponse() {
+    const { dispatch, signal } = this.props;
+    const form = getFormNameFromSignal(signal);
+
+    dispatch(arrayPush(form, 'responses', { text: '', expiration_date: '' }));
+  }
+
   render() {
     const { signal } = this.props;
-    const responses = _.get(signal, 'responses', [{},{}]);
 
     return (
       <div className='col-xs-10 content-box'>
@@ -48,16 +62,19 @@ export default class Edit extends Component {
 
           <div className='edit-btns'>
             <button
+              type='button'
+              onClick={this.addCustomResponse}
+              className='btn btn-primary add-btn'
+            >
+              + ADD RESPONSE
+            </button>
+            <button
               type='submit'
               className='btn btn-primary save-btn'
             >
               SAVE
             </button>
           </div>
-          <AddBtn
-            type='add'
-            expirationDate={signal.expirationDate}
-          />
         </div>
 
         <div className='tip-box'>
@@ -74,7 +91,7 @@ export default class Edit extends Component {
           </div>
           <InputBox
             name="default_response"
-            placeholder="Type your response here"
+            placeholder="Type your response here, add website links too"
             componentClass="textarea"
           />
           <span className='required'>REQUIRED</span>
@@ -86,12 +103,19 @@ export default class Edit extends Component {
           </div>
           <InputBox
             name="repeat_response"
-            placeholder="Type your response here"
+            placeholder="Type your response here, add website links too"
             componentClass="textarea"
           />
           <span className='required'>REQUIRED</span>
         </div>
+
+        <FieldArray
+          name='responses'
+          component={TimedResponseForm}
+        />
       </div>
     );
   }
 }
+
+export default connect()(Edit);

@@ -24,6 +24,7 @@ class Response < ActiveRecord::Base
   module Type
     DEFAULT = 'default'
     FIRST   = 'first'
+    TIMED   = 'timed'
     FLOW    = 'flow'
     NOT_COUNTED = [
       REPEAT  = 'repeat',
@@ -49,10 +50,10 @@ class Response < ActiveRecord::Base
     end
   end
 
-  def self.create_timed_response(message, type, response_group, exp_date)
+  def self.create_timed_response(message, exp_date, response_group)
     Response.create do |r|
       r.message = message
-      r.response_type = type
+      r.response_type = Type::TIMED
       r.response_group_id = response_group.id
       r.expiration_date = exp_date
     end
@@ -75,6 +76,11 @@ class Response < ActiveRecord::Base
   # @return [Boolean]
   def default?
     response_type == Type::DEFAULT
+  end
+
+  # @return [Boolean]
+  def timed?
+    response_type == Type::TIMED
   end
 
   # @return [Boolean]

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 export function signalNameValidator(name) {
   if (!name) {
@@ -13,20 +14,49 @@ export function signalNameValidator(name) {
 }
 
 export function defaultResponseValidator(defaultResponse) {
-  if (!defaultResponse) {
-    return 'Default response required.';
-  } else if (defaultResponse.length > 140) {
+  return responseTextValidator(defaultResponse, 'Default');
+}
+
+export function repeatResponseValidator(repeatResponse) {
+  return responseTextValidator(repeatResponse, 'Repeat');
+}
+
+// TODO: Validate time only for new calendars
+export function timedResponseValidator(responses) {
+  const responseArrayErrors = [];
+
+  if (responses.length) {
+    responses.forEach((response, index) => {
+      const responseErrors = {};
+      responseErrors.message = responseTextValidator(response.message, 'Timed');
+      responseErrors.expiration_date = expirationDateValidator(response.expiration_date);
+      responseArrayErrors[index] = responseErrors;
+    });
+  }
+
+  return responseArrayErrors.length ? responseArrayErrors : null;
+}
+
+export function responseTextValidator(text, type) {
+  if (!text) {
+    return `${type} response reqired.`;
+  }
+
+  if (text.length > 140) {
     return 'Your tweet response cannot exceed 140 characters.';
   }
 
   return null;
 }
 
-export function repeatResponseValidator(repeatResponse) {
-  if (!repeatResponse) {
-    return 'Repeat respose reqired.';
-  } else if (repeatResponse.length > 140) {
-    return 'Your tweet response cannot exceed 140 characters.';
+export function expirationDateValidator(date) {
+  if (!date) {
+    return 'Expiration date must be set on a custom response';
+  }
+
+  const selectedDate = moment(date, 'YYYY-MM-DD');
+  if (selectedDate < moment()) {
+    return 'Expiration date cannot be in the past';
   }
 
   return null;

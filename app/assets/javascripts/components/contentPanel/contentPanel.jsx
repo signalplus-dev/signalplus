@@ -4,6 +4,7 @@ import { provideHooks } from 'redial';
 import _ from 'lodash';
 import { actions as appActions } from 'redux/modules/app/index';
 import { getListenSignalData } from 'redux/modules/models/listenSignals';
+import { getFormNameFromSignal } from 'components/forms/util';
 
 // Components
 import Sidebar from 'components/contentPanel/sidebar';
@@ -48,7 +49,7 @@ class ContentPanel extends Component {
   }
 
   tabAlreadyCreated(signal, tabs) {
-    const newTab = createTab(signal, this.formName(signal));
+    const newTab = createTab(signal, getFormNameFromSignal(signal));
     return _.some(tabs, (tab) => (_.isEqual(tab, newTab)));
   }
 
@@ -65,7 +66,7 @@ class ContentPanel extends Component {
 
   createTabIfNotCreated(signal, tabs) {
     if (this.shouldCreateTab(signal, tabs)) {
-      this.props.dispatch(appActions.addTab(createTab(signal, this.formName(signal))));
+      this.props.dispatch(appActions.addTab(createTab(signal, getFormNameFromSignal(signal))));
       this.setState({ tabCreated: true });
     }
   }
@@ -129,7 +130,7 @@ class ContentPanel extends Component {
     const childrenToRender = children ? this.cloneChildren() : children;
 
     return (
-      <SignalForm signal={signal} tabId={tabId(signal)} formName={this.formName(signal)}>
+      <SignalForm signal={signal} tabId={tabId(signal)} formName={getFormNameFromSignal(signal)}>
         <Sidebar menuItems={this.menuItems()} signal={signal} tabId={tabId(signal)}/>
         <div className="content-pane">
           {childrenToRender}

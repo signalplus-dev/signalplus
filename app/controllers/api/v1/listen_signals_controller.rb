@@ -30,15 +30,12 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
 
   def create
     signal_params            = create_signal_params
+    response_params          = create_response_params
     signal_params[:brand]    = @brand
     signal_params[:identity] = @brand.twitter_identity
-    default_response_msg     = params[:default_response]
-    repeat_response_msg      = params[:repeat_response]
 
-    ActiveRecord::Base.transaction do
-      @listen_signal = ListenSignal.create!(signal_params)
-      create_grouped_response(default_response_msg, repeat_response_msg)
-    end
+    listen_signal_handler = ListenSignalHandler.new(nil, signal_params, response_params)
+    @listen_signal = listen_signal_handler.create
 
     render json: @listen_signal, serializer: ListenSignalSerializer
   end
@@ -52,7 +49,11 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
   private
 
   def create_signal_params
-    params.permit(:name, :active, :signal_type, :expiration_date)
+    params.permit(:name, :active, :signal_type)
+  end
+
+  def create_response_params
+    params.permit(:default_response, :repeat_response, { responses: [:id, :message, :expiration_date] })
   end
 
   def update_signal_params
@@ -96,33 +97,15 @@ class Api::V1::ListenSignalsController < Api::V1::BaseController
     }
   end
 
-  def put_update
-    signal_params = update_signal_params
-    @listen_signal.update!(signal_params)
-
-    update_response(@listen_signal.default_response, params[:default_response])
-    update_response(@listen_signal.repeat_response, params[:repeat_response])
-  end
-
   def patch_update
     @listen_signal.update!(patch_signal_params)
   end
 
-  def create_response_group
-    ResponseGroup.create!(listen_signal: @listen_signal)
-  end
+  def put_update
+    signal_params = update_signal_params
+    response_params = create_response_params
 
-  def create_response(message, type, response_group)
-    Response.create_response(message, type, response_group)
-  end
-
-  def create_grouped_response(default_response_msg, repeat_response_msg)
-    response_group = create_response_group
-    create_response(default_response_msg, Response::Type::DEFAULT, response_group)
-    create_response(repeat_response_msg, Response::Type::REPEAT, response_group)
-  end
-
-  def update_response(response, message, exp_date=nil)
-    response.update!(message: message, expiration_date: exp_date)
+    listen_signal_handler = ListenSignalHandler.new(@listen_signal, signal_params, response_params)
+    listen_signal_handler.update
   end
 end
