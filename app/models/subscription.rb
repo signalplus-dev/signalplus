@@ -2,18 +2,19 @@
 #
 # Table name: subscriptions
 #
-#  id                   :integer          not null, primary key
-#  brand_id             :integer
-#  subscription_plan_id :integer
-#  provider             :string
-#  token                :string
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  canceled_at          :datetime
-#  trial_end            :datetime         not null
-#  trial                :boolean          default(TRUE)
-#  deleted_at           :datetime
-#  lock_version         :integer          default(0)
+#  id                     :integer          not null, primary key
+#  brand_id               :integer
+#  subscription_plan_id   :integer
+#  provider               :string
+#  token                  :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  canceled_at            :datetime
+#  trial_end              :datetime         not null
+#  trial                  :boolean          default(TRUE)
+#  deleted_at             :datetime
+#  lock_version           :integer          default(0)
+#  will_be_deactivated_at :datetime
 #
 
 class Subscription < ActiveRecord::Base
@@ -40,9 +41,23 @@ class Subscription < ActiveRecord::Base
       customer = create_customer!(subscription_plan, email, stripe_token, trial_end.to_i)
 
       if customer
+        stripe_subscription_id = customer.subscriptions.first.id
         create_payment_handler!(brand, customer)
-        create_subscription!(brand, subscription_plan, customer, trial_end)
+        create_subscription!(brand, subscription_plan, stripe_subscription_id, trial_end)
       end
+    end
+
+    # Resubscribes a brand to a subscription if their previous subscription was deactivated
+    #
+    # @param brand             [Brand] A brand object
+    # @param subscription_plan [SubscriptionPlan] A subscription plan object
+    def resubscribe!(brand, subscription_plan)
+      stripe_subscription = create_stripe_subscription!(
+        brand.payment_handler.token,
+        subscription_plan.provider_id
+      )
+
+      create_subscription!(brand, subscription_plan, stripe_subscription.id)
     end
 
     private
@@ -53,7 +68,7 @@ class Subscription < ActiveRecord::Base
     # @param subscription_plan [SubscriptionPlan]
     # @param email             [String]
     # @param stripe_token      [String]
-    # @param trial_end         [Fixnum] Unix timestamp for the trial is supposed to end
+    # @param trial_end         [Fixnum] Unix timestamp for when the trial is supposed to end
     # @return                  [Stripe::Customer]
     def create_customer!(subscription_plan, email, stripe_token, trial_end)
       Stripe::Customer.create(
@@ -61,6 +76,18 @@ class Subscription < ActiveRecord::Base
         plan:      subscription_plan.provider_id,
         email:     email,
         trial_end: trial_end,
+      )
+    end
+
+    # Used when resubscribing a user to a subscription
+    #
+    # @param customer [String]
+    # @param plan     [String]
+    # @return [Stripe::Subscription]
+    def create_stripe_subscription!(customer, plan)
+      Stripe::Subscription.create(
+        customer: customer,
+        plan: plan,
       )
     end
 
@@ -74,18 +101,19 @@ class Subscription < ActiveRecord::Base
 
     # Creates the Subscription within our DB
     #
-    # @param brand             [Brand]
-    # @param subscription_plan [SubscriptionPlan]
-    # @param customer          [Stripe::Customer]
-    # @param trial_end         [ActiveSupport::TimeWithZone]
-    # @return                  [Subscription]
-    def create_subscription!(brand, subscription_plan, customer, trial_end)
+    # @param brand                  [Brand]
+    # @param subscription_plan      [SubscriptionPlan]
+    # @param stripe_subscription_id [String]
+    # @param trial_end              [ActiveSupport::TimeWithZone]
+    # @return                       [Subscription]
+    def create_subscription!(brand, subscription_plan, stripe_subscription_id, trial_end = nil)
       create!(
         brand_id:             brand.id,
         subscription_plan_id: subscription_plan.id,
         provider:             'Stripe',
-        token:                customer.subscriptions.first.id,
+        token:                stripe_subscription_id,
         trial_end:            trial_end,
+        trial:                !!trial_end,
       )
     end
   end
@@ -93,16 +121,26 @@ class Subscription < ActiveRecord::Base
   # Updates the subscription's subscription plan
   #
   # @param subscription_plan [SubscriptionPlan] A subscription plan object
+  # @return [Subscription]
   def update_plan!(subscription_plan)
-    stripe_subscription.plan = subscription_plan.provider_id
-    update_stripe_subscription!
-    update!(subscription_plan_id: subscription_plan.id)
+    if deactivated?
+      subscription = Subscription.resubscribe!(brand, subscription_plan)
+      destroy
+      subscription
+    else
+      update_stripe_subscription!(subscription_plan)
+      update!(subscription_plan_id: subscription_plan.id)
+      self
+    end
   end
 
   # Cancels the subscription plan
   def cancel_plan!
     cancel_stripe_subscription!
-    update!(canceled_at: Time.current)
+    update!(
+      canceled_at: stripe_subscription.canceled_at,
+      will_be_deactivated_at: stripe_subscription.current_period_end,
+    )
   end
 
   # Forcefully ends the trial subscription
@@ -144,6 +182,11 @@ class Subscription < ActiveRecord::Base
   end
 
   # @return [Boolean]
+  def deactivated?
+    will_be_deactivated_at? && will_be_deactivated_at <= Time.current
+  end
+
+  # @return [Boolean]
   def valid_and_paid_for?
     !canceled? && !past_due? && !unpaid?
   end
@@ -159,7 +202,13 @@ class Subscription < ActiveRecord::Base
   private
 
   # Used to stub out in tests for mocking of the Stripe API response
-  def update_stripe_subscription!
+  def update_stripe_subscription!(subscription_plan)
+    stripe_subscription.plan = subscription_plan.provider_id
+    # Don't prorate
+    # TODO: test with downgrading
+    stripe_subscription.prorate = false
+    # Cancel any possible cancellations when updating
+    stripe_subscription.cancel_at_period_end = false
     stripe_subscription.save
   end
 

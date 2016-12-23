@@ -24,9 +24,9 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 
   def update
     subscription_plan = SubscriptionPlan.find(params[:subscription_plan_id])
-    @subscription.update_plan!(subscription_plan)
+    maybe_new_subscription = @subscription.update_plan!(subscription_plan)
 
-    render json: @subscription, serializer: SubscriptionSerializer
+    render json: maybe_new_subscription, serializer: SubscriptionSerializer
   end
 
   def cancel
