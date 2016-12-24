@@ -131,7 +131,11 @@ class Subscription < ActiveRecord::Base
       resubscribe_and_destroy!(subscription_plan)
     else
       update_stripe_subscription!(subscription_plan)
-      update!(subscription_plan_id: subscription_plan.id)
+      update!(
+        subscription_plan_id: subscription_plan.id,
+        canceled_at: nil,
+        will_be_deactivated_at: nil,
+      )
       self
     end
   rescue Stripe::InvalidRequestError
@@ -211,8 +215,6 @@ class Subscription < ActiveRecord::Base
     # Don't prorate
     # TODO: test with downgrading
     stripe_subscription.prorate = false
-    # Cancel any possible cancellations when updating
-    stripe_subscription.cancel_at_period_end = false
     stripe_subscription.save
   end
 
