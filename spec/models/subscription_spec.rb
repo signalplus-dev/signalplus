@@ -47,22 +47,6 @@ describe Subscription do
   end
 
   describe '.resubscribe!' do
-    let(:new_plan) { basic_plan }
-    let!(:resubscribed_stripe_subscription) do
-      stripe_response = nil
-      described_class.send(:create_payment_handler!, brand, stripe_customer)
-
-      VCR.use_cassette('create_stripe_subscription') do
-        stripe_response = described_class.send(
-          :create_stripe_subscription!,
-          stripe_customer.id,
-          new_plan.provider_id
-        )
-      end
-
-      stripe_response
-    end
-
     before do
       allow(described_class)
         .to receive(:create_stripe_subscription!)
@@ -96,36 +80,66 @@ describe Subscription do
     end
 
     describe '#update_plan!' do
-      let(:update_stripe_subscription!) do
-        stripe_response = nil
+      context 'with an active subscription' do
+        let(:update_stripe_subscription!) do
+          stripe_response = nil
 
-        VCR.use_cassette('update_stripe_subscription') do
-          subscription.stripe_subscription.plan = advanced_plan.provider_id
-          stripe_response = subscription.stripe_subscription.save
+          VCR.use_cassette('update_stripe_subscription') do
+            subscription.stripe_subscription.plan = advanced_plan.provider_id
+            stripe_response = subscription.stripe_subscription.save
+          end
+
+          stripe_response
         end
 
-        stripe_response
-      end
+        before do
+          allow(subscription).to receive(:update_stripe_subscription!).and_return(update_stripe_subscription!)
+        end
 
-      before do
-        allow(subscription).to receive(:update_stripe_subscription!).and_return(update_stripe_subscription!)
-      end
-
-      it 'changes the subscription_plan' do
-        expect {
-          subscription.update_plan!(advanced_plan)
-        }.to change {
-          subscription.subscription_plan
-        }.from(basic_plan).to(advanced_plan)
-      end
-
-      it 'logs the changes' do
-        with_versioning do
+        it 'changes the subscription_plan' do
           expect {
             subscription.update_plan!(advanced_plan)
           }.to change {
-            subscription.versions.count
-          }.from(0).to(1)
+            subscription.subscription_plan
+          }.from(basic_plan).to(advanced_plan)
+        end
+
+        it 'logs the changes' do
+          with_versioning do
+            expect {
+              subscription.update_plan!(advanced_plan)
+            }.to change {
+              subscription.versions.count
+            }.from(0).to(1)
+          end
+        end
+      end
+
+      context 'with a deactivated subscription' do
+        before do
+          brand.update!(subscription: subscription)
+          allow(subscription).to receive(:deactivated?).and_return(true)
+          allow(described_class)
+            .to receive(:create_stripe_subscription!)
+            .and_return(resubscribed_stripe_subscription)
+        end
+
+        it 'destroys the original subscription' do
+          expect {
+            subscription.update_plan!(basic_plan)
+          }.to change {
+            subscription.deleted_at?
+          }.from(false).to(true)
+        end
+
+        it 'changes the subscription of the brand' do
+          new_subscription = nil
+
+          expect {
+            subscription.update_plan!(basic_plan)
+          }.to change {
+            brand.reload.subscription.id
+          }.from(subscription.id)
         end
       end
     end

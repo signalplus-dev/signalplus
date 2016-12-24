@@ -46,4 +46,20 @@ shared_context 'stripe setup' do
   before do
     allow(Subscription).to receive(:create_customer!).and_return(stripe_customer)
   end
+
+  let(:new_plan) { basic_plan }
+  let(:resubscribed_stripe_subscription) do
+    stripe_response = nil
+    Subscription.send(:create_payment_handler!, brand, stripe_customer)
+
+    VCR.use_cassette('create_stripe_subscription') do
+      stripe_response = Subscription.send(
+        :create_stripe_subscription!,
+        stripe_customer.id,
+        new_plan.provider_id
+      )
+    end
+
+    stripe_response
+  end
 end

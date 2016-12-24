@@ -124,9 +124,10 @@ class Subscription < ActiveRecord::Base
   # @return [Subscription]
   def update_plan!(subscription_plan)
     if deactivated?
-      subscription = Subscription.resubscribe!(brand, subscription_plan)
-      destroy
-      subscription
+      Subscription.transaction do
+        destroy!
+        Subscription.resubscribe!(brand, subscription_plan)
+      end
     else
       update_stripe_subscription!(subscription_plan)
       update!(subscription_plan_id: subscription_plan.id)
