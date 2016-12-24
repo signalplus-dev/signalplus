@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Loader(textOnly) {
+export default function Loader({ textOnly }) {
   if (textOnly) {
     return <div>Loading...</div>
   }
@@ -14,7 +14,6 @@ export default function Loader(textOnly) {
         <div className='rect4'></div>
         <div className='rect5'></div>
       </div>
-      <div className='spinner-text'>Loading...</div>
     </div>
   );
 }
