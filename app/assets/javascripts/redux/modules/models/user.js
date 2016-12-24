@@ -110,9 +110,19 @@ export function updateUserInfo(payload) {
       method: 'POST',
       body: JSON.stringify(payload),
       types: [
-        USER_UPDATE_REQUEST,
-        { type: USER_UPDATE_REQUEST_SUCCESS, payload: normalizeUserResponse },
-        USER_UPDATE_REQUEST_FAIL,
+        {
+          type: USER_UPDATE_REQUEST,
+          meta: { spLoading: true },
+        },
+        {
+          type: USER_UPDATE_REQUEST_SUCCESS,
+          payload: normalizeUserResponse,
+          meta: { spLoading: false },
+        },
+        {
+          type: USER_UPDATE_REQUEST_FAIL,
+          meta: { spLoading: false },
+        },
       ],
     }));
   };

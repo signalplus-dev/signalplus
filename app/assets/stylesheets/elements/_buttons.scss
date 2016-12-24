@@ -3,6 +3,7 @@
   font-weight: bold;
   border-radius: 10px;
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 @mixin btn-blue {
@@ -188,6 +189,12 @@
 .selected-btn {
   @include btn;
   @include btn-green;
+}
+
+.btn-green {
+  @include btn;
+  @include btn-green;
+  cursor: pointer;
 }
 
 .post-to-timeline-btn {

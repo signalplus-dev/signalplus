@@ -7,17 +7,31 @@ import commaNumber from 'comma-number';
 import { isTopSubscriptionSelector } from 'selectors/selectors.js'
 import Loader from 'components/loader';
 
-function renderUpgradeLink() {
-  return (
-    <div>
-      <Link to="/subscription_plans" className="grayLink">Upgrade</Link>
-    </div>
-  );
-}
-
 class SubscriptionSummary extends Component {
+  renderTrialOrCanceledCopy() {
+    const { subscription: { data: subscription } } = this.props;
+    const { will_be_deactivated_at, trial, trial_end } = subscription;
+
+    if (this.willBeDeactivated()) {
+      const deactivatedDate = moment(will_be_deactivated_at);
+      return (
+        <div className="summaryHelperText">
+          {`Your plan will be deactivated on ${deactivatedDate.format('MMM D')}`}
+        </div>
+      );
+    } else if (trial) {
+      return (
+        <div className="summaryHelperText">
+          {`Your trial will either end on ${moment(trial_end).format('MMM D')}`}
+          <br />
+          {`or after surpassing ${process.env.MAX_NUMBER_OF_MESSAGES_FOR_TRIAL} trial responses.`}
+        </div>
+      );
+    }
+  }
+
   renderContent() {
-    const { subscription, isTopSubscription } = this.props;
+    const { subscription } = this.props;
 
     if (!subscription.loaded) return <Loader textOnly={true}/>;
 
@@ -34,7 +48,10 @@ class SubscriptionSummary extends Component {
 
     return (
       <div>
-        <div className="subscriptionName">{`${_.upperFirst(subscription.data.name)} Plan`}</div>
+        <div className="subscriptionName">
+          {`${_.upperFirst(subscription.data.name)} Plan`}
+          {this.renderTrialOrCanceledCopy()}
+        </div>
         <div>
           <div className="numMessages">
             <span className="sentMessages">
@@ -46,10 +63,58 @@ class SubscriptionSummary extends Component {
           </div>
           <span className="month">{moment().format('MMM YYYY')}<br />Responses</span>
         </div>
-        {isTopSubscription ? undefined : renderUpgradeLink()}
+        {this.renderUpgradeLink()}
       </div>
     );
   }
+
+  willBeDeactivated() {
+    const { subscription: { data: subscription } } = this.props;
+
+    return (
+      !!subscription.will_be_deactivated_at &&
+      moment().isBefore(subscription.will_be_deactivated_at)
+    );
+  }
+
+  isInactive() {
+    const { subscription: { data: subscription } } = this.props;
+
+    return (
+      !!subscription.will_be_deactivated_at &&
+      moment().isAfter(subscription.will_be_deactivated_at)
+    );
+  }
+
+  renderUpgradeLink() {
+    const { isTopSubscription } = this.props;
+    let linkText;
+    let link;
+
+    if (this.willBeDeactivated()) {
+      linkText = 'Reactivate';
+      link = '/dashboard/account/current_plan';
+    } else {
+      link = '/subscription_plans';
+
+      if (this.isInactive()) {
+        linkText = 'Select Plan';
+      } else if (isTopSubscription) {
+        linkText = 'Change Plan';
+        link = '/subscription_plans';
+      } else {
+        linkText = 'Upgrade';
+        link = '/subscription_plans';
+      }
+    }
+
+    return (
+      <div>
+        <Link to={link} className="grayLink">{linkText}</Link>
+      </div>
+    );
+  }
+
   render() {
     const { subscription, isTopSubscription } = this.props;
 

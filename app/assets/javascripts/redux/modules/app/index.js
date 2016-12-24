@@ -17,6 +17,7 @@ const DISMISS_FLASH_MESSAGE = 'signalplus/app/DISMISS_FLASH_MESSAGE';
 const RENDER_FLASH_MESSAGE = 'signalplus/app/RENDER_FLASH_MESSAGE';
 const SHOW_MODAL = 'signalplus/app/SHOW_MODAL';
 const HIDE_MODAL = 'signalplus/app/HIDE_MODAL';
+const TOGGLE_LOADER = 'signalplus/app/TOGGLE_LOADER';
 
 export const SIGNALS_TAB_ID = 'signals';
 export const TEMPLATE_TAB_ID = 'templates';
@@ -53,7 +54,8 @@ const initialState = {
     modalType: null,
     modalProps: {},
     display: false,
-  }
+  },
+  loading: false,
 };
 
 function setNewTab(tabs, payload) {
@@ -138,6 +140,12 @@ export const reducer = handleActions({
       display: false,
     },
   }),
+
+  [TOGGLE_LOADER]: (state, action) => ({
+    ...state,
+    loading: action.payload,
+  }),
+
 }, initialState);
 
 /*
@@ -152,6 +160,7 @@ const dismissFlashMessage = createAction(DISMISS_FLASH_MESSAGE);
 const renderFlashMessage = createAction(RENDER_FLASH_MESSAGE);
 const showModal = createAction(SHOW_MODAL);
 const hideModal = createAction(HIDE_MODAL);
+const toggleLoader = createAction(TOGGLE_LOADER);
 
 /**
   * Create a thunk that conditionally subscribes to channels if we haven't already subscribed
@@ -180,4 +189,5 @@ export const actions = {
   renderFlashMessage,
   showModal,
   hideModal,
+  toggleLoader,
 };

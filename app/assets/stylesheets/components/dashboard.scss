@@ -35,6 +35,13 @@
     margin-left: 5px;
     vertical-align: middle;
   }
+
+  .summaryHelperText {
+    font-size: $caption-font-size;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: right;
+  }
 }
 
 .brand-profile-block {

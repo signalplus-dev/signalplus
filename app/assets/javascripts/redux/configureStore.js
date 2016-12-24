@@ -4,6 +4,7 @@ import logOutMiddleware from 'redux/middleware/logOutMiddleware';
 import { routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import flashMiddleware from 'redux/middleware/flashMiddleware';
+import loadingMiddleware from 'redux/middleware/loadingMiddleware';
 import thunk from 'redux-thunk';
 import rootReducer from 'redux/modules/index';
 import { isDev } from 'util/env';
@@ -17,6 +18,7 @@ export default function configureStore(initialState = {}) {
     compose(
       applyMiddleware(
         apiMiddleware,
+        loadingMiddleware,
         logOutMiddleware,
         routerMiddleware(browserHistory),
         thunk,

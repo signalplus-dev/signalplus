@@ -23,7 +23,11 @@ class Subscription < ActiveRecord::Base
   belongs_to :brand
   belongs_to :subscription_plan
 
-  has_paper_trail only: [:subscription_plan_id, :canceled_at], on: [:update]
+  has_paper_trail only: [
+    :subscription_plan_id,
+    :canceled_at,
+    :will_be_deactivated_at,
+  ], on: [:update]
 
   NUMBER_OF_DAYS_OF_TRIAL = ENV['NUMBER_OF_DAYS_OF_TRIAL'].to_i
   MAX_NUMBER_OF_MESSAGES_FOR_TRIAL = ENV['MAX_NUMBER_OF_MESSAGES_FOR_TRIAL'].to_i
@@ -124,23 +128,22 @@ class Subscription < ActiveRecord::Base
   # @return [Subscription]
   def update_plan!(subscription_plan)
     if deactivated?
-      Subscription.transaction do
-        destroy!
-        Subscription.resubscribe!(brand, subscription_plan)
-      end
+      resubscribe_and_destroy!(subscription_plan)
     else
       update_stripe_subscription!(subscription_plan)
       update!(subscription_plan_id: subscription_plan.id)
       self
     end
+  rescue Stripe::InvalidRequestError
+    resubscribe_and_destroy!(subscription_plan)
   end
 
   # Cancels the subscription plan
   def cancel_plan!
     cancel_stripe_subscription!
     update!(
-      canceled_at: stripe_subscription.canceled_at,
-      will_be_deactivated_at: stripe_subscription.current_period_end,
+      canceled_at: Time.at(stripe_subscription.canceled_at),
+      will_be_deactivated_at: Time.at(stripe_subscription.current_period_end),
     )
   end
 
@@ -220,5 +223,12 @@ class Subscription < ActiveRecord::Base
 
   def cancel_stripe_subscription!
     stripe_subscription.delete(at_period_end: true)
+  end
+
+  def resubscribe_and_destroy!(subscription_plan)
+    Subscription.transaction do
+      destroy!
+      Subscription.resubscribe!(brand, subscription_plan)
+    end
   end
 end

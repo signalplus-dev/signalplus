@@ -31,7 +31,6 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 
   def cancel
     @subscription.cancel_plan!
-
     render json: @subscription, serializer: SubscriptionSerializer
   end
 
