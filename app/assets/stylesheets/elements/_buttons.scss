@@ -191,6 +191,10 @@
   @include btn-green;
 }
 
+.selected-btn-canceled {
+  cursor: pointer;
+}
+
 .btn-green {
   @include btn;
   @include btn-green;

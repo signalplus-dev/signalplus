@@ -80,26 +80,34 @@ class SelectButton extends Component {
   }
 
   renderSelectedButton() {
-    return <button className="btn selected-btn">CURRENT PLAN</button>;
+    const text = this.props.canceled ? 'REACTIVATE PLAN' : 'CURRENT PLAN';
+    return <button className="btn selected-btn">{text}</button>;
   }
 
-  renderActualButton(hasExistingSubscription) {
-    const props = { className: "btn select-btn" };
+  renderActualButton() {
+    const { hasExistingSubscription, selected, canceled } = this.props;
+    const classes = cn({
+      btn: true,
+      'select-btn': !selected,
+      'selected-btn': selected,
+      'selected-btn-canceled': selected && canceled,
+    });
+    const props = { className: classes };
     if (hasExistingSubscription) props.onClick = this.handleClick;
-
-    return <button {...props}>SELECT</button>
+    const text = selected ? (canceled ? 'REACTIVATE PLAN' : 'CURRENT PLAN') : 'SELECT';
+    return <button {...props}>{text}</button>
   }
 
-  renderUnseletedButton() {
+  renderButton() {
     const { hasExistingSubscription } = this.props;
 
     if (hasExistingSubscription) {
-      return this.renderActualButton(hasExistingSubscription)
+      return this.renderActualButton()
     }
 
     return (
       <StripeButton handleToken={this.handleToken}>
-        {this.renderActualButton(hasExistingSubscription)}
+        {this.renderActualButton()}
       </StripeButton>
     );
   }
@@ -109,7 +117,7 @@ class SelectButton extends Component {
 
     return (
       <div className="btn-centered">
-        {selected ? this.renderSelectedButton() : this.renderUnseletedButton()}
+        {this.renderButton()}
       </div>
     );
   }
@@ -144,7 +152,7 @@ export class SubscriptionPlans extends Component {
   }
 
   renderSelectButton(subscriptionPlan) {
-    const { inDashboard, hasExistingSubscription } = this.props;
+    const { inDashboard, hasExistingSubscription, canceled } = this.props;
 
     if (inDashboard) {
       return (
@@ -153,6 +161,7 @@ export class SubscriptionPlans extends Component {
           subscriptionPlanId={subscriptionPlan.id}
           clickHandler={this.handleClick}
           hasExistingSubscription={hasExistingSubscription}
+          canceled={canceled}
         />
       );
     }
@@ -196,13 +205,14 @@ export class SubscriptionPlans extends Component {
 
 export default connect(state => {
   const subscription = state.models.subscription.data;
-  const { id, subscription_plan_id } = subscription;
+  const { id, subscription_plan_id, canceled_at } = subscription;
   const subscriptionPlans = state.models.subscriptionPlans.data;
 
   return {
     inDashboard: true,
     hasExistingSubscription: !!subscription_plan_id,
     subscriptionId: id,
+    canceled: !!canceled_at,
     subscriptionPlans: _.reduce(subscriptionPlans, (memo, subscriptionPlan) => ([
       ...memo,
       {

@@ -12,6 +12,10 @@
 
   .subscriptionName {
     font-weight: bold;
+
+    > .inactive {
+      color: $text-red;
+    }
   }
 
   .numMessages {
@@ -39,7 +43,6 @@
   .summaryHelperText {
     font-size: $caption-font-size;
     font-weight: normal;
-    text-transform: uppercase;
     text-align: right;
   }
 }
