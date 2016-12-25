@@ -17,6 +17,15 @@
     margin-left: 0;
   }
 
+  &.unavailable {
+    opacity: 0.5;
+    pointer-events: none;
+
+    * {
+      cursor: auto;
+    }
+  }
+
 
   .box-header {
     padding-top: 14px;

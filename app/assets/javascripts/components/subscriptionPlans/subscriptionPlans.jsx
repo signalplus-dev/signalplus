@@ -39,7 +39,7 @@ function numberOfMessages(subscriptionPlan) {
     <div className="plan-responses">
       <div><strong>Responses</strong></div>
       <span className="plan-message-amount">{numMessages}</span>
-      {free ? undefined : <span className="per-month">/MO</span>}
+      {!free && <span className="per-month">/MO</span>}
     </div>
   );
 }
@@ -85,7 +85,7 @@ class SelectButton extends Component {
   }
 
   renderActualButton() {
-    const { hasExistingSubscription, selected, canceled } = this.props;
+    const { hasExistingSubscription, selected, canceled, available } = this.props;
     const classes = cn({
       btn: true,
       'select-btn': !selected,
@@ -93,7 +93,7 @@ class SelectButton extends Component {
       'selected-btn-canceled': selected && canceled,
     });
     const props = { className: classes };
-    if (hasExistingSubscription) props.onClick = this.handleClick;
+    if (hasExistingSubscription && available) props.onClick = this.handleClick;
     const text = selected ? (canceled ? 'REACTIVATE PLAN' : 'CURRENT PLAN') : 'SELECT';
     return <button {...props}>{text}</button>
   }
@@ -127,13 +127,9 @@ export class SubscriptionPlans extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-    this.state = {
-      submitting: false,
-    };
   }
 
   handleClick(formData) {
-    this.setState({ submitting: true });
     const { dispatch, hasExistingSubscription } = this.props;
     let promise;
     if (hasExistingSubscription) {
@@ -158,6 +154,7 @@ export class SubscriptionPlans extends Component {
       return (
         <SelectButton
           selected={subscriptionPlan.selected}
+          available={subscriptionPlan.available}
           subscriptionPlanId={subscriptionPlan.id}
           clickHandler={this.handleClick}
           hasExistingSubscription={hasExistingSubscription}
@@ -170,11 +167,16 @@ export class SubscriptionPlans extends Component {
   }
 
   renderSubscriptionPlans() {
-    const { subscriptionPlans } = this.props;
+    const { subscriptionPlans, inDashboard } = this.props;
 
     return _.map(subscriptionPlans, (subscriptionPlan) => {
+      const classes = cn({
+        'plan-box': true,
+        unavailable: !subscriptionPlan.available && inDashboard,
+      });
+
       return (
-        <div className="plan-box" key={`subscriptionPlan_id_${subscriptionPlan.id}`}>
+        <div className={classes} key={`subscriptionPlan_id_${subscriptionPlan.id}`}>
           <div className="box-header">{subscriptionPlan.name}</div>
           <div className="box-content">
             <div className="price-details">
@@ -205,7 +207,12 @@ export class SubscriptionPlans extends Component {
 
 export default connect(state => {
   const subscription = state.models.subscription.data;
-  const { id, subscription_plan_id, canceled_at } = subscription;
+  const {
+    id,
+    subscription_plan_id,
+    canceled_at,
+    monthly_response_count,
+  } = subscription;
   const subscriptionPlans = state.models.subscriptionPlans.data;
 
   return {
@@ -218,6 +225,7 @@ export default connect(state => {
       {
         ...subscriptionPlan,
         selected: subscriptionPlan.id === subscription_plan_id,
+        available: subscriptionPlan.number_of_messages >= monthly_response_count,
       },
     ]), []),
   };
