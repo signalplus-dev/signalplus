@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161225014619) do
+ActiveRecord::Schema.define(version: 20161225160340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,14 +47,15 @@ ActiveRecord::Schema.define(version: 20161225014619) do
 
   create_table "invoices", force: :cascade do |t|
     t.string   "stripe_invoice_id"
-    t.integer  "brand_id",                       null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "brand_id",                          null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "paid_at"
     t.integer  "amount"
-    t.jsonb    "data",              default: {}, null: false
+    t.jsonb    "data",              default: {},    null: false
     t.datetime "period_start"
     t.datetime "period_end"
+    t.boolean  "payment_failed",    default: false
     t.index ["period_start"], name: "index_invoices_on_period_start", using: :btree
     t.index ["stripe_invoice_id"], name: "index_invoices_on_stripe_invoice_id", unique: true, using: :btree
   end

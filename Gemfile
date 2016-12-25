@@ -53,6 +53,8 @@ gem 'rmagick'
 gem 'thin'
 gem 'gibbon'
 gem 'high_voltage', '~> 3.0.0'
+gem 'pry-rails'
+gem 'pry'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -66,12 +68,12 @@ gem 'high_voltage', '~> 3.0.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'pry'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
   gem 'pry-byebug', '~> 1.3.3'
   gem 'spring'
   gem 'dotenv-rails'
+  gem 'awesome_print'
 end
 
 group :development do
