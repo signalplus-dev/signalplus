@@ -73,7 +73,7 @@ export default class Invoice extends Component {
     return (
       <div>
         <button onClick= {this.openModal} className='invoice'>
-          {`${invoiceStart} - ${invoiceEnd}`}
+          {`${invoiceStart} – ${invoiceEnd}`}
         </button>
 
         <Modal
@@ -90,7 +90,7 @@ export default class Invoice extends Component {
           <div className='invoice-header'>
             <img src={window.__IMAGE_ASSETS__.logoSignalplusInvoicePng} alt="SignalPlus +" height="40" />
             <span className='invoice-dates'>
-              {invoiceDateStart}-{invoiceDateEnd}
+              {invoiceDateStart} – {invoiceDateEnd}
             </span>
             <h2 className='invoice-heading'>{`Invoice #${invoice.stripe_invoice_id}`}</h2>
           </div>
