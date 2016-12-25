@@ -37,4 +37,8 @@ class Webhooks::Stripe::BaseController < ApplicationController
   def get_event
     @event = Stripe::Event.retrieve(params[:id])
   end
+
+  def should_ssl?
+    false
+  end
 end
