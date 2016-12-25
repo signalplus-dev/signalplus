@@ -93,7 +93,7 @@ user.define({
   brand: brand,
 });
 
-function normalizeUser(userPayload) {
+export function normalizeUser(userPayload) {
   return normalize(userPayload, { user });
 }
 

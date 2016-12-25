@@ -6,7 +6,7 @@ import commaNumber from 'comma-number';
 import cn from 'classnames';
 
 import { createSubscription, updateSubscription } from 'redux/modules/models/subscription'
-import { clearTA } from 'util/authentication';
+import { updateUserEmail } from 'redux/modules/models/user';
 
 import StripeButton from 'components/subscriptionPlans/stripeButton';
 
@@ -140,10 +140,9 @@ export class SubscriptionPlans extends Component {
         browserHistory.push('/dashboard');
       });;
     } else {
-      dispatch(createSubscription(formData)).then((response) => {
-        clearTA();
-        window.location = '/dashboard';
-      });
+      dispatch(createSubscription(formData))
+        .then(response => dispatch(updateUserEmail(formData.email)))
+        .then(response => browserHistory.push('/finish_setup'));
     }
   }
 
@@ -211,7 +210,7 @@ export default connect(state => {
     id,
     subscription_plan_id,
     canceled_at,
-    monthly_response_count,
+    monthly_response_count = 0,
   } = subscription;
   const subscriptionPlans = state.models.subscriptionPlans.data;
 
