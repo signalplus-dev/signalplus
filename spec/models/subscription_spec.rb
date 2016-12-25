@@ -53,12 +53,46 @@ describe Subscription do
         .and_return(resubscribed_stripe_subscription)
     end
 
-    it 'should resubscribe the user to a subscription' do
-      expect {
-        described_class.resubscribe!(brand.reload, new_plan)
-      }.to change {
-        Subscription.count
-      }.from(0).to(1)
+    context 'resubscribing a subscription with no trial_end' do
+      it 'should resubscribe the user to a subscription' do
+        expect {
+          described_class.resubscribe!(brand.reload, new_plan, nil)
+        }.to change {
+          Subscription.count
+        }.from(0).to(1)
+      end
+
+      it 'should have no trial_end' do
+        subscription = described_class.resubscribe!(brand.reload, new_plan, nil)
+        expect(subscription.trial_end).to be_nil
+      end
+
+      it 'should not pass the trial_end to the stripe subscription' do
+        expect(Subscription).to receive(:create_stripe_subscription!).with(
+          a_kind_of(String),
+          a_kind_of(String),
+          nil
+        )
+        subscription = described_class.resubscribe!(brand.reload, new_plan, nil)
+      end
+    end
+
+    context 'resubscribing a subscription with a trial_end' do
+      let(:trial_end) { 1.day.from_now }
+
+      it 'should have a trial_end' do
+        subscription = described_class.resubscribe!(brand.reload, new_plan, trial_end)
+        expect(subscription.trial_end).to eq(trial_end)
+      end
+
+      it 'should pass the trial_end to the stripe subscription' do
+        expect(Subscription).to receive(:create_stripe_subscription!).with(
+          a_kind_of(String),
+          a_kind_of(String),
+          trial_end.to_i
+        )
+        subscription = described_class.resubscribe!(brand.reload, new_plan, trial_end)
+      end
     end
   end
 
@@ -227,6 +261,82 @@ describe Subscription do
     context 'setting a deactivated date in the past' do
       before { subject.will_be_deactivated_at = 1.day.ago }
       it { is_expected.to be_deactivated }
+    end
+  end
+
+  describe '#resubscribe_and_destroy!' do
+    subject { create(:subscription, brand: brand) }
+
+    before { expect(subject).to receive(:destroy!) }
+
+    context 'in a trial' do
+      before { subject.trial = true }
+
+      context 'with a future trial_end' do
+        let(:trial_end) { 1.day.from_now }
+
+        before { allow(subject).to receive(:trial_end).and_return(trial_end) }
+
+        it 'should set the trial_end' do
+          expect(Subscription).to receive(:resubscribe!).with(
+            brand,
+            basic_plan,
+            trial_end
+          )
+          subject.send(:resubscribe_and_destroy!, basic_plan)
+        end
+      end
+
+      # Note: this is highly unlikely but writing a test for it anyway
+      context 'with past trial_end' do
+        let(:trial_end) { 1.day.ago }
+
+        before { allow(subject).to receive(:trial_end).and_return(trial_end) }
+
+        it 'should set the trial_end' do
+          expect(Subscription).to receive(:resubscribe!).with(
+            brand,
+            basic_plan,
+            nil
+          )
+          subject.send(:resubscribe_and_destroy!, basic_plan)
+        end
+      end
+    end
+
+    context 'not in a trial' do
+      before { subject.trial = false }
+
+      context 'with a future trial_end' do
+        let(:trial_end) { 1.day.from_now }
+
+        before { allow(subject).to receive(:trial_end).and_return(trial_end) }
+
+        it 'should set the trial_end' do
+          expect(Subscription).to receive(:resubscribe!).with(
+            brand,
+            basic_plan,
+            nil
+          )
+          subject.send(:resubscribe_and_destroy!, basic_plan)
+        end
+      end
+
+      # Note: this is highly unlikely but writing a test for it anyway
+      context 'with a past trial_end' do
+        let(:trial_end) { 1.day.ago }
+
+        before { allow(subject).to receive(:trial_end).and_return(trial_end) }
+
+        it 'should set the trial_end' do
+          expect(Subscription).to receive(:resubscribe!).with(
+            brand,
+            basic_plan,
+            nil
+          )
+          subject.send(:resubscribe_and_destroy!, basic_plan)
+        end
+      end
     end
   end
 end

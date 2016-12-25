@@ -57,13 +57,17 @@ class Subscription < ActiveRecord::Base
     #
     # @param brand             [Brand] A brand object
     # @param subscription_plan [SubscriptionPlan] A subscription plan object
-    def resubscribe!(brand, subscription_plan)
-      stripe_subscription = create_stripe_subscription!(
+    # @param trial_end         [ActiveSupport::TimeWithZone, NilClass]
+    # @return                  [Subscription]
+    def resubscribe!(brand, subscription_plan, trial_end)
+      stripe_subscription_args = [
         brand.payment_handler.token,
-        subscription_plan.provider_id
-      )
+        subscription_plan.provider_id,
+        trial_end && trial_end.to_i
+      ]
 
-      create_subscription!(brand, subscription_plan, stripe_subscription.id)
+      stripe_subscription = create_stripe_subscription!(*stripe_subscription_args)
+      create_subscription!(brand, subscription_plan, stripe_subscription.id, trial_end)
     end
 
     private
@@ -87,14 +91,15 @@ class Subscription < ActiveRecord::Base
 
     # Used when resubscribing a user to a subscription
     #
-    # @param customer [String]
-    # @param plan     [String]
-    # @return [Stripe::Subscription]
-    def create_stripe_subscription!(customer, plan)
-      Stripe::Subscription.create(
-        customer: customer,
-        plan: plan,
-      )
+    # @param customer  [String]
+    # @param plan      [String]
+    # @param trial_end [Fixnum, NilClass]
+    # @return          [Stripe::Subscription, trial_end]
+    def create_stripe_subscription!(customer, plan, trial_end = nil)
+      params = { customer: customer, plan: plan }
+      params.merge!(trial_end: trial_end) if trial_end
+
+      Stripe::Subscription.create(customer: customer, plan: plan)
     end
 
     def create_payment_handler!(brand, customer)
@@ -202,17 +207,25 @@ class Subscription < ActiveRecord::Base
     !canceled? && !past_due? && !unpaid?
   end
 
+  # @return [ActiveRecord::Relation<TwitterResponse>]
   def monthly_twitter_responses
     @monthly_twitter_responses ||= brand.monthly_twitter_responses
   end
 
+  # @return [Fixnum]
   def monthly_response_count
     monthly_twitter_responses.count
+  end
+
+  # @return [Boolean]
+  def trialing?
+    trial && trial_end > Time.current
   end
 
   private
 
   # Used to stub out in tests for mocking of the Stripe API response
+  # @param subscription_plan [SubscriptionPlan]
   def update_stripe_subscription!(subscription_plan)
     stripe_subscription.plan = subscription_plan.provider_id
     # Don't prorate
@@ -230,10 +243,15 @@ class Subscription < ActiveRecord::Base
     stripe_subscription.delete(at_period_end: true)
   end
 
+  # @param subscription_plan [SubscriptionPlan]
   def resubscribe_and_destroy!(subscription_plan)
     Subscription.transaction do
       destroy!
-      Subscription.resubscribe!(brand, subscription_plan)
+      Subscription.resubscribe!(
+        brand,
+        subscription_plan,
+        trialing? ? trial_end : nil
+      )
     end
   end
 
