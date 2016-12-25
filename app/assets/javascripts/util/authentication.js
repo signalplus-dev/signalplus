@@ -1,11 +1,12 @@
 import cookies from 'cookie-monster';
 import _ from 'lodash';
-import { TA_KEY } from 'util/cookieKeys';
+import { TA_KEY, SESSION_KEY } from 'util/cookieKeys';
 
 const HEADER_AT_KEY = 'access-token';
 const HEADER_CL_KEY = 'client';
 const HEADER_EXPIRY_KEY = 'expiry';
 export const HEADER_UID_KEY = 'uid';
+export const HEADER_CSRF_KEY = 'X-CSRF-TOKEN';
 let cl;
 
 export function getTA() {
@@ -48,6 +49,10 @@ export function setTA(response) {
 
 export function clearTA() {
   cookies.removeItem(TA_KEY);
+}
+
+export function clearSession() {
+  cookies.removeItem(SESSION_KEY);
 }
 
 export function hasToken() {

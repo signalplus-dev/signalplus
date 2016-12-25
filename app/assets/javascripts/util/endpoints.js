@@ -2,6 +2,7 @@ const endpoints = {
   TOKEN:                    '/api/v1/token',
   REFRESH_TOKEN:            '/users/refresh_token',
   TOKEN_SIGN_OUT:           '/api/v1/auth/sign_out',
+  SIGN_IN:                  '/users/sign_in',
   REGULAR_SIGN_OUT:         '/users/sign_out',
   VALIDATE_TOKEN:           '/api/v1/auth/validate_token',
   SUBSCRIPTION:             '/api/v1/subscriptions/:id',
