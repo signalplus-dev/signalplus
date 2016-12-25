@@ -5,7 +5,11 @@ class StripeWebhook::InvoiceHandler < StripeWebhook::BaseHandler
       stripe_invoice_id: data_object.id,
       amount:            data_object.amount_due,
       data:              data_object,
+      period_start:      Time.at(data_object.period_start),
+      period_end:        Time.at(data_object.period_end),
     )
+  rescue ActiveRecord::RecordNotUnique
+    # Don't do anything; record has already been saved
   end
 
   def payment_succeeded

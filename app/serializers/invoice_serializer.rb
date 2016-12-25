@@ -13,9 +13,15 @@
 #
 
 class InvoiceSerializer < ActiveModel::Serializer
-  attributes :id, :stripe_invoice_id, :amount, :paid_at, :created_at, :data
+  attributes :id,
+             :stripe_invoice_id,
+             :amount,
+             :paid_at,
+             :period_start,
+             :period_end,
+             :data
 
   def data
-    object.normalize_data 
+    object.normalize_data
   end
 end

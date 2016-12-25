@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161219004128) do
+ActiveRecord::Schema.define(version: 20161225014619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,10 @@ ActiveRecord::Schema.define(version: 20161219004128) do
     t.datetime "paid_at"
     t.integer  "amount"
     t.jsonb    "data",              default: {}, null: false
+    t.datetime "period_start"
+    t.datetime "period_end"
+    t.index ["period_start"], name: "index_invoices_on_period_start", using: :btree
+    t.index ["stripe_invoice_id"], name: "index_invoices_on_stripe_invoice_id", unique: true, using: :btree
   end
 
   create_table "listen_signals", force: :cascade do |t|
@@ -131,14 +135,15 @@ ActiveRecord::Schema.define(version: 20161219004128) do
     t.integer  "subscription_plan_id"
     t.string   "provider"
     t.string   "token"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.datetime "canceled_at"
-    t.datetime "trial_end",                           null: false
-    t.boolean  "trial",                default: true
+    t.datetime "trial_end"
+    t.boolean  "trial",                  default: true
     t.datetime "deleted_at"
-    t.integer  "lock_version",         default: 0
-    t.index ["brand_id"], name: "index_subscriptions_on_brand_id", unique: true, using: :btree
+    t.integer  "lock_version",           default: 0
+    t.datetime "will_be_deactivated_at"
+    t.index ["brand_id", "deleted_at"], name: "index_subscriptions_on_brand_id_and_deleted_at", unique: true, using: :btree
     t.index ["canceled_at"], name: "index_subscriptions_on_canceled_at", using: :btree
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id", using: :btree
   end

@@ -34,7 +34,7 @@ export default class Invoice extends Component {
 
   timestampToDate(timestamp, format) {
     return moment.unix(timestamp).format(format);
-  } 
+  }
 
   convertToDollarString(cents) {
     return `$ ${cents / 100}`;
@@ -49,7 +49,7 @@ export default class Invoice extends Component {
           </div>
           <div className='col-xs-5'>
             <p className='invoice-text'>
-              {`${this.timestampToDate(lineItem.period.start, 'MMM D, YYYY')} - 
+              {`${this.timestampToDate(lineItem.period.start, 'MMM D, YYYY')} -
                 ${this.timestampToDate(lineItem.period.start, 'MMM D, YYYY')}`}
             </p>
           </div>
@@ -65,14 +65,15 @@ export default class Invoice extends Component {
 
   render() {
     const { brand, invoice } = this.props;
-    const invoiceMonth =  moment(invoice.created_at, moment.ISO_8601).format('MMMM YYYY');
+    const invoiceStart =  moment(invoice.period_start).format('MMM D');
+    const invoiceEnd =  moment(invoice.period_end).format('MMM D');
     const invoiceDateStart = this.timestampToDate(invoice.data.period_start, 'MMM D, YYYY');
     const invoiceDateEnd = this.timestampToDate(invoice.data.period_end, 'MMM D, YYYY');
 
     return (
       <div>
         <button onClick= {this.openModal} className='invoice'>
-          {invoiceMonth}
+          {`${invoiceStart} - ${invoiceEnd}`}
         </button>
 
         <Modal
