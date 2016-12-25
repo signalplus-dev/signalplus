@@ -81,7 +81,7 @@ describe StripeWebhook::InvoiceHandler do
   describe '#updated' do
     include_context 'create invoice'
 
-    let(:invoice)              { Invoice.first }
+    let(:invoice)       { Invoice.first }
     let(:updated_event) { StripeMock.mock_webhook_event('invoice.updated') }
 
     subject { described_class.new(updated_event) }
