@@ -61,7 +61,7 @@ class TwitterResponse < ActiveRecord::Base
   end
 
   def check_response_count
-    CheckBrandResponseCountWorker.perform_async(id)
+    CheckBrandResponseCountWorker.perform_async(brand_id)
   end
 
   def increment_response_count!
