@@ -3,7 +3,7 @@ class Webhooks::Stripe::BaseController < ApplicationController
   protect_from_forgery with: :null_session
 
   before_action :authenticate
-  before_action :validate_event_environment if: :should_validate_environment?
+  before_action :validate_event_environment, if: :should_validate_environment?
   before_action :get_event
 
   rescue_from Stripe::APIConnectionError, with: :stripe_error
