@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   require 'sidetiq/web'
 
+  Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+    [user, password] == [ENV['SIDEKIQ_USERNAME'], ENV['SIDEKIQ_PASSWORD']]
+  end
+
   mount Sidekiq::Web => '/sidekiq'
 
   # Serve websocket cable requests in-process
