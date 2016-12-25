@@ -27,6 +27,11 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
     maybe_new_subscription = @subscription.update_plan!(subscription_plan)
 
     render json: maybe_new_subscription, serializer: SubscriptionSerializer
+  rescue Subscription::InvalidPlanUpdate
+    raise ApiErrors::StandardError.new(
+      message: 'You cannot downgrade to that plan. You have surpassed the response limit.',
+      status: 422,
+    )
   end
 
   def cancel

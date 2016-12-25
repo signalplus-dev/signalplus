@@ -62,4 +62,25 @@ shared_context 'stripe setup' do
 
     stripe_response
   end
+
+  let(:update_stripe_subscription!) do
+    stripe_response = nil
+
+    VCR.use_cassette('update_stripe_subscription') do
+      subscription.stripe_subscription.plan = advanced_plan.provider_id
+      stripe_response = subscription.stripe_subscription.save
+    end
+
+    stripe_response
+  end
+end
+
+shared_context 'brand already subscribed to plan' do
+  before do
+    Subscription.subscribe!(user.brand, basic_plan, user.email, stripe_token)
+    allow_any_instance_of(Subscription)
+      .to receive(:stripe_subscription).and_return(stripe_subscription)
+    allow_any_instance_of(Subscription)
+      .to receive(:update_stripe_subscription!).and_return(update_stripe_subscription!)
+  end
 end

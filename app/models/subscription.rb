@@ -18,6 +18,8 @@
 #
 
 class Subscription < ActiveRecord::Base
+  class InvalidPlanUpdate < StandardError; end
+
   acts_as_paranoid
 
   belongs_to :brand
@@ -127,6 +129,7 @@ class Subscription < ActiveRecord::Base
   # @param subscription_plan [SubscriptionPlan] A subscription plan object
   # @return [Subscription]
   def update_plan!(subscription_plan)
+    check_if_can_change_plan_to(subscription_plan)
     if deactivated?
       resubscribe_and_destroy!(subscription_plan)
     else
@@ -231,6 +234,12 @@ class Subscription < ActiveRecord::Base
     Subscription.transaction do
       destroy!
       Subscription.resubscribe!(brand, subscription_plan)
+    end
+  end
+
+  def check_if_can_change_plan_to(subscription_plan)
+    if subscription_plan.number_of_messages < monthly_response_count
+      raise InvalidPlanUpdate
     end
   end
 end

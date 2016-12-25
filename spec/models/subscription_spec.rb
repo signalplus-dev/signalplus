@@ -63,39 +63,10 @@ describe Subscription do
   end
 
   context 'a brand already subscribed to a plan' do
-    let(:update_stripe_subscription!) do
-      stripe_response = nil
-
-      VCR.use_cassette('stripe_customer') do
-        subscription.stripe_subscription.plan = advanced_plan.provider_id
-        stripe_response = subscription.stripe_subscription.save
-      end
-
-      stripe_response
-    end
-
-    before do
-      described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
-      allow(subscription).to receive(:stripe_subscription).and_return(stripe_subscription)
-    end
+    include_context 'brand already subscribed to plan'
 
     describe '#update_plan!' do
       context 'with an active subscription' do
-        let(:update_stripe_subscription!) do
-          stripe_response = nil
-
-          VCR.use_cassette('update_stripe_subscription') do
-            subscription.stripe_subscription.plan = advanced_plan.provider_id
-            stripe_response = subscription.stripe_subscription.save
-          end
-
-          stripe_response
-        end
-
-        before do
-          allow(subscription).to receive(:update_stripe_subscription!).and_return(update_stripe_subscription!)
-        end
-
         it 'changes the subscription_plan' do
           expect {
             subscription.update_plan!(advanced_plan)
@@ -111,6 +82,36 @@ describe Subscription do
             }.to change {
               subscription.versions.count
             }.from(0).to(1)
+          end
+        end
+
+        context 'downgrading a plan' do
+          before { subscription.update_plan!(advanced_plan) }
+
+          context 'with less than the limit of the plan' do
+            before { allow(subscription).to receive(:monthly_response_count).and_return(4999) }
+
+            it 'should allow downgrading the plan' do
+              expect { subscription.update_plan!(basic_plan) }.to_not raise_error
+            end
+          end
+
+          context 'with exactly the limit of the plan' do
+            before { allow(subscription).to receive(:monthly_response_count).and_return(5000) }
+
+            it 'should allow downgrading the plan' do
+              expect { subscription.update_plan!(basic_plan) }.to_not raise_error
+            end
+          end
+
+          context 'with more than the limit of the plan' do
+            before { allow(subscription).to receive(:monthly_response_count).and_return(5001) }
+
+            it 'should not allow downgrading the plan' do
+              expect {
+                subscription.update_plan!(basic_plan)
+              }.to raise_error(Subscription::InvalidPlanUpdate)
+            end
           end
         end
       end
