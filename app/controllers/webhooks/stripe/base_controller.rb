@@ -3,7 +3,7 @@ class Webhooks::Stripe::BaseController < ApplicationController
   protect_from_forgery with: :null_session
 
   before_action :authenticate
-  before_action :validate_event_environment if Rails.env.production?
+  before_action :validate_event_environment if: :should_validate_environment?
   before_action :get_event
 
   rescue_from Stripe::APIConnectionError, with: :stripe_error
@@ -40,5 +40,9 @@ class Webhooks::Stripe::BaseController < ApplicationController
 
   def should_ssl?
     false
+  end
+
+  def should_validate_environment?
+    Rails.env.production? && !ENV['STRIPE_TEST_ENV_IN_PROD']
   end
 end
