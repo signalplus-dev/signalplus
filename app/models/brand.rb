@@ -13,7 +13,7 @@
 #  accepted_terms_of_use :boolean          default(FALSE)
 #
 
-class Brand < ActiveRecord::Base
+class Brand < ApplicationRecord
   acts_as_paranoid
 
   VALID_TIMEZONES = ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.name }
@@ -187,7 +187,7 @@ class Brand < ActiveRecord::Base
   end
 
   def delete_account
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       unsubscribe_users_from_newsletter
       subscription.cancel_plan! if subscription.present?
       destroy

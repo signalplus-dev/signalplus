@@ -27,7 +27,7 @@
 #  deleted_at             :datetime
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   acts_as_paranoid

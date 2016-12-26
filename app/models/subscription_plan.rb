@@ -14,7 +14,7 @@
 #  description        :string           default("")
 #
 
-class SubscriptionPlan < ActiveRecord::Base
+class SubscriptionPlan < ApplicationRecord
   CURRENCY_SYMBOL_MAPPING = {
     'usd' => '$',
   }

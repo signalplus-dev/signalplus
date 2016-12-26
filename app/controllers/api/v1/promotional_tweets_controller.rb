@@ -6,7 +6,7 @@ class Api::V1::PromotionalTweetsController < Api::V1::BaseController
   end
 
   def create
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       post_tweet_service = PostPromotionalTweet.new(promo_tweet_params, @brand)
       @promotional_tweet = post_tweet_service.send!
     end

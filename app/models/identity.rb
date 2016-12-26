@@ -16,7 +16,7 @@
 #  deleted_at        :datetime
 #
 
-class Identity < ActiveRecord::Base
+class Identity < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :user

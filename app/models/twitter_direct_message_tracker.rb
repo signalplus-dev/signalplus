@@ -11,7 +11,7 @@
 #  brand_id               :integer
 #
 
-class TwitterDirectMessageTracker < ActiveRecord::Base
+class TwitterDirectMessageTracker < ApplicationRecord
   belongs_to :brand
   has_one    :related_tweet_tracker, through: :brand, source: :tweet_tracker
 

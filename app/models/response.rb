@@ -13,7 +13,7 @@
 #  deleted_at        :datetime
 #
 
-class Response < ActiveRecord::Base
+class Response < ApplicationRecord
   validates :message, :response_type, :response_group_id, presence: true
 
   acts_as_paranoid

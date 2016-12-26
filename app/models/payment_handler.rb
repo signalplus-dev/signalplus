@@ -10,6 +10,6 @@
 #  updated_at :datetime         not null
 #
 
-class PaymentHandler < ActiveRecord::Base
+class PaymentHandler < ApplicationRecord
   belongs_to :brand
 end

@@ -10,6 +10,8 @@
 #  paid_at           :datetime
 #  amount            :integer
 #  data              :jsonb            not null
+#  period_start      :datetime
+#  period_end        :datetime
 #
 
 require 'rails_helper'
