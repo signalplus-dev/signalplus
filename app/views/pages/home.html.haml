@@ -15,13 +15,14 @@
                 %p.sub-text
                   See the power of SignalPlus automation...
                 %p.sub-header
-                  =link_to('Tweet', '#', {class: 'btn btn'})
+                  =link_to('Tweet', '#', {class: 'btn tweet-btn'})
                   %span or
-                  =link_to('Message', '#', {class: 'btn btn'})
+                  =link_to('Message', '#', {class: 'btn tweet-btn'})
                   %span @SignalPlusco
                 %p.sub-header
-                  %button.btn.try-it-free-btn
-                    TRY IT FREE TODAY
+                  =link_to('TRY IT FREE TODAY', '/users/sign_in', {class: 'btn try-it-free-btn'})
+
+
   .container-fluid
     .row
       %h3.header How it Works
@@ -74,8 +75,7 @@
             Try SignalPlus for FREE for 14 days or 50 reponses then choose the right plan for you.
           We’re always adding new features and more platforms for the future.
         %span
-          %button.btn.sign-up-for-free
-            SIGN UP FOR FREE
+          =link_to('SIGN UP FOR FREE', '/users/sign_in', {class: 'btn try-it-free-btn'})
 
     .row.our-plans
       %h3.header Our Plans
