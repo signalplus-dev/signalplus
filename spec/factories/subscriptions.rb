@@ -2,18 +2,19 @@
 #
 # Table name: subscriptions
 #
-#  id                   :integer          not null, primary key
-#  brand_id             :integer
-#  subscription_plan_id :integer
-#  provider             :string
-#  token                :string
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  canceled_at          :datetime
-#  trial_end            :datetime         not null
-#  trial                :boolean          default(TRUE)
-#  deleted_at           :datetime
-#  lock_version         :integer          default(0)
+#  id                     :integer          not null, primary key
+#  brand_id               :integer
+#  subscription_plan_id   :integer
+#  provider               :string
+#  token                  :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  canceled_at            :datetime
+#  trial_end              :datetime
+#  trial                  :boolean          default(TRUE)
+#  deleted_at             :datetime
+#  lock_version           :integer          default(0)
+#  will_be_deactivated_at :datetime
 #
 
 FactoryGirl.define do

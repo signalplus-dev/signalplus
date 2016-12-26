@@ -15,16 +15,16 @@ const SUBSCRIPTION_REQUEST_SUCCESS = 'signalplus/subscription/REQUEST_SUCCESS';
 const SUBSCRIPTION_REQUEST_FAIL = 'signalplus/subscription/REQUEST_FAIL';
 
 const SUBSCRIPTION_CREATE_REQUEST = 'signalplus/subscription/create/REQUEST';
-const SUBSCRIPTION_CREATE_REQUEST_SUCCESS = 'signalplus/subscription/create/REQUEST_SUCCESS';
-const SUBSCRIPTION_CREATE_REQUEST_FAIL = 'signalplus/subscription/create/REQUEST_FAIL';
+export const SUBSCRIPTION_CREATE_REQUEST_SUCCESS = 'signalplus/subscription/create/REQUEST_SUCCESS';
+export const SUBSCRIPTION_CREATE_REQUEST_FAIL = 'signalplus/subscription/create/REQUEST_FAIL';
 
 const SUBSCRIPTION_UPDATE_REQUEST = 'signalplus/subscription/update/REQUEST';
-const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/update/REQUEST_SUCCESS';
-const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/update/REQUEST_FAIL';
+export const SUBSCRIPTION_UPDATE_REQUEST_SUCCESS = 'signalplus/subscription/update/REQUEST_SUCCESS';
+export const SUBSCRIPTION_UPDATE_REQUEST_FAIL = 'signalplus/subscription/update/REQUEST_FAIL';
 
 const SUBSCRIPTION_CANCEL_REQUEST = 'signalplus/subscription/cancel/REQUEST';
-const SUBSCRIPTION_CANCEL_REQUEST_SUCCESS = 'signalplus/subscription/cancel/REQUEST_SUCCESS';
-const SUBSCRIPTION_CANCEL_REQUEST_FAIL = 'signalplus/subscription/cancel/REQUEST_FAIL';
+export const SUBSCRIPTION_CANCEL_REQUEST_SUCCESS = 'signalplus/subscription/cancel/REQUEST_SUCCESS';
+export const SUBSCRIPTION_CANCEL_REQUEST_FAIL = 'signalplus/subscription/cancel/REQUEST_FAIL';
 
 const SUBSCRIPTION_RESPONSE_COUNT_UPDATE = 'signalplus/subscription/SUBSCRIPTION_RESPONSE_COUNT_UPDATE';
 
@@ -66,6 +66,7 @@ export const reducer = handleActions({
     loading: false,
     loaded: false,
   }),
+
   [SUBSCRIPTION_CREATE_REQUEST]: (state, action) => ({
     ...state,
     loading: true,
@@ -100,6 +101,8 @@ export const reducer = handleActions({
     },
   }),
 
+  [SUBSCRIPTION_CANCEL_REQUEST_SUCCESS]: handleSubscriptionRequestSucccess,
+
 }, initialState);
 
 export function createSubscription(formData) {
@@ -108,9 +111,9 @@ export function createSubscription(formData) {
     method: 'POST',
     body: JSON.stringify(formData),
     types: [
-      SUBSCRIPTION_CREATE_REQUEST,
-      SUBSCRIPTION_CREATE_REQUEST_SUCCESS,
-      SUBSCRIPTION_CREATE_REQUEST_FAIL,
+      { type: SUBSCRIPTION_CREATE_REQUEST, meta: { spLoading: true } },
+      { type: SUBSCRIPTION_CREATE_REQUEST_SUCCESS, meta: { spLoading: false } },
+      { type: SUBSCRIPTION_CREATE_REQUEST_FAIL, meta: { spLoading: false } },
     ],
   });
 }
@@ -118,12 +121,12 @@ export function createSubscription(formData) {
 export function updateSubscription({ id, ...formData }) {
   return createRequestAction({
     endpoint: updateSubscriptionEndpoint(id),
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(formData),
     types: [
-      SUBSCRIPTION_UPDATE_REQUEST,
-      SUBSCRIPTION_UPDATE_REQUEST_SUCCESS,
-      SUBSCRIPTION_UPDATE_REQUEST_FAIL,
+      { type: SUBSCRIPTION_UPDATE_REQUEST, meta: { spLoading: true } },
+      { type: SUBSCRIPTION_UPDATE_REQUEST_SUCCESS, meta: { spLoading: false } },
+      { type: SUBSCRIPTION_UPDATE_REQUEST_FAIL, meta: { spLoading: false } },
     ],
   });
 }
@@ -133,9 +136,9 @@ export function cancelSubscription({ id }) {
     endpoint: cancelSubscriptionEndpoint(id),
     method: 'POST',
     types: [
-      SUBSCRIPTION_CANCEL_REQUEST,
-      SUBSCRIPTION_CANCEL_REQUEST_SUCCESS,
-      SUBSCRIPTION_CANCEL_REQUEST_FAIL,
+      { type: SUBSCRIPTION_CANCEL_REQUEST, meta: { spLoading: true } },
+      { type: SUBSCRIPTION_CANCEL_REQUEST_SUCCESS, meta: { spLoading: false } },
+      { type: SUBSCRIPTION_CANCEL_REQUEST_FAIL, meta: { spLoading: false } },
     ],
   })
 }

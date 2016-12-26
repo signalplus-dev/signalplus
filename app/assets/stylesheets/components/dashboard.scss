@@ -1,5 +1,5 @@
 .dash-header {
-  height: 100px;
+  min-height: 100px;
 }
 
 .brand-pricing-plan {
@@ -12,6 +12,10 @@
 
   .subscriptionName {
     font-weight: bold;
+
+    > .inactive {
+      color: $text-red;
+    }
   }
 
   .numMessages {
@@ -34,6 +38,12 @@
     text-transform: uppercase;
     margin-left: 5px;
     vertical-align: middle;
+  }
+
+  .summaryHelperText {
+    font-size: $caption-font-size;
+    font-weight: normal;
+    text-align: right;
   }
 }
 

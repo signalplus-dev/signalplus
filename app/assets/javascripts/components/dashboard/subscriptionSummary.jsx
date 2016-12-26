@@ -4,20 +4,76 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import moment from 'moment';
 import commaNumber from 'comma-number';
+import cn from 'classnames';
 import { isTopSubscriptionSelector } from 'selectors/selectors.js'
 import Loader from 'components/loader';
 
-function renderUpgradeLink() {
-  return (
-    <div>
-      <Link to="/subscription_plans" className="grayLink">Upgrade</Link>
-    </div>
-  );
-}
-
 class SubscriptionSummary extends Component {
+  renderTrialOrCanceledCopy() {
+    const { subscription: { data: subscription } } = this.props;
+    const { will_be_deactivated_at, trial, trial_end } = subscription;
+
+    if (this.willBeDeactivated()) {
+      const deactivatedDate = moment(will_be_deactivated_at);
+      return (
+        <div className="summaryHelperText">
+          {`Your plan will be deactivated on ${deactivatedDate.format('MMM D')}`}
+        </div>
+      );
+    } else if (this.isInactive()) {
+      return (
+        <div className="summaryHelperText">
+          Your account is inactive and SignalPlus<br />
+          is not listening for any signals.
+        </div>
+      );
+    } else if (trial) {
+      return (
+        <div className="summaryHelperText">
+          {`Your trial will either end on ${moment(trial_end).format('MMM D')}`}
+          <br />
+          {`or after surpassing ${process.env.MAX_NUMBER_OF_MESSAGES_FOR_TRIAL} trial responses.`}
+        </div>
+      );
+    }
+
+    return undefined;
+  }
+
+  renderBlockTitle() {
+    const { subscription } = this.props;
+
+    if (this.isInactive()) {
+      return <span className="inactive">Inactive</span>;
+    }
+
+    return `${_.upperFirst(subscription.data.name)} Plan`
+  }
+
+  renderSubscriptionInformation() {
+    if (!this.isInactive()) {
+      const { subscription } = this.props;
+
+      return (
+        <div>
+          <div className="numMessages">
+            <span className="sentMessages">
+              {`${commaNumber(subscription.data.monthly_response_count)}/`}
+            </span>
+            <span className="maxMessages">
+              {commaNumber(subscription.data.number_of_messages)}
+            </span>
+          </div>
+          <span className="month">{moment().format('MMM YYYY')}<br />Responses</span>
+        </div>
+      );
+    }
+
+    return undefined;
+  }
+
   renderContent() {
-    const { subscription, isTopSubscription } = this.props;
+    const { subscription } = this.props;
 
     if (!subscription.loaded) return <Loader textOnly={true}/>;
 
@@ -32,24 +88,62 @@ class SubscriptionSummary extends Component {
       );
     }
 
+    const titleClasses = cn({
+      subscriptionName: true,
+      inactive: this.isInactive(),
+    });
+
     return (
       <div>
-        <div className="subscriptionName">{`${_.upperFirst(subscription.data.name)} Plan`}</div>
-        <div>
-          <div className="numMessages">
-            <span className="sentMessages">
-              {`${commaNumber(subscription.data.monthly_response_count)}/`}
-            </span>
-            <span className="maxMessages">
-              {commaNumber(subscription.data.number_of_messages)}
-            </span>
-          </div>
-          <span className="month">{moment().format('MMM YYYY')}<br />Responses</span>
+        <div className={titleClasses}>
+          {this.renderBlockTitle()}
+          {this.renderTrialOrCanceledCopy()}
         </div>
-        {isTopSubscription ? undefined : renderUpgradeLink()}
+        {this.renderSubscriptionInformation()}
+        {this.renderUpgradeLink()}
       </div>
     );
   }
+
+  willBeDeactivated() {
+    const { subscription: { data: subscription } } = this.props;
+
+    return (
+      !!subscription.will_be_deactivated_at &&
+      moment().isBefore(subscription.will_be_deactivated_at)
+    );
+  }
+
+  isInactive() {
+    const { subscription: { data: subscription } } = this.props;
+
+    return (
+      !!subscription.will_be_deactivated_at &&
+      moment().isAfter(subscription.will_be_deactivated_at)
+    );
+  }
+
+  renderUpgradeLink() {
+    const { isTopSubscription } = this.props;
+    let linkText;
+
+    if (this.willBeDeactivated()) {
+      linkText = 'Reactivate';
+    } else if (this.isInactive()) {
+      linkText = 'Select Plan';
+    } else if (isTopSubscription) {
+      linkText = 'Change Plan';
+    } else {
+      linkText = 'Upgrade';
+    }
+
+    return (
+      <div>
+        <Link to="/subscription_plans" className="grayLink">{linkText}</Link>
+      </div>
+    );
+  }
+
   render() {
     const { subscription, isTopSubscription } = this.props;
 

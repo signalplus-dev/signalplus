@@ -1,8 +1,9 @@
-import { handleActions } from 'redux-actions';
+import { handleActions, createAction } from 'redux-actions';
 import { createRequestAction, getDataFor } from 'redux/utils';
 import _ from 'lodash';
 import Endpoints, { userUpdateEndpoint } from 'util/endpoints';
-import { normalizeUserResponse } from 'util/normalize';
+import { normalizeUser, normalizeUserResponse } from 'util/normalize';
+import { changeUid } from 'util/authentication';
 
 /*
 * Action Type Constants
@@ -15,9 +16,17 @@ export const USER_UPDATE_REQUEST = 'signalplus/user/UPDATE_REQUEST';
 export const USER_UPDATE_REQUEST_SUCCESS = 'signalplus/user/UPDATE_REQUEST_SUCESS';
 export const USER_UPDATE_REQUEST_FAIL = 'signalplus/user/UPDATE_REQUEST_FAIL';
 
+const userUpdateRequestSuccess = createAction(USER_UPDATE_REQUEST_SUCCESS);
+
+export const updateUserEmail = (email) => {
+  const payload = normalizeUser({ user: { email } });
+  return userUpdateRequestSuccess(payload);
+}
+
 function extractUserData(payload) {
-  const userData = _.get(payload, 'entities.user');
-  return _.omit(_.first(_.values(userData)), 'brand');
+  const user = _.first(_.values(_.get(payload, 'entities.user')));
+  changeUid(user.email);
+  return _.omit(user, 'brand');
 }
 
 /*
@@ -40,7 +49,10 @@ export const reducer = handleActions({
 
   [USER_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    data: { ...extractUserData(action.payload) },
+    data: {
+      ...state.data,
+      ...extractUserData(action.payload)
+    },
     loaded: true,
     loading: false,
   }),
@@ -59,7 +71,10 @@ export const reducer = handleActions({
 
   [USER_UPDATE_REQUEST_SUCCESS]: (state, action) => ({
     ...state,
-    data: { ...extractUserData(action.payload) },
+    data: {
+      ...state.data,
+      ...extractUserData(action.payload)
+    },
     loading: false,
   }),
 
@@ -110,9 +125,19 @@ export function updateUserInfo(payload) {
       method: 'POST',
       body: JSON.stringify(payload),
       types: [
-        USER_UPDATE_REQUEST,
-        { type: USER_UPDATE_REQUEST_SUCCESS, payload: normalizeUserResponse },
-        USER_UPDATE_REQUEST_FAIL,
+        {
+          type: USER_UPDATE_REQUEST,
+          meta: { spLoading: true },
+        },
+        {
+          type: USER_UPDATE_REQUEST_SUCCESS,
+          payload: normalizeUserResponse,
+          meta: { spLoading: false },
+        },
+        {
+          type: USER_UPDATE_REQUEST_FAIL,
+          meta: { spLoading: false },
+        },
       ],
     }));
   };

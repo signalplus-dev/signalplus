@@ -13,7 +13,7 @@ class ListenSignalHandler
   end
 
   def create
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       create_default_response
       create_repeat_response
       create_timed_responses
@@ -22,7 +22,7 @@ class ListenSignalHandler
   end
 
   def update
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       update_listen_signal
       update_default_response
       update_repeat_response

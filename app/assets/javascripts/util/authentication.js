@@ -1,16 +1,17 @@
-import cookies from 'cookie-monster';
+import cookies from 'browser-cookies';
 import _ from 'lodash';
-import { TA_KEY } from 'util/cookieKeys';
+import { TA_KEY, SESSION_KEY } from 'util/cookieKeys';
 
 const HEADER_AT_KEY = 'access-token';
 const HEADER_CL_KEY = 'client';
 const HEADER_EXPIRY_KEY = 'expiry';
 export const HEADER_UID_KEY = 'uid';
+export const HEADER_CSRF_KEY = 'X-CSRF-TOKEN';
 let cl;
 
 export function getTA() {
   try {
-    const cookie = cookies.getItem(TA_KEY);
+    const cookie = cookies.get(TA_KEY);
     if (!cookie) return {};
 
     return JSON.parse(atob(cookie));
@@ -31,23 +32,47 @@ export const requestHeaders = () => ({
 });
 
 export function setTA(response) {
-  const expiry = response.headers.get(HEADER_EXPIRY_KEY);
-  cl = response.headers.get(HEADER_CL_KEY);
-
-  const ta = {
-    'access-token': response.headers.get(HEADER_AT_KEY),
+  setTACookie({
     'token-type':   'Bearer',
-    client:         cl,
+    'access-token': response.headers.get(HEADER_AT_KEY),
+    client:         response.headers.get(HEADER_CL_KEY),
     uid:            response.headers.get(HEADER_UID_KEY),
-    expiry,
-  };
+    expiry:         response.headers.get(HEADER_EXPIRY_KEY),
+  });
+}
 
+function setTACookie(ta) {
   const cookieValue = btoa(JSON.stringify(ta));
-  cookies.setItem(TA_KEY, cookieValue);
+  cookies.set(TA_KEY, cookieValue);
+}
+
+export function changeUid(uid) {
+  setTACookie({
+    ...getTA(),
+    uid,
+  });
 }
 
 export function clearTA() {
-  cookies.removeItem(TA_KEY);
+  return new Promise((resolve, reject) => {
+    try {
+      cookies.erase(TA_KEY);
+      resolve();
+    } catch (err) {
+      reject();
+    }
+  });
+}
+
+export function clearSession() {
+  return new Promise((resolve, reject) => {
+    try {
+      cookies.erase(SESSION_KEY);
+      resolve();
+    } catch (err) {
+      reject();
+    }
+  });
 }
 
 export function hasToken() {

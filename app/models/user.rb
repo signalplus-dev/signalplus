@@ -27,13 +27,14 @@
 #  deleted_at             :datetime
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   acts_as_paranoid
   has_paper_trail only: [:email], on: [:update]
 
   after_save :handle_subscription, if: :email_verified?
+  before_save :log_changing_of_tokens
 
   # Include default devise modules.
   devise :omniauthable, :database_authenticatable, :registerable,
@@ -148,5 +149,15 @@ class User < ActiveRecord::Base
   # @return [Boolean]
   def accepted_terms_of_use?
     brand ? brand.accepted_terms_of_use? : false
+  end
+
+  def log_changing_of_tokens
+    if Rails.env.development? && tokens_changed?
+      puts "Changing tokens!!!"
+      puts "Changing from:"
+      puts tokens_was
+      puts "to:"
+      puts tokens
+    end
   end
 end

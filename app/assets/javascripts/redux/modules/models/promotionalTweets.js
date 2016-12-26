@@ -102,9 +102,9 @@ export const addPromotionalTweetData = (payload) => {
     method: 'POST',
     body: JSON.stringify(payload),
     types: [
-      PROMOTION_SIGNAL_POST_REQUEST,
-      PROMOTION_SIGNAL_POST_REQUEST_SUCCESS,
-      PROMOTION_SIGNAL_POST_REQUEST_FAIL,
+      { type: PROMOTION_SIGNAL_POST_REQUEST, meta: { spLoading: true } },
+      { type: PROMOTION_SIGNAL_POST_REQUEST_SUCCESS, meta: { spLoading: false } },
+      { type: PROMOTION_SIGNAL_POST_REQUEST_FAIL, meta: { spLoading: false } },
     ],
   })
 }

@@ -20,6 +20,7 @@ describe Api::V1::SubscriptionsController, type: :controller do
         stripe_token: stripe_token,
       )
     end
+
     context 'a valid response' do
       it 'responds with a 200' do
         post :create, params: params
@@ -41,6 +42,36 @@ describe Api::V1::SubscriptionsController, type: :controller do
         }.to change {
           user.reload.email
         }.from(og_email).to('test+1234@example.com')
+      end
+    end
+  end
+
+  describe 'PUT update' do
+    include_context 'brand already subscribed to plan'
+
+    let(:params) { { id: subscription.id, subscription_plan_id: basic_plan.id } }
+
+    context 'not over plan limit' do
+      before do
+        allow_any_instance_of(Subscription)
+          .to receive(:monthly_response_count).and_return(4999)
+      end
+
+      it 'should return a 200' do
+        put :update, params: params
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context 'over plan limit' do
+      before do
+        allow_any_instance_of(Subscription)
+          .to receive(:monthly_response_count).and_return(5001)
+      end
+
+      it 'should return a 422' do
+        put :update, params: params
+        expect(response.status).to eq(422)
       end
     end
   end

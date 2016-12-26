@@ -13,7 +13,7 @@
 #  accepted_terms_of_use :boolean          default(FALSE)
 #
 
-class Brand < ActiveRecord::Base
+class Brand < ApplicationRecord
   acts_as_paranoid
 
   VALID_TIMEZONES = ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.name }
@@ -89,6 +89,8 @@ class Brand < ActiveRecord::Base
     end
   end
 
+  ###### Helper methods
+
   # @return [Fixnum|Bignum]
   def twitter_id
     twitter_identity.uid.to_i
@@ -109,6 +111,40 @@ class Brand < ActiveRecord::Base
     twitter_identity.try(:profile_image_url)
   end
 
+  # @return [String]
+  def process_name
+    "twitter_stream_#{id}"
+  end
+
+  # @return [Fixnum]
+  def monthly_response_count
+    monthly_twitter_responses.count
+  end
+
+  # @return [String]
+  def stripe_customer_token
+    payment_handler.token
+  end
+
+  # @return [String]
+  def stripe_subscription_token
+    subscription.token
+  end
+
+  # @return [Invoice]
+  def last_subscription_invoice
+    invoices.order(period_start: :desc).limit(5).find do |invoice|
+      !!invoice.subscription_line_item
+    end
+  end
+
+  # @return [Stripe::Customer]
+  def stripe_customer
+    @stripe_customer ||= payment_handler.stripe_customer
+  end
+
+  ###### Action/Dangerous methods
+
   def turn_off_twitter_polling!
     update!(polling_tweets: false)
   end
@@ -125,6 +161,33 @@ class Brand < ActiveRecord::Base
     update!(streaming_tweet_pid: nil)
   end
 
+  def kill_streaming_process!
+    `killall #{process_name}`
+  end
+
+  def broadcast_monthly_response_count!
+    ActionCable.server.broadcast(
+      "monthly_response_count_#{id}",
+      monthly_response_count: monthly_response_count
+    )
+  end
+
+  def delete_account
+    ApplicationRecord.transaction do
+      unsubscribe_users_from_newsletter
+      subscription.cancel_plan! if subscription.present?
+      destroy
+    end
+  end
+
+  def unsubscribe_users_from_newsletter
+    users.each do |user|
+      user.update!(email_subscription: false) if user.email_subscription
+    end
+  end
+
+  ###### Helper boolean methods
+
   # @return [Boolean]
   def currently_streaming_twitter?
     !stop_twitter_streaming?
@@ -137,11 +200,13 @@ class Brand < ActiveRecord::Base
 
   # @return [Boolean]
   def turn_on_twitter_streaming?
-    !currently_streaming_twitter? && has_active_signals?
+    !turn_off_twitter_streaming?
   end
 
   # @return [Boolean]
   def turn_off_twitter_streaming?
+    return true if deactivated?
+    return true if at_plan_limit?
     currently_streaming_twitter? && !has_active_signals?
   end
 
@@ -155,49 +220,24 @@ class Brand < ActiveRecord::Base
     subscription.present?
   end
 
-  # @return [String]
-  def process_name
-    "twitter_stream_#{id}"
-  end
-
-  def kill_streaming_process!
-    `killall #{process_name}`
-  end
-
-  # @return [Fixnum]
-  def monthly_response_count
-    monthly_twitter_responses.count
-  end
-
-  def broadcast_monthly_response_count!
-    ActionCable.server.broadcast(
-      "monthly_response_count_#{id}",
-      monthly_response_count: monthly_response_count
-    )
-  end
-
   # @return [Boolean]
   def surpassed_trial_message_count?
     monthly_response_count > Subscription::MAX_NUMBER_OF_MESSAGES_FOR_TRIAL
   end
 
   # @return [Boolean]
+  def at_plan_limit?
+    monthly_response_count >= subscription.number_of_messages
+  end
+
+  # return [Boolean]
+  def deactivated?
+    subscription.deactivated?
+  end
+
+  # @return [Boolean]
   def in_trial?
     !!subscription.try(:trial?)
-  end
-
-  def delete_account
-    ActiveRecord::Base.transaction do
-      unsubscribe_users_from_newsletter
-      subscription.cancel_plan! if subscription.present?
-      destroy
-    end
-  end
-
-  def unsubscribe_users_from_newsletter
-    users.each do |user|
-      user.update!(email_subscription: false) if user.email_subscription
-    end
   end
 
   private

@@ -11,7 +11,7 @@
 #  deleted_at       :datetime
 #
 
-class PromotionalTweet < ActiveRecord::Base
+class PromotionalTweet < ApplicationRecord
   acts_as_paranoid
   belongs_to :listen_signal
 

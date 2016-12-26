@@ -37,8 +37,8 @@ module Streamers
         filter.out_multiple_requests!
         filter.out_users_already_replied_to!
         grouped_replies = filter.grouped_replies
-        response          = grouped_replies.first.try(:last).try(:first)
-        tracker           = message.is_a?(::Twitter::Tweet) ? tweet_tracker : dm_tracker
+        response        = grouped_replies.first.try(:last).try(:first)
+        tracker         = message.is_a?(::Twitter::Tweet) ? tweet_tracker : dm_tracker
         if should_respond?(grouped_replies, response)
           TwitterResponseWorker.perform_async(brand.id, response.as_json)
         end

@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
-import { requestHeaders, clearTA, HEADER_UID_KEY } from 'util/authentication';
+import { requestHeaders, HEADER_UID_KEY } from 'util/authentication';
 import Endpoints from 'util/endpoints.js'
 
 /**
@@ -57,18 +57,12 @@ const LOG_OUT_REQUEST = 'signalplus/app/LOG_OUT_REQUEST';
 const LOG_OUT_REQUEST_SUCCESS = 'signalplus/app/LOG_OUT_REQUEST_SUCCESS';
 const LOG_OUT_REQUEST_FAIL = 'signalplus/app/LOG_OUT_REQUEST_FAIL';
 
-const apiLogOutRequest = () => {
-  return createRequestAction({
-    endpoint: Endpoints.TOKEN_SIGN_OUT,
-    method: 'DELETE',
-    types: [
-      LOG_OUT_REQUEST,
-      LOG_OUT_REQUEST_SUCCESS,
-      LOG_OUT_REQUEST_FAIL,
-    ],
-  });
-};
-
-export const logOut = () => (dispatch, getState) => {
-  return dispatch(apiLogOutRequest()).then(() => clearTA());
-};
+export const apiLogOut = createRequestAction({
+  endpoint: Endpoints.TOKEN_SIGN_OUT,
+  method: 'DELETE',
+  types: [
+    LOG_OUT_REQUEST,
+    LOG_OUT_REQUEST_SUCCESS,
+    LOG_OUT_REQUEST_FAIL,
+  ],
+});

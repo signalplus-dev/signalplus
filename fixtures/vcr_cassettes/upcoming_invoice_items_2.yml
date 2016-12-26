@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/invoiceitems?customer=cus_9ocs3rYFHe3tdX
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.55.0
+      Authorization:
+      - Bearer sk_test_1edJffGpWL6BsWNjzicAe9R2
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
+        2015; root:xnu-3248.20.55~2/RELEASE_X86_64 x86_64","hostname":"Ricardos-MBP"}'
+      Host:
+      - api.stripe.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 26 Dec 2016 15:30:40 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '660'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_9odiHEiPiSdmsl
+      Stripe-Version:
+      - '2016-07-06'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "ii_19UzjDJ5yqT11PpPxXh0STgh",
+              "object": "invoiceitem",
+              "amount": 2000,
+              "currency": "usd",
+              "customer": "cus_9ocs3rYFHe3tdX",
+              "date": 1482763531,
+              "description": "Charge for upgrading from Basic Plan to Advanced Plan",
+              "discountable": true,
+              "invoice": null,
+              "livemode": false,
+              "metadata": {},
+              "period": {
+                "start": 1482763531,
+                "end": 1482763531
+              },
+              "plan": null,
+              "proration": false,
+              "quantity": null,
+              "subscription": "sub_9ocs7qFawW9xgW"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/invoiceitems"
+        }
+    http_version: 
+  recorded_at: Mon, 26 Dec 2016 15:30:40 GMT
+recorded_with: VCR 3.0.3

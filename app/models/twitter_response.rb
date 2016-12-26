@@ -16,7 +16,7 @@
 #  response_id        :integer
 #
 
-class TwitterResponse < ActiveRecord::Base
+class TwitterResponse < ApplicationRecord
   belongs_to :response, -> { with_deleted }
   belongs_to :listen_signal
   belongs_to :brand

@@ -9,7 +9,7 @@
 #  deleted_at       :datetime
 #
 
-class ResponseGroup < ActiveRecord::Base
+class ResponseGroup < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :listen_signal

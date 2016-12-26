@@ -4,11 +4,10 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{ name: "robots", content: "noindex, nofollow" }
     %title Signal Plus
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = render 'layouts/favicon'
     = csrf_meta_tags
     = action_cable_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
 
   %body
     = render 'shared/header' unless on_dashboard?
@@ -24,5 +23,6 @@
 
     = render 'shared/footer'
 
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     :javascript
       window.__IMAGE_ASSETS__ = #{image_assets.to_json};

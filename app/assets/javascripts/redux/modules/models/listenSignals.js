@@ -230,9 +230,9 @@ export const addListenSignalData = (payload) => {
     method: 'POST',
     body: JSON.stringify(payload),
     types: [
-      LISTEN_SIGNALS_CREATE_REQUEST,
-      LISTEN_SIGNALS_CREATE_REQUEST_SUCCESS,
-      LISTEN_SIGNALS_CREATE_REQUEST_FAIL,
+      { type: LISTEN_SIGNALS_CREATE_REQUEST, meta: { spLoading: true } },
+      { type: LISTEN_SIGNALS_CREATE_REQUEST_SUCCESS, meta: { spLoading: false } },
+      { type: LISTEN_SIGNALS_CREATE_REQUEST_FAIL, meta: { spLoading: false } },
     ],
   });
 };
@@ -243,9 +243,9 @@ export const updateListenSignalData = (payload, id, requestMethod = 'PUT') => {
     method: requestMethod,
     body: JSON.stringify(payload),
     types: [
-      { type: LISTEN_SIGNALS_UPDATE_REQUEST, meta: { id } },
-      { type: LISTEN_SIGNALS_UPDATE_REQUEST_SUCCESS, meta: { id } },
-      { type: LISTEN_SIGNALS_UPDATE_REQUEST_FAIL, meta: { id } },
+      { type: LISTEN_SIGNALS_UPDATE_REQUEST, meta: { id, spLoading: true } },
+      { type: LISTEN_SIGNALS_UPDATE_REQUEST_SUCCESS, meta: { id, spLoading: false } },
+      { type: LISTEN_SIGNALS_UPDATE_REQUEST_FAIL, meta: { id, spLoading: false } },
     ],
   });
 };
@@ -255,9 +255,9 @@ export const deleteListenSignalData = (signal) => {
     endpoint: listenSignalEndpoint(signal.id),
     method: 'DELETE',
     types: [
-      { type: LISTEN_SIGNALS_DELETE_REQUEST, meta: { signal } },
-      { type: LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS, meta: { signal } },
-      { type: LISTEN_SIGNALS_DELETE_REQUEST_FAIL, meta: { signal } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST, meta: { signal, spLoading: true } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST_SUCCESS, meta: { signal, spLoading: false } },
+      { type: LISTEN_SIGNALS_DELETE_REQUEST_FAIL, meta: { signal, spLoading: false } },
     ],
   });
 };

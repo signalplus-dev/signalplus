@@ -10,6 +10,8 @@ require 'sidekiq/testing'
 require 'vcr'
 require 'webmock/rspec'
 require 'stripe_mock'
+require 'rake'
+ProjectSignal::Application.load_tasks
 
 VCR.configure do |config|
   config.cassette_library_dir = "fixtures/vcr_cassettes"
@@ -99,5 +101,6 @@ RSpec.configure do |config|
   #  Default to not tracking changes
   config.before(:all) do
     PaperTrail.enabled = false
+    Rake::Task[:create_subscription_plans].invoke(true)
   end
 end

@@ -6,12 +6,11 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",
+    "browser-cookies": "^1.0.8",
     "browserify": "^13.1.0",
     "browserify-incremental": "^3.1.1",
     "classnames": "^2.2.5",
     "comma-number": "^1.1.0",
-    "cookie-monster": "^0.2.0",
-    "crypto-js": "^3.1.6",
     "envify": "^3.4.1",
     "jquery": "^3.1.0",
     "jquery-ujs": "^1.2.1",
@@ -20,7 +19,6 @@
     "moment": "^2.14.1",
     "normalizr": "^2.2.1",
     "partialify": "^3.1.6",
-    "query-string": "^4.2.3",
     "react": "^15.3.0",
     "react-bootstrap": "^0.30.2",
     "react-bootstrap-timezone-picker": "^1.0.7",
@@ -41,8 +39,7 @@
     "redux-api-middleware": "^1.0.2",
     "redux-form": "^6.0.5",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.4",
-    "whatwg-fetch": "^1.0.0"
+    "reselect": "^2.5.4"
   },
   "license": "MIT",
   "engines": {

@@ -27,6 +27,7 @@ import Preview from 'components/contentPanel/views/preview';
 import SubscriptionPlansPage from 'components/subscriptionPlansPage';
 import FinishSetup from 'components/finishSetup';
 import Loader from 'components/loader';
+import FullPageLoader from 'components/fullPageLoader';
 import Header from 'components/header';
 import FlashMessage from 'components/flashMessage';
 import ModalRoot from 'components/modals/index';
@@ -44,6 +45,7 @@ function App({ children }) {
       <FlashMessage />
       <ModalRoot />
       {children}
+      <FullPageLoader />
     </div>
   );
 }

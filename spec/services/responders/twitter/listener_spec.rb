@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'shared/stripe'
 
 def incrementor
   @incrementor ||= 1
@@ -9,11 +10,19 @@ class TweetDouble < RSpec::Mocks::Double; end
 class DirectMessageDouble < RSpec::Mocks::Double; end
 
 describe Responders::Twitter::Listener do
+  include_context 'create stripe plans'
+
   let(:user)            { double(:user, screen_name: 'Bobby') }
   let(:identity)        { create(:identity) }
   let(:brand)           { identity.brand }
+  let(:email)           { identity.user.email }
+  let(:basic_plan)      { SubscriptionPlan.basic }
   let!(:listen_signal)  { create(:listen_signal, brand: brand, identity: identity) }
   let!(:response_group) { create(:default_group_responses, listen_signal: listen_signal) }
+
+  before do
+    Subscription.subscribe!(brand, basic_plan, email, stripe_helper.generate_card_token)
+  end
 
   # @param hashtags [Array] an array of hashtags
   def create_mock_tweet(hashtags = [])

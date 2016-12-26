@@ -5,6 +5,7 @@ class Api::V1::BaseController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   before_action :authenticate_csrf_token!, only: [:token]
+  before_action :log_auth_tokens, except: [:token] if Rails.env.development?
   before_action :authenticate_user!, except: [:token]
   around_action :set_time_zone, except: [:token, :test]
   protect_from_forgery with: :null_session, except: [:token]
@@ -85,7 +86,10 @@ class Api::V1::BaseController < ApplicationController
 
     # update response with the header that will be required by the next request
     response.headers.merge!(new_auth_header)
-
+    if Rails.env.development?
+      puts "New Devise Token Auth Credentials:"
+      puts new_auth_header
+    end
     render json: { success: true }
   end
 
@@ -102,5 +106,19 @@ class Api::V1::BaseController < ApplicationController
   # @return [Boolean]
   def valid_time_zone?(time_zone)
     !ActiveSupport::TimeZone.new(time_zone).nil?
+  end
+
+  def auth_tokens
+    {
+      client:       request.headers['client'],
+      access_token: request.headers['access-token'],
+      uid:          request.headers['uid'],
+      expiry:       request.headers['expiry'],
+    }
+  end
+
+  def log_auth_tokens
+    puts "Devise Token Auth Credentials:"
+    puts auth_tokens
   end
 end

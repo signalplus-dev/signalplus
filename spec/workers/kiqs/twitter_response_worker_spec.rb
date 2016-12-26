@@ -1,9 +1,14 @@
 require 'rails_helper'
+require 'shared/stripe'
 
 describe TwitterResponseWorker do
+  include_context 'create stripe plans'
+
   let(:worker)          { described_class.new }
   let(:identity)        { create(:identity) }
   let(:brand)           { identity.brand }
+  let(:email)           { identity.user.email }
+  let(:basic_plan)      { SubscriptionPlan.basic }
   let!(:listen_signal)  { create(:listen_signal, brand: brand, identity: identity) }
   let!(:response_group) { create(:response_group_with_responses, listen_signal: listen_signal) }
   let(:tweet)           { example_twitter_tweet }
@@ -16,6 +21,7 @@ describe TwitterResponseWorker do
   let(:temp_file)       { Tempfile.new('test.txt') }
 
   before do
+    Subscription.subscribe!(brand, basic_plan, email, stripe_helper.generate_card_token)
     allow(Brand).to receive(:find_with_trackers).and_return(brand)
     allow(brand).to receive(:twitter_rest_client).and_return(mock_client)
     allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)

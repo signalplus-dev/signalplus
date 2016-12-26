@@ -14,7 +14,7 @@
 #  deleted_at      :datetime
 #
 
-class ListenSignal < ActiveRecord::Base
+class ListenSignal < ApplicationRecord
   validates :name, :brand_id, :identity_id, :signal_type, presence: true
   validates_uniqueness_of :name
   acts_as_paranoid

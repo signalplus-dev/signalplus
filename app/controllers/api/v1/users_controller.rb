@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       current_user.update!(user_update_params) if user_update_params
       @brand.update!(brand_update_params) if brand_update_params
     end
