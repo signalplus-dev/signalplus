@@ -68,6 +68,16 @@ export function clearSession() {
   return new Promise((resolve, reject) => {
     try {
       cookies.erase(SESSION_KEY);
+      resolve();
+    } catch (err) {
+      reject();
+    }
+  });
+}
+
+export function clearRackSession() {
+  return new Promise((resolve, reject) => {
+    try {
       cookies.erase('rack.session');
       resolve();
     } catch (err) {

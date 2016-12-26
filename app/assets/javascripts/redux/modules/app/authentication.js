@@ -8,6 +8,7 @@ import {
   setTA,
   clearTA,
   clearSession,
+  clearRackSession,
   HEADER_CSRF_KEY,
 } from 'util/authentication';
 
@@ -60,6 +61,7 @@ export const logOut = createRequestAction({
       payload: (action, state, response) => {
         Promise.all([
           clearSession(),
+          clearRackSession(),
           clearTA(),
         ]).then(() => {
           window.location = Endpoints.SIGN_IN;
