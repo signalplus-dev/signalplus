@@ -34,6 +34,8 @@ class Subscription < ApplicationRecord
   NUMBER_OF_DAYS_OF_TRIAL = ENV['NUMBER_OF_DAYS_OF_TRIAL'].to_i
   MAX_NUMBER_OF_MESSAGES_FOR_TRIAL = ENV['MAX_NUMBER_OF_MESSAGES_FOR_TRIAL'].to_i
 
+  after_commit :toggle_twitter_streamer
+
   class << self
     # Subscribes a brand to to a subscription plan. Handles error outside of this method
     #
@@ -298,5 +300,9 @@ class Subscription < ApplicationRecord
   # @param new_plan [SubscriptionPlan]
   def kickoff_invoice_adjustment_worker(old_plan, new_plan)
     InvoiceAdjustmentWorker.perform_in(1.minute, brand_id, old_plan.id, new_plan.id)
+  end
+
+  def toggle_twitter_streamer
+    ToggleTwitterStreamWorker.perform_async(brand_id)
   end
 end

@@ -8,7 +8,7 @@ class ToggleTwitterStreamWorker
 
     if brand.turn_on_twitter_streaming?
       BackgroundRake.call_rake(:twitter_stream, brand_id: brand.id)
-    elsif brand.turn_off_twitter_streaming?
+    else
       brand.turn_off_twitter_streaming!
     end
   rescue ActiveRecord::RecordNotFound

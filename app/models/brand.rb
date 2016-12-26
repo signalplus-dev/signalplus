@@ -200,7 +200,7 @@ class Brand < ApplicationRecord
 
   # @return [Boolean]
   def turn_on_twitter_streaming?
-    !currently_streaming_twitter? && has_active_signals?
+    !turn_off_twitter_streaming?
   end
 
   # @return [Boolean]
