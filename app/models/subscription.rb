@@ -187,7 +187,8 @@ class Subscription < ApplicationRecord
 
       self
     end
-  rescue Stripe::InvalidRequestError
+  rescue Stripe::InvalidRequestError => e
+    raise unless e.http_status == 404
     # TODO: need to test with a subscription that has been deactivated
     resubscribe_and_destroy!(subscription_plan)
   end

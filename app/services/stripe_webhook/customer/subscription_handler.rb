@@ -11,6 +11,7 @@ module StripeWebhook
           end
 
           subscription.update!(update_params)
+          subscription.brand.turn_off_everything!
         end
       rescue ActiveRecord::RecordNotFound
         # Do nothing; the subscription may have already been destroyed

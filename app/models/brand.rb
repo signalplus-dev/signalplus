@@ -165,6 +165,11 @@ class Brand < ApplicationRecord
     `killall #{process_name}`
   end
 
+  def turn_off_everything!
+    update!(polling_tweets: false, streaming_tweet_pid: nil)
+    kill_streaming_process!
+  end
+
   def broadcast_monthly_response_count!
     ActionCable.server.broadcast(
       "monthly_response_count_#{id}",
