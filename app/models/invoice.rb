@@ -33,7 +33,7 @@ class Invoice < ApplicationRecord
       amount_due:   data.amount_due,
       paid:         data.paid,
       total:        data.total,
-      line_items:   normalize_line_items(data)
+      line_items:   normalize_line_items
     }
   end
 
