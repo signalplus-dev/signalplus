@@ -16,8 +16,8 @@ describe StripeWebhook::Customer::SubscriptionHandler do
     subject { described_class.new(event) }
 
     context 'deactivated subscription' do
-      let(:canceled_time)    { 4.days.ago }
-      let(:deactivated_time) { 1.day.ago }
+      let(:canceled_time)    { 4.days.ago.change(usec: 0) }
+      let(:deactivated_time) { 1.day.ago.change(usced: 0) }
 
       before do
         subscription.update!(
@@ -44,7 +44,7 @@ describe StripeWebhook::Customer::SubscriptionHandler do
     end
 
     context 'non-canceled subscription' do
-      let(:current_time) { Time.current }
+      let(:current_time) { Time.current.change(usec: 0) }
 
       before { stub_current_time(current_time) }
 
@@ -66,9 +66,9 @@ describe StripeWebhook::Customer::SubscriptionHandler do
     end
 
     context 'canceled but waiting to be deactivated subscription' do
-      let(:canceled_time)    { 4.days.ago }
-      let(:deactivated_time) { 1.day.from_now }
-      let(:current_time)     { Time.current }
+      let(:canceled_time)    { 4.days.ago.change(usec: 0) }
+      let(:deactivated_time) { 1.day.from_now.change(usec: 0) }
+      let(:current_time)     { Time.current.change(usec: 0) }
 
       before do
         subscription.update!(
