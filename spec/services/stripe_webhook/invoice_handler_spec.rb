@@ -17,8 +17,8 @@ shared_context 'create invoice' do
 end
 
 describe StripeWebhook::InvoiceHandler do
-  before(:all) { StripeMock.start }
-  after(:all)  { StripeMock.stop }
+  before { StripeMock.start }
+  after  { StripeMock.stop }
 
   describe '#created' do
     include_context 'setup created invoice'
