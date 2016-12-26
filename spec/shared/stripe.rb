@@ -1,11 +1,18 @@
 require 'rails_helper'
 
+shared_context 'stripe mock' do
+  let(:stripe_helper) { StripeMock.create_test_helper }
+
+  before { StripeMock.start }
+  after  { StripeMock.stop }
+end
+
 shared_context 'stripe setup' do
   let(:identity)      { create(:identity) }
   let(:brand)         { identity.brand }
   let(:user)          { identity.user }
-  let(:basic_plan)    { create(:subscription_plan) }
-  let(:advanced_plan) { create(:subscription_plan, :advanced) }
+  let(:basic_plan)    { SubscriptionPlan.basic }
+  let(:advanced_plan) { SubscriptionPlan.advanced }
   let(:subscription)  { Subscription.first }
   let(:stripe_subscription) do
     stripe_object = nil
@@ -82,5 +89,38 @@ shared_context 'brand already subscribed to plan' do
       .to receive(:stripe_subscription).and_return(stripe_subscription)
     allow_any_instance_of(Subscription)
       .to receive(:update_stripe_subscription!).and_return(update_stripe_subscription!)
+  end
+end
+
+shared_context 'create stripe plans' do
+  include_context 'stripe mock'
+
+  before do
+    SubscriptionPlan.all.each do |sp|
+      Stripe::Plan.create(
+        id:       sp.provider_id,
+        amount:   sp.amount,
+        interval: 'month',
+        name:     sp.name,
+        currency: sp.currency,
+      )
+    end
+  end
+end
+
+shared_context 'invoice created' do
+  include_context 'create stripe plans'
+
+  let(:brand)         { create(:brand) }
+  let(:email)         { 'test@example.com'}
+  let(:basic_plan)    { SubscriptionPlan.basic }
+  let(:advanced_plan) { SubscriptionPlan.advanced }
+  let(:event)         { StripeMock.mock_webhook_event('invoice.created') }
+
+  before do
+    Subscription.subscribe!(brand, basic_plan, email, stripe_helper.generate_card_token)
+    allow_any_instance_of(StripeWebhook::InvoiceHandler)
+      .to receive(:get_brand_id).and_return(brand.id)
+    StripeWebhook::InvoiceHandler.new(event).created
   end
 end

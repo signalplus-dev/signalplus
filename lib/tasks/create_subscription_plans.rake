@@ -1,5 +1,5 @@
 desc "Listens to a user's stream of mentions and direct messages"
-task create_subscription_plans: :environment do
+task :create_subscription_plans, [:no_stripe] => [:environment] do |t, args|
   subscription_plans = [
     {
       id:       'basic',
@@ -31,9 +31,11 @@ task create_subscription_plans: :environment do
   ]
 
   subscription_plans.each do |sp|
-    begin
-      Stripe::Plan.create(sp.slice(:id, :amount, :interval, :name, :currency))
-    rescue Stripe::InvalidRequestError
+    unless args[:no_stripe]
+      begin
+        Stripe::Plan.create(sp.slice(:id, :amount, :interval, :name, :currency))
+      rescue Stripe::InvalidRequestError
+      end
     end
 
     SubscriptionPlan.find_or_create_by(
