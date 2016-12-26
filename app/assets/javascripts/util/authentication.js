@@ -68,6 +68,7 @@ export function clearSession() {
   return new Promise((resolve, reject) => {
     try {
       cookies.erase(SESSION_KEY);
+      cookies.erase('rack.session');
       resolve();
     } catch (err) {
       reject();
