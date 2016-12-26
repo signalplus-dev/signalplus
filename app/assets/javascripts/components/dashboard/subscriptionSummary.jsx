@@ -11,7 +11,7 @@ import Loader from 'components/loader';
 class SubscriptionSummary extends Component {
   renderTrialOrCanceledCopy() {
     const { subscription: { data: subscription } } = this.props;
-    const { will_be_deactivated_at, trial, trial_end } = subscription;
+    const { will_be_deactivated_at, trialing, trial_end } = subscription;
 
     if (this.willBeDeactivated()) {
       const deactivatedDate = moment(will_be_deactivated_at);
@@ -27,7 +27,7 @@ class SubscriptionSummary extends Component {
           is not listening for any signals.
         </div>
       );
-    } else if (trial) {
+    } else if (trialing) {
       return (
         <div className="summaryHelperText">
           {`Your trial will either end on ${moment(trial_end).format('MMM D')}`}

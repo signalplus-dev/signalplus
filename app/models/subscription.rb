@@ -237,9 +237,10 @@ class Subscription < ApplicationRecord
   end
 
   # @return [Boolean]
-  def trialing?
+  def trialing
     trial && trial_end > Time.current
   end
+  alias_method :trialing?, :trialing
 
   # @return [Boolean]
   def at_plan_limit?

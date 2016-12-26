@@ -24,7 +24,7 @@ class SubscriptionSerializer < ActiveModel::Serializer
              :number_of_messages,
              :monthly_response_count,
              :canceled_at,
-             :trial,
+             :trialing,
              :trial_end,
              :will_be_deactivated_at
 end
