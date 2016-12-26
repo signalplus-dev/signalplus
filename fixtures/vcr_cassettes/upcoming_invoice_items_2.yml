@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.stripe.com/v1/subscriptions/sub_9oVxEp160DrPWn
+    uri: https://api.stripe.com/v1/invoiceitems?customer=cus_9ocs3rYFHe3tdX
     body:
       encoding: US-ASCII
       string: ''
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 26 Dec 2016 07:30:11 GMT
+      - Mon, 26 Dec 2016 15:30:40 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '815'
+      - '660'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9oVxBTYraTebMQ
+      - req_9odiHEiPiSdmsl
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -58,40 +58,33 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "sub_9oVxEp160DrPWn",
-          "object": "subscription",
-          "application_fee_percent": null,
-          "cancel_at_period_end": false,
-          "canceled_at": null,
-          "created": 1482737409,
-          "current_period_end": 1483947007,
-          "current_period_start": 1482737409,
-          "customer": "cus_9oVxAioUnvV4Id",
-          "discount": null,
-          "ended_at": null,
-          "livemode": false,
-          "metadata": {},
-          "plan": {
-            "id": "basic",
-            "object": "plan",
-            "amount": 2900,
-            "created": 1468799116,
-            "currency": "usd",
-            "interval": "month",
-            "interval_count": 1,
-            "livemode": false,
-            "metadata": {},
-            "name": "Basic",
-            "statement_descriptor": null,
-            "trial_period_days": null
-          },
-          "quantity": 1,
-          "start": 1482737409,
-          "status": "trialing",
-          "tax_percent": null,
-          "trial_end": 1483947007,
-          "trial_start": 1482737409
+          "object": "list",
+          "data": [
+            {
+              "id": "ii_19UzjDJ5yqT11PpPxXh0STgh",
+              "object": "invoiceitem",
+              "amount": 2000,
+              "currency": "usd",
+              "customer": "cus_9ocs3rYFHe3tdX",
+              "date": 1482763531,
+              "description": "Charge for upgrading from Basic Plan to Advanced Plan",
+              "discountable": true,
+              "invoice": null,
+              "livemode": false,
+              "metadata": {},
+              "period": {
+                "start": 1482763531,
+                "end": 1482763531
+              },
+              "plan": null,
+              "proration": false,
+              "quantity": null,
+              "subscription": "sub_9ocs7qFawW9xgW"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/invoiceitems"
         }
     http_version: 
-  recorded_at: Mon, 26 Dec 2016 07:30:11 GMT
+  recorded_at: Mon, 26 Dec 2016 15:30:40 GMT
 recorded_with: VCR 3.0.3

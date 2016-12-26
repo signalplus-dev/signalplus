@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/subscriptions
     body:
       encoding: UTF-8
-      string: customer=cus_9bHakiZ39OyU1S&plan=basic
+      string: customer=cus_9oVxAioUnvV4Id&plan=basic
     headers:
       Accept:
       - "*/*"
@@ -18,7 +18,7 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       Idempotency-Key:
-      - f384957d-e1fa-4f48-9fb1-6dfe738eb4bd
+      - 52e142d6-6606-4db7-9a49-80bf6a159d8c
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
         Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 23 Dec 2016 04:44:46 GMT
+      - Mon, 26 Dec 2016 07:30:16 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -53,11 +53,11 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Idempotency-Key:
-      - f384957d-e1fa-4f48-9fb1-6dfe738eb4bd
+      - 52e142d6-6606-4db7-9a49-80bf6a159d8c
       Original-Request:
-      - req_9nLcqEY5HGIyJp
+      - req_9oVx2joFCrN78b
       Request-Id:
-      - req_9nLcqEY5HGIyJp
+      - req_9oVx2joFCrN78b
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -66,15 +66,15 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "sub_9nLcA4N0Fz7FTZ",
+          "id": "sub_9oVxRvWIien202",
           "object": "subscription",
           "application_fee_percent": null,
           "cancel_at_period_end": false,
           "canceled_at": null,
-          "created": 1482468286,
-          "current_period_end": 1485146686,
-          "current_period_start": 1482468286,
-          "customer": "cus_9bHakiZ39OyU1S",
+          "created": 1482737416,
+          "current_period_end": 1485415816,
+          "current_period_start": 1482737416,
+          "customer": "cus_9oVxAioUnvV4Id",
           "discount": null,
           "ended_at": null,
           "livemode": false,
@@ -94,12 +94,12 @@ http_interactions:
             "trial_period_days": null
           },
           "quantity": 1,
-          "start": 1482468286,
+          "start": 1482737416,
           "status": "active",
           "tax_percent": null,
           "trial_end": null,
           "trial_start": null
         }
     http_version: 
-  recorded_at: Fri, 23 Dec 2016 04:44:46 GMT
+  recorded_at: Mon, 26 Dec 2016 07:30:17 GMT
 recorded_with: VCR 3.0.3

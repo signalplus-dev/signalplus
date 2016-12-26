@@ -1,19 +1,42 @@
 require 'rails_helper'
 
-shared_context 'stripe mock' do
+def create_stripe_plans
+  SubscriptionPlan.all.each do |sp|
+    stripe_helper.create_plan(
+      id:       sp.provider_id,
+      amount:   sp.amount,
+      interval: 'month',
+      name:     sp.name,
+      currency: sp.currency,
+    )
+  end
+end
+
+shared_context 'stripe mock helper' do
   let(:stripe_helper) { StripeMock.create_test_helper }
+end
+
+shared_context 'stripe mock' do
+  include_context 'stripe mock helper'
 
   before { StripeMock.start }
   after  { StripeMock.stop }
 end
 
-shared_context 'stripe setup' do
+shared_context 'setup models' do
   let(:identity)      { create(:identity) }
   let(:brand)         { identity.brand }
   let(:user)          { identity.user }
+  let(:email)         { user.email }
   let(:basic_plan)    { SubscriptionPlan.basic }
   let(:advanced_plan) { SubscriptionPlan.advanced }
+  let(:premium_plan)  { SubscriptionPlan.premium }
   let(:subscription)  { Subscription.first }
+end
+
+shared_context 'stripe setup' do
+  include_context 'setup models'
+
   let(:stripe_subscription) do
     stripe_object = nil
 
@@ -92,20 +115,92 @@ shared_context 'brand already subscribed to plan' do
   end
 end
 
+shared_context 'upgrade plan' do
+  include_context 'setup models'
+  include_context 'stripe mock helper'
+
+  let(:stripe_subscription) do
+    stripe_response = nil
+
+    VCR.use_cassette('stripe_subscription_2') do
+      stripe_response = subscription.stripe_subscription
+    end
+
+    stripe_response
+  end
+
+  let(:stripe_token) do
+    token = nil
+    VCR.use_cassette('stripe_token_2') do
+      token = Stripe::Token.create(
+        card: {
+          number:    "4242424242424242",
+          exp_month: 7,
+          exp_year:  2021,
+          cvc:       "314",
+        },
+      )
+    end
+
+    token.id
+  end
+
+  let!(:stripe_customer) do
+    customer = nil
+    VCR.use_cassette('stripe_customer_2') do
+      customer = Subscription.send(:create_customer!, basic_plan, user.email, stripe_token, nil)
+    end
+
+    customer
+  end
+
+  before do
+    allow(Subscription).to receive(:create_customer!).and_return(stripe_customer)
+  end
+
+  let(:upgrade_to_advanced) do
+    stripe_response = nil
+
+    VCR.use_cassette('upgrade_stripe_subscription') do
+      allow(subscription).to receive(:trialing?).and_return(false)
+      stripe_response = subscription.send(:update_stripe_subscription!, advanced_plan)
+    end
+
+    stripe_response
+  end
+
+  let(:last_100_events) do
+    events = nil
+
+    VCR.use_cassette('last_100_events') do
+      events = Stripe::Event.list(limit: 100)
+    end
+
+    events
+  end
+
+  let(:last_invoice_created_event) do
+    last_100_events.data.find do |event|
+      event.data.object.try(:customer) == stripe_customer.id &&
+      event.type == 'invoice.created'
+    end
+  end
+
+  before do
+    Subscription.subscribe!(user.brand, basic_plan, user.email, stripe_token)
+    allow_any_instance_of(Subscription)
+      .to receive(:stripe_subscription).and_return(stripe_subscription)
+    allow_any_instance_of(Subscription)
+      .to receive(:update_stripe_subscription!).and_return(upgrade_to_advanced)
+
+    StripeWebhook::InvoiceHandler.new(last_invoice_created_event).created
+  end
+end
+
 shared_context 'create stripe plans' do
   include_context 'stripe mock'
 
-  before do
-    SubscriptionPlan.all.each do |sp|
-      Stripe::Plan.create(
-        id:       sp.provider_id,
-        amount:   sp.amount,
-        interval: 'month',
-        name:     sp.name,
-        currency: sp.currency,
-      )
-    end
-  end
+  before { create_stripe_plans }
 end
 
 shared_context 'invoice created' do

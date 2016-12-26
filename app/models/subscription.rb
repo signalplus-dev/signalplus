@@ -129,24 +129,64 @@ class Subscription < ApplicationRecord
     end
   end
 
+  ###### Helper methods
+
+  # @return [Stripe::Subscription]
+  def stripe_subscription
+    @stripe_subscription ||= Stripe::Subscription.retrieve(token)
+  end
+
+  # @return [String]
+  def name
+    subscription_plan.try(:name)
+  end
+
+  # @return [Fixnum]
+  def number_of_messages
+    subscription_plan.try(:number_of_messages)
+  end
+
+  # @return [ActiveRecord::Relation<TwitterResponse>]
+  def monthly_twitter_responses
+    brand.monthly_twitter_responses
+  end
+
+  # @return [Fixnum]
+  def monthly_response_count
+    monthly_twitter_responses.count
+  end
+
+  ###### Action/Dangerous methods
+
   # Updates the subscription's subscription plan
   #
-  # @param subscription_plan [SubscriptionPlan] A subscription plan object
-  # @return [Subscription]
-  def update_plan!(subscription_plan)
-    check_if_can_change_plan_to(subscription_plan)
+  # @param new_plan [SubscriptionPlan] A subscription plan object
+  # @return         [Subscription]
+  def update_plan!(new_plan)
+    check_if_can_change_plan_to(new_plan)
     if deactivated?
-      resubscribe_and_destroy!(subscription_plan)
+      resubscribe_and_destroy!(new_plan)
     else
-      update_stripe_subscription!(subscription_plan)
+      old_plan = subscription_plan
+
+      # Make the updates
+      update_stripe_subscription!(new_plan)
       update!(
-        subscription_plan_id: subscription_plan.id,
+        subscription_plan_id: new_plan.id,
         canceled_at: nil,
         will_be_deactivated_at: nil,
       )
+
+      # When upgrading, we need to charge for an adjustment and remove
+      # any proration. When downgrading we let stripe do their proration.
+      if upgrading?(old_plan, new_plan) && !trialing?
+        kickoff_invoice_adjustment_worker(old_plan, new_plan)
+      end
+
       self
     end
   rescue Stripe::InvalidRequestError
+    # TODO: need to test with a subscription that has been deactivated
     resubscribe_and_destroy!(subscription_plan)
   end
 
@@ -165,24 +205,11 @@ class Subscription < ApplicationRecord
     update!(trial: false)
   end
 
-  # @return [Stripe::Subscription]
-  def stripe_subscription
-    @stripe_subscription ||= Stripe::Subscription.retrieve(token)
-  end
+  ###### Helper boolean methods
 
   # @return [Boolean]
   def canceled?
     !canceled_at.nil?
-  end
-
-  # @return [String]
-  def name
-    subscription_plan.try(:name)
-  end
-
-  # @return [Fixnum]
-  def number_of_messages
-    subscription_plan.try(:number_of_messages)
   end
 
   # TODO - use Stripe webhooks to keep this up-to-date
@@ -207,30 +234,24 @@ class Subscription < ApplicationRecord
     !canceled? && !past_due? && !unpaid?
   end
 
-  # @return [ActiveRecord::Relation<TwitterResponse>]
-  def monthly_twitter_responses
-    @monthly_twitter_responses ||= brand.monthly_twitter_responses
-  end
-
-  # @return [Fixnum]
-  def monthly_response_count
-    monthly_twitter_responses.count
-  end
-
   # @return [Boolean]
   def trialing?
     trial && trial_end > Time.current
   end
 
+  # @return [Boolean]
+  def at_plan_limit?
+    brand.at_plan_limit?
+  end
+
   private
 
   # Used to stub out in tests for mocking of the Stripe API response
-  # @param subscription_plan [SubscriptionPlan]
-  def update_stripe_subscription!(subscription_plan)
-    stripe_subscription.plan = subscription_plan.provider_id
-    # Don't prorate
-    # TODO: test with downgrading
-    stripe_subscription.prorate = false
+  # @param new_subscription_plan [SubscriptionPlan]
+  def update_stripe_subscription!(new_subscription_plan)
+    stripe_subscription.plan = new_subscription_plan.provider_id
+    stripe_subscription.prorate = downgrading?(new_subscription_plan)
+    stripe_subscription.trial_end = trial_end.to_i if trialing?
     stripe_subscription.save
   end
 
@@ -259,5 +280,23 @@ class Subscription < ApplicationRecord
     if subscription_plan.number_of_messages < monthly_response_count
       raise InvalidPlanUpdate
     end
+  end
+
+  # @return [Boolean]
+  def downgrading?(new_subscription_plan)
+    new_subscription_plan.amount <= self.subscription_plan.amount
+  end
+
+  # @param old_plan [SubscriptionPlan]
+  # @param new_plan [SubscriptionPlan]
+  # @return         [Boolean]
+  def upgrading?(old_plan, new_plan)
+    new_plan.amount > old_plan.amount
+  end
+
+  # @param old_plan [SubscriptionPlan]
+  # @param new_plan [SubscriptionPlan]
+  def kickoff_invoice_adjustment_worker(old_plan, new_plan)
+    InvoiceAdjustmentWorker.perform_in(1.minute, brand_id, old_plan.id, new_plan.id)
   end
 end

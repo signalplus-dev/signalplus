@@ -277,7 +277,7 @@ describe Subscription do
 
         before { allow(subject).to receive(:trial_end).and_return(trial_end) }
 
-        it 'should set the trial_end' do
+        it 'should pass in trial_end as an argument to .resubscribe!' do
           expect(Subscription).to receive(:resubscribe!).with(
             brand,
             basic_plan,
@@ -293,7 +293,7 @@ describe Subscription do
 
         before { allow(subject).to receive(:trial_end).and_return(trial_end) }
 
-        it 'should set the trial_end' do
+        it 'should not pass in trial_end as an argument to .resubscribe!' do
           expect(Subscription).to receive(:resubscribe!).with(
             brand,
             basic_plan,
@@ -312,7 +312,7 @@ describe Subscription do
 
         before { allow(subject).to receive(:trial_end).and_return(trial_end) }
 
-        it 'should set the trial_end' do
+        it 'should not pass in trial_end as an argument to .resubscribe!' do
           expect(Subscription).to receive(:resubscribe!).with(
             brand,
             basic_plan,
@@ -322,13 +322,12 @@ describe Subscription do
         end
       end
 
-      # Note: this is highly unlikely but writing a test for it anyway
       context 'with a past trial_end' do
         let(:trial_end) { 1.day.ago }
 
         before { allow(subject).to receive(:trial_end).and_return(trial_end) }
 
-        it 'should set the trial_end' do
+        it 'should not pass in trial_end as an argument to .resubscribe!' do
           expect(Subscription).to receive(:resubscribe!).with(
             brand,
             basic_plan,
