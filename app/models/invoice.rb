@@ -25,6 +25,7 @@ class Invoice < ApplicationRecord
     @data ||= FriendlyHash.new(read_attribute(:data))
   end
 
+  # @return [Hash]
   def normalize_data
     {
       period_start: data.period_start,
@@ -36,7 +37,8 @@ class Invoice < ApplicationRecord
     }
   end
 
-  def normalize_line_items(data)
+  # @return [Array<Hash>]
+  def normalize_line_items
     line_items.map do |line_item|
       {
         amount: line_item.amount,
