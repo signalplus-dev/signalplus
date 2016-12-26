@@ -17,7 +17,7 @@ describe StripeWebhook::Customer::SubscriptionHandler do
 
     context 'deactivated subscription' do
       let(:canceled_time)    { 4.days.ago.change(usec: 0) }
-      let(:deactivated_time) { 1.day.ago.change(usced: 0) }
+      let(:deactivated_time) { 1.day.ago.change(usec: 0) }
 
       before do
         subscription.update!(
