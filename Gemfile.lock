@@ -460,6 +460,7 @@ DEPENDENCIES
   gibberish
   gibbon
   haml
+  hashie
   high_voltage (~> 3.0.0)
   jbuilder (~> 2.0)
   jquery-rails
