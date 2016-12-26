@@ -12,5 +12,19 @@
 #
 
 class InvoiceAdjustment < ApplicationRecord
-  belongs :invoice
+  belongs_to :invoice
+
+  class << self
+    # @param invoice             [Invoice]
+    # @param stripe_invoice_item [Stripe::InvoiceItem]
+    # @return                    [InvoiceAdjustment]
+    def create_adjustment!(invoice, stripe_invoice_item)
+      create!(
+        invoice:                invoice,
+        stripe_invoice_item_id: stripe_invoice_item.id,
+        amount:                 stripe_invoice_item.amount,
+        data:                   stripe_invoice_item.as_json,
+      )
+    end
+  end
 end
