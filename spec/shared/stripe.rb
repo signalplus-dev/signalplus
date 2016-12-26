@@ -203,17 +203,25 @@ shared_context 'create stripe plans' do
   before { create_stripe_plans }
 end
 
-shared_context 'invoice created' do
+shared_context 'stripe mock create subscription' do
   include_context 'create stripe plans'
 
   let(:brand)         { create(:brand) }
   let(:email)         { 'test@example.com'}
   let(:basic_plan)    { SubscriptionPlan.basic }
   let(:advanced_plan) { SubscriptionPlan.advanced }
-  let(:event)         { StripeMock.mock_webhook_event('invoice.created') }
 
   before do
     Subscription.subscribe!(brand, basic_plan, email, stripe_helper.generate_card_token)
+  end
+end
+
+shared_context 'invoice created' do
+  include_context 'stripe mock create subscription'
+
+  let(:event) { StripeMock.mock_webhook_event('invoice.created') }
+
+  before do
     allow_any_instance_of(StripeWebhook::InvoiceHandler)
       .to receive(:get_brand_id).and_return(brand.id)
     StripeWebhook::InvoiceHandler.new(event).created
