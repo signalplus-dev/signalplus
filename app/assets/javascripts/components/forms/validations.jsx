@@ -54,11 +54,6 @@ export function expirationDateValidator(date) {
     return 'Expiration date must be set on a custom response';
   }
 
-  const selectedDate = moment(date, 'YYYY-MM-DD');
-  if (selectedDate < moment()) {
-    return 'Expiration date cannot be in the past';
-  }
-
   return null;
 }
 
