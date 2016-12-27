@@ -6,14 +6,16 @@ class StripeWebhook::InvoiceHandler < StripeWebhook::BaseHandler
       raise StandardError.new('Could not find PaymentHandler for that customer')
     end
 
-  	Invoice.create!(
-      brand_id:          get_brand_id,
-      stripe_invoice_id: data_object.id,
-      amount:            data_object.amount_due,
-      data:              data_object,
-      period_start:      Time.at(data_object.period_start),
-      period_end:        Time.at(data_object.period_end),
-    )
+    unless brand_id
+      Invoice.create!(
+        brand_id:          brand_id,
+        stripe_invoice_id: data_object.id,
+        amount:            data_object.amount_due,
+        data:              data_object,
+        period_start:      Time.at(data_object.period_start),
+        period_end:        Time.at(data_object.period_end),
+      )
+    end
   rescue ActiveRecord::RecordNotUnique
     # Don't do anything; record has already been saved
   end
