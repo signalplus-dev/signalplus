@@ -90,5 +90,58 @@ describe StripeWebhook::InvoiceHandler do
       expect { subject.updated }.to change { invoice.reload.updated_at }
     end
   end
+
+  describe '#should_raise_error?' do
+    let(:event)   { StripeMock.mock_webhook_event('invoice.created') }
+    let(:handler) { described_class.new(event) }
+
+    context 'brand id found' do
+      it 'should not raise an error' do
+        expect(handler.send(:should_raise_error?, 1)).to be_falsey
+      end
+    end
+
+    context 'brand id not found' do
+      context 'event is in livemode' do
+        before { allow(event).to receive(:livemode).and_return(true) }
+
+        context 'Rails env production' do
+          before { allow(Rails).to receive_message_chain(:env, :production?).and_return(true) }
+
+          it 'should raise an error' do
+            expect(handler.send(:should_raise_error?, nil)).to be_truthy
+          end
+        end
+
+        context 'Rails env not production' do
+          before { allow(Rails).to receive_message_chain(:env, :production?).and_return(false) }
+
+          it 'should raise an error' do
+            expect(handler.send(:should_raise_error?, nil)).to be_truthy
+          end
+        end
+      end
+
+      context 'event is not in livemode' do
+        before { allow(event).to receive(:livemode).and_return(false) }
+
+        context 'Rails env production' do
+          before { allow(Rails).to receive_message_chain(:env, :production?).and_return(true) }
+
+          it 'should not raise an error' do
+            expect(handler.send(:should_raise_error?, nil)).to be_falsey
+          end
+        end
+
+        context 'Rails env not production' do
+          before { allow(Rails).to receive_message_chain(:env, :production?).and_return(false) }
+
+          it 'should raise an error' do
+            expect(handler.send(:should_raise_error?, nil)).to be_truthy
+          end
+        end
+      end
+    end
+  end
 end
 

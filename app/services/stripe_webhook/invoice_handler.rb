@@ -48,11 +48,23 @@ class StripeWebhook::InvoiceHandler < StripeWebhook::BaseHandler
 
   def get_brand_id
     brand_id = PaymentHandler.where(token: data_object.customer).pluck(:brand_id).first
-    raise StandardError.new('Could not find PaymentHandler for that customer') unless brand_id
+
+    if should_raise_error?(brand_id)
+      raise StandardError.new('Could not find PaymentHandler for that customer')
+    end
+
     brand_id
   end
 
   def invoice
     @invoice ||= Invoice.find_by(stripe_invoice_id: data_object.id)
+  end
+
+  # TODO - remove afterwards; we're currently raising errors because of webhooks being
+  # sent for local dev testing accounts
+  def should_raise_error?(brand_id)
+    return false if brand_id
+    return true  if event.livemode
+    !event.livemode && !Rails.env.production?
   end
 end
