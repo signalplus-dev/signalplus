@@ -43,6 +43,14 @@ describe Api::V1::SubscriptionsController, type: :controller do
           user.reload.email
         }.from(og_email).to('test+1234@example.com')
       end
+
+      it 'subscribes new email to newsletter' do
+        expect(user).to receive(:subscribe_to_newsletter)
+
+        post :create, params: params
+
+        expect(user.reload.email_subscription).to be_truthy
+      end
     end
   end
 
