@@ -15,14 +15,19 @@
                 %p.sub-text
                   See the power of SignalPlus automation...
                 %p.sub-header
-                  %a.btn.tweet-btn{ href: "https://twitter.com/share", class: "twitter-dm-button", :data => {'show-count': 'false', via: 'signalplusco', :hashtags => 'power'}}
+                  %a{ href: "https://twitter.com/share", class: "twitter-share-button", :data => { show_count:'false', via:'signalplusco', hashtags:'power'}}
                     Tweet
                   %span or
-                  %a.btn.tweet-btn{ href: "https://twitter.com/messages/compose?recipient_id=800084500357091328", class: "twitter-dm-button", :data => {'show-count':'false', 'size':'large','text':'#power','show-screen-name': 'false','screen-name':'@signalplusco'}}
+
+                  %a.btn.tweet-btn{ href: "https://twitter.com/messages/compose?recipient_id=800084500357091328&amp;text=%23power&amp;ref_src=twsrc%5Etfw", target:"_blank"}
                     Message
+
                   %span @SignalPlusco
+
+                  %script{:async => "", :charset => "utf-8", :src => "//platform.twitter.com/widgets.js"}
                 %p.sub-header
                   =link_to('TRY IT FREE TODAY', '/users/sign_in', {class: 'btn try-it-free-btn'})
+
 
   .container-fluid
     .row
