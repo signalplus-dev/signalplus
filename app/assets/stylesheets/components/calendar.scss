@@ -1,5 +1,9 @@
 .calendar-wrapper {
   display: inline-block;
+  .input-form-error {
+    width: 100px;
+    float: left;
+  }
 }
 
 .react-date-field {

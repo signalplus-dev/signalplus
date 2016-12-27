@@ -39,7 +39,7 @@ export function timedResponseValidator(responses) {
 
 export function responseTextValidator(text, type) {
   if (!text) {
-    return `${type} response reqired.`;
+    return `${type} response required.`;
   }
 
   if (text.length > 140) {
@@ -51,7 +51,7 @@ export function responseTextValidator(text, type) {
 
 export function expirationDateValidator(date) {
   if (!date) {
-    return 'Expiration date must be set on a custom response';
+    return 'Expiration date required';
   }
 
   return null;
