@@ -7,7 +7,11 @@ export default function WelcomeWidget() {
       <SignalIcon className='panel-icon' type='welcome' />
       <div className='panel-header'>Welcome</div>
       <div className='panel-text'>
-        Start creating your own signals and responses or use our handy starter guide to learn more
+        <span>
+          Start creating your own signals and responses or use our handy starter
+          <a href='/guide' className='welcome-guide-link'>{' guide '}</a>
+          to learn more
+        </span>
       </div>
     </div>
   );
