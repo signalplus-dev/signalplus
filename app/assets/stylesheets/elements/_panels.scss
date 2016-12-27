@@ -191,6 +191,16 @@
   @include static-panel(0);
 }
 
+.welcome-guide-link {
+  pointer-events: auto !important;
+
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    font-weight: bold;
+  }
+}
+
 .coming-soon {
   @include static-panel(-20px);
 }
