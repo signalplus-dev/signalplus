@@ -1,3 +1,11 @@
+.calendar-wrapper {
+  display: inline-block;
+  .input-form-error {
+    width: 100px;
+    float: left;
+  }
+}
+
 .react-date-field {
   width: 130px !important;
   margin-top: 10px;

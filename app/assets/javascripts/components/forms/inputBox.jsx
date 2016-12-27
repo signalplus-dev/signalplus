@@ -7,12 +7,13 @@ function InputBox({
   valid,
   visited,
   active,
-  meta: { touched, error} ,
+  meta: { touched, error},
   ...props,
   }) {
   const { textArea, ...otherInputProps } = input;
 
   return (
+
     <div className='input-box'>
       <FormControl {...props} {...otherInputProps} />
       {touched && error && <span className='input-form-error'>{error}</span>}

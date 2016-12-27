@@ -20,6 +20,7 @@ const validate = createValidator({
   name: signalNameValidator,
   default_response: defaultResponseValidator,
   repeat_response: repeatResponseValidator,
+  responses: timedResponseValidator,
 });
 
 class UndecoratedSignalForm extends Component {
