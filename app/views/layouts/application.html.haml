@@ -3,7 +3,7 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{ name: "robots", content: "noindex, nofollow" }
-    %title Signal Plus
+    %title SignalPlus: Create automated responses to any #hashtag
     = render 'layouts/favicon'
     = csrf_meta_tags
     = action_cable_meta_tag
@@ -11,9 +11,6 @@
 
   %body
     = render 'shared/header' unless on_dashboard?
-
-    -#.div.container
-    -#.div#flash_messages
 
     - if on_dashboard?
       = yield
