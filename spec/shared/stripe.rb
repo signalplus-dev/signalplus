@@ -31,6 +31,7 @@ shared_context 'setup models' do
   let(:basic_plan)    { SubscriptionPlan.basic }
   let(:advanced_plan) { SubscriptionPlan.advanced }
   let(:premium_plan)  { SubscriptionPlan.premium }
+  let(:admin_plan)    { SubscriptionPlan.admin }
   let(:subscription)  { Subscription.first }
 end
 

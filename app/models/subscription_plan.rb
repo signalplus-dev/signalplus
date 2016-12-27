@@ -21,13 +21,22 @@ class SubscriptionPlan < ApplicationRecord
 
   module Type
     ALL = [
-      BASIC    = 'basic',
-      ADVANCED = 'advanced',
-      PREMIUM  = 'premium',
-    ]
+      CONSUMER_FACING = [
+        BASIC    = 'basic',
+        ADVANCED = 'advanced',
+        PREMIUM  = 'premium',
+      ],
+      ADMIN = 'admin',
+    ].flatten
   end
 
   class << self
+    # @return [ActiveRecord::Relation]
+    def consumer_facing
+      where(reference: Type::CONSUMER_FACING)
+    end
+
+    # @return [ActiveRecord::Relation]
     def all_plans
       @all_plans ||= all
     end
@@ -55,7 +64,7 @@ class SubscriptionPlan < ApplicationRecord
 
     # @return [Boolean]
     define_method("#{plan_name}?".to_sym) do
-      name.to_s.downcase == __method__.to_s[0...-1]
+      reference == __method__.to_s[0...-1]
     end
   end
 end

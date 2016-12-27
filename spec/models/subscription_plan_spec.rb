@@ -4,6 +4,7 @@ describe SubscriptionPlan do
   let(:basic_plan)    { SubscriptionPlan.basic }
   let(:advanced_plan) { SubscriptionPlan.advanced }
   let(:premium_plan)  { SubscriptionPlan.premium }
+  let(:admin_plan)    { SubscriptionPlan.admin }
 
   describe '#{plan_name}?' do
     describe '#basic?' do
@@ -19,6 +20,11 @@ describe SubscriptionPlan do
 
       context 'premium plan' do
         subject { premium_plan }
+        it { is_expected.to_not be_basic }
+      end
+
+      context 'admin plan' do
+        subject { admin_plan }
         it { is_expected.to_not be_basic }
       end
     end
@@ -38,6 +44,11 @@ describe SubscriptionPlan do
         subject { premium_plan }
         it { is_expected.to_not be_advanced }
       end
+
+      context 'admin plan' do
+        subject { admin_plan }
+        it { is_expected.to_not be_advanced }
+      end
     end
 
     describe '#premium?' do
@@ -54,6 +65,33 @@ describe SubscriptionPlan do
       context 'premium plan' do
         subject { premium_plan }
         it { is_expected.to be_premium }
+      end
+
+      context 'admin plan' do
+        subject { admin_plan }
+        it { is_expected.to_not be_premium }
+      end
+    end
+
+    describe '#admin?' do
+      context 'basic plan' do
+        subject { basic_plan }
+        it { is_expected.to_not be_admin }
+      end
+
+      context 'advanced plan' do
+        subject { advanced_plan }
+        it { is_expected.to_not be_admin }
+      end
+
+      context 'premium plan' do
+        subject { premium_plan }
+        it { is_expected.to_not be_admin }
+      end
+
+      context 'admin plan' do
+        subject { admin_plan }
+        it { is_expected.to be_admin }
       end
     end
   end

@@ -26,5 +26,6 @@ class SubscriptionSerializer < ActiveModel::Serializer
              :canceled_at,
              :trialing,
              :trial_end,
-             :will_be_deactivated_at
+             :will_be_deactivated_at,
+             :admin
 end

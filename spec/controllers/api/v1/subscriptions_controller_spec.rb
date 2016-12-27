@@ -44,6 +44,19 @@ describe Api::V1::SubscriptionsController, type: :controller do
         }.from(og_email).to('test+1234@example.com')
       end
     end
+
+    context 'an invalid request' do
+      before { post :create, params: params.merge(subscription_plan_id: admin_plan.id) }
+
+      it 'responds with a 422' do
+        expect(response.status).to eq(422)
+      end
+
+      it 'responds with an error message' do
+        response_body = JSON.parse(response.body).with_indifferent_access
+        expect(response_body[:message]).to eq('That is an invalid plan.')
+      end
+    end
   end
 
   describe 'PUT update' do
@@ -71,6 +84,14 @@ describe Api::V1::SubscriptionsController, type: :controller do
 
       it 'should return a 422' do
         put :update, params: params
+        expect(response.status).to eq(422)
+      end
+    end
+
+    context 'an trying to upgrade to the admin plan' do
+      before { put :update, params: params.merge(subscription_plan_id: admin_plan.id) }
+
+      it 'responds with a 422' do
         expect(response.status).to eq(422)
       end
     end

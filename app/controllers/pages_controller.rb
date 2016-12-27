@@ -14,7 +14,9 @@ class PagesController < ApplicationController
 
   def set_home_data
     # Need to provide subsription plan details
-    subscriptionPlans = ActiveModelSerializers::SerializableResource.new(SubscriptionPlan.all).as_json
+    subscriptionPlans = ActiveModelSerializers::SerializableResource.new(
+      SubscriptionPlan.consumer_facing
+    ).as_json
     @subscription_plans_props = {
       inDashboard: false,
       hasExistingSubscription: false,

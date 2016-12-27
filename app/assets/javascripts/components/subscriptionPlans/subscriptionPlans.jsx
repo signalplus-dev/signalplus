@@ -7,6 +7,7 @@ import cn from 'classnames';
 
 import { createSubscription, updateSubscription } from 'redux/modules/models/subscription'
 import { updateUserEmail } from 'redux/modules/models/user';
+import { subscriptionPlansSelector } from 'selectors/selectors';
 
 import StripeButton from 'components/subscriptionPlans/stripeButton';
 
@@ -85,7 +86,13 @@ class SelectButton extends Component {
   }
 
   renderActualButton() {
-    const { hasExistingSubscription, selected, canceled, available } = this.props;
+    const {
+      hasExistingSubscription,
+      selected,
+      canceled,
+      available,
+    } = this.props;
+
     const classes = cn({
       btn: true,
       'select-btn': !selected,
@@ -147,7 +154,11 @@ export class SubscriptionPlans extends Component {
   }
 
   renderSelectButton(subscriptionPlan) {
-    const { inDashboard, hasExistingSubscription, canceled } = this.props;
+    const {
+      inDashboard,
+      hasExistingSubscription,
+      canceled,
+    } = this.props;
 
     if (inDashboard) {
       return (
@@ -204,13 +215,15 @@ export class SubscriptionPlans extends Component {
   }
 }
 
+const makeSelector = () => subscriptionPlansSelector
+
 export default connect(state => {
+  const selector = makeSelector()
   const subscription = state.models.subscription.data;
   const {
     id,
     subscription_plan_id,
     canceled_at,
-    monthly_response_count = 0,
   } = subscription;
   const subscriptionPlans = state.models.subscriptionPlans.data;
 
@@ -219,13 +232,6 @@ export default connect(state => {
     hasExistingSubscription: !!subscription_plan_id,
     subscriptionId: id,
     canceled: !!canceled_at,
-    subscriptionPlans: _.reduce(subscriptionPlans, (memo, subscriptionPlan) => ([
-      ...memo,
-      {
-        ...subscriptionPlan,
-        selected: subscriptionPlan.id === subscription_plan_id,
-        available: subscriptionPlan.number_of_messages >= monthly_response_count,
-      },
-    ]), []),
+    subscriptionPlans: selector(state),
   };
 })(SubscriptionPlans);

@@ -5,8 +5,8 @@ describe InvoiceAdjustment do
   include_context 'invoice created'
 
   let(:invoice)  { Invoice.first }
-  let(:old_plan) { create(:subscription_plan) }
-  let(:new_plan) { create(:subscription_plan, :advanced) }
+  let(:old_plan) { SubscriptionPlan.basic }
+  let(:new_plan) { SubscriptionPlan.advanced }
   let(:invoice_item) do
     InvoiceAdjustmentHandler.new(brand, old_plan, new_plan).send(:create_stripe_invoice_item!)
   end

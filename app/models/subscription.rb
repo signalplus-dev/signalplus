@@ -19,6 +19,11 @@
 
 class Subscription < ApplicationRecord
   class InvalidPlanUpdate < StandardError; end
+  class InvalidPlan < StandardError
+    def initialize(message = 'That is an invalid plan.')
+      super(message)
+    end
+  end
 
   acts_as_paranoid
 
@@ -45,6 +50,8 @@ class Subscription < ApplicationRecord
     # @param stripe_token      [String] The Stripe token response necessary to create the Stripe
     #                                   Customer object and their Stripe subscription
     def subscribe!(brand, subscription_plan, email, stripe_token)
+      raise InvalidPlan if subscription_plan.admin?
+
       trial_end = NUMBER_OF_DAYS_OF_TRIAL.days.from_now
       customer = create_customer!(subscription_plan, email, stripe_token, trial_end.to_i)
 
@@ -165,6 +172,8 @@ class Subscription < ApplicationRecord
   # @param new_plan [SubscriptionPlan] A subscription plan object
   # @return         [Subscription]
   def update_plan!(new_plan)
+    raise InvalidPlan if new_plan.admin?
+
     check_if_can_change_plan_to(new_plan)
     if deactivated?
       resubscribe_and_destroy!(new_plan)
@@ -248,6 +257,12 @@ class Subscription < ApplicationRecord
     brand.at_plan_limit?
   end
 
+  # @return [Boolean]
+  def admin
+    subscription_plan.admin?
+  end
+  alias_method :admin?, :admin
+
   private
 
   # Used to stub out in tests for mocking of the Stripe API response
@@ -282,7 +297,9 @@ class Subscription < ApplicationRecord
 
   def check_if_can_change_plan_to(subscription_plan)
     if subscription_plan.number_of_messages < monthly_response_count
-      raise InvalidPlanUpdate
+      raise InvalidPlanUpdate.new(
+        'You cannot downgrade to that plan. You have surpassed the response limit.'
+      )
     end
   end
 
