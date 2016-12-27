@@ -66,12 +66,15 @@ module Responders
 
       def respond!(client = nil)
         @client = client || brand.twitter_rest_client
-        twitter_response = TwitterResponse.create!(as_json)
-        tweet_reply = reply_to_message!
-        twitter_response.update!(reply_tweet_id: tweet_reply.id, reply_tweet_type: 'DirectMessage')
+
+        ApplicationRecord.transaction do
+          twitter_response = TwitterResponse.create!(as_json)
+          tweet_reply = reply_to_message!
+          twitter_response.update!(reply_tweet_id: tweet_reply.id, reply_tweet_type: 'DirectMessage')
+        end
       rescue StandardError => e
         # do some logging
-        Rollbar.error(e)
+        Rollbar.error(e, brand_id: brand.id)
       end
 
       # @return [Boolean]

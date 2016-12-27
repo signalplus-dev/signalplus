@@ -19,6 +19,11 @@ module Twitter
   end
 end
 
+def should_sleep?(error)
+  error.kind_of?(Twitter::Error::TooManyRequests) &&
+  error.code == Twitter::Error::Code::RATE_LIMIT_EXCEEDED
+end
+
 desc "Listens to a user's stream of mentions and direct messages"
 task twitter_stream: :environment do
   brand = Brand.find(ENV['BRAND_ID'])
@@ -42,7 +47,7 @@ task twitter_stream: :environment do
       else
         # Should ignore Sigterm
         Rails.logger.info('Recording error for listening to twitter stream')
-        Rollbar.error(e)
+        Rollbar.error(e, brand_id: brand.id)
 
         # Turn on polling implementation
         brand.update!(polling_tweets: true)
@@ -54,6 +59,15 @@ task twitter_stream: :environment do
 
         # Start polling implementation immediately
         twitter_cron_job.add_to_queue if twitter_cron_job
+
+        # Check if we are being rate limited from Twitter
+        if should_sleep?(e)
+          Rails.logger.info("Being rate limited by Twitter")
+          time_to_restart = error.rate_limit.attrs['x-rate-limit-reset'].to_i
+          sleep_time = [(Time.at(time_to_restart) - Time.current).to_i, 0].max
+          Rails.logger.info("Brand ##{brand.id} twitter stream is sleeping for #{sleep_time} seconds")
+          sleep sleep_time
+        end
       end
     end
   end
