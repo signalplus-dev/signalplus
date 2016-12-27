@@ -24,6 +24,12 @@ describe Subscription do
   include_context 'stripe setup'
 
   describe '.subscribe' do
+    it 'raises an error when trying to create a subscription with an admin plan' do
+      expect {
+        described_class.subscribe!(brand, admin_plan, user.email, stripe_token)
+      }.to raise_error(Subscription::InvalidPlan)
+    end
+
     it 'creates a payment handler' do
       expect {
         described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
@@ -100,6 +106,12 @@ describe Subscription do
     include_context 'brand already subscribed to plan'
 
     describe '#update_plan!' do
+      context 'with and admin plan' do
+        it 'should not allow updating to an admin plan' do
+          expect { subscription.update_plan!(admin_plan) }.to raise_error(Subscription::InvalidPlan)
+        end
+      end
+
       context 'with an active subscription' do
         it 'changes the subscription_plan' do
           expect {

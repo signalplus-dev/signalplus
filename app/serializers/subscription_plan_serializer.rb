@@ -12,8 +12,15 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  description        :string           default("")
+#  reference          :string           not null
 #
 
 class SubscriptionPlanSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :amount, :currency_symbol, :number_of_messages
+  attributes :id,
+             :name,
+             :description,
+             :amount,
+             :currency_symbol,
+             :number_of_messages,
+             :reference
 end

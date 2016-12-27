@@ -12,6 +12,7 @@
 #  data              :jsonb            not null
 #  period_start      :datetime
 #  period_end        :datetime
+#  payment_failed    :boolean          default(FALSE)
 #
 
 class Invoice < ApplicationRecord

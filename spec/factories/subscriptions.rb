@@ -21,7 +21,7 @@ FactoryGirl.define do
   factory :subscription do
     provider 'Stripe'
     token 'sub_8q6Cc93nR3NR59'
-    association :subscription_plan, factory: :subscription_plan
+    subscription_plan { SubscriptionPlan.basic }
     trial_end Subscription::NUMBER_OF_DAYS_OF_TRIAL.days.from_now
   end
 end
