@@ -9,7 +9,7 @@ describe Api::V1::SubscriptionPlansController, type: :controller do
 
     subject { JSON.parse(response.body).with_indifferent_access }
 
-    its([:subscription_plans]) { is_expected.to have(3).items }
+    its([:subscription_plans]) { is_expected.to have(4).items }
 
     it { expect(subject[:subscription_plans].first).to have_key(:id) }
     it { expect(subject[:subscription_plans].first).to include(name: 'Basic') }
