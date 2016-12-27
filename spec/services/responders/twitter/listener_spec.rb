@@ -22,6 +22,7 @@ describe Responders::Twitter::Listener do
 
   before do
     Subscription.subscribe!(brand, basic_plan, email, stripe_helper.generate_card_token)
+    expect(Rollbar).to_not receive(:error)
   end
 
   # @param hashtags [Array] an array of hashtags
@@ -73,12 +74,15 @@ describe Responders::Twitter::Listener do
   let(:temp_image)      { double(:image_file) }
   let(:image_string_io) { StringIO.new('some_image.png') }
   let(:temp_file)       { Tempfile.new('test.txt') }
+  let(:file)            { double(:file, close: nil) }
 
   before do
     Sidekiq::Testing.inline!
     allow(TempImage).to receive(:new).and_return(temp_image)
     allow(temp_image).to receive(:file).and_return(temp_file)
     allow(temp_image).to receive(:image_string_io).and_return(image_string_io)
+    allow_any_instance_of(Responders::Twitter::Reply)
+      .to receive(:file_and_temp_image).and_return([file, temp_image])
     allow_any_instance_of(Brand).to receive(:twitter_rest_client).and_return(mock_client)
   end
 
@@ -128,7 +132,11 @@ describe Responders::Twitter::Listener do
           end
 
           it 'updates the since_id of the tweet tracker' do
-            expect(mock_client).to receive(:update_with_media).and_return(tweet)
+            expect(mock_client).to receive(:update_with_media).with(
+              a_kind_of(String),
+              file
+            ).and_return(tweet)
+
             expect {
               described_class.process_messages(brand.id)
             }.to change {
@@ -137,7 +145,11 @@ describe Responders::Twitter::Listener do
           end
 
           it 'updates the last_recorded_tweet_id of the tweet tracker' do
-            expect(mock_client).to receive(:update_with_media).and_return(tweet)
+            expect(mock_client).to receive(:update_with_media).with(
+              a_kind_of(String),
+              file
+            ).and_return(tweet)
+
             expect {
               described_class.process_messages(brand.id)
             }.to change {
@@ -177,7 +189,11 @@ describe Responders::Twitter::Listener do
 
         context 'trying to request a deal on the same day' do
           before do
-            expect(mock_client).to receive(:update_with_media).once.and_return(create_mock_tweet)
+            expect(mock_client).to receive(:update_with_media).twice.with(
+              a_kind_of(String),
+              file
+            ).and_return(create_mock_tweet)
+
             expect {
               described_class.send(:reply_to_messages, grouped_replies, brand)
             }.to change { TwitterResponse.count }.from(0).to(1)
@@ -190,7 +206,7 @@ describe Responders::Twitter::Listener do
             expect(TwitterResponse.last.response_id).to eq(response_group.repeat_response.id)
           end
 
-          it 'does not resond after a repeat response' do
+          it 'does not respond after a repeat response' do
             described_class.send(:reply_to_messages, more_grouped_replies, brand)
 
             expect {

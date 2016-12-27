@@ -135,9 +135,7 @@ module Responders
       def reply_to_message!
         if response.has_image?
           begin
-            temp_image = TempImage.new(response.image_name)
-            file = File.open(temp_image.file.path)
-            reply_with_text_and_image!(file, temp_image)
+            reply_with_text_and_image!(*file_and_temp_image)
           rescue Aws::S3::Errors::NoSuchKey
             reply_with_text!
           end
@@ -167,6 +165,13 @@ module Responders
         file.close
         temp_image.file.close
         temp_image.file.unlink
+      end
+
+      # @return [Array]
+      def file_and_temp_image
+        temp_image = TempImage.new(response.image_name)
+        file = File.open(temp_image.file.path)
+        [file, temp_image]
       end
     end
   end
