@@ -6,7 +6,7 @@ class StripeWebhook::InvoiceHandler < StripeWebhook::BaseHandler
       raise StandardError.new('Could not find PaymentHandler for that customer')
     end
 
-    unless brand_id
+    if brand_id
       Invoice.create!(
         brand_id:          brand_id,
         stripe_invoice_id: data_object.id,
