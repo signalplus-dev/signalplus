@@ -1,5 +1,11 @@
 class StripeWebhook::InvoiceHandler < StripeWebhook::BaseHandler
   def created
+    brand_id = get_brand_id
+
+    if should_raise_error?(brand_id)
+      raise StandardError.new('Could not find PaymentHandler for that customer')
+    end
+
   	Invoice.create!(
       brand_id:          get_brand_id,
       stripe_invoice_id: data_object.id,
@@ -47,13 +53,7 @@ class StripeWebhook::InvoiceHandler < StripeWebhook::BaseHandler
   private
 
   def get_brand_id
-    brand_id = PaymentHandler.where(token: data_object.customer).pluck(:brand_id).first
-
-    if should_raise_error?(brand_id)
-      raise StandardError.new('Could not find PaymentHandler for that customer')
-    end
-
-    brand_id
+    PaymentHandler.where(token: data_object.customer).pluck(:brand_id).first
   end
 
   def invoice
