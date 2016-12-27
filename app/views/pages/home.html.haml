@@ -15,13 +15,14 @@
                 %p.sub-text
                   See the power of SignalPlus automation...
                 %p.sub-header
-                  =link_to('Tweet', '#', {class: 'btn tweet-btn'})
+                  %a.btn.tweet-btn{ href: "https://twitter.com/share", class: "twitter-dm-button", :data => {'show-count': 'false', via: 'signalplusco', :hashtags => 'power'}}
+                    Tweet
                   %span or
-                  =link_to('Message', '#', {class: 'btn tweet-btn'})
+                  %a.btn.tweet-btn{ href: "https://twitter.com/messages/compose?recipient_id=800084500357091328", class: "twitter-dm-button", :data => {'show-count':'false', 'size':'large','text':'#power','show-screen-name': 'false','screen-name':'@signalplusco'}}
+                    Message
                   %span @SignalPlusco
                 %p.sub-header
                   =link_to('TRY IT FREE TODAY', '/users/sign_in', {class: 'btn try-it-free-btn'})
-
 
   .container-fluid
     .row
