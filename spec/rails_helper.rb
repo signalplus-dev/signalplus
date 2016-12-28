@@ -11,6 +11,7 @@ require 'vcr'
 require 'webmock/rspec'
 require 'stripe_mock'
 require 'rake'
+require 'mandrill'
 ProjectSignal::Application.load_tasks
 
 VCR.configure do |config|
@@ -72,6 +73,15 @@ def with_versioning
   end
 end
 
+class MandrillStub
+  def messages
+    self
+  end
+
+  def send_template(*args)
+  end
+end
+
 RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include FactoryGirl::Syntax::Methods
@@ -102,5 +112,9 @@ RSpec.configure do |config|
   config.before(:all) do
     PaperTrail.enabled = false
     Rake::Task[:create_subscription_plans].invoke(true)
+  end
+
+  config.before do
+    allow(Mandrill::API).to receive(:new).and_return(MandrillStub.new)
   end
 end
