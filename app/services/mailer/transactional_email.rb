@@ -24,8 +24,7 @@ class TransactionalEmail
 
   def send
     begin
-      mandrill.messages.send_template(template_name, message)
-      mandrill.messages.send_template(template_name, message)
+      mandrill.messages.send_template(template_name, [], message)
     rescue Mandrill::Error => e
       Rollbar.error(e, brand_id: brand.id)
     end
