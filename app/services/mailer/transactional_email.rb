@@ -1,9 +1,7 @@
-require 'mandrill'
-
 class TransactionalEmail
   extend TransactionalMailers
 
-  attr_reader :mandrill, :template_name, :brand, :to, :merge_params, :message
+  attr_reader :template_name, :brand, :to, :merge_params, :message
 
   module Types
     WELCOME = 'welcome-email'
@@ -11,20 +9,19 @@ class TransactionalEmail
     CANCEL  = 'cancel-plan'
   end
 
-  MANDRILL = Mandrill::API.new(ENV['MANDRILL_API_KEY'])
+  REPLY_TO_EMAIL = 'info@signalplus.com'
 
   def initialize(template_name, brand, merge_params)
-    @mandrill = MANDRILL
     @template_name = template_name
     @brand = brand
     @merge_params = merge_params
-    @to = brand.twitter_admin.email
+    @to = brand.twitter_admin.try(:email)
     @message = get_message
   end
 
   def send
     begin
-      mandrill.messages.send_template(template_name, [], message)
+      MANDRILL_CLIENT.messages.send_template(template_name, [], message)
     rescue Mandrill::Error => e
       Rollbar.error(e, brand_id: brand.id)
     end
@@ -38,7 +35,7 @@ class TransactionalEmail
       merge_vars: [{ rcpt: to, vars: merge_params }],
       merge_language: 'mailchimp',
       merge: true,
-      headers: { 'Reply-To': 'info@signalplus.com' },
+      headers: { 'Reply-To': REPLY_TO_EMAIL },
       to: [{ type: 'to', email: to }],
       track_opens: true,
     }

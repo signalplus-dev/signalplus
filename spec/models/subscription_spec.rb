@@ -54,7 +54,7 @@ describe Subscription do
     end
 
     it 'sends welcome email' do
-      expect(TransactionalEmail).to receive(:welcome).with(brand)
+      expect_any_instance_of(TransactionalEmail).to receive(:send)
       described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
     end
   end
@@ -243,7 +243,7 @@ describe Subscription do
       end
 
       it 'sends cancel plan email' do
-        expect(TransactionalEmail).to receive(:cancel_plan).with(brand)
+        expect_any_instance_of(TransactionalEmail).to receive(:send)
         subscription.cancel_plan!
       end
     end
