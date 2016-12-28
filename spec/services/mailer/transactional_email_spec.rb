@@ -9,14 +9,19 @@ describe TransactionalEmail do
 
     before do
       allow(Mandrill::API).to receive(:new).and_call_original
-      # allow(Mandrill::API).to receive(:new).and_return(Mandrill::API.new('ZuvTfJ5TJHCLvsxvLxOLUA'))
     end
+
+  # RESPONSE SHOULD LOOK LIKE THIS
+  #   [{"email"=>"eddyfabery@gmail.com",
+  #     "status"=>"sent",
+  #     "_id"=>"86566aed99df4dbdbcfd197da7fb9b04",
+  #     "reject_reason"=>nil}]
 
     context 'welcome email' do
       it 'sends welcome email template' do
         VCR.use_cassette 'mandrill_response' do
           response = described_class.welcome(brand).send
-          #expect(response.rejected).to be(nil)
+          #expect(response[0]['reject_reason').to be_nil
         end
       end
     end
