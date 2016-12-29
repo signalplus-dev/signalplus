@@ -2,7 +2,7 @@ import React from 'react';
 
 function getIcon(type) {
   const iconTypes = {
-    offers:      window.__IMAGE_ASSETS__.iconsOfferSvg,
+    offers:      window.__IMAGE_ASSETS__.iconsOffersSvg,
     contest:     window.__IMAGE_ASSETS__.iconsContestSvg,
     today:       window.__IMAGE_ASSETS__.iconsTodaySvg,
     bell:        window.__IMAGE_ASSETS__.iconsBellSvg,
