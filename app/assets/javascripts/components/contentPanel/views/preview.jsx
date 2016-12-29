@@ -2,14 +2,43 @@ import React from 'react'
 import SignalIcon from 'components/links/signal_icon';
 import _ from 'lodash';
 
+const DEFAULT_SIGNAL_NAME = 'Name';
+const DEFAULT_RESPONSE_TYPE = 'default';
+const REPEAT_RESPONSE_TYPE = 'repeat';
+const CUSTOM_RESPONSE_TYPE = 'timed';
+
+
+function getResponse(signal, type) {
+  const response = _.find(signal.responses, { response_type: type });
+  const message = _.get(response, 'message', '')
+  return message;
+}
+
+function renderCustomResponseBubbles({ responses }) {
+  const customResponses = _.filter(responses, { response_type: CUSTOM_RESPONSE_TYPE });
+
+  if (_.isEmpty(customResponses)) {
+    return undefined;
+  }
+
+  return _.map(customResponses, (response, idx) => {
+    return (
+      <div className='preview-response' key={idx}>
+        <div className='preview-label'>
+          <h5>Custom Response</h5>
+        </div>
+        <div className='preview-response-bubble'>
+          {response.message}
+        </div>
+      </div>
+    );
+  });
+}
+
+
 export default function Preview(props) {
   const { signal, brand } = props;
-
-  const getResponse = (type) => {
-    const response = _.find(signal.responses, { response_type: type });
-    const message = _.get(response, 'message', '')
-    return message;
-  }
+  const signalName = signal.id ? signal.name : DEFAULT_SIGNAL_NAME;
 
   return (
     <div className='col-xs-10 content-box'>
@@ -29,31 +58,34 @@ export default function Preview(props) {
 
       <div className='preview-bubble'>
         <div className='bubble'>
-            @{brand.user_name} #{signal.name}
+            @{brand.user_name} #{signalName}
         </div>
         <span><SignalIcon className='preview-image' type="public"/></span>
       </div>
 
-      <div className='row'>
-        <div className='col-xs-1 preview-label' />
-        <div className='col-xs-3 preview-label'>
+      <div className='preview-response'>
+        <div className='preview-label'>
           <h5>Default Response</h5>
-          <h5 className='preview-wrap-text'>No Offers Available /Repeat Requests</h5>
-          <h5>Custom Response</h5>
         </div>
-
-        <div className='col-xs-5 preview-responses'>
-          <div className='preview-response-bubble'>
-            {getResponse('default')}
-          </div>
-          <div className='preview-response-bubble'>
-            {getResponse('repeat')}
-          </div>
-          <div className='preview-response-bubble' />
+        <div className='preview-response-bubble'>
+          {getResponse(signal, DEFAULT_RESPONSE_TYPE)}
         </div>
       </div>
+      <div className='preview-response'>
+        <div className='preview-label'>
+          <h5 className='preview-wrap-text'>
+            No Offers Available/
+            <br/>Repeat Requests
+          </h5>
+        </div>
+        <div className='preview-response-bubble'>
+          {getResponse(signal, REPEAT_RESPONSE_TYPE)}
+        </div>
+      </div>
+      {renderCustomResponseBubbles(signal)}
     </div>
   );
 }
+
 
 

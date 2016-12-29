@@ -6,12 +6,19 @@ import _ from 'lodash';
 
 function renderInputBox(signal) {
   return (
-    <InputBox
-      name="name"
-      placeholder="#Name"
-      componentClass="input"
-      className="signalNameInput uctext"
-    />
+    <div>
+      <p className="signal-instruction">E
+        <span className='signal-instruction-text'>
+          nter a signal name to listen for
+        </span>
+      </p>
+      <InputBox
+        name="name"
+        placeholder="#Name"
+        componentClass="input"
+        className="signalNameInput uctext"
+      />
+    </div>
   );
 }
 
@@ -29,7 +36,6 @@ export default function EditMenuItem({ menu, signal }) {
       >
         <label className="signalLabel">
           <span className="caption">SIGNAL NAME</span>
-          <p className="caption">Enter a signal name to listen for</p>
           {signal.id ? renderSignalName(signal) : renderInputBox(signal)}
         </label>
         <ActivateSignalRadioButton signal={signal}/>

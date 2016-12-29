@@ -10,7 +10,7 @@
 
     .signalNameInput {
       cursor: auto;
-      font-size: $base-caption-font-size;
+      font-size: $base-font-size;
     }
   }
 
@@ -21,9 +21,13 @@
   .signalLabel {
     cursor: inherit;
 
-    > .caption {
-      font-size: $caption-font-size;
+    .signal-instruction {
+      font-size: $base-font-size;
       font-weight: normal;
+    }
+
+    .signal-instruction-text {
+      text-transform: lowercase;
     }
   }
 

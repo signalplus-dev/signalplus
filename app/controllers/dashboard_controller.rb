@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
 
   def get_signal_type_text(signal_type)
     case signal_type
-      when ListenSignal::Types::OFFER
+      when ListenSignal::Types::OFFERS
         'Send a special offer every time a follower sends a custom hashtag'
       when ListenSignal::Types::TODAY
         'Send a summary of your location or event each day a follower uses a custom hashtag'

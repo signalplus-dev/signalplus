@@ -70,7 +70,7 @@
 }
 
 .signal-description {
-  width: 300px;
+  width: 350px;
   height: 28px;
   display: inline-block;
   font-size: 18px;
@@ -97,6 +97,7 @@
 }
 
 .tip-box {
+  margin-top: 15px;
   border: solid 1px $light-gray;
   padding-top: 8px;
 
@@ -178,16 +179,18 @@
 }
 
 .preview-label {
+  float: left;
+  width: 200px;
+  margin-left: 200px;
+
   h5 {
     font-size: 14px;
     height: 70px;
     font-weight: 700;
     line-height: 70px;
-    margin: 15px !important;
   }
 
   .preview-wrap-text {
-    padding-top: 10px;
     line-height: 20px;
   }
 }

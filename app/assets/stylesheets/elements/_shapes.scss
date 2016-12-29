@@ -41,11 +41,12 @@
 }
 
 .preview-response-bubble {
-  margin-top: 15px;
+  display: inline-block;
+  width: 300px;
   margin-bottom: 15px;
   position: relative;
   min-width: 20px;
-  height: 70px;
+  height: 90px;
   padding: 10px;
   background: #f3f5f6;
   -webkit-border-radius: 10px;
