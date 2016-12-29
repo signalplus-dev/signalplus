@@ -2,7 +2,7 @@ import React from 'react';
 
 function getIcon(type) {
   const iconTypes = {
-    offers:      window.__IMAGE_ASSETS__.iconsOfferSvg,
+    offers:      window.__IMAGE_ASSETS__.iconsOffersSvg,
     contest:     window.__IMAGE_ASSETS__.iconsContestSvg,
     today:       window.__IMAGE_ASSETS__.iconsTodaySvg,
     bell:        window.__IMAGE_ASSETS__.iconsBellSvg,
@@ -15,6 +15,7 @@ function getIcon(type) {
     public:      window.__IMAGE_ASSETS__.iconsPublicIconSvg,
     explanation: window.__IMAGE_ASSETS__.iconsExplanationPng,
     twitter:     window.__IMAGE_ASSETS__.socialTwitterBlueSvg,
+    twitterGrey: window.__IMAGE_ASSETS__.socialTwitterGreySvg,
     arrow:       window.__IMAGE_ASSETS__.iconsBlueArrowPng,
     comingSoon:  window.__IMAGE_ASSETS__.logoSignalplusIconPng,
   };

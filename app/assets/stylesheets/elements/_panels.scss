@@ -46,7 +46,7 @@
   margin-top: 28px;
   margin-right: 20px;
   display: inline-block;
-  width: 257px;
+  width: 270px;
   height: 280px;
   border-radius: 6px;
   color: $text-white;
@@ -88,7 +88,7 @@
 
 .panel-text {
   padding-left: 18px;
-  padding-right: 2px;
+  padding-right: 10px;
   line-height: 1.2;
 }
 
@@ -212,5 +212,28 @@
 
 .activeTab {
   display: block !important;
+}
+
+.panel-platform {
+  position: absolute;
+  bottom: 10px;
+  color: $text-black;
+  padding-left: 18px;
+  font-size: $base-caption-font-size;
+
+  .logo {
+    height: 16px;
+  }
+}
+
+.platform-label {
+  font-size: $caption-font-size;
+  margin-bottom: -2px;
+  margin-top: 15px;
+}
+
+.platform-description {
+  font-weight: bold;
+  margin-left: -4px;
 }
 
