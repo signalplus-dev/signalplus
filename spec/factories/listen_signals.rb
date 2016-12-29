@@ -21,7 +21,7 @@ FactoryGirl.define do
     name 'somehashtag'
     expiration_date 2.days.from_now
     active true
-    signal_type ListenSignal::Types::OFFER
+    signal_type ListenSignal::Types::OFFERS
 
     trait :expired do
       expiration_date 2.days.ago
@@ -34,7 +34,7 @@ FactoryGirl.define do
     end
 
     trait :offer do
-      signal_type ListenSignal::Types::OFFER
+      signal_type ListenSignal::Types::OFFERS
     end
 
     trait :today do

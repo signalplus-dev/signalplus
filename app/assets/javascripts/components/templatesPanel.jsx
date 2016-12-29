@@ -18,8 +18,8 @@ const hooks = {
 function renderTemplates(templates) {
   return _.map(templates, (text, type) => {
 
-    // Disable all signals except for offer and custom
-    if (type == 'offer' || type == 'custom') {
+    // Disable all signals except for offers and custom
+    if (type == 'offers' || type == 'custom') {
       return (
         <Link to={`/dashboard/signals/new/${type}`} key={type} className='panel signal-panel panel-new'>
           <SignalIcon type={type} className='panel-icon'/>

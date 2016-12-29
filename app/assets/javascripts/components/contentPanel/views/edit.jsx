@@ -7,6 +7,7 @@ import SignalIcon from 'components/links/signal_icon';
 import TimedResponseForm from 'components/forms/timedResponseForm';
 import { getFormNameFromSignal } from 'components/forms/util';
 
+const DEFAULT_SIGNAL_NAME = 'Name';
 
 class Edit extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Edit extends Component {
 
   displaySignalName() {
     const { signal, brand } = this.props;
-    const signalName = signal.id ? signal.name : signal.signal_type;
+    const signalName = signal.id ? signal.name : DEFAULT_SIGNAL_NAME;
 
     return (
       <h4 className='subheading'>@{brand.user_name} #{signalName}</h4>
@@ -24,10 +25,10 @@ class Edit extends Component {
   }
 
   renderSubheader(type) {
-    if (type == 'offer') {
+    if (type == 'offers') {
       return 'Send your users a special offer everytime they send a custom hashtag'
     } else if (type == 'custom') {
-      return 'Respond to your users with a custom message every time they send a custom hashtag'
+      return 'Add your custom responses here, you can have responses expire on different dates. When you’re ready, activate your signal and promote it.'
     }
   }
 
@@ -36,6 +37,14 @@ class Edit extends Component {
     const form = getFormNameFromSignal(signal);
 
     dispatch(arrayPush(form, 'responses', { text: '', expiration_date: '' }));
+  }
+
+  renderDefaultDescription(type) {
+    if (type == 'offers') {
+      return 'Enter an offer that will run all the time or a welcome message'
+    } else if (type == 'custom') {
+      return 'Users will see this response the first time they use your signal'
+    }
   }
 
   render() {
@@ -86,8 +95,8 @@ class Edit extends Component {
 
         <div className='response-edit-box'>
           <div className='response-text'>
-            <h5>First Response</h5>
-            <p>Users will see this response the first time they use your signal</p>
+            <h5>Default Response</h5>
+            <p>{this.renderDefaultDescription(signal.signal_type)}</p>
           </div>
           <InputBox
             name="default_response"
@@ -100,9 +109,9 @@ class Edit extends Component {
         <div className='response-edit-box'>
           <div className='response-text'>
             <h5>
-              Not Available/<br/>
               Repeat Requests
             </h5>
+            <p>Enter a thank you message for repeat requests</p>
           </div>
           <InputBox
             name="repeat_response"

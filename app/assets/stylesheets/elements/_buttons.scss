@@ -170,6 +170,7 @@
 .save-btn {
   @include btn-blue;
   float: right;
+  font-size: 18px;
 }
 
 .support-btn {
@@ -179,6 +180,7 @@
 .add-btn {
   @include btn-blue;
   margin-right: 5px;
+  font-size: 18px;
 }
 
 .select-btn {

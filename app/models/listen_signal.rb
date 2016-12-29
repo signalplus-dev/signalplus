@@ -29,7 +29,7 @@ class ListenSignal < ApplicationRecord
   after_destroy :toggle_twitter_streamer
 
   module Types
-    OFFER       = :offer
+    OFFERS      = :offers
     TODAY       = :today
     CONTEST     = :contest
     REMINDER    = :reminder
