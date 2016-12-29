@@ -15,6 +15,7 @@ function getIcon(type) {
     public:      window.__IMAGE_ASSETS__.iconsPublicIconSvg,
     explanation: window.__IMAGE_ASSETS__.iconsExplanationPng,
     twitter:     window.__IMAGE_ASSETS__.socialTwitterBlueSvg,
+    twitterGrey: window.__IMAGE_ASSETS__.socialTwitterGreySvg,
     arrow:       window.__IMAGE_ASSETS__.iconsBlueArrowPng,
     comingSoon:  window.__IMAGE_ASSETS__.logoSignalplusIconPng,
   };
