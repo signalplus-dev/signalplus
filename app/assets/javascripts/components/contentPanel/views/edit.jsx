@@ -49,9 +49,15 @@ class Edit extends Component {
 
   renderTipText(type) {
     if (type == 'offers') {
-      return 'Add your offer responses here, be sure to include a link or details on how to use the offer. When you’re ready, activate your signal and promote it'
+      return (
+        <p>Add your offer responses here, be sure to include a link or details on how to use the offer.<br/>
+         When you’re ready, activate your signal and promote it.</p>
+      );
     } else if (type == 'custom') {
-      return 'Add your custom responses here, you can have responses expire on different dates. When you’re ready, activate your signal and promote it.'
+      return (
+        <p>Add your custom responses here, you can have responses expire on different dates.<br/>
+         When you’re ready, activate your signal and promote it.</p>
+      );
     }
   }
 
@@ -120,7 +126,7 @@ class Edit extends Component {
         <div className='tip-box'>
           <SignalIcon type="tip"/>
           <h5>Tip</h5>
-          <p>{this.renderTipText(signal.signal_type)}</p>
+          {this.renderTipText(signal.signal_type)}
         </div>
 
         <div className='response-edit-box'>
