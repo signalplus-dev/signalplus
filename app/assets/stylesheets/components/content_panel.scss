@@ -38,6 +38,11 @@
   }
 }
 
+.panel-content {
+  background-color: $light-gray;
+  min-height: 600px;
+}
+
 .content-box {
   min-height: 789px;
   padding: 20px;
@@ -158,9 +163,10 @@
 }
 
 .required {
-  position: relative;
-  top: -40px;
-  right: -30px;
+  width: 100px;
+  float: right;
+  text-align: center;
+  margin-top: 35px;
   opacity: 0.7;
   background-color: $text-white;
   border-radius: 3px;

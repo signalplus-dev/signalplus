@@ -28,7 +28,7 @@ class Edit extends Component {
     if (type == 'offers') {
       return 'Send your users a special offer everytime they send a custom hashtag'
     } else if (type == 'custom') {
-      return 'Add your custom responses here, you can have responses expire on different dates. When you’re ready, activate your signal and promote it.'
+      return 'Respond to your users with a custom message every time they send a custom hashtag'
     }
   }
 
@@ -45,6 +45,37 @@ class Edit extends Component {
     } else if (type == 'custom') {
       return 'Users will see this response the first time they use your signal'
     }
+  }
+
+  renderTipText(type) {
+    if (type == 'offers') {
+      return 'Add your offer responses here, be sure to include a link or details on how to use the offer. When you’re ready, activate your signal and promote it'
+    } else if (type == 'custom') {
+      return 'Add your custom responses here, you can have responses expire on different dates. When you’re ready, activate your signal and promote it.'
+    }
+  }
+
+  renderResponseText(type) {
+    if (type == 'offers') {
+      return(
+       <div className='response-text'>
+          <h5>
+            Repeat Requests
+          </h5>
+          <p>Enter a thank you message for repeat requests</p>
+        </div>
+      );
+    } else if (type == 'custom') {
+      return(
+       <div className='response-text'>
+          <h5>
+            Not Available/ <br/>
+            Repeat Requests
+          </h5>
+        </div>
+      );
+    }
+
   }
 
   render() {
@@ -89,8 +120,7 @@ class Edit extends Component {
         <div className='tip-box'>
           <SignalIcon type="tip"/>
           <h5>Tip</h5>
-          <p> Add your offer responses here, be sure to include a link or details on how to use the offer.
-              When you’re ready, activate your signal and promote it </p>
+          <p>{this.renderTipText(signal.signal_type)}</p>
         </div>
 
         <div className='response-edit-box'>
@@ -107,12 +137,7 @@ class Edit extends Component {
         </div>
 
         <div className='response-edit-box'>
-          <div className='response-text'>
-            <h5>
-              Repeat Requests
-            </h5>
-            <p>Enter a thank you message for repeat requests</p>
-          </div>
+          {this.renderResponseText(signal.signal_type)}
           <InputBox
             name="repeat_response"
             placeholder="Type in a response here, add website links too"
