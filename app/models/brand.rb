@@ -245,6 +245,11 @@ class Brand < ApplicationRecord
     !!subscription.try(:trial?)
   end
 
+  # @return [Stripe::Invoice]
+  def upcoming_stripe_invoice
+    Stripe::Invoice.upcoming(customer: stripe_customer_token)
+  end
+
   private
 
   def create_trackers

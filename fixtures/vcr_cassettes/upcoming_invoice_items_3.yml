@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.stripe.com/v1/invoiceitems?customer=cus_9ocs3rYFHe3tdX
+    uri: https://api.stripe.com/v1/invoices/upcoming?customer=cus_9tF6jGg7gVQ9UE
     body:
       encoding: US-ASCII
       string: ''
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 26 Dec 2016 16:17:53 GMT
+      - Sat, 07 Jan 2017 22:35:00 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '3033'
+      - '4623'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9oeTNjejHhruPU
+      - req_9tFGJKJwGLlsB9
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -58,122 +58,178 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "object": "list",
-          "data": [
-            {
-              "id": "ii_19V18uJ5yqT11PpPDg36wiiY",
-              "object": "invoiceitem",
-              "amount": -9878,
-              "currency": "usd",
-              "customer": "cus_9ocs3rYFHe3tdX",
-              "date": 1482768968,
-              "description": "Unused time on Premium after 26 Dec 2016",
-              "discountable": false,
-              "invoice": null,
-              "livemode": false,
-              "metadata": {},
-              "period": {
-                "start": 1482768968,
-                "end": 1485441510
+          "object": "invoice",
+          "amount_due": 9901,
+          "application_fee": null,
+          "attempt_count": 0,
+          "attempted": false,
+          "charge": null,
+          "closed": false,
+          "currency": "usd",
+          "customer": "cus_9tF6jGg7gVQ9UE",
+          "date": 1485907200,
+          "description": null,
+          "discount": null,
+          "ending_balance": null,
+          "forgiven": false,
+          "lines": {
+            "object": "list",
+            "data": [
+              {
+                "id": "ii_19ZSm7J5yqT11PpPNKjmJyGt",
+                "object": "line_item",
+                "amount": -7683,
+                "currency": "usd",
+                "description": "Unused time on Premium after 07 Jan 2017",
+                "discountable": false,
+                "livemode": false,
+                "metadata": {},
+                "period": {
+                  "start": 1483828499,
+                  "end": 1485907200
+                },
+                "plan": {
+                  "id": "premium",
+                  "object": "plan",
+                  "amount": 9900,
+                  "created": 1468799820,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "name": "Premium",
+                  "statement_descriptor": null,
+                  "trial_period_days": null
+                },
+                "proration": true,
+                "quantity": 1,
+                "subscription": "sub_9tFF6L9xWHWrcx",
+                "type": "invoiceitem"
               },
-              "plan": {
-                "id": "premium",
-                "object": "plan",
+              {
+                "id": "ii_19ZSm7J5yqT11PpPz049W3nY",
+                "object": "line_item",
+                "amount": 2251,
+                "currency": "usd",
+                "description": "Remaining time on Basic after 07 Jan 2017",
+                "discountable": false,
+                "livemode": false,
+                "metadata": {},
+                "period": {
+                  "start": 1483828499,
+                  "end": 1485907200
+                },
+                "plan": {
+                  "id": "basic",
+                  "object": "plan",
+                  "amount": 2900,
+                  "created": 1468799116,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "name": "Basic",
+                  "statement_descriptor": null,
+                  "trial_period_days": null
+                },
+                "proration": true,
+                "quantity": 1,
+                "subscription": "sub_9tFF6L9xWHWrcx",
+                "type": "invoiceitem"
+              },
+              {
+                "id": "ii_19ZSm5J5yqT11PpPKyj3yJzu",
+                "object": "line_item",
+                "amount": 3881,
+                "currency": "usd",
+                "description": "Charge for upgrading from Advanced Plan to Premium Plan",
+                "discountable": true,
+                "livemode": false,
+                "metadata": {},
+                "period": {
+                  "start": 1483828497,
+                  "end": 1483828497
+                },
+                "plan": null,
+                "proration": false,
+                "quantity": null,
+                "subscription": "sub_9tFF6L9xWHWrcx",
+                "type": "invoiceitem"
+              },
+              {
+                "id": "ii_19ZSkkJ5yqT11PpPPSt1Jqn9",
+                "object": "line_item",
+                "amount": 1552,
+                "currency": "usd",
+                "description": "Charge for upgrading from Basic Plan to Advanced Plan",
+                "discountable": true,
+                "livemode": false,
+                "metadata": {},
+                "period": {
+                  "start": 1483828414,
+                  "end": 1483828414
+                },
+                "plan": null,
+                "proration": false,
+                "quantity": null,
+                "subscription": "sub_9tFF6L9xWHWrcx",
+                "type": "invoiceitem"
+              },
+              {
+                "id": "sub_9tFF6L9xWHWrcx",
+                "object": "line_item",
                 "amount": 9900,
-                "created": 1468799820,
                 "currency": "usd",
-                "interval": "month",
-                "interval_count": 1,
+                "description": null,
+                "discountable": true,
                 "livemode": false,
                 "metadata": {},
-                "name": "Premium",
-                "statement_descriptor": null,
-                "trial_period_days": null
-              },
-              "proration": true,
-              "quantity": 1,
-              "subscription": "sub_9ocs7qFawW9xgW"
-            },
-            {
-              "id": "ii_19V18uJ5yqT11PpPHnSFXyJT",
-              "object": "invoiceitem",
-              "amount": 2894,
-              "currency": "usd",
-              "customer": "cus_9ocs3rYFHe3tdX",
-              "date": 1482768968,
-              "description": "Remaining time on Basic after 26 Dec 2016",
-              "discountable": false,
-              "invoice": null,
-              "livemode": false,
-              "metadata": {},
-              "period": {
-                "start": 1482768968,
-                "end": 1485441510
-              },
-              "plan": {
-                "id": "basic",
-                "object": "plan",
-                "amount": 2900,
-                "created": 1468799116,
-                "currency": "usd",
-                "interval": "month",
-                "interval_count": 1,
-                "livemode": false,
-                "metadata": {},
-                "name": "Basic",
-                "statement_descriptor": null,
-                "trial_period_days": null
-              },
-              "proration": true,
-              "quantity": 1,
-              "subscription": "sub_9ocs7qFawW9xgW"
-            },
-            {
-              "id": "ii_19V0U8J5yqT11PpPoXaIPGpi",
-              "object": "invoiceitem",
-              "amount": 5000,
-              "currency": "usd",
-              "customer": "cus_9ocs3rYFHe3tdX",
-              "date": 1482766440,
-              "description": "Charge for upgrading from Advanced Plan to Premium Plan",
-              "discountable": true,
-              "invoice": null,
-              "livemode": false,
-              "metadata": {},
-              "period": {
-                "start": 1482766440,
-                "end": 1482766440
-              },
-              "plan": null,
-              "proration": false,
-              "quantity": null,
-              "subscription": "sub_9ocs7qFawW9xgW"
-            },
-            {
-              "id": "ii_19UzjDJ5yqT11PpPxXh0STgh",
-              "object": "invoiceitem",
-              "amount": 2000,
-              "currency": "usd",
-              "customer": "cus_9ocs3rYFHe3tdX",
-              "date": 1482763531,
-              "description": "Charge for upgrading from Basic Plan to Advanced Plan",
-              "discountable": true,
-              "invoice": null,
-              "livemode": false,
-              "metadata": {},
-              "period": {
-                "start": 1482763531,
-                "end": 1482763531
-              },
-              "plan": null,
-              "proration": false,
-              "quantity": null,
-              "subscription": "sub_9ocs7qFawW9xgW"
-            }
-          ],
-          "has_more": false,
-          "url": "/v1/invoiceitems"
+                "period": {
+                  "start": 1485907200,
+                  "end": 1488326400
+                },
+                "plan": {
+                  "id": "premium",
+                  "object": "plan",
+                  "amount": 9900,
+                  "created": 1468799820,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "name": "Premium",
+                  "statement_descriptor": null,
+                  "trial_period_days": null
+                },
+                "proration": false,
+                "quantity": 1,
+                "subscription": null,
+                "type": "subscription"
+              }
+            ],
+            "has_more": false,
+            "total_count": 5,
+            "url": "/v1/invoices/upcoming/lines?customer=cus_9tF6jGg7gVQ9UE"
+          },
+          "livemode": false,
+          "metadata": {},
+          "next_payment_attempt": 1485910800,
+          "paid": false,
+          "period_end": 1485907200,
+          "period_start": 1483828409,
+          "receipt_number": null,
+          "starting_balance": 0,
+          "statement_descriptor": null,
+          "subscription": "sub_9tFF6L9xWHWrcx",
+          "subtotal": 9901,
+          "tax": null,
+          "tax_percent": null,
+          "total": 9901,
+          "webhooks_delivered_at": null
         }
     http_version: 
-  recorded_at: Mon, 26 Dec 2016 16:17:53 GMT
+  recorded_at: Sat, 07 Jan 2017 22:35:00 GMT
 recorded_with: VCR 3.0.3

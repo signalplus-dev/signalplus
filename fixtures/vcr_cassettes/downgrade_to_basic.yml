@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/subscriptions/sub_9ocs7qFawW9xgW
+    uri: https://api.stripe.com/v1/subscriptions/sub_9tFF6L9xWHWrcx
     body:
       encoding: UTF-8
-      string: plan=basic&prorate=true
+      string: plan=basic&prorate=true&billing_cycle_anchor=unchanged
     headers:
       Accept:
       - "*/*"
@@ -18,13 +18,13 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       Idempotency-Key:
-      - 61cb4c92-2632-44c7-99f6-24e4f0639ebb
+      - 67005980-9509-4947-9392-91727cf89112
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
         Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
         2015; root:xnu-3248.20.55~2/RELEASE_X86_64 x86_64","hostname":"Ricardos-MBP"}'
       Content-Length:
-      - '23'
+      - '54'
       Host:
       - api.stripe.com
   response:
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 26 Dec 2016 16:16:09 GMT
+      - Sat, 07 Jan 2017 22:34:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -53,11 +53,11 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Idempotency-Key:
-      - 61cb4c92-2632-44c7-99f6-24e4f0639ebb
+      - 67005980-9509-4947-9392-91727cf89112
       Original-Request:
-      - req_9oeRJJq1palGNK
+      - req_9tFGu2DLFw7KDR
       Request-Id:
-      - req_9oeRJJq1palGNK
+      - req_9tFGu2DLFw7KDR
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -66,15 +66,15 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "sub_9ocs7qFawW9xgW",
+          "id": "sub_9tFF6L9xWHWrcx",
           "object": "subscription",
           "application_fee_percent": null,
           "cancel_at_period_end": false,
           "canceled_at": null,
-          "created": 1482763110,
-          "current_period_end": 1485441510,
-          "current_period_start": 1482763110,
-          "customer": "cus_9ocs3rYFHe3tdX",
+          "created": 1483828409,
+          "current_period_end": 1485907200,
+          "current_period_start": 1483828409,
+          "customer": "cus_9tF6jGg7gVQ9UE",
           "discount": null,
           "ended_at": null,
           "livemode": false,
@@ -94,12 +94,12 @@ http_interactions:
             "trial_period_days": null
           },
           "quantity": 1,
-          "start": 1482768968,
+          "start": 1483828499,
           "status": "active",
           "tax_percent": null,
           "trial_end": null,
           "trial_start": null
         }
     http_version: 
-  recorded_at: Mon, 26 Dec 2016 16:16:09 GMT
+  recorded_at: Sat, 07 Jan 2017 22:34:59 GMT
 recorded_with: VCR 3.0.3

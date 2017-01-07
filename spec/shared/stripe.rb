@@ -38,6 +38,16 @@ end
 shared_context 'stripe setup' do
   include_context 'setup models'
 
+  let(:create_stripe_subscription) do
+    stripe_response = nil
+
+    VCR.use_cassette('create_stripe_subscription') do
+      stripe_response = subscription.create_stripe_subscription!
+    end
+
+    stripe_response
+  end
+
   let(:stripe_subscription) do
     stripe_object = nil
 
@@ -66,9 +76,9 @@ shared_context 'stripe setup' do
 
   let!(:stripe_customer) do
     customer = nil
-    trial_end = 14.days.from_now.to_i
+
     VCR.use_cassette('stripe_customer') do
-      customer = Subscription.send(:create_customer!, basic_plan, user.email, stripe_token, trial_end)
+      customer = Subscription.send(:create_customer!, user.email, stripe_token)
     end
 
     customer
@@ -83,7 +93,7 @@ shared_context 'stripe setup' do
     stripe_response = nil
     Subscription.send(:create_payment_handler!, brand, stripe_customer)
 
-    VCR.use_cassette('create_stripe_subscription') do
+    VCR.use_cassette('create_stripe_subscription_resubscribe') do
       stripe_response = Subscription.send(
         :create_stripe_subscription!,
         stripe_customer.id,
@@ -110,6 +120,9 @@ shared_context 'brand already subscribed to plan' do
   before do
     Subscription.subscribe!(user.brand, basic_plan, user.email, stripe_token)
     allow_any_instance_of(Subscription)
+      .to receive(:create_stripe_subscription!).and_return(create_stripe_subscription)
+    subscription.end_trial!
+    allow_any_instance_of(Subscription)
       .to receive(:stripe_subscription).and_return(stripe_subscription)
     allow_any_instance_of(Subscription)
       .to receive(:update_stripe_subscription!).and_return(update_stripe_subscription!)
@@ -119,6 +132,16 @@ end
 shared_context 'upgrade plan' do
   include_context 'setup models'
   include_context 'stripe mock helper'
+
+  let(:create_stripe_subscription) do
+    stripe_response = nil
+
+    VCR.use_cassette('create_stripe_subscription_2') do
+      stripe_response = subscription.create_stripe_subscription!
+    end
+
+    stripe_response
+  end
 
   let(:stripe_subscription) do
     stripe_response = nil
@@ -149,7 +172,7 @@ shared_context 'upgrade plan' do
   let!(:stripe_customer) do
     customer = nil
     VCR.use_cassette('stripe_customer_2') do
-      customer = Subscription.send(:create_customer!, basic_plan, user.email, stripe_token, nil)
+      customer = Subscription.send(:create_customer!, user.email, stripe_token)
     end
 
     customer
@@ -189,6 +212,9 @@ shared_context 'upgrade plan' do
 
   before do
     Subscription.subscribe!(user.brand, basic_plan, user.email, stripe_token)
+    allow_any_instance_of(Subscription)
+      .to receive(:create_stripe_subscription!).and_return(create_stripe_subscription)
+    subscription.end_trial!
     allow_any_instance_of(Subscription)
       .to receive(:stripe_subscription).and_return(stripe_subscription)
     allow_any_instance_of(Subscription)

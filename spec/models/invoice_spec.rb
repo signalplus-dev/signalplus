@@ -73,4 +73,16 @@ describe Invoice do
       end
     end
   end
+
+  describe '#subscription_line_item' do
+    context 'without a subscription type line item' do
+      let(:invoice_json_data) { File.read('spec/factories/invoice_data_prorated.json') }
+      let(:invoice) { create(:invoice, data: JSON.parse(invoice_json_data)['data']['object']) }
+
+      subject { invoice.subscription_line_item }
+
+      it { is_expected.to_not be_nil }
+      its(:amount) { is_expected.to eq(2288) }
+    end
+  end
 end

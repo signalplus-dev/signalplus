@@ -53,12 +53,13 @@ class Subscription < ApplicationRecord
       raise InvalidPlan if subscription_plan.admin?
 
       trial_end = NUMBER_OF_DAYS_OF_TRIAL.days.from_now
-      customer = create_customer!(subscription_plan, email, stripe_token, trial_end.to_i)
+      customer = create_customer!(email, stripe_token)
 
       if customer
-        stripe_subscription_id = customer.subscriptions.first.id
         create_payment_handler!(brand, customer)
-        create_subscription!(brand, subscription_plan, stripe_subscription_id, trial_end)
+        subscription = create_subscription!(brand, subscription_plan, trial_end)
+        CancelSubscriptionTrialWorker.perform_at(trial_end, subscription.id)
+        subscription
       end
     end
 
@@ -66,49 +67,43 @@ class Subscription < ApplicationRecord
     #
     # @param brand             [Brand] A brand object
     # @param subscription_plan [SubscriptionPlan] A subscription plan object
-    # @param trial_end         [ActiveSupport::TimeWithZone, NilClass]
     # @return                  [Subscription]
-    def resubscribe!(brand, subscription_plan, trial_end)
-      stripe_subscription_args = [
-        brand.payment_handler.token,
-        subscription_plan.provider_id,
-        trial_end && trial_end.to_i
-      ]
-
-      stripe_subscription = create_stripe_subscription!(*stripe_subscription_args)
-      create_subscription!(brand, subscription_plan, stripe_subscription.id, trial_end)
-    end
-
-    private
-
-    # Creates the Stripe customer and subscribes them to a trial subscription
-    #
-    # @param brand             [Brand]
-    # @param subscription_plan [SubscriptionPlan]
-    # @param email             [String]
-    # @param stripe_token      [String]
-    # @param trial_end         [Fixnum] Unix timestamp for when the trial is supposed to end
-    # @return                  [Stripe::Customer]
-    def create_customer!(subscription_plan, email, stripe_token, trial_end)
-      Stripe::Customer.create(
-        source:    stripe_token,
-        plan:      subscription_plan.provider_id,
-        email:     email,
-        trial_end: trial_end,
+    def resubscribe!(brand, subscription_plan)
+      stripe_subscription = create_stripe_subscription!(
+        brand.stripe_customer_token,
+        subscription_plan.provider_id
       )
+
+      create_subscription!(brand, subscription_plan, nil, stripe_subscription.id)
     end
 
     # Used when resubscribing a user to a subscription
     #
     # @param customer  [String]
     # @param plan      [String]
-    # @param trial_end [Fixnum, NilClass]
-    # @return          [Stripe::Subscription, trial_end]
-    def create_stripe_subscription!(customer, plan, trial_end = nil)
-      params = { customer: customer, plan: plan }
-      params.merge!(trial_end: trial_end) if trial_end
+    # @return          [Stripe::Subscription]
+    def create_stripe_subscription!(customer, plan)
+      Stripe::Subscription.create(
+        customer:             customer,
+        plan:                 plan,
+        billing_cycle_anchor: 1.month.from_now.beginning_of_month.to_i,
+      )
+    end
 
-      Stripe::Subscription.create(customer: customer, plan: plan)
+    # @return [ActiveRecord::Relation]
+    def passed_trial
+      where(trial: true).where('trial_end < ?', Time.current)
+    end
+
+    private
+
+    # Creates the Stripe customer and subscribes them to a trial subscription
+    #
+    # @param email             [String]
+    # @param stripe_token      [String]
+    # @return                  [Stripe::Customer]
+    def create_customer!(email, stripe_token)
+      Stripe::Customer.create(email:  email, source: stripe_token)
     end
 
     def create_payment_handler!(brand, customer)
@@ -123,10 +118,10 @@ class Subscription < ApplicationRecord
     #
     # @param brand                  [Brand]
     # @param subscription_plan      [SubscriptionPlan]
-    # @param stripe_subscription_id [String]
     # @param trial_end              [ActiveSupport::TimeWithZone]
+    # @param stripe_subscription_id [String]
     # @return                       [Subscription]
-    def create_subscription!(brand, subscription_plan, stripe_subscription_id, trial_end = nil)
+    def create_subscription!(brand, subscription_plan, trial_end = nil, stripe_subscription_id = nil)
       create!(
         brand_id:             brand.id,
         subscription_plan_id: subscription_plan.id,
@@ -181,7 +176,7 @@ class Subscription < ApplicationRecord
       old_plan = subscription_plan
 
       # Make the updates
-      update_stripe_subscription!(new_plan)
+      update_stripe_subscription!(new_plan) unless trialing?
       update!(
         subscription_plan_id: new_plan.id,
         canceled_at: nil,
@@ -204,7 +199,7 @@ class Subscription < ApplicationRecord
 
   # Cancels the subscription plan
   def cancel_plan!
-    cancel_stripe_subscription!
+    cancel_stripe_subscription! unless trialing?
     update!(
       canceled_at: Time.at(stripe_subscription.canceled_at),
       will_be_deactivated_at: Time.at(stripe_subscription.current_period_end),
@@ -213,8 +208,15 @@ class Subscription < ApplicationRecord
 
   # Forcefully ends the trial subscription
   def end_trial!
-    end_stripe_trial_subscription!
-    update!(trial: false)
+    stripe_subscription = create_stripe_subscription!
+    update!(token: stripe_subscription.id, trial: false)
+  end
+
+  def create_stripe_subscription!
+    Subscription.create_stripe_subscription!(
+      brand.stripe_customer_token,
+      subscription_plan.provider_id
+    )
   end
 
   ###### Helper boolean methods
@@ -270,12 +272,7 @@ class Subscription < ApplicationRecord
   def update_stripe_subscription!(new_subscription_plan)
     stripe_subscription.plan = new_subscription_plan.provider_id
     stripe_subscription.prorate = downgrading?(new_subscription_plan)
-    stripe_subscription.trial_end = trial_end.to_i if trialing?
-    stripe_subscription.save
-  end
-
-  def end_stripe_trial_subscription!
-    stripe_subscription.trial_end = "now"
+    stripe_subscription.billing_cycle_anchor = 'unchanged'
     stripe_subscription.save
   end
 
@@ -287,11 +284,7 @@ class Subscription < ApplicationRecord
   def resubscribe_and_destroy!(subscription_plan)
     Subscription.transaction do
       destroy!
-      Subscription.resubscribe!(
-        brand,
-        subscription_plan,
-        trialing? ? trial_end : nil
-      )
+      Subscription.resubscribe!(brand, subscription_plan)
     end
   end
 

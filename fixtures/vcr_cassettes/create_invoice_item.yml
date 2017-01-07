@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/invoiceitems
     body:
       encoding: UTF-8
-      string: customer=cus_9ocs3rYFHe3tdX&amount=2000&currency=usd&description=Charge+for+upgrading+from+Basic+Plan+to+Advanced+Plan&subscription=sub_9ocs7qFawW9xgW
+      string: customer=cus_9tF6jGg7gVQ9UE&amount=1552&currency=usd&description=Charge+for+upgrading+from+Basic+Plan+to+Advanced+Plan&subscription=sub_9tFF6L9xWHWrcx
     headers:
       Accept:
       - "*/*"
@@ -18,7 +18,7 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       Idempotency-Key:
-      - b9153932-fea1-4366-9b4a-d78567794cc1
+      - 7671c0ad-7e6e-4e97-b785-b0d407469702
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
         Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 26 Dec 2016 14:45:31 GMT
+      - Sat, 07 Jan 2017 22:33:34 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -53,11 +53,11 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Idempotency-Key:
-      - b9153932-fea1-4366-9b4a-d78567794cc1
+      - 7671c0ad-7e6e-4e97-b785-b0d407469702
       Original-Request:
-      - req_9oczkj3jX0UYAf
+      - req_9tFFB4uKlLfotZ
       Request-Id:
-      - req_9oczkj3jX0UYAf
+      - req_9tFFB4uKlLfotZ
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -66,26 +66,26 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "ii_19UzjDJ5yqT11PpPxXh0STgh",
+          "id": "ii_19ZSkkJ5yqT11PpPPSt1Jqn9",
           "object": "invoiceitem",
-          "amount": 2000,
+          "amount": 1552,
           "currency": "usd",
-          "customer": "cus_9ocs3rYFHe3tdX",
-          "date": 1482763531,
+          "customer": "cus_9tF6jGg7gVQ9UE",
+          "date": 1483828414,
           "description": "Charge for upgrading from Basic Plan to Advanced Plan",
           "discountable": true,
           "invoice": null,
           "livemode": false,
           "metadata": {},
           "period": {
-            "start": 1482763531,
-            "end": 1482763531
+            "start": 1483828414,
+            "end": 1483828414
           },
           "plan": null,
           "proration": false,
           "quantity": null,
-          "subscription": "sub_9ocs7qFawW9xgW"
+          "subscription": "sub_9tFF6L9xWHWrcx"
         }
     http_version: 
-  recorded_at: Mon, 26 Dec 2016 14:45:31 GMT
+  recorded_at: Sat, 07 Jan 2017 22:33:34 GMT
 recorded_with: VCR 3.0.3

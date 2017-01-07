@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/subscriptions/sub_9tF6tQyxq2LLOm
+    uri: https://api.stripe.com/v1/subscriptions
     body:
       encoding: UTF-8
-      string: trial_end=now
+      string: customer=cus_9tF6jGg7gVQ9UE&plan=basic&billing_cycle_anchor=1485907200
     headers:
       Accept:
       - "*/*"
@@ -18,13 +18,13 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       Idempotency-Key:
-      - aba7f16a-aada-492d-bd15-7fcc487f5fd0
+      - c6edba4e-fe39-4de5-88ae-051fe48e5c10
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.55.0","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
         Ricardos-MBP 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST
         2015; root:xnu-3248.20.55~2/RELEASE_X86_64 x86_64","hostname":"Ricardos-MBP"}'
       Content-Length:
-      - '13'
+      - '70'
       Host:
       - api.stripe.com
   response:
@@ -35,11 +35,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 07 Jan 2017 22:24:43 GMT
+      - Sat, 07 Jan 2017 22:33:30 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '807'
+      - '801'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -53,11 +53,11 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Idempotency-Key:
-      - aba7f16a-aada-492d-bd15-7fcc487f5fd0
+      - c6edba4e-fe39-4de5-88ae-051fe48e5c10
       Original-Request:
-      - req_9tF6p3bOQm0ha5
+      - req_9tFFBdVGwljLzj
       Request-Id:
-      - req_9tF6p3bOQm0ha5
+      - req_9tFFBdVGwljLzj
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -66,40 +66,40 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "sub_9tF6tQyxq2LLOm",
+          "id": "sub_9tFF6L9xWHWrcx",
           "object": "subscription",
           "application_fee_percent": null,
           "cancel_at_period_end": false,
           "canceled_at": null,
-          "created": 1483827860,
+          "created": 1483828409,
           "current_period_end": 1485907200,
-          "current_period_start": 1483827860,
-          "customer": "cus_9tF5wkCjqiErEn",
+          "current_period_start": 1483828409,
+          "customer": "cus_9tF6jGg7gVQ9UE",
           "discount": null,
           "ended_at": null,
           "livemode": false,
           "metadata": {},
           "plan": {
-            "id": "advanced",
+            "id": "basic",
             "object": "plan",
-            "amount": 4900,
-            "created": 1468799819,
+            "amount": 2900,
+            "created": 1468799116,
             "currency": "usd",
             "interval": "month",
             "interval_count": 1,
             "livemode": false,
             "metadata": {},
-            "name": "Advanced",
+            "name": "Basic",
             "statement_descriptor": null,
             "trial_period_days": null
           },
           "quantity": 1,
-          "start": 1483827883,
+          "start": 1483828409,
           "status": "active",
           "tax_percent": null,
           "trial_end": null,
           "trial_start": null
         }
     http_version: 
-  recorded_at: Sat, 07 Jan 2017 22:24:43 GMT
+  recorded_at: Sat, 07 Jan 2017 22:33:30 GMT
 recorded_with: VCR 3.0.3
