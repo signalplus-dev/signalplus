@@ -208,8 +208,12 @@ class Subscription < ApplicationRecord
 
   # Forcefully ends the trial subscription
   def end_trial!
-    stripe_subscription = create_stripe_subscription!
-    update!(token: stripe_subscription.id, trial: false)
+    update_params = { trial: false }
+    unless token?
+      stripe_subscription = create_stripe_subscription!
+      update_params[:token] = stripe_subscription.id
+    end
+    update!(update_params)
   end
 
   def create_stripe_subscription!
