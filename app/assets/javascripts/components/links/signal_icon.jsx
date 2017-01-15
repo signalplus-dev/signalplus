@@ -8,6 +8,7 @@ function getIcon(type) {
     bell:        window.__IMAGE_ASSETS__.iconsBellSvg,
     close:       window.__IMAGE_ASSETS__.iconsCloseSvg,
     reminder:    window.__IMAGE_ASSETS__.iconsReminderSvg,
+    clock:        window.__IMAGE_ASSETS__.iconsClockPng,
     welcome:     window.__IMAGE_ASSETS__.iconsSplusPurplePng,
     create:      window.__IMAGE_ASSETS__.iconsSignalplusSmallSvg,
     custom:      window.__IMAGE_ASSETS__.iconsSignalplusSmallPinkSvg,

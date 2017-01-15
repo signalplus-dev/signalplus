@@ -5,6 +5,7 @@ import { provideHooks } from 'redial';
 
 import Checkbox from 'components/forms/checkbox';
 import TimezoneDropdown from 'components/forms/timezoneDropdown';
+import SignalIcon from 'components/links/signal_icon';
 
 import { required, timezoneValidator, createValidator } from 'components/forms/validations';
 import { updateUserInfo, getUserData } from 'redux/modules/models/user';
@@ -62,7 +63,20 @@ class FinishSetup extends PureComponent {
                         labelDescription="Please send me updates on new features and announcements"
                       />
                     </div>
+                    <div className="finishSetupTwitterInfo">
+                      <SignalIcon type="tip" className="finishSetupTip" />
+                      <div><strong>Enable Direct Messages from Any User</strong></div>
+                      <div className="bigCaption twitterSetupInfo">
+                        To receive requests from any user,
+                        select “Receive Direct Messages from anyone”
+                        in your &nbsp;
+                        <a href="https://twitter.com/settings/security">
+                          Twitter security settings
+                        </a>
+                      </div>
+                    </div>
                     <div className="finishSetupFormField">
+                      <SignalIcon type="clock" className="finishSetupClock" />
                       <div><strong>Time Zone</strong></div>
                       <div className="bigCaption timezoneLabel">
                         Set a default time zone for your account.
