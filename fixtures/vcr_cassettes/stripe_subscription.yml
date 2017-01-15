@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.stripe.com/v1/subscriptions/sub_9oVxEp160DrPWn
+    uri: https://api.stripe.com/v1/subscriptions/sub_9tF6tQyxq2LLOm
     body:
       encoding: US-ASCII
       string: ''
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 26 Dec 2016 07:30:11 GMT
+      - Sat, 07 Jan 2017 22:24:25 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '815'
+      - '801'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9oVxBTYraTebMQ
+      - req_9tF6t5vQmAEKZb
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -58,15 +58,15 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "sub_9oVxEp160DrPWn",
+          "id": "sub_9tF6tQyxq2LLOm",
           "object": "subscription",
           "application_fee_percent": null,
           "cancel_at_period_end": false,
           "canceled_at": null,
-          "created": 1482737409,
-          "current_period_end": 1483947007,
-          "current_period_start": 1482737409,
-          "customer": "cus_9oVxAioUnvV4Id",
+          "created": 1483827860,
+          "current_period_end": 1485907200,
+          "current_period_start": 1483827860,
+          "customer": "cus_9tF5wkCjqiErEn",
           "discount": null,
           "ended_at": null,
           "livemode": false,
@@ -86,12 +86,12 @@ http_interactions:
             "trial_period_days": null
           },
           "quantity": 1,
-          "start": 1482737409,
-          "status": "trialing",
+          "start": 1483827860,
+          "status": "active",
           "tax_percent": null,
-          "trial_end": 1483947007,
-          "trial_start": 1482737409
+          "trial_end": null,
+          "trial_start": null
         }
     http_version: 
-  recorded_at: Mon, 26 Dec 2016 07:30:11 GMT
+  recorded_at: Sat, 07 Jan 2017 22:24:25 GMT
 recorded_with: VCR 3.0.3

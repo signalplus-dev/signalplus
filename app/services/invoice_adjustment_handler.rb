@@ -32,7 +32,7 @@ class InvoiceAdjustmentHandler
 
   # @return [Stripe::ListObject]
   def upcoming_invoice_items
-    @upcoming_invoice_items ||= brand.stripe_customer.invoice_items
+    upcoming_stripe_invoice.lines
   end
 
   # @return [Array<String>]
@@ -48,7 +48,12 @@ class InvoiceAdjustmentHandler
 
   # @return [Fixnum]
   def amount_to_charge
-    @amount_to_charge ||= new_plan.amount - affected_invoice.total_adjusted_amount
+    @amount_to_charge ||= prorated_new_plan_amount - affected_invoice.total_adjusted_amount
+  end
+
+  # @return [Fixnum]
+  def prorated_new_plan_amount
+    (new_plan.amount * affected_invoice.proration_ratio).round
   end
 
   def create_stripe_invoice_item!
@@ -64,5 +69,10 @@ class InvoiceAdjustmentHandler
   # @return [String]
   def invoice_item_description
     "Charge for upgrading from #{old_plan.name} Plan to #{new_plan.name} Plan"
+  end
+
+  # @return [Stripe::Invoice]
+  def upcoming_stripe_invoice
+    @upcoming_stripe_invoice ||= brand.upcoming_stripe_invoice
   end
 end

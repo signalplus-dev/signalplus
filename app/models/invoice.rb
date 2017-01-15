@@ -20,6 +20,7 @@ class Invoice < ApplicationRecord
   has_many   :invoice_adjustments
 
   SUBSCRIPTION_LINE_ITEM_TYPE = 'subscription'
+  INVOICE_ITEM_LINE_ITEM_TYPE = 'invoiceitem'
 
   # @return [FriendlyHash]
   def data
@@ -57,7 +58,8 @@ class Invoice < ApplicationRecord
   # @return [FriendlyHash]
   def subscription_line_item
     @subscription_line_item ||= line_items.find do |line_item|
-      line_item.type == SUBSCRIPTION_LINE_ITEM_TYPE
+      subscription_line_item?(line_item) ||
+      prorated_subscription_line_item?(line_item)
     end
   end
 
@@ -81,5 +83,28 @@ class Invoice < ApplicationRecord
   # @return [Fixnum]
   def total_adjusted_amount
     subscription_line_item_amount + invoice_adjustment_amount
+  end
+
+  # @return [Float]
+  def proration_ratio
+    @proration_ratio ||= 1 - (
+      subscription_line_item.plan.amount - subscription_line_item.amount
+    ) / subscription_line_item.plan.amount.to_f
+  end
+
+  private
+
+  def subscription_line_item?(line_item)
+    line_item.type == SUBSCRIPTION_LINE_ITEM_TYPE
+  end
+
+  # A subscription line item can also be an invoice item
+  # @return [Boolean]
+  def prorated_subscription_line_item?(line_item)
+    !!line_item.description[/^Time\son\s/] &&
+    line_item.proration                    &&
+    line_item.has_key?(:plan)              &&
+    !line_item.subscription.nil?           &&
+    line_item.type == INVOICE_ITEM_LINE_ITEM_TYPE
   end
 end

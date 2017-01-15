@@ -20,8 +20,17 @@
 FactoryGirl.define do
   factory :subscription do
     provider 'Stripe'
-    token 'sub_8q6Cc93nR3NR59'
+    token { "sub_#{SecureRandom.base64[0...14]}" }
     subscription_plan { SubscriptionPlan.basic }
-    trial_end Subscription::NUMBER_OF_DAYS_OF_TRIAL.days.from_now
+    trial_end { Subscription::NUMBER_OF_DAYS_OF_TRIAL.days.from_now }
+    trial true
+
+    trait :not_on_trial do
+      trial false
+    end
+
+    trait :passed_trial do
+      trial_end { 1.minute.ago }
+    end
   end
 end

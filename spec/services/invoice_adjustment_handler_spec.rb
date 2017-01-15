@@ -3,6 +3,7 @@ require 'shared/stripe'
 
 describe InvoiceAdjustmentHandler  do
   include_context 'upgrade plan'
+  let(:invoice) { Invoice.first }
 
   let(:handler) { described_class.new(brand, basic_plan, advanced_plan) }
 
@@ -53,7 +54,11 @@ describe InvoiceAdjustmentHandler  do
 
     it 'should create an invoice adjustment of $20.00' do
       handler.adjust!
-      expect(InvoiceAdjustment.last.amount).to eq(advanced_plan.amount - basic_plan.amount)
+      amount_originally_paid = invoice.subscription_line_item.amount
+      amount_should_pay = (advanced_plan.amount * invoice.proration_ratio).round
+      expect(InvoiceAdjustment.last.amount).to eq(
+        amount_should_pay - amount_originally_paid
+      )
     end
 
     context 'upgrading to premium' do
@@ -124,7 +129,11 @@ describe InvoiceAdjustmentHandler  do
 
       it 'should create an invoice adjustment of $20.00' do
         premium_handler.adjust!
-        expect(InvoiceAdjustment.last.amount).to eq(premium_plan.amount - advanced_plan.amount)
+        amount_originally_paid = invoice.subscription_line_item.amount
+        amount_should_pay = (premium_plan.amount * invoice.proration_ratio).round
+        expect(InvoiceAdjustment.last.amount).to eq(
+          amount_should_pay - (amount_originally_paid + InvoiceAdjustment.first.amount)
+        )
       end
 
       context 'downgrading and then upgrading' do
