@@ -7,6 +7,7 @@ import _ from 'lodash';
 // Components
 import InputBox from 'components/forms/inputBox';
 import Checkbox from 'components/forms/checkbox';
+import SignalIcon from 'components/links/signal_icon';
 import TimezoneDropdown from 'components/forms/timezoneDropdown';
 import { updateUserInfo, getUserData } from 'redux/modules/models/user';
 import {
@@ -64,6 +65,13 @@ class UndecoratedAccountInfo extends Component {
               componentClass="input"
             />
           </div>
+          <hr className='line'/>
+            <SignalIcon type="tip" className="account-tip-icon"/>
+              <p className='account-input-label'>Enable Direct Messages from Any User</p>
+              <p className='twitter-tip-text'>To receive requests from any user,
+                select “Receive Direct Messages from anyone” in your &nbsp;
+                <a href="https://twitter.com/settings/security">Twitter security settings</a>
+              </p>
           <hr className='line'/>
           <button className='btn btn-primary save-btn'>
             Save

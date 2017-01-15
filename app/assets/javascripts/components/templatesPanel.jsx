@@ -29,7 +29,7 @@ function renderTemplates(templates) {
             <p className='platform-label'>PLATFORM</p>
             <span className='platform-description'>
               <SignalIcon type='twitterGrey' className='logo'/>
-              TWITTER
+              Twitter
             </span>
           </div>
         </Link>
@@ -41,7 +41,7 @@ function renderTemplates(templates) {
 function TemplatesPane({ templates }) {
   return (
     <div>
-      <h3>Create New Signal</h3>
+      <h3 className='panel-label-text'>Create New Signal</h3>
       <p>Select a template to start </p>
       <div className='create-new'>
         {renderTemplates(templates)}

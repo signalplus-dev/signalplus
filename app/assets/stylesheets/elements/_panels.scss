@@ -161,6 +161,10 @@
   background-color: $signal-dark-gray;
 }
 
+.panel-label-text {
+  margin-bottom: 0 !important;
+}
+
 .create-new {
   @include clickable-panel;
 
@@ -190,6 +194,11 @@
 
 .welcome {
   @include static-panel(0);
+
+  img {
+    height: 40px;
+    margin-top: 10px;
+  }
 }
 
 .welcome-guide-link {
@@ -204,6 +213,11 @@
 
 .coming-soon {
   @include static-panel(-20px);
+
+  img {
+    height: 40px;
+    margin-top: 10px;
+  }
 }
 
 .inactiveTab {
@@ -233,6 +247,7 @@
 }
 
 .platform-description {
+  font-size: $caption-font-size;
   font-weight: bold;
   margin-left: -4px;
 }
