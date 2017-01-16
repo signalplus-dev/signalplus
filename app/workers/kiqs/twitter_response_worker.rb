@@ -1,4 +1,5 @@
 class TwitterResponseWorker
+  include TwitterHelper
   include Sidekiq::Worker
 
   sidekiq_options :retry => true, unique: :until_and_while_executing
@@ -14,5 +15,12 @@ class TwitterResponseWorker
         reply.respond!
       end
     end
+  rescue TwitterError => e
+    # Twitter Errors should trigger a retry. Check also if we are being rate limited
+    rate_limit_check(e)
+    raise
+  rescue StandardError => e
+    # Log the error
+    Rollbar.error(e, brand_id: brand_id, response: response_as_json)
   end
 end
