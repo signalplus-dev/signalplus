@@ -25,7 +25,7 @@ function renderCustomResponseBubbles({ responses }) {
     return (
       <div className='preview-response' key={idx}>
         <div className='preview-label'>
-          <h5>Custom Response</h5>
+          <h5>Response</h5>
         </div>
         <div className='preview-response-bubble'>
           {response.message}
@@ -35,6 +35,22 @@ function renderCustomResponseBubbles({ responses }) {
   });
 }
 
+function renderDefaultDescription(type) {
+  console.log(type)
+  if (type == 'offers') {
+    return (
+      <h5 className='preview-wrap-text'>
+        Not Available/ <br/>Repeat Requests
+      </h5>
+    );
+  } else {
+    return (
+      <h5 className='preview-wrap-text'>
+        Repeat Requests
+      </h5>
+    );
+  }
+}
 
 export default function Preview(props) {
   const { signal, brand } = props;
@@ -73,10 +89,7 @@ export default function Preview(props) {
       </div>
       <div className='preview-response'>
         <div className='preview-label'>
-          <h5 className='preview-wrap-text'>
-            No Offers Available/
-            <br/>Repeat Requests
-          </h5>
+          {renderDefaultDescription(signal.signal_type)}
         </div>
         <div className='preview-response-bubble'>
           {getResponse(signal, REPEAT_RESPONSE_TYPE)}

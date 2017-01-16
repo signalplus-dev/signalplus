@@ -261,9 +261,9 @@
 }
 
 .delete-timed-response-btn {
-  position: relative;
-  top: -40px;
-  right: -30px;
+  float: right;
+  line-height: 100px;
+  margin-right: 30px;
   text-decoration: underline;
 
   &:hover {
