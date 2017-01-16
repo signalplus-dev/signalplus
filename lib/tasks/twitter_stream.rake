@@ -1,4 +1,6 @@
 require 'twitter'
+require_relative '../twitter_helper'
+include TwitterHelper
 
 module Twitter
   module Streaming
@@ -17,11 +19,6 @@ module Twitter
       end
     end
   end
-end
-
-def should_sleep?(error)
-  error.kind_of?(Twitter::Error::TooManyRequests) &&
-  error.code == Twitter::Error::Code::RATE_LIMIT_EXCEEDED
 end
 
 desc "Listens to a user's stream of mentions and direct messages"
@@ -61,13 +58,7 @@ task twitter_stream: :environment do
         twitter_cron_job.add_to_queue if twitter_cron_job
 
         # Check if we are being rate limited from Twitter
-        if should_sleep?(e)
-          Rails.logger.info("Being rate limited by Twitter")
-          time_to_restart = error.rate_limit.attrs['x-rate-limit-reset'].to_i
-          sleep_time = [(Time.at(time_to_restart) - Time.current).to_i, 0].max
-          Rails.logger.info("Brand ##{brand.id} twitter stream is sleeping for #{sleep_time} seconds")
-          sleep sleep_time
-        end
+        rate_limit_check(e)
       end
     end
   end
