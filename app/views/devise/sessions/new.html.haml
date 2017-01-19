@@ -7,4 +7,5 @@
     = render 'devise/shared/links'
     = link_to 'CREATE A TWITTER ACCOUNT', 'https://twitter.com/signup', :class => 'btn btn-login twitter-create-link'
   .forgot-login
-    %p Forgot your password?
+    %a{ :href => "https://twitter.com/account/begin_password_reset"}
+      Forgot your password?
