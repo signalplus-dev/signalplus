@@ -1,15 +1,15 @@
 module TwitterHelper
   def should_sleep?(error)
-    error.kind_of?(Twitter::Error::TooManyRequests) &&
-    error.code == Twitter::Error::Code::RATE_LIMIT_EXCEEDED
+    error.respond_to?(:rate_limit) &&
+    error.rate_limit.respond_to?(:retry_after) &&
+    !!error.rate_limit.retry_after
   end
 
   # Check if we are being rate limited from Twitter
-  def rate_limit_check(error)
+  def rate_limit_check(error, brand)
     if should_sleep?(error)
       Rails.logger.info("Being rate limited by Twitter")
-      time_to_restart = error.rate_limit.attrs['x-rate-limit-reset'].to_i
-      sleep_time = [(Time.at(time_to_restart) - Time.current).to_i, 0].max
+      sleep_time = error.rate_limit.retry_after
       Rails.logger.info("Brand ##{brand.id} twitter stream is sleeping for #{sleep_time} seconds")
       sleep sleep_time
     end

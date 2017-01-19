@@ -15,9 +15,9 @@ class TwitterResponseWorker
         reply.respond!
       end
     end
-  rescue TwitterError => e
+  rescue Twitter::Error => e
     # Twitter Errors should trigger a retry. Check also if we are being rate limited
-    rate_limit_check(e)
+    rate_limit_check(e, brand)
     raise
   rescue StandardError => e
     # Log the error

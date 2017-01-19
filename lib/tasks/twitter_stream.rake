@@ -58,7 +58,7 @@ task twitter_stream: :environment do
         twitter_cron_job.add_to_queue if twitter_cron_job
 
         # Check if we are being rate limited from Twitter
-        rate_limit_check(e)
+        rate_limit_check(e, brand)
       end
     end
   end
