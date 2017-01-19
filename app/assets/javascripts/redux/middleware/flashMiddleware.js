@@ -121,6 +121,10 @@ const flashMessages = {
     };
   },
 
+
+
+
+
   [SUBSCRIPTION_CANCEL_REQUEST_FAIL]: () => {
     return {
       type: FLASH_MESSAGE_ERROR,
