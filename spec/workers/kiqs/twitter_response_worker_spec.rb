@@ -26,17 +26,74 @@ describe TwitterResponseWorker do
     allow(brand).to receive(:twitter_rest_client).and_return(mock_client)
     allow_any_instance_of(TempImage).to receive(:file).and_return(temp_file)
     allow_any_instance_of(TempImage).to receive(:image_string_io).and_return(image_string_io)
-    expect(mock_client).to receive(:update).once.and_return(double(:tweet, id: 100))
   end
 
   context 'not update tracker' do
     it 'records the tweet response' do
+      expect(mock_client).to receive(:update).once.and_return(double(:tweet, id: 100))
       expect(TimelineHelper).to_not receive(:update_tracker!)
       expect {
         worker.perform(brand.id, response_hash)
       }.to change {
         TwitterResponse.count
       }.from(0).to(1)
+    end
+  end
+
+  context 'with a Twitter::Error' do
+    let(:mock_reply) { double(:reply) }
+
+    before do
+      allow(Responders::Twitter::Reply).to receive(:build)
+        .with(brand: brand, as_json: response_hash).and_return(mock_reply)
+    end
+
+    context 'not a rate limit error' do
+      before do
+        allow(mock_reply).to receive(:respond!).and_raise(Twitter::Error::InternalServerError)
+      end
+
+      it 'should still raise the error' do
+        expect {
+          worker.perform(brand.id, response_hash)
+        }.to raise_error(Twitter::Error::InternalServerError)
+      end
+
+      it 'should check if we are being rate limited' do
+        expect(worker).to receive(:rate_limit_check)
+        expect {
+          worker.perform(brand.id, response_hash)
+        }.to raise_error(Twitter::Error::InternalServerError)
+      end
+
+      it 'should not sleep' do
+        expect(worker).to_not receive(:sleep)
+        expect {
+          worker.perform(brand.id, response_hash)
+        }.to raise_error(Twitter::Error::InternalServerError)
+      end
+    end
+
+    context 'a rate limit error' do
+      let(:seconds_to_wait) { 10.minutes.from_now.to_i }
+      let(:error) do
+        Twitter::Error::TooManyRequests.new(
+          'Too many requests',
+          { 'x-rate-limit-reset' => seconds_to_wait.to_s },
+          Twitter::Error::Code::RATE_LIMIT_EXCEEDED
+        )
+      end
+
+      before do
+        allow(mock_reply).to receive(:respond!).and_raise(error)
+      end
+
+      it 'will try to sleep' do
+        expect(worker).to receive(:sleep)
+        expect {
+          worker.perform(brand.id, response_hash)
+        }.to raise_error(Twitter::Error::TooManyRequests)
+      end
     end
   end
 end
