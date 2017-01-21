@@ -20,7 +20,10 @@ function renderSignalWidgets(signals) {
       <Link to={`/dashboard/signals/${id}`} className={signalClasses} key={`signal_${id}`}>
         <SignalIcon className='panel-icon' src={window.__IMAGE_ASSETS__[`icons${_.capitalize(signal_type)}Svg`]} />
         <div className='panel-header'>{`#${name}`}</div>
-        <div className='panel-text'>Send your users a special offer every time they send a custom hashtag</div>
+        <div className='panel-text'>
+          { signal_type == 'offers' && 'Send your users a special offer every time they send a custom hashtag'}
+          { signal_type == 'custom' && 'Send a summary of your location or event each day a follower uses a custom hashtag'}
+        </div>
 
         <div className='panel-status'>
           <div className='signal-status'>
