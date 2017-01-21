@@ -59,6 +59,7 @@ class Subscription < ApplicationRecord
         create_payment_handler!(brand, customer)
         subscription = create_subscription!(brand, subscription_plan, trial_end)
         CancelSubscriptionTrialWorker.perform_at(trial_end, subscription.id)
+        TransactionalEmail.welcome(brand).send
         subscription
       end
     end
