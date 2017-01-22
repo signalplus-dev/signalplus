@@ -33,6 +33,7 @@ class Brand < ApplicationRecord
   has_one :twitter_dm_tracker, class_name: 'TwitterDirectMessageTracker'
   has_one :payment_handler
   has_one :subscription, dependent: :destroy
+  has_one :subscription_plan, through: :subscription
 
   after_create :create_trackers
 

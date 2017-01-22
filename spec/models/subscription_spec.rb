@@ -51,6 +51,11 @@ describe Subscription do
         described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
         expect(Subscription.first.trial).to be_truthy
       end
+
+      it 'sends welcome email' do
+        expect_any_instance_of(TransactionalEmail).to receive(:send)
+        described_class.subscribe!(brand, basic_plan, user.email, stripe_token)
+      end
     end
 
     describe '.resubscribe!' do
@@ -233,6 +238,11 @@ describe Subscription do
               subscription.versions.count
             }.from(0).to(1)
           end
+        end
+
+        it 'sends cancel plan email' do
+          expect_any_instance_of(TransactionalEmail).to receive(:send)
+          subscription.cancel_plan!
         end
       end
     end

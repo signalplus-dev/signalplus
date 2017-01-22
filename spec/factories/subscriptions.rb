@@ -19,6 +19,7 @@
 
 FactoryGirl.define do
   factory :subscription do
+    brand
     provider 'Stripe'
     token { "sub_#{SecureRandom.base64[0...14]}" }
     subscription_plan { SubscriptionPlan.basic }
