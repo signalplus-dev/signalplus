@@ -56,6 +56,7 @@ gem 'high_voltage', '~> 3.0.0'
 gem 'pry-rails'
 gem 'pry'
 gem 'hashie'
+gem 'mandrill-api'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

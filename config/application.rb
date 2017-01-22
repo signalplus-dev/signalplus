@@ -33,6 +33,7 @@ module ProjectSignal
       #{config.root}/app/services/promotional_tweet
       #{config.root}/app/services/listen_signal
       #{config.root}/app/services/stripe
+      #{config.root}/app/services/mailer
       #{config.root}/app/models/strategies
       #{config.root}/app/errors
       #{config.root}/lib
