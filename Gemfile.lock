@@ -468,8 +468,8 @@ DEPENDENCIES
   high_voltage (~> 3.0.0)
   jbuilder (~> 2.0)
   jquery-rails
-  mini_magick
   mandrill-api
+  mini_magick
   omniauth
   omniauth-twitter
   paper_trail
