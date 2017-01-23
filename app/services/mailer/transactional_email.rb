@@ -5,7 +5,7 @@ class TransactionalEmail
 
   module Types
     WELCOME = 'welcome-email'
-    CHANGE  = 'plan-change'
+    CHANGE  = 'change-plan'
     CANCEL  = 'cancel-plan'
   end
 
