@@ -22,7 +22,7 @@ function renderSignalWidgets(signals) {
         <div className='panel-header'>{`#${name}`}</div>
         <div className='panel-text'>
           { signal_type == 'offers' && 'Send your users a special offer every time they send a custom hashtag'}
-          { signal_type == 'custom' && 'Send a summary of your location or event each day a follower uses a custom hashtag'}
+          { signal_type == 'custom' && 'Create your own custom response whenever a follower sends a custom hashtag'}
         </div>
 
         <div className='panel-status'>
