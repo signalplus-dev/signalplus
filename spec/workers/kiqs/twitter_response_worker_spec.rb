@@ -30,7 +30,7 @@ describe TwitterResponseWorker do
 
   context 'not update tracker' do
     it 'records the tweet response' do
-      expect(mock_client).to receive(:update).once.and_return(double(:tweet, id: 100))
+      expect(mock_client).to receive(:dm).once.and_return(double(:tweet, id: 100))
       expect(TimelineHelper).to_not receive(:update_tracker!)
       expect {
         worker.perform(brand.id, response_hash)

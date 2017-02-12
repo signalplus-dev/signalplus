@@ -241,7 +241,7 @@ describe Responders::Twitter::Listener do
       end
 
       it 'replies without an image' do
-        expect(mock_client).to receive(:update).and_return(create_mock_tweet)
+        expect(mock_client).to receive(:dm).and_return(create_mock_tweet)
         described_class.send(:reply_to_messages, grouped_replies, brand)
       end
     end
@@ -257,12 +257,12 @@ describe Responders::Twitter::Listener do
       end
 
       it 'only replies once' do
-        expect(mock_client).to receive(:update).once.and_return(create_mock_tweet)
+        expect(mock_client).to receive(:dm).once.and_return(create_mock_tweet)
         described_class.send(:reply_to_messages, mixed_grouped_replies, brand)
       end
 
       it 'creates a twitter response record for just the direct message' do
-        allow(mock_client).to receive(:update).and_return(create_mock_tweet)
+        allow(mock_client).to receive(:dm).and_return(create_mock_tweet)
         expect {
           described_class.send(:reply_to_messages, mixed_grouped_replies, brand)
         }.to change {
@@ -271,7 +271,7 @@ describe Responders::Twitter::Listener do
       end
 
       it 'updates the twitter response with the tweet id' do
-        allow(mock_client).to receive(:update).and_return(create_mock_tweet)
+        allow(mock_client).to receive(:dm).and_return(create_mock_tweet)
         described_class.send(:reply_to_messages, mixed_grouped_replies, brand)
         expect(TwitterResponse.first.reply_tweet_id).to_not be_nil
       end
