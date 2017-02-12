@@ -142,7 +142,7 @@ module Responders
       end
 
       def reply_with_text!
-        client.update(text_reply)
+        client.dm(to, base_text_reply)
       end
 
       # @return [String]
