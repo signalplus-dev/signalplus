@@ -70,7 +70,11 @@ class FinishSetup extends PureComponent {
                         To receive requests from any user,
                         select “Receive Direct Messages from anyone”
                         in your &nbsp;
-                        <a href="https://twitter.com/settings/security">
+                        <a
+                          href="https://twitter.com/settings/safety"
+                          target="_blank"
+                          rel="noopener nofollow noreferrer"
+                        >
                           Twitter security settings
                         </a>
                       </div>
