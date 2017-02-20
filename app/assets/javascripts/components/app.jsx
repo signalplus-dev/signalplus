@@ -32,6 +32,8 @@ import Header from 'components/header';
 import FlashMessage from 'components/flashMessage';
 import ModalRoot from 'components/modals/index';
 import { getBrandData } from 'redux/modules/models/brand';
+import { isRequestActionUnauthorized } from 'util/authentication';
+import { logOut } from 'redux/modules/app/authentication';
 
 // Import blocking App actions
 import { actions as appActions } from 'redux/modules/app/index';
@@ -53,15 +55,14 @@ function App({ children }) {
 const getBrand = (dispatch) => (nextState, replace, callback) => {
   return (
     dispatch(getBrandData())
-      .then((response) => {
-        console.debug('NO ERROR');
-        console.debug(response);
+      .then((action) => {
+        if (isRequestActionUnauthorized(action)) {
+          dispatch(logOut);
+          callback();
+        }
         callback();
       })
-      .catch(err => {
-        console.debug('ERROR');
-        callback(err);
-      })
+      .catch(err => callback(err))
   );
 }
 

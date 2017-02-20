@@ -94,3 +94,10 @@ export function getAT() {
   const metaTagCsrf = document.querySelectorAll('[name=csrf-token]')[0];
   return metaTagCsrf ? metaTagCsrf.content : metaTagCsrf;
 }
+
+export isRequestActionUnauthorized(action) {
+  return (
+    _.get(action, 'payload.constructor.name') === 'ApiError' &&
+    _.get(action, 'payload.status') === 401
+  );
+}
