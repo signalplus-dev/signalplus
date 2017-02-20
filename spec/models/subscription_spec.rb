@@ -199,50 +199,101 @@ describe Subscription do
       end
 
       describe '.cancel_plan!' do
-        let(:cancel_stripe_subscription!) do
-          stripe_response = nil
-
-          VCR.use_cassette('cancel_stripe_subscription') do
-            stripe_response = subscription.stripe_subscription.delete
+        context 'trialing' do
+          before do
+            subscription.trial = true
+            subscription.trial_end = 1.day.from_now
+            subscription.save!
           end
 
-          stripe_response
-        end
-
-        let(:mock_stripe_subscription) do
-          double(
-            :stripe_subscription,
-            canceled_at: Time.current,
-            current_period_end: 14.days.from_now
-          )
-        end
-
-        before do
-          allow(subscription).to receive(:cancel_stripe_subscription!).and_return(cancel_stripe_subscription!)
-          allow(subscription).to receive(:stripe_subscription).and_return(mock_stripe_subscription)
-        end
-
-        it 'cancels the subscription' do
-          expect {
-            subscription.cancel_plan!
-          }.to change {
-            subscription.canceled?
-          }.from(false).to(true)
-        end
-
-        it 'logs the changes' do
-          with_versioning do
+          it 'cancels the subscription' do
             expect {
               subscription.cancel_plan!
             }.to change {
-              subscription.versions.count
-            }.from(0).to(1)
+              subscription.canceled?
+            }.from(false).to(true)
+          end
+
+          it 'does not try to cancel the stripe subscription' do
+            expect(subscription).to_not receive(:cancel_stripe_subscription!)
+            subscription.cancel_plan!
+          end
+
+          it 'does not try to use the canceled_at of the stripe subscription' do
+            mock_stripe_subscription = double(:stripe_subscription, canceled_at: nil, current_period_end: nil)
+            allow(subscription).to receive(:stripe_subscription).and_return(mock_stripe_subscription)
+            expect(mock_stripe_subscription).to_not receive(:canceled_at)
+            expect(mock_stripe_subscription).to_not receive(:current_period_end)
+            subscription.cancel_plan!
+          end
+
+          it 'logs the changes' do
+            with_versioning do
+              expect {
+                subscription.cancel_plan!
+              }.to change {
+                subscription.versions.count
+              }.from(0).to(1)
+            end
+          end
+
+          it 'sends cancel plan email' do
+            expect_any_instance_of(TransactionalEmail).to receive(:send)
+            subscription.cancel_plan!
           end
         end
 
-        it 'sends cancel plan email' do
-          expect_any_instance_of(TransactionalEmail).to receive(:send)
-          subscription.cancel_plan!
+        context 'not trialing' do
+          let(:cancel_stripe_subscription!) do
+            stripe_response = nil
+
+            VCR.use_cassette('cancel_stripe_subscription') do
+              stripe_response = subscription.stripe_subscription.delete
+            end
+
+            stripe_response
+          end
+
+          let(:mock_stripe_subscription) do
+            double(
+              :stripe_subscription,
+              canceled_at: Time.current,
+              current_period_end: 14.days.from_now
+            )
+          end
+
+          before do
+            expect(subscription).to receive(:cancel_stripe_subscription!).and_return(cancel_stripe_subscription!)
+            allow(subscription).to receive(:stripe_subscription).and_return(mock_stripe_subscription)
+          end
+
+          it 'cancels the subscription' do
+            expect {
+              subscription.cancel_plan!
+            }.to change {
+              subscription.canceled?
+            }.from(false).to(true)
+          end
+
+          it 'does use the canceled_at of the stripe subscription' do
+            expect(mock_stripe_subscription).to receive(:canceled_at).and_return(Time.current)
+            subscription.cancel_plan!
+          end
+
+          it 'logs the changes' do
+            with_versioning do
+              expect {
+                subscription.cancel_plan!
+              }.to change {
+                subscription.versions.count
+              }.from(0).to(1)
+            end
+          end
+
+          it 'sends cancel plan email' do
+            expect_any_instance_of(TransactionalEmail).to receive(:send)
+            subscription.cancel_plan!
+          end
         end
       end
     end

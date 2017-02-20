@@ -202,9 +202,10 @@ class Subscription < ApplicationRecord
   # Cancels the subscription plan
   def cancel_plan!
     cancel_stripe_subscription! unless trialing?
+    now = Time.current
     update!(
-      canceled_at: Time.at(stripe_subscription.canceled_at),
-      will_be_deactivated_at: Time.at(stripe_subscription.current_period_end),
+      canceled_at: trialing? ? now : Time.at(stripe_subscription.canceled_at),
+      will_be_deactivated_at: trialing? ? now : Time.at(stripe_subscription.current_period_end),
     )
     TransactionalEmail.cancel_plan(brand).send
   end
