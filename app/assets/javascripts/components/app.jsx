@@ -55,13 +55,7 @@ function App({ children }) {
 const getBrand = (dispatch) => (nextState, replace, callback) => {
   return (
     dispatch(getBrandData())
-      .then((action) => {
-        if (isRequestActionUnauthorized(action)) {
-          dispatch(logOut);
-          callback();
-        }
-        callback();
-      })
+      .then(() => callback())
       .catch(err => callback(err))
   );
 }

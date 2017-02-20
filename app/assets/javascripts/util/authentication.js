@@ -97,7 +97,7 @@ export function getAT() {
 
 export function isRequestActionUnauthorized(action) {
   return (
-    _.get(action, 'payload.constructor.name') === 'ApiError' &&
+    _.get(action, 'payload.name') === 'ApiError' &&
     _.get(action, 'payload.status') === 401
   );
 }
