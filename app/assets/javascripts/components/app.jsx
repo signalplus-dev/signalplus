@@ -53,8 +53,15 @@ function App({ children }) {
 const getBrand = (dispatch) => (nextState, replace, callback) => {
   return (
     dispatch(getBrandData())
-      .then(() => callback())
-      .catch(err => callback(err))
+      .then((response) => {
+        console.debug('NO ERROR');
+        console.debug(response);
+        callback();
+      })
+      .catch(err => {
+        console.debug('ERROR');
+        callback(err);
+      })
   );
 }
 
