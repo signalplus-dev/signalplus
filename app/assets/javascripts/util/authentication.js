@@ -95,7 +95,7 @@ export function getAT() {
   return metaTagCsrf ? metaTagCsrf.content : metaTagCsrf;
 }
 
-export isRequestActionUnauthorized(action) {
+export function isRequestActionUnauthorized(action) {
   return (
     _.get(action, 'payload.constructor.name') === 'ApiError' &&
     _.get(action, 'payload.status') === 401
