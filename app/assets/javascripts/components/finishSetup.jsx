@@ -52,9 +52,9 @@ class FinishSetup extends PureComponent {
                         label="Terms of Use"
                         labelDescription={
                           <span>I agree to SignalPlus'
-                            <a href="/agreement">Terms of Use</a>
+                            <a href="/agreement" className="legal-link">Terms of Use</a>
                             and
-                            <a href="/policy">Privacy Policy</a>
+                            <a href="/privacy" className="legal-link">Privacy Policy</a>
                           </span>
                         }
                       />
