@@ -4,12 +4,13 @@
 }
 
 .footer-link {
-  margin-right: 40px;
   width: 45px;
   height: 16px;
   font-family: $default-font-bold;
   font-size: 14px;
   color: $text-black;
+  margin-left: 6px;
+  margin-right: 6px;
 
   &:hover {
     text-decoration: none;

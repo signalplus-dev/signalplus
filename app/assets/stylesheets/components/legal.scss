@@ -1,0 +1,37 @@
+.legal-title {
+  font-size: $h3-font-size;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+.legal-content {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  br {
+    display: block;
+    content: "";
+    margin-top: 15px;
+  }
+}
+
+.legal-subtitle {
+  font-size: $h4-font-size;
+  font-weight: bold;
+  padding-bottom: 15px;
+}
+
+.legal-text {
+  font-size: $base-font-size;
+}
+
+.spacer {
+  margin-bottom: 60px;
+}
+
+.legal-link {
+  margin-left: 6px;
+  margin-right: 6px;
+}

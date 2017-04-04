@@ -3,9 +3,10 @@ require 'shared/stripe'
 
 describe TransactionalEmail do
   describe '#send' do
-    let(:brand)         { identity.brand }
+    let(:brand)          { identity.brand }
+    let(:email)          { 'test@signalplus.co' }
     let!(:identity)      { create(:identity) }
-    let!(:subscription) { create(:subscription, brand: brand)}
+    let!(:subscription)  { create(:subscription, brand: brand)}
 
     before(:each) do
       allow(Mandrill::API).to receive(:new).and_call_original
@@ -22,7 +23,7 @@ describe TransactionalEmail do
 
       it 'sends welcome email template' do
         VCR.use_cassette 'mandrill_response' do
-          response = described_class.welcome(brand).send
+          response = described_class.welcome(brand, email).send
           expect(response[0]['reject_reason']).to be_nil
         end
       end

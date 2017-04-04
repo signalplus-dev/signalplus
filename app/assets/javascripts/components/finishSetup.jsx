@@ -51,7 +51,11 @@ class FinishSetup extends PureComponent {
                         className="finishSetupCheckbox"
                         label="Terms of Use"
                         labelDescription={
-                          <span>I agree to SignalPlus' <a>Terms of Use</a></span>
+                          <span>I agree to SignalPlus'
+                            <a href="/agreement" className="legal-link">Terms of Use</a>
+                            and
+                            <a href="/privacy" className="legal-link">Privacy Policy</a>
+                          </span>
                         }
                       />
                     </div>
