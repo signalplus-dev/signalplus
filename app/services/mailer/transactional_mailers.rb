@@ -1,12 +1,13 @@
 module TransactionalMailers
-  def welcome(brand)
+  def welcome(brand, email)
     self.new(
       self::Types::WELCOME,
       brand,
       [
         { name: 'BRAND_HASHTAG', content: brand.name },
         { name: 'SELECTED_PLAN_NAME', content: brand.subscription_plan.name }
-      ]
+      ],
+      email
     )
   end
 

@@ -11,11 +11,11 @@ class TransactionalEmail
 
   REPLY_TO_EMAIL = 'info@signalplus.com'
 
-  def initialize(template_name, brand, merge_params)
+  def initialize(template_name, brand, merge_params, email=nil)
     @template_name = template_name
     @brand = brand
     @merge_params = merge_params
-    @to = brand.twitter_admin.try(:email)
+    @to = email || brand.twitter_admin.try(:email)
     @message = get_message
   end
 
